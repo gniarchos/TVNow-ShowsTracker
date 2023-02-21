@@ -311,7 +311,7 @@ export default function Profile() {
         .then((res) => res.json())
         .then((data) => {
           // console.log(data)
-          if (data.status === "Canceled" || data.status === "Ended") {
+          if (data.status === "Canceled") {
             // console.log("found", data.name)
             // TODO: inform user that x series in his up to date section got canceled
 
