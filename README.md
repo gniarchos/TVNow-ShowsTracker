@@ -1,4 +1,4 @@
-# :tv: TvTime-ShowsTracker
+# :tv: TVTime-ShowsTracker
 
 A tv shows tracker using Firebase Database, [TheMovieDB API](https://www.themoviedb.org/documentation/api) and [iMDB API](https://imdb-api.com/). <br />
 
