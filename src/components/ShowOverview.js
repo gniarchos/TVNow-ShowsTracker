@@ -95,6 +95,8 @@ export default function ShowOverview() {
     borderRadius: scrolled && "10px",
   }
 
+  console.log(show)
+
   React.useEffect(() => {
     fetch(
       `https://api.themoviedb.org/3/tv/${show.id}/season/${seasonNumber}?api_key=***REMOVED***&language=en-US`
@@ -609,6 +611,7 @@ export default function ShowOverview() {
                     seasonDetails.episodes.map((episode, index) => {
                       let air_date_fix =
                         episode.air_date_fix !== null &&
+                        episode.air_date !== null &&
                         episode.air_date.split("-")
                       let new_air_date = new Date(
                         `${air_date_fix[1]}/${air_date_fix[2]}/${air_date_fix[0]}`
