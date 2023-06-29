@@ -435,7 +435,7 @@ export default function ShowOverview() {
             ))}
           </div>
 
-          {isNaN(imdbRating) && (
+          {!isNaN(imdbRating) && (
             <div className="ratings-wrapper">
               <div className="div-ratings">
                 <img
