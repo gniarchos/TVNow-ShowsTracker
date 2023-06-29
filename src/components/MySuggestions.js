@@ -62,7 +62,9 @@ export default function MySuggestions() {
           src={`https://image.tmdb.org/t/p/original/${suggest.backdrop_path}`}
         />
         <div className="suggestion-divs">
-          <p className="suggest-title">{suggest.name}</p>
+          <p onClick={() => goToShow(suggest)} className="suggest-title">
+            {suggest.name}
+          </p>
           <div className="div-suggest-genres">
             {suggest.genres.map((gen, index) => (
               <div className="genres-wrapper">
@@ -73,20 +75,20 @@ export default function MySuggestions() {
             ))}
           </div>
         </div>
-        <div className="learn-more-wrapper">
+        {/* <div className="learn-more-wrapper">
           <button onClick={() => goToShow(suggest)} className="learn-more">
             <span className="circle" aria-hidden="true">
               <span className="icon arrow"></span>
             </span>
             <span className="button-text">Learn More</span>
           </button>
-        </div>
+        </div> */}
       </div>
     )
   })
 
   return (
-    <div>
+    <div className="suggestions-wrapper">
       {allSuggestions.length >= 13 && (
         <Carousel
           className="carousel"

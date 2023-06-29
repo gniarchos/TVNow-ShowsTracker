@@ -86,48 +86,63 @@ export default function DetailedSliders() {
     } else if (id === "Action & Adventure") {
       setGenresFiltersName("Action & Adventure")
       setGenresFilters(10759)
+      setPage(1)
     } else if (id === "Animation") {
       setGenresFiltersName("Animation")
       setGenresFilters(16)
+      setPage(1)
     } else if (id === "Comedy") {
       setGenresFiltersName("Comedy")
       setGenresFilters(35)
+      setPage(1)
     } else if (id === "Crime") {
       setGenresFiltersName("Crime")
       setGenresFilters(80)
+      setPage(1)
     } else if (id === "Documentary") {
       setGenresFiltersName("Documentary")
       setGenresFilters(99)
+      setPage(1)
     } else if (id === "Drama") {
       setGenresFiltersName("Drama")
       setGenresFilters(18)
+      setPage(1)
     } else if (id === "Family") {
       setGenresFiltersName("Family")
       setGenresFilters(10751)
+      setPage(1)
     } else if (id === "Kids") {
       setGenresFiltersName("Kids")
       setGenresFilters(10762)
+      setPage(1)
     } else if (id === "Mystery") {
       setGenresFiltersName("Mystery")
       setGenresFilters(9648)
+      setPage(1)
     } else if (id === "News") {
       setGenresFiltersName("News")
       setGenresFilters(10763)
+      setPage(1)
     } else if (id === "Reality") {
       setGenresFiltersName("Reality")
       setGenresFilters(10764)
+      setPage(1)
     } else if (id === "Soap") {
       setGenresFiltersName("Soap")
       setGenresFilters(10766)
+      setPage(1)
     } else if (id === "Talk") {
       setGenresFiltersName("Talk")
       setGenresFilters(10767)
+      setPage(1)
     } else if (id === "War & Politics") {
       setGenresFiltersName("War & Politics")
       setGenresFilters(10768)
+      setPage(1)
     } else if (id === "Western") {
       setGenresFiltersName("Western")
       setGenresFilters(37)
+      setPage(1)
     }
   }
 
@@ -190,14 +205,11 @@ export default function DetailedSliders() {
                 <p>Sorry, there are no tv shows that matched your query.</p>
               </div>
             )}
-
-            {location.state.sectionTitle !== "Trending Now" &&
-              location.state.sectionTitle !== "Search Results" && (
-                <div className="search-discover-filters">
-                  {filtersSelection}
-                </div>
-              )}
           </div>
+          {location.state.sectionTitle !== "Trending Now" &&
+            location.state.sectionTitle !== "Search Results" && (
+              <div className="search-discover-filters">{filtersSelection}</div>
+            )}
 
           <div className="detailedSlider-div">{list}</div>
 

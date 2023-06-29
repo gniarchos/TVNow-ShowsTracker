@@ -1,5 +1,5 @@
 * {
-  font-family: "Chillax", sans-serif;
+  font-family: "Chillax";
   /* scroll-behavior: smooth; */
   scroll-margin: 100px;
   box-sizing: border-box;
@@ -14,7 +14,7 @@ html {
   max-width: 100%;
 
   /* FIREFOX SCROLLBAR */
-  scrollbar-color: #4c0084 transparent;
+  scrollbar-color: #a684be transparent;
   scrollbar-width: thin;
 }
 
@@ -64,5 +64,5 @@ body {
     hsl(240, 100%, 30%),
     hsl(330, 100%, 40%)
   ); */
-  background: white;
+  background: rgb(117, 117, 117);
 }

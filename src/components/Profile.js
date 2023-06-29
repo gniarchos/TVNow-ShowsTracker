@@ -42,6 +42,12 @@ export default function Profile() {
   const [selectedCoverImage, setSelectedCoverImage] =
     React.useState(userCoverSettings)
 
+  const [mobileLayout, setMobileLayout] = React.useState(
+    localStorage.getItem("mobileLayoutSelection")
+      ? localStorage.getItem("mobileLayoutSelection")
+      : "cards"
+  )
+
   const [watchNextSection, setWatchNextSection] = React.useState(
     localStorage.getItem("watchNextSection")
       ? JSON.parse(localStorage.getItem("watchNextSection"))
@@ -242,6 +248,7 @@ export default function Profile() {
       ) {
         return (
           <EpisodesProfile
+            mobileLayout={mobileLayout}
             backdrop_path={showsData
               .filter((allData) => allData.name === show.show_name)
               .map((allData) => {
@@ -367,6 +374,7 @@ export default function Profile() {
         if (upToDateFilter === "all") {
           return (
             <EpisodesProfile
+              mobileLayout={mobileLayout}
               backdrop_path={showsData
                 .filter((allData) => allData.name === show.show_name)
                 .map((allData) => {
@@ -419,6 +427,7 @@ export default function Profile() {
         ) {
           return (
             <EpisodesProfile
+              mobileLayout={mobileLayout}
               backdrop_path={showsData
                 .filter((allData) => allData.name === show.show_name)
                 .map((allData) => {
@@ -471,6 +480,7 @@ export default function Profile() {
         ) {
           return (
             <EpisodesProfile
+              mobileLayout={mobileLayout}
               backdrop_path={showsData
                 .filter((allData) => allData.name === show.show_name)
                 .map((allData) => {
@@ -543,6 +553,7 @@ export default function Profile() {
 
       return (
         <EpisodesProfile
+          mobileLayout={mobileLayout}
           backdrop_path={showsData
             .filter((allData) => allData.name === show.show_name)
             .map((allData) => {
@@ -612,6 +623,7 @@ export default function Profile() {
     .map((show, showIndex) => {
       return (
         <EpisodesProfile
+          mobileLayout={mobileLayout}
           backdrop_path={showsData
             .filter((allData) => allData.name === show.show_name)
             .map((allData) => {
@@ -777,6 +789,15 @@ export default function Profile() {
     setIsSelectCoverOpen(!isSelectCoverOpen)
   }
 
+  function changeLayoutMobile() {
+    setMobileLayout((prevValue) => (prevValue === "cards" ? "grid" : "cards"))
+
+    localStorage.setItem(
+      "mobileLayoutSelection",
+      mobileLayout === "cards" ? "grid" : "cards"
+    )
+  }
+
   function closeModal() {
     setShow_modal(false)
   }
@@ -795,11 +816,7 @@ export default function Profile() {
       {/* )} */}
 
       <div className="profile-cover-div">
-        <img
-          className="profile-cover"
-          src={selectedCoverImage}
-          alt="episode-card-img"
-        />
+        <img className="profile-cover" src={selectedCoverImage} />
 
         <button
           onClick={handleCoverSelector}
@@ -808,6 +825,15 @@ export default function Profile() {
         >
           <Icon icon="ant-design:camera-filled" />
           Edit Cover
+        </button>
+
+        <button
+          onClick={changeLayoutMobile}
+          type="button"
+          className="btn-change-layout"
+        >
+          <Icon icon="teenyicons:list-layout-solid" />
+          Layout
         </button>
 
         <div className="user-details-container">

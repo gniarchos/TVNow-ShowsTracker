@@ -90,13 +90,13 @@ export default function LandingPage(props) {
             <h1 className="landing-title">Tracking Shows Made Easy</h1>
             <div>
               <h2 className="item frame-1">
-                <b>TRACK</b> the shows you love
+                <b>TRACK</b> what you watch
               </h2>
               <h2 className="item frame-2">
-                <b>FIND</b> what to watch next
+                <b>FIND</b> trending shows
               </h2>
               <h2 className="item frame-3">
-                <b>DISCOVER</b> trending shows
+                <b>DISCOVER</b> new shows
               </h2>
             </div>
             <div className="button-start-div">
@@ -158,7 +158,7 @@ export default function LandingPage(props) {
             </h2>
             <h2 className="features-h2">
               <Icon icon="heroicons-outline:badge-check" width={50} />
-              Shows Detailed Info
+              Detailed Information
             </h2>
             <h2 className="features-h2">
               <Icon icon="heroicons-outline:badge-check" width={50} />
@@ -166,7 +166,7 @@ export default function LandingPage(props) {
             </h2>
             <h2 className="features-h2">
               <Icon icon="heroicons-outline:badge-check" width={50} />
-              Casts & Crew
+              Casts & Crews
             </h2>
             <button
               className="btn-learn-more"

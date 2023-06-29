@@ -59,15 +59,6 @@ export default function Home() {
         setDiscover(data.results)
       })
 
-    // **** SEARCH SHOW
-    // fetch(
-    //   "https://api.themoviedb.org/3/search/tv?api_key=***REMOVED***&language=en-US&page=1&query=Ms.%20Marvel&include_adult=false"
-    // )
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     console.log(data)
-    //   })
-
     setTimeout(function () {
       setLoading(false)
     }, 500)

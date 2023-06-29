@@ -54,7 +54,7 @@ export default function Slider(props) {
 
   return (
     <>
-      <div>
+      <div className="test">
         <div className="title-link">
           <h1 className="slider-section">{props.section}</h1>
           <button

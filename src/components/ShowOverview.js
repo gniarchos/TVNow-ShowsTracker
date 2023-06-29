@@ -35,10 +35,21 @@ export default function ShowOverview() {
     React.useState(false)
   const [showUserStatus, setShowUserStatus] = React.useState([""])
   const divCast = React.useRef()
-
   const [imdbRating, setImdbRating] = React.useState("0.0")
   const [rottenTomatoesRating, setRottenTomatoesRating] = React.useState("0%")
   const [theMovieDbRating, setTheMovieDbRating] = React.useState("0.0")
+  const [mobile, setMobile] = React.useState(window.innerWidth <= 499)
+
+  const handleWindowSizeChange = () => {
+    setMobile(window.innerWidth <= 499)
+  }
+
+  React.useEffect(() => {
+    window.addEventListener("resize", handleWindowSizeChange)
+    return () => {
+      window.removeEventListener("resize", handleWindowSizeChange)
+    }
+  }, [])
 
   React.useEffect(() => {
     setIsShowAddedInWatchList(false)
@@ -60,6 +71,15 @@ export default function ShowOverview() {
           }))
         )
       })
+
+    for (let i = 0; i < divSeasonRef.current.childNodes.length; i++) {
+      divSeasonRef.current.childNodes[i].classList.remove("active")
+    }
+    divSeasonRef.current.childNodes[0].classList.add("active")
+
+    setSeasonNumber("0")
+    setSeasonNumber("1")
+    setFinished(false)
   }, [show, isShowAddedInWatchList])
 
   const seasonEpisodesStyle = {
@@ -96,7 +116,7 @@ export default function ShowOverview() {
         setRottenTomatoesRating(data.rottenTomatoes)
         setTheMovieDbRating(data.theMovieDb)
       })
-  }, [seasonNumber, show])
+  }, [finished, seasonNumber])
 
   // console.log(show.external_ids.imdb_id, imdbRating)
 
@@ -157,7 +177,7 @@ export default function ShowOverview() {
   }
 
   const opts = {
-    height: "600px",
+    height: mobile ? "200px" : "600px",
     width: "95%",
   }
 
@@ -176,7 +196,8 @@ export default function ShowOverview() {
   }
 
   let seasons = []
-  for (let i = 1; i <= show.number_of_seasons; i++) {
+  let i = 1
+  for (i = 1; i <= show.number_of_seasons; i++) {
     seasons.push(
       <div
         id={i - 1}
@@ -391,6 +412,8 @@ export default function ShowOverview() {
       })
   }
 
+  console.log("DATA", seasonDetails)
+
   return (
     <div className="showOverview-wrapper">
       <div className="bg"></div>
@@ -412,44 +435,48 @@ export default function ShowOverview() {
             ))}
           </div>
 
-          <div className="ratings-wrapper">
-            <div className="div-ratings">
-              <img
-                className="webRating-img-imdb"
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/IMDB_Logo_2016.svg/1200px-IMDB_Logo_2016.svg.png"
-                alt="IMDB Logo"
-              />
-              <p className="rating-num">
-                {imdbRating === "" ? "0.0" : parseFloat(imdbRating).toFixed(1)}
-                <Icon icon="eva:star-fill" color="#fed600" />
-              </p>
-            </div>
+          {isNaN(imdbRating) && (
+            <div className="ratings-wrapper">
+              <div className="div-ratings">
+                <img
+                  className="webRating-img-imdb"
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/IMDB_Logo_2016.svg/1200px-IMDB_Logo_2016.svg.png"
+                  alt="IMDB Logo"
+                />
+                <p className="rating-num">
+                  {imdbRating === ""
+                    ? "0.0"
+                    : parseFloat(imdbRating).toFixed(1)}
+                  <Icon icon="eva:star-fill" color="#fed600" />
+                </p>
+              </div>
 
-            <div className="div-ratings">
-              <img
-                className="webRating-img"
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Rotten_Tomatoes.svg/1200px-Rotten_Tomatoes.svg.png"
-                alt="Rotten Tomatoes"
-              />
-              <p className="rating-num">
-                {rottenTomatoesRating === "" ? "0" : rottenTomatoesRating} %
-              </p>
-            </div>
+              <div className="div-ratings">
+                <img
+                  className="webRating-img"
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Rotten_Tomatoes.svg/1200px-Rotten_Tomatoes.svg.png"
+                  alt="Rotten Tomatoes"
+                />
+                <p className="rating-num">
+                  {rottenTomatoesRating === "" ? "0" : rottenTomatoesRating} %
+                </p>
+              </div>
 
-            <div className="div-ratings">
-              <img
-                className="webRating-img-tmdb"
-                src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Tmdb-312x276-logo.png"
-                alt="Tmdb"
-              />
-              <p className="rating-num">
-                {theMovieDbRating === ""
-                  ? "0.0"
-                  : parseFloat(theMovieDbRating).toFixed(1)}
-                <Icon icon="eva:star-fill" color="#fed600" />
-              </p>
+              <div className="div-ratings">
+                <img
+                  className="webRating-img-tmdb"
+                  src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Tmdb-312x276-logo.png"
+                  alt="Tmdb"
+                />
+                <p className="rating-num">
+                  {theMovieDbRating === ""
+                    ? "0.0"
+                    : parseFloat(theMovieDbRating).toFixed(1)}
+                  <Icon icon="eva:star-fill" color="#fed600" />
+                </p>
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="seasons-network-container">
             <h3 className="show-total-seasons">
@@ -563,7 +590,7 @@ export default function ShowOverview() {
             </div>
 
             <div>
-              <h1>Seasons & Episodes</h1>
+              <h1 className="seasonsEpisodesTitle">Seasons & Episodes</h1>
 
               <div
                 style={seasonEpisodesStyle}
@@ -578,7 +605,7 @@ export default function ShowOverview() {
                 </div>
 
                 <div className="season-episodes-container">
-                  {finished &&
+                  {finished && seasonDetails.episodes.length !== 0 ? (
                     seasonDetails.episodes.map((episode, index) => {
                       let air_date_fix =
                         episode.air_date_fix !== null &&
@@ -595,6 +622,7 @@ export default function ShowOverview() {
 
                       return (
                         <Episodes
+                          episodesAnnounced={true}
                           episodeNum={index + 1}
                           seasonNum={seasonNumber}
                           episode={episode}
@@ -610,7 +638,12 @@ export default function ShowOverview() {
                           }
                         />
                       )
-                    })}
+                    })
+                  ) : (
+                    <div>
+                      <Episodes episodesAnnounced={false} />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -619,7 +652,7 @@ export default function ShowOverview() {
               <h1>Series Cast</h1>
               <div className="cast-div">
                 {cast}
-                <div className="test">
+                <div className="fullListCast-div">
                   <button onClick={showHideFullCast} className="all-cast-btn">
                     Full List
                     <Icon icon="codicon:arrow-small-right" width={40} />

@@ -122,17 +122,46 @@ export default function EpisodesProfile(props) {
       })
   }
 
+  // console.log(
+  //   props.showName,
+  //   `https://image.tmdb.org/t/p/w500/${props.backdrop_path}`
+  // )
+
+  function handleImageError(e) {
+    console.log("Something went wrong with your image")
+    e.currentTarget.src = noImg
+  }
+
   if (props.backdrop_path === "" || props.backdrop_path === undefined) {
     console.log("Image not loaded")
   }
   return (
-    <div className="episode-card-wrapper">
-      <div className="profile-show-img-div">
+    // <div className="episode-card-wrapper">
+    // <div className="profile-show-img-div">
+    <div
+      className={
+        props.mobileLayout === "cards"
+          ? "episode-card-wrapper"
+          : "history-card-wrapper"
+      }
+    >
+      <div
+        className={
+          props.mobileLayout === "cards"
+            ? "profile-show-img-div"
+            : "history-profile-show-img-div"
+        }
+      >
         {props.backdrop_path[0] !== null ? (
           <img
-            className="episode-card-img"
+            className={
+              props.mobileLayout === "cards"
+                ? "episode-card-img"
+                : "history-card-img"
+            }
             src={`https://image.tmdb.org/t/p/w500/${props.backdrop_path}`}
             alt="episode-card-img"
+            onError={(e) => handleImageError(e)}
           />
         ) : (
           <img className="show-no-img" src={noImg} />
@@ -161,7 +190,11 @@ export default function EpisodesProfile(props) {
 
       <div className="badge-info-container">
         {props.finishedShow !== true ? (
-          <div className="info-card">
+          <div
+            className={
+              props.mobileLayout === "cards" ? "info-card" : "info-card-grid"
+            }
+          >
             <h3
               style={{ cursor: "pointer" }}
               onClick={() => goToShow(props.showID)}
@@ -188,7 +221,11 @@ export default function EpisodesProfile(props) {
             </p>
           </div>
         ) : (
-          <div className="info-card">
+          <div
+            className={
+              props.mobileLayout === "cards" ? "info-card" : "info-card-grid"
+            }
+          >
             <h3
               style={{ cursor: "pointer" }}
               onClick={() => goToShow(props.showID)}

@@ -1,6 +1,7 @@
 import React from "react"
 import "./Navbar.css"
 import logo from "../images/nav-logo-fixed.png"
+// import logo from "../images/nav-logo-tvnow.png"
 import { useAuth } from "../authentication/AuthContext"
 import { useNavigate, Link } from "react-router-dom"
 import searchImg from "../images/search.png"
@@ -26,20 +27,8 @@ export default function Navbar(props) {
     }
   }
 
-  // const backgroundStyle = {
-  //   background: props.isLoggedIn
-  //     ? isMobile === true
-  //       ? "#121226"
-  //       : "linear-gradient(315deg, #a29bfe 0%, #000000 74%)"
-  //     : "transparent",
-
-  //   backgroundRepeat: isMobile === true && "no-repeat",
-  //   backgroundPosition: isMobile === true && "center",
-  //   backgroundAttachment: isMobile === true && "fixed",
-  // }
-
   const backgroundStyle = {
-    background: props.isLoggedIn ? "hsl(220, 5%, 5%)" : "transparent",
+    background: props.isLoggedIn ? "rgb(12, 13, 13)" : "rgb(12, 13, 13, 0.2)",
   }
 
   function searchFunction(event) {
@@ -120,7 +109,7 @@ export default function Navbar(props) {
             onKeyDown={(e) => searchFunction(e)}
             className="search-input"
             type="text"
-            placeholder="Search here..."
+            placeholder="Search"
           />
           <img className="search-img" src={searchImg} alt="search" />
         </div>
@@ -140,6 +129,7 @@ export default function Navbar(props) {
             type="text"
             placeholder="Search here..."
             style={{ width: isMobile ? "86vw" : "45vw" }}
+            autoFocus
           />
           <img className="search-img" src={searchImg} alt="search" />
         </div>
@@ -161,17 +151,16 @@ export default function Navbar(props) {
             Log out
           </button>
 
-          {/* SMALL WINDOWS BUTTONS */}
+          {/* SMALL WINDOWS BUTTONS - MOBILES */}
           <Icon
             onClick={toggleSearchBox}
             className="icons-nav-btns"
             icon="fluent:search-16-filled"
-            width={32}
           />
 
           {props.isHome !== true && (
             <Link className="icons-nav-btns" to="/">
-              <Icon className="icons-nav-btns" icon="ci:home-fill" width={32} />
+              <Icon className="icons-nav-btns" icon="ci:home-fill" />
             </Link>
           )}
 
@@ -180,7 +169,6 @@ export default function Navbar(props) {
               <Icon
                 className="icons-nav-btns"
                 icon="healthicons:ui-user-profile"
-                width={32}
               />
             </Link>
           )}
@@ -188,7 +176,6 @@ export default function Navbar(props) {
           <Icon
             className="icons-nav-btns"
             icon="akar-icons:sign-out"
-            width={32}
             onClick={handleLogout}
           />
         </div>
