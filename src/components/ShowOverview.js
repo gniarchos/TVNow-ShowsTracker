@@ -11,6 +11,7 @@ import { collection, addDoc, serverTimestamp, doc } from "firebase/firestore"
 import { db } from "../services/firebase"
 import { useAuth } from "../authentication/AuthContext"
 import Episodes from "./Episodes"
+import trakt_logo from "../images/trakt-icon-red-white.png"
 
 export default function ShowOverview() {
   const location = useLocation()
@@ -35,9 +36,9 @@ export default function ShowOverview() {
     React.useState(false)
   const [showUserStatus, setShowUserStatus] = React.useState([""])
   const divCast = React.useRef()
-  const [imdbRating, setImdbRating] = React.useState("0.0")
-  const [rottenTomatoesRating, setRottenTomatoesRating] = React.useState("0%")
-  const [theMovieDbRating, setTheMovieDbRating] = React.useState("0.0")
+  const [imdbRating, setImdbRating] = React.useState(0.0)
+  const [rottenTomatoesRating, setRottenTomatoesRating] = React.useState(0)
+  const [traktRating, setTraktRating] = React.useState(0)
   const [mobile, setMobile] = React.useState(window.innerWidth <= 499)
 
   const handleWindowSizeChange = () => {
@@ -95,8 +96,6 @@ export default function ShowOverview() {
     borderRadius: scrolled && "10px",
   }
 
-  console.log(show)
-
   React.useEffect(() => {
     fetch(
       `https://api.themoviedb.org/3/tv/${show.id}/season/${seasonNumber}?api_key=***REMOVED***&language=en-US`
@@ -109,18 +108,23 @@ export default function ShowOverview() {
         setFinished(true)
       })
 
-    fetch(
-      `https://imdb-api.com/API/Ratings/k_kbidoyl5/${show.external_ids.imdb_id}`
-    )
+    const url = `https://mdblist.p.rapidapi.com/?i=${show.external_ids.imdb_id}`
+    const options = {
+      method: "GET",
+      headers: {
+        "X-RapidAPI-Key": "***REMOVED***",
+        "X-RapidAPI-Host": "mdblist.p.rapidapi.com",
+      },
+    }
+
+    fetch(url, options)
       .then((res) => res.json())
       .then((data) => {
-        setImdbRating(data.imDb)
-        setRottenTomatoesRating(data.rottenTomatoes)
-        setTheMovieDbRating(data.theMovieDb)
+        setImdbRating(data.ratings[0].value)
+        setRottenTomatoesRating(data.ratings[4].value)
+        setTraktRating(data.ratings[3].value)
       })
   }, [finished, seasonNumber])
-
-  // console.log(show.external_ids.imdb_id, imdbRating)
 
   const divImgStyle = {
     backgroundImage: `url('https://image.tmdb.org/t/p/original/${show.backdrop_path}')`,
@@ -414,8 +418,6 @@ export default function ShowOverview() {
       })
   }
 
-  console.log("DATA", seasonDetails)
-
   return (
     <div className="showOverview-wrapper">
       <div className="bg"></div>
@@ -446,8 +448,8 @@ export default function ShowOverview() {
                   alt="IMDB Logo"
                 />
                 <p className="rating-num">
-                  {imdbRating === ""
-                    ? "0.0"
+                  {imdbRating === null
+                    ? "-"
                     : parseFloat(imdbRating).toFixed(1)}
                   <Icon icon="eva:star-fill" color="#fed600" />
                 </p>
@@ -460,21 +462,18 @@ export default function ShowOverview() {
                   alt="Rotten Tomatoes"
                 />
                 <p className="rating-num">
-                  {rottenTomatoesRating === "" ? "0" : rottenTomatoesRating} %
+                  {rottenTomatoesRating === null ? "-" : rottenTomatoesRating} %
                 </p>
               </div>
 
               <div className="div-ratings">
                 <img
-                  className="webRating-img-tmdb"
-                  src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Tmdb-312x276-logo.png"
-                  alt="Tmdb"
+                  className="webRating-img-trakt"
+                  src={trakt_logo}
+                  alt="trakt"
                 />
                 <p className="rating-num">
-                  {theMovieDbRating === ""
-                    ? "0.0"
-                    : parseFloat(theMovieDbRating).toFixed(1)}
-                  <Icon icon="eva:star-fill" color="#fed600" />
+                  {traktRating === null ? "-" : traktRating} %
                 </p>
               </div>
             </div>

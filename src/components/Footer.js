@@ -1,7 +1,7 @@
 import React from "react"
 import "./Footer.css"
 import api_logo from "../images/api-logo.png"
-import imdb_api_logo from "../images/imdb-api-logo.png"
+import mdblist_logo from "../images/mdblist_logo.png"
 
 export default function Footer() {
   return (
@@ -11,7 +11,7 @@ export default function Footer() {
       <div className="footer-api">
         <h4>Powered by </h4>
         <img width={50} height={50} src={api_logo} alt="api-logo" />
-        <img width={50} height={50} src={imdb_api_logo} alt="imdb-api-logo" />
+        <img width={50} height={50} src={mdblist_logo} alt="api-logo" />
       </div>
     </div>
   )
