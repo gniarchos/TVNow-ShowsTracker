@@ -76,16 +76,19 @@
   background-color: white;
   border-radius: 8px;
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   z-index: 5;
   border: 1px solid grey;
   color: #000000;
+  border: 1px solid transparent;
+  transition: all 120ms ease-in;
 }
 
 .btn-change-cover:hover {
-  background-color: rgb(155, 151, 151);
+  background-color: rgb(0, 0, 0);
   color: #ffffff;
+  border: 1px solid white;
 }
 
 .profile-cover {
@@ -404,57 +407,112 @@
   justify-content: center;
 }
 
-.coverSelection-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.coverImg-selection-div {
+.coverSelection_container {
   position: fixed;
-  top: 95px;
-  height: 88vh;
+  left: 0;
+  top: 73px;
+  width: 100vw;
+  z-index: 6;
+  backdrop-filter: blur(5px);
+  background-color: rgba(255, 255, 255, 0.3);
+  height: 92.5vh;
+}
+
+.closeButton_covers_div {
+  position: absolute;
+  /* left: 60vw; */
+  left: -100vw;
+  top: 50px;
+  animation: slide-btn 0.5s forwards ease-in-out;
+}
+
+.closeButton_covers {
+  font-size: 1.8rem;
+  font-weight: 800;
+  /* border-radius: 10px; */
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border: none;
+  cursor: pointer;
+  width: 60px;
   background-color: white;
-  color: black;
-  width: 95vw;
-  z-index: 20;
-  border-radius: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  color: #000000;
 }
 
-.cover-images-div::-webkit-scrollbar {
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
-  background-color: transparent;
+.closeButton_covers:hover {
+  background-color: rgb(0, 0, 0);
+  color: white;
 }
 
-.cover-images-div::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
-  background-color: transparent;
+.coverSelector-wrapper {
+  position: fixed;
+  /* left: 0; */
+  left: -100vw;
+  top: 0px;
+  background: #ffffff;
+  z-index: 6;
+  color: #000000;
+  width: 60vw;
+  height: 92.5vh;
+  padding: 25px;
+  overflow-y: auto;
+  animation: slide 0.5s forwards ease-in-out;
+  /* animation-delay: 0.5s; */
 }
 
-.cover-images-div::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background: black;
+@keyframes slide {
+  100% {
+    left: 0;
+  }
 }
 
-.h2-selection {
-  padding-left: 3vw;
+@keyframes slide-btn {
+  100% {
+    left: 60vw;
+  }
 }
 
-.cover-images-div {
+.coverTitle_div {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.covers_back_icon {
+  cursor: pointer;
+}
+
+.showCoverName {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background-color: #e7e7e7;
+  cursor: pointer;
+  min-height: 55px;
+}
+
+.showCoverName:hover {
+  background-color: #cecece;
+}
+
+.movie-icon {
+  width: 50px;
+  height: 50px;
+}
+
+.defaultSelection {
+  padding: 3px;
+}
+
+.showsAllCoverPhotos {
+  display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
-  gap: 50px;
-  position: relative;
-  height: 80%;
-  overflow-x: hidden;
-  overflow-y: scroll;
+  gap: 10px;
 }
 
 .cover-img-preview {
@@ -466,41 +524,6 @@
 
 .cover-img-preview:active {
   border: 4px solid black;
-}
-
-.buttons-cover-selection {
-  position: absolute;
-  bottom: 0px;
-  background-color: #000000;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 50px;
-  padding: 10px;
-}
-
-.cover-selection-btn {
-  font-size: 1.2rem;
-  font-weight: 500;
-  border-radius: 10px;
-  width: 100px;
-  border: 1px solid black;
-  cursor: pointer;
-  transition: all 200ms ease-in;
-}
-
-.save-btn:hover {
-  background-color: #70c570;
-  border: 1px solid white;
-  color: #ffffff;
-}
-
-.cancel-btn:hover {
-  background-color: #ce5c5c;
-  border: 1px solid white;
-  color: #ffffff;
 }
 
 .episode-num-card {
@@ -691,16 +714,9 @@
   .statistics-info-container {
     margin-left: 0%;
     margin-right: 0%;
-    /* padding-left: 3vw; */
-    /* padding-right: 3vw; */
   }
 
   .info-div-profile {
-    /* padding-right: 6%;
-  padding-left: 6%;
-  margin-top: 25px;
-  text-align: center;
-  color: black; */
     margin-left: 3vw;
     margin-right: -3vw;
   }
@@ -724,12 +740,10 @@
 
   .history-card-img {
     width: 150px;
-    /* height: 150px; */
   }
 
   .btn-change-layout {
     position: absolute;
-
     bottom: 40px;
     right: 0.5vw;
     display: flex;
@@ -740,7 +754,7 @@
     background-color: white;
     border-radius: 8px;
     font-size: 0.9rem;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     z-index: 5;
     border: 1px solid grey;
@@ -753,49 +767,61 @@
 
   .info-card-grid h3 {
     font-size: 1rem;
-    /* white-space: nowrap; */
   }
 
   .badge-info-container {
-    /* display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 20px;
-  padding-left: 2%;
-  margin-right: -15px;
-  inline-size: 100%;
-  overflow-wrap: break-word; */
     gap: 10px;
   }
 
   .profile-section-title {
-    /* border: 10px solid;
-  border-image-slice: 0 0 0 1;
-  border-width: 8px;
-  border-image-source: linear-gradient(to bottom, #743ad5, #d53a9d);
-  padding-left: 10px; */
     font-size: 1.7rem;
   }
 
   .stats-title {
-    /* font-size: 1.5rem;
-  margin-bottom: 10px;
-  white-space: nowrap; */
     font-size: 1.3rem;
   }
 
   .stats-number {
-    /* font-size: 1.8rem;
-  text-align: center;
-  margin-top: 0;
-  margin-bottom: -10px;
-  font-weight: 600; */
     font-size: 1.6rem;
   }
 
   .stats-subtitle {
-    /* font-weight: 500;
-  font-size: 0.9rem; */
     font-size: 0.8rem;
+  }
+
+  .coverSelection_container {
+    height: 100vh;
+    top: 55px;
+  }
+
+  .coverSelector-wrapper {
+    height: 93.5vh;
+    top: 55px;
+    width: 90vw;
+    padding: 10px;
+  }
+
+  .showCoverName {
+    font-size: 1rem;
+  }
+
+  .closeButton_covers_div {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .closeButton_covers:hover {
+    background-color: white;
+    color: black;
+  }
+
+  .cover-img-preview {
+    width: 100%;
+    height: auto;
+  }
+
+  @keyframes slide-btn {
+    100% {
+      left: 85vw;
+    }
   }
 }

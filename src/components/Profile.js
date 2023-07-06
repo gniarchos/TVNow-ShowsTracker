@@ -39,6 +39,10 @@ export default function Profile() {
   const [userWatchedEpisodes, setUserWatchedEpisodes] = React.useState(0)
   const [isSelectCoverOpen, setIsSelectCoverOpen] = React.useState(false)
   const [userCoverSettings, setUserCoverSettings] = React.useState()
+  const [hideShowsCoverSelection, setHideShowsCoverSelection] =
+    React.useState(false)
+  const [coverSelectionShowName, setCoverSelectionShowName] =
+    React.useState("Edit your cover")
   const [selectedCoverImage, setSelectedCoverImage] =
     React.useState(userCoverSettings)
 
@@ -102,11 +106,11 @@ export default function Profile() {
       setFinished(!finished)
     })
 
-    if (userCoverSettings === "default") {
-      setSelectedCoverImage(def_cover)
-    } else {
-      setSelectedCoverImage(userCoverSettings)
-    }
+    // if (userCoverSettings === "default") {
+    //   setSelectedCoverImage(def_cover)
+    // } else {
+    //   setSelectedCoverImage(userCoverSettings)
+    // }
   }, [])
 
   React.useEffect(() => {
@@ -191,21 +195,20 @@ export default function Profile() {
             return [...prevData, data]
           })
 
-          setShowsImages((prevImages) => {
-            return [...prevImages, data.images.backdrops]
-          })
+          // setShowsImages((prevImages) => {
+          //   return [...prevImages, data.images.backdrops]
+          // })
         })
-        .then(async () => {
-          await fetch(
-            `https://api.themoviedb.org/3/tv/${myShow.show_id}/season/${myShow.seasonNumber}?api_key=***REMOVED***&language=en-US`
-          )
-            .then((res) => res.json())
-            .then((data) => {
-              data.show_id = myShow.show_id
-              setSeasonData((prevData) => {
-                return [...prevData, data]
-              })
-            })
+
+      fetch(
+        `https://api.themoviedb.org/3/tv/${myShow.show_id}/season/${myShow.seasonNumber}?api_key=***REMOVED***&language=en-US`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          data.show_id = myShow.show_id
+          setSeasonData((prevData) => {
+            return [...prevData, data]
+          })
         })
     })
 
@@ -214,6 +217,50 @@ export default function Profile() {
 
   localStorage.setItem("total_episodes", userWatchedEpisodes)
   localStorage.setItem("watching_time", userWatchingTime)
+
+  async function fetchShowImages(show_id, show_name) {
+    await fetch(
+      `https://api.themoviedb.org/3/tv/${show_id}?api_key=***REMOVED***&language=en-US&include_image_language=en,null&append_to_response=images`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setShowsImages((prevImages) => {
+          return [...prevImages, data.images.backdrops]
+        })
+      })
+
+    setHideShowsCoverSelection(true)
+    setCoverSelectionShowName(show_name)
+  }
+
+  function updateCoverDefault() {
+    setSelectedCoverImage(def_cover)
+    setIsSelectCoverOpen(false)
+  }
+
+  function goBackToSelectionCovers() {
+    setHideShowsCoverSelection(false)
+    setShowsImages([])
+    setCoverSelectionShowName("Edit your cover")
+  }
+
+  function closeCoverSelector() {
+    db.collection("users")
+      .doc(currentUser.uid)
+      .update({
+        profile_cover_selection:
+          localStorage.getItem("cover_temp_selection") !== null
+            ? localStorage.getItem("cover_temp_selection")
+            : selectedCoverImage,
+      })
+
+    setSelectedCoverImage(
+      localStorage.getItem("cover_temp_selection") !== null
+        ? localStorage.getItem("cover_temp_selection")
+        : selectedCoverImage
+    )
+    setIsSelectCoverOpen(false)
+  }
 
   React.useEffect(() => {
     if (!isFirstLoad) {
@@ -299,15 +346,9 @@ export default function Profile() {
       }
     })
 
-  // console.log(myShows)
-
   const [canceled_shows, setCanceled_shows] = React.useState(new Set())
 
   const [show_modal, setShow_modal] = React.useState(false)
-
-  Array.from(canceled_shows).map((show) => {
-    console.log(show)
-  })
 
   const upToDateShows = myShows
     .filter((show) => show.status === "watching")
@@ -317,11 +358,7 @@ export default function Profile() {
       )
         .then((res) => res.json())
         .then((data) => {
-          // console.log(data)
           if (data.status === "Canceled") {
-            // console.log("found", data.name)
-            // TODO: inform user that x series in his up to date section got canceled
-
             setShow_modal(true)
 
             db.collection(`watchlist-${currentUser.uid}`)
@@ -335,7 +372,6 @@ export default function Profile() {
                 })
               })
 
-            // setCanceled_shows([...canceled_shows, data.name])
             setCanceled_shows(canceled_shows.add(data.name))
           }
         })
@@ -745,14 +781,6 @@ export default function Profile() {
         : userWatchedEpisodes
     )
 
-    // const MINS_PER_MONTH = 24 * 30 * 60
-    // const MINS_PER_DAY = 24 * 60
-
-    // let minutes = userTime
-    // const days = Math.floor(minutes / MINS_PER_DAY)
-    // const hours = Math.floor((minutes - days * 1440) / 60)
-    // const months = Math.floor(minutes / MINS_PER_MONTH)
-    // minutes = minutes - months * MINS_PER_MONTH
     let minutes = userTime
     const months = Math.floor(minutes / (30 * 24 * 60))
 
@@ -770,19 +798,6 @@ export default function Profile() {
   function temporarySaveCoverSelection(image) {
     const fixed_image = image.replace("w500", "original")
     localStorage.setItem("cover_temp_selection", fixed_image)
-  }
-
-  function confirmCoverImage() {
-    db.collection("users")
-      .doc(currentUser.uid)
-      .update({
-        profile_cover_selection: localStorage.getItem("cover_temp_selection"),
-      })
-
-    setTimeout(function () {
-      setSelectedCoverImage(localStorage.getItem("cover_temp_selection"))
-      setIsSelectCoverOpen(!isSelectCoverOpen)
-    }, 500)
   }
 
   function handleCoverSelector() {
@@ -807,13 +822,11 @@ export default function Profile() {
       <div className="bg"></div>
       <Navbar isLoggedIn={true} isProfile={true} />
 
-      {/* {show_modal && ( */}
       <Modal
         canceled_shows={canceled_shows}
         state={show_modal}
         closeModal={closeModal}
       />
-      {/* )} */}
 
       <div className="profile-cover-div">
         <img className="profile-cover" src={selectedCoverImage} />
@@ -852,13 +865,13 @@ export default function Profile() {
 
             <div className="section-2">
               <div className="statistic-numbers">
-                <h3 className="stat-title">Not Started </h3>
-                <p className="stat-num">{notStartedYetShows}</p>
+                <h3 className="stat-title">Finished </h3>
+                <p className="stat-num">{hasFinishedShows}</p>
               </div>
 
               <div className="statistic-numbers">
-                <h3 className="stat-title">Finished </h3>
-                <p className="stat-num">{hasFinishedShows}</p>
+                <h3 className="stat-title">Not Started </h3>
+                <p className="stat-num">{notStartedYetShows}</p>
               </div>
             </div>
           </div>
@@ -1068,51 +1081,78 @@ export default function Profile() {
       )}
 
       {isSelectCoverOpen === true && (
-        <div className="coverSelection-container">
-          <div className="coverImg-selection-div">
-            <h2 className="h2-selection">Choose your cover image:</h2>
-            <div className="cover-images-div">
-              <img
-                className="cover-img-preview"
-                src={def_cover}
-                alt="shows-images"
-                onClick={() => temporarySaveCoverSelection(`${def_cover}`)}
-              />
-              {showsImages.map((img) => {
-                return img
-                  .filter((img) => img.height >= 720)
-                  .map((image) => {
-                    return (
-                      <img
-                        className="cover-img-preview"
-                        src={`https://image.tmdb.org/t/p/w500/${image.file_path}`}
-                        alt="shows-images"
-                        onClick={() =>
-                          temporarySaveCoverSelection(
-                            `https://image.tmdb.org/t/p/w500/${image.file_path}`
-                          )
-                        }
+        <div className="coverSelection_container">
+          <div className="coverSelector-wrapper">
+            <div className="coverTitle_div">
+              {hideShowsCoverSelection === true && (
+                <Icon
+                  icon="mingcute:arrow-left-fill"
+                  width={30}
+                  onClick={goBackToSelectionCovers}
+                  className="covers_back_icon"
+                />
+              )}
+              <h1>{coverSelectionShowName}</h1>
+            </div>
+
+            {hideShowsCoverSelection === false && (
+              <h3
+                className="showCoverName defaultSelection"
+                onClick={updateCoverDefault}
+              >
+                <Icon icon="fluent-emoji-high-contrast:popcorn" width={45} />
+                TVTime Default Cover
+              </h3>
+            )}
+            {hideShowsCoverSelection === false &&
+              myShows.map((show) => {
+                return (
+                  <div>
+                    <h3
+                      className="showCoverName"
+                      onClick={() =>
+                        fetchShowImages(show.show_id, show.show_name)
+                      }
+                    >
+                      <Icon
+                        icon="ic:baseline-local-movies"
+                        className="movie-icon"
                       />
-                    )
-                  })
+                      {show.show_name}
+                    </h3>
+                  </div>
+                )
               })}
-            </div>
-            <div className="buttons-cover-selection">
-              <button
-                onClick={confirmCoverImage}
-                className="cover-selection-btn save-btn"
-                type="confirm"
-              >
-                Save
-              </button>
-              <button
-                onClick={handleCoverSelector}
-                className="cover-selection-btn cancel-btn"
-                type="confirm"
-              >
-                Cancel
-              </button>
-            </div>
+
+            {hideShowsCoverSelection === true && (
+              <div className="showsAllCoverPhotos">
+                {showsImages.map((img) => {
+                  return img
+                    .filter((img) => img.height >= 720)
+                    .map((image) => {
+                      return (
+                        <img
+                          className="cover-img-preview"
+                          src={`https://image.tmdb.org/t/p/w500/${image.file_path}`}
+                          alt="shows-images"
+                          onClick={() =>
+                            temporarySaveCoverSelection(
+                              `https://image.tmdb.org/t/p/w500/${image.file_path}`
+                            )
+                          }
+                        />
+                      )
+                    })
+                })}
+              </div>
+            )}
+          </div>
+
+          <div className="closeButton_covers_div">
+            {/* <Icon icon="uiw:close-square" width={60} color="black" /> */}
+            <button className="closeButton_covers" onClick={closeCoverSelector}>
+              X
+            </button>
           </div>
         </div>
       )}

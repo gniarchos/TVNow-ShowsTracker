@@ -122,11 +122,6 @@ export default function EpisodesProfile(props) {
       })
   }
 
-  // console.log(
-  //   props.showName,
-  //   `https://image.tmdb.org/t/p/w500/${props.backdrop_path}`
-  // )
-
   function handleImageError(e) {
     console.log("Something went wrong with your image")
     e.currentTarget.src = noImg
