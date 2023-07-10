@@ -106,7 +106,7 @@ export default function Home() {
 
   return (
     <>
-      <div class="bg"></div>
+      <div className="bg"></div>
       <Navbar isLoggedIn={isLoggedIn} isHome={true} />
 
       {loading === true && (

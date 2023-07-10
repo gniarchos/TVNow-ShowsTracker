@@ -1032,7 +1032,8 @@ export default function Profile() {
             {notStartedShows.length <= 0 && (
               <div className="noShows-div">
                 <p className="noShows-text">
-                  &#10148; Shows you want to track will appear here.
+                  <Icon icon="fluent:info-24-filled" width={30} /> Your
+                  watchlist is empty!
                 </p>
               </div>
             )}
@@ -1149,7 +1150,6 @@ export default function Profile() {
           </div>
 
           <div className="closeButton_covers_div">
-            {/* <Icon icon="uiw:close-square" width={60} color="black" /> */}
             <button className="closeButton_covers" onClick={closeCoverSelector}>
               X
             </button>

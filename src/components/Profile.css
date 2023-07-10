@@ -214,8 +214,24 @@
   height: 100px;
   padding-top: 30px;
   padding-left: 4vw;
-  margin-bottom: 50px;
+  margin-bottom: 90px;
   font-size: 1.1rem;
+  margin-top: -20px;
+}
+
+.noShows-text {
+  background-color: rgb(237, 237, 237);
+  width: 90%;
+  color: #000000;
+  padding: 20px;
+  font-weight: 500;
+  font-size: 1.2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  justify-content: center;
+  border-radius: 20px;
 }
 
 .profile-episode-name {
@@ -823,5 +839,9 @@
     100% {
       left: 85vw;
     }
+  }
+
+  .noShows-text {
+    font-size: 1.1rem;
   }
 }

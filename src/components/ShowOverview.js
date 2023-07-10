@@ -40,12 +40,30 @@ export default function ShowOverview() {
   const [rottenTomatoesRating, setRottenTomatoesRating] = React.useState(0)
   const [traktRating, setTraktRating] = React.useState(0)
   const [mobile, setMobile] = React.useState(window.innerWidth <= 499)
+  const [seasonRuntimeData, setSeasonRuntimeData] = React.useState()
+  const [userWatchingTime, setUserWatchingTime] = React.useState(0)
+  const [userWatchedEpisodes, setUserWatchedEpisodes] = React.useState(0)
+  const [isMarkSeasonClicked, setIsMarkSeasonClicked] = React.useState(false)
+  const [currentUserEpisode, setCurrentUserEpisode] = React.useState(0)
+  const [currentUserSeason, setCurrentUserSeason] = React.useState(0)
 
   const handleWindowSizeChange = () => {
     setMobile(window.innerWidth <= 499)
   }
 
   React.useEffect(() => {
+    db.collection("users")
+      .doc(location.state.userId)
+      .get()
+      .then((snapshot) => setUserWatchingTime(snapshot.data().watching_time))
+
+    db.collection("users")
+      .doc(location.state.userId)
+      .get()
+      .then((snapshot) =>
+        setUserWatchedEpisodes(snapshot.data().total_episodes)
+      )
+
     window.addEventListener("resize", handleWindowSizeChange)
     return () => {
       window.removeEventListener("resize", handleWindowSizeChange)
@@ -82,6 +100,69 @@ export default function ShowOverview() {
     setSeasonNumber("1")
     setFinished(false)
   }, [show, isShowAddedInWatchList])
+
+  React.useEffect(() => {
+    if (isMarkSeasonClicked) {
+      seasonRuntimeData?.map((time) => {
+        localStorage.setItem(
+          "watching_time",
+          parseInt(localStorage.getItem("watching_time")) + time
+        )
+      })
+
+      db.collection("users")
+        .doc(location.state.userId)
+        .update({
+          watching_time: localStorage.getItem("watching_time"),
+          total_episodes: localStorage.getItem("total_episodes"),
+        })
+      db.collection(`watchlist-${location.state.userId}`)
+        .where("show_name", "==", show.name)
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            // UPDATE DATABASE
+            if (parseInt(seasonNumber) + 1 <= show.number_of_seasons) {
+              doc.ref.update({
+                season_number: parseInt(seasonNumber) + 1,
+                episode_number: 0,
+                status: "watching",
+              })
+            } else {
+              if (show.status === "Ended" || show.status === "Canceled") {
+                doc.ref.update({
+                  status: "finished",
+                })
+              }
+            }
+          })
+        })
+    }
+  }, [seasonRuntimeData])
+
+  // console.log("SEASON NUMBER STATE", seasonNumber)
+  // console.log("seasonRuntimeData", seasonRuntimeData)
+
+  function markSeasonWatched() {
+    fetch(
+      `https://api.themoviedb.org/3/tv/${show.id}/season/${seasonNumber}?api_key=***REMOVED***&language=en-US`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data)
+        setSeasonRuntimeData(() => {
+          return data.episodes.map((episode) => {
+            return parseInt(episode.runtime)
+          })
+        })
+      })
+
+    // setMarkSeason(true)
+    setCurrentUserSeason((prevSeason) => prevSeason + 1)
+    setIsMarkSeasonClicked(true)
+  }
+
+  // console.log(show)
 
   const seasonEpisodesStyle = {
     flexDirection: scrolled && "column",
@@ -125,6 +206,23 @@ export default function ShowOverview() {
         setTraktRating(data.ratings[3].value)
       })
   }, [finished, seasonNumber])
+
+  // console.log(show)
+
+  React.useEffect(() => {
+    var collectionRef = db.collection(`watchlist-${location.state.userId}`)
+    var query = collectionRef.where("show_name", "==", show.name)
+
+    query.get().then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        // Access the data in each document
+        var data = doc.data()
+        // console.log(data)
+        setCurrentUserEpisode(data.episode_number)
+        setCurrentUserSeason(data.season_number)
+      })
+    })
+  }, [seasonNumber])
 
   const divImgStyle = {
     backgroundImage: `url('https://image.tmdb.org/t/p/original/${show.backdrop_path}')`,
@@ -210,6 +308,9 @@ export default function ShowOverview() {
         onClick={(e) => changeSeason(e)}
         className={i === 1 ? "season-div active" : "season-div"}
       >
+        {currentUserSeason === i && (
+          <p className="watchingNow-p">Watching Now</p>
+        )}
         Season {i}
       </div>
     )
@@ -309,6 +410,8 @@ export default function ShowOverview() {
   })
 
   function goToShow(showID) {
+    setCurrentUserSeason(0)
+    setCurrentUserEpisode(0)
     fetch(
       `https://api.themoviedb.org/3/tv/${showID}?api_key=***REMOVED***&language=en-US&append_to_response=external_ids,videos,aggregate_credits,content_ratings,recommendations,similar,watch/providers,images`
     )
@@ -318,6 +421,7 @@ export default function ShowOverview() {
           state: {
             data: data,
             userId: currentUser.uid,
+            userSeason: 0,
           },
         })
       })
@@ -592,6 +696,16 @@ export default function ShowOverview() {
 
             <div>
               <h1 className="seasonsEpisodesTitle">Seasons & Episodes</h1>
+              {currentUserSeason === seasonNumber &&
+                currentUserEpisode === 0 && (
+                  <button
+                    className="markSeason-btn"
+                    onClick={markSeasonWatched}
+                  >
+                    <Icon icon="ic:round-fact-check" />
+                    Mark Season {seasonNumber} as Watched
+                  </button>
+                )}
 
               <div
                 style={seasonEpisodesStyle}

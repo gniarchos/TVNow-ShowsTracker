@@ -45,7 +45,6 @@ export default function MySuggestions() {
   }, [])
 
   function goToShow(ShowData) {
-    console.log("hey")
     navigate("/overview", {
       state: {
         data: ShowData,
@@ -67,7 +66,7 @@ export default function MySuggestions() {
           </p>
           <div className="div-suggest-genres">
             {suggest.genres.map((gen, index) => (
-              <div className="genres-wrapper">
+              <div key={index} className="genres-wrapper">
                 <p key={nanoid()} className="suggest-genres">
                   {gen.name}
                 </p>
@@ -75,14 +74,6 @@ export default function MySuggestions() {
             ))}
           </div>
         </div>
-        {/* <div className="learn-more-wrapper">
-          <button onClick={() => goToShow(suggest)} className="learn-more">
-            <span className="circle" aria-hidden="true">
-              <span className="icon arrow"></span>
-            </span>
-            <span className="button-text">Learn More</span>
-          </button>
-        </div> */}
       </div>
     )
   })

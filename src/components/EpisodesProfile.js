@@ -131,8 +131,6 @@ export default function EpisodesProfile(props) {
     console.log("Image not loaded")
   }
   return (
-    // <div className="episode-card-wrapper">
-    // <div className="profile-show-img-div">
     <div
       className={
         props.mobileLayout === "cards"
@@ -161,6 +159,7 @@ export default function EpisodesProfile(props) {
         ) : (
           <img className="show-no-img" src={noImg} />
         )}
+
         {props.is_premiering === "true" ||
         (props.upToDate === true &&
           JSON.stringify(props.nextEpisodeDate) !== "[false]") ? (

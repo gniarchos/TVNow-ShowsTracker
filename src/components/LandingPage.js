@@ -5,6 +5,7 @@ import { Icon } from "@iconify/react"
 import Signup from "./Signup"
 import Navbar from "./Navbar"
 import Footer from "./Footer"
+import def_cover from "../images/def-cover.jpg"
 
 export default function LandingPage(props) {
   const [showLoginPage, setShowLoginPage] = React.useState(false)
@@ -16,6 +17,8 @@ export default function LandingPage(props) {
   const [showSignUp, setShowSignUp] = React.useState(false)
 
   const [calledFrom, setCalledFrom] = React.useState("")
+
+  localStorage.setItem("cover_temp_selection", def_cover)
 
   React.useEffect(() => {
     window.scrollTo(0, 0)

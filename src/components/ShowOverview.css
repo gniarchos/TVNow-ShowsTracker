@@ -15,15 +15,12 @@
   flex-direction: row;
   align-items: center;
   gap: 10px;
-
   font-weight: 600;
   font-size: 0.9rem;
-
   background-color: #eeeeee;
   border-radius: 10px;
   padding-left: 5px;
   padding-right: 5px;
-
   height: 30px;
 }
 
@@ -37,19 +34,16 @@
 
 .webRating-img {
   width: 20px;
-  /* height: 18px; */
 }
 
 .webRating-img-imdb {
   width: 30px;
-  /* height: 25px; */
 }
 
 .webRating-img-trakt {
   padding-top: 3px;
   padding-bottom: 3px;
   width: 25px;
-  /* height: 20px; */
 }
 
 .ratings-wrapper {
@@ -309,16 +303,49 @@
 
 .season-div {
   background-color: #a0a0a9;
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
   color: black;
   font-size: 1.5rem;
   font-weight: 500;
   text-align: center;
-  border-radius: 10px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+.watchingNow-p {
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  background-color: rgb(48, 48, 48, 0.4);
+  backdrop-filter: blur(30px);
+  position: absolute;
+  left: 10px;
+  bottom: -8px;
+  padding: 4px;
+  border-radius: 5px;
+}
+
+.markSeason-btn {
+  /* background-color: white; */
+  background-color: rgba(219, 219, 223, 0.6);
+  color: rgb(39, 39, 39);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
 }
 
-.watched {
-  background-color: #5dc45d;
+.markSeason-btn:hover {
+  background-color: rgb(255, 255, 255);
 }
 
 .season-div:hover {
@@ -406,9 +433,7 @@
 .cast-div {
   display: flex;
   flex-direction: row;
-  /* align-items: center; */
   align-items: stretch;
-  /* justify-content: center; */
   gap: 20px;
   overflow-x: auto;
   margin-right: 50px;
@@ -422,10 +447,6 @@
   color: #212237;
   max-height: fit-content;
   border-radius: 8px;
-  /* margin: 0 0.5em; */
-  /* padding: 0.5em; */
-  /* important */
-  /* min-height: 100%; */
 }
 
 .cast-info-div-profile {
@@ -729,20 +750,10 @@
   }
 
   .top-info-div {
-    /* display: flex;
-  flex-direction: row;
-  justify-content: center; */
-    /* border: 1px solid red; */
     padding: 0;
   }
 
   .info-div {
-    /* border-right: 2px solid white;
-  padding-right: 6%;
-  padding-left: 6%;
-  margin-top: 25px;
-  width: 32vw;
-  text-align: center; */
     width: 100%;
     padding-right: 1.8%;
     padding-left: 1.8%;
@@ -776,11 +787,6 @@
   }
 
   .recommending-img {
-    /* max-width: 335px;
-  z-index: -1;
-  position: relative;
-  margin-bottom: -6px; */
-
     transition: none;
     transform: none;
   }
@@ -815,24 +821,20 @@
   }
 
   .div-show-img {
-    /* height: 700px;
-  width: 100vw;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  box-shadow: inset 0px -250px 58px -29px rgba(0, 0, 0, 0.5);
-  position: relative;
-  max-width: 100%;
-  margin-top: 70px; */
     margin-top: 55px;
   }
 
   .cast-img-profile {
-    /* width: 250px;
-  height: 230px;
-  object-fit: cover;
-  border-radius: 8px; */
     width: 220px;
     height: 190px;
+  }
+
+  .watchingNow-p {
+    font-size: 0.8rem;
+    bottom: -4px;
+  }
+
+  .markSeason-btn {
+    font-size: 1rem;
   }
 }
