@@ -57,6 +57,7 @@ export default function Login() {
   }
 
   function handleForgotPassword() {
+    setError("")
     setForgotPass(true)
   }
 
