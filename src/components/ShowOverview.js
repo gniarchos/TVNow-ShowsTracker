@@ -110,11 +110,17 @@ export default function ShowOverview() {
         )
       })
 
+      localStorage.setItem(
+        "total_episodes",
+        parseInt(localStorage.getItem("total_episodes")) +
+          seasonRuntimeData.length
+      )
+
       db.collection("users")
         .doc(location.state.userId)
         .update({
-          watching_time: localStorage.getItem("watching_time"),
-          total_episodes: localStorage.getItem("total_episodes"),
+          watching_time: parseInt(localStorage.getItem("watching_time")),
+          total_episodes: parseInt(localStorage.getItem("total_episodes")),
         })
       db.collection(`watchlist-${location.state.userId}`)
         .where("show_name", "==", show.name)
