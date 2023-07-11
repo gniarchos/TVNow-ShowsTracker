@@ -128,7 +128,10 @@ export default function ShowOverview() {
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
             // UPDATE DATABASE
-            if (parseInt(seasonNumber) + 1 <= show.number_of_seasons) {
+            if (
+              parseInt(seasonNumber) + 1 <= show.number_of_seasons ||
+              show.status === "Returning Series"
+            ) {
               doc.ref.update({
                 season_number: parseInt(seasonNumber) + 1,
                 episode_number: 0,
