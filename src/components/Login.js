@@ -15,30 +15,32 @@ export default function Login() {
 
   const emailRef = React.useRef()
   const passwordRef = React.useRef()
-  const { login, loginGoogle, currentUser } = useAuth()
+  const { login, loginGoogle, resetPassword } = useAuth()
   const navigate = useNavigate()
+
+  const [message, setMessage] = React.useState("")
+  const [forgotPass, setForgotPass] = React.useState(false)
 
   async function handleSubmit(e) {
     e.preventDefault()
 
-    try {
-      setError("")
-      await login(emailRef.current.value, passwordRef.current.value)
-      navigate("/")
-    } catch {
-      setError("Incorrect email or password")
-    }
-  }
-
-  async function handleLoginGoogle(e) {
-    e.preventDefault()
-
-    try {
-      setError("")
-      await loginGoogle()
-      navigate("/")
-    } catch {
-      setError("An error occurred")
+    if (!resetPassword) {
+      try {
+        setError("")
+        await login(emailRef.current.value, passwordRef.current.value)
+        navigate("/")
+      } catch {
+        setError("Incorrect email or password")
+      }
+    } else {
+      try {
+        setMessage("")
+        setError("")
+        await resetPassword(emailRef.current.value)
+        setMessage("Check your email inbox for instructions")
+      } catch {
+        setError("Failed to reset password. Try again")
+      }
     }
   }
 
@@ -54,15 +56,25 @@ export default function Login() {
     display: !mustShowPass ? "none" : "block",
   }
 
+  function handleForgotPassword() {
+    setForgotPass(true)
+  }
+
   return (
     <div className="login-wrapper">
       <div className="login-bg">
         <form onSubmit={handleSubmit} className="form-div">
-          <h1>Login</h1>
+          <h1>{forgotPass ? "Reset Password" : "Login"}</h1>
           {error && (
             <p className="error-messages">
               <Icon icon="fluent:error-circle-12-filled" />
               {error}
+            </p>
+          )}
+          {message && (
+            <p className="success-messages">
+              <Icon icon="mdi:success-bold" />
+              {message}
             </p>
           )}
           <div className="div-field">
@@ -78,34 +90,44 @@ export default function Login() {
             </span>
           </div>
 
-          <div className="div-field">
-            <input
-              className="input-text password"
-              type={mustShowPass ? "text" : "password"}
-              placeholder="Password*"
-              required
-              ref={passwordRef}
-            />
-            <span className="span-img" onClick={togglePasswordVisibility}>
-              <img
-                style={toggleStyleHidden}
-                className="eye-off-img-log"
-                src={eye_off}
-                alt="eye-off"
+          {forgotPass === false && (
+            <div className="div-field">
+              <input
+                className="input-text password"
+                type={mustShowPass ? "text" : "password"}
+                placeholder="Password*"
+                required
+                ref={passwordRef}
               />
-            </span>
-            <span className="span-img" onClick={togglePasswordVisibility}>
-              <img
-                style={toggleStyleVisible}
-                className="eye-img-log"
-                src={eye}
-                alt="eye"
-              />
-            </span>
-          </div>
+              <span className="span-img" onClick={togglePasswordVisibility}>
+                <img
+                  style={toggleStyleHidden}
+                  className="eye-off-img-log"
+                  src={eye_off}
+                  alt="eye-off"
+                />
+              </span>
+              <span className="span-img" onClick={togglePasswordVisibility}>
+                <img
+                  style={toggleStyleVisible}
+                  className="eye-img-log"
+                  src={eye}
+                  alt="eye"
+                />
+              </span>
+            </div>
+          )}
+
+          {!forgotPass && (
+            <div className="forgotPassword-link">
+              <p onClick={handleForgotPassword} className="link-forgotPass">
+                Forgot your password?
+              </p>
+            </div>
+          )}
 
           <button type="submit" className="login-form-btn">
-            Login
+            {forgotPass ? "Submit" : "Login"}
           </button>
         </form>
       </div>

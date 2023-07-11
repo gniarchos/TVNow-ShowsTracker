@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react"
 import { auth, db } from "../services/firebase"
 import { serverTimestamp } from "firebase/firestore"
-// import { GoogleAuthProvider, signInWithPopup } from "firebase/compat/auth"
 
 const AuthContext = React.createContext()
 
@@ -13,8 +12,7 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = React.useState()
   const [loading, setLoading] = React.useState(true)
 
-  function signup(email, password, username, fname, lname) {
-    // return auth.createUserWithEmailAndPassword(email, password)
+  async function signup(email, password, username, fname, lname) {
     return auth.createUserWithEmailAndPassword(email, password).then((cred) => {
       return db.collection("users").doc(cred.user.uid).set({
         username: username,
@@ -27,11 +25,6 @@ export function AuthProvider({ children }) {
       })
     })
   }
-
-  // function loginGoogle() {
-  //   const provider = new GoogleAuthProvider()
-  //   return auth.signInWithPopup(auth, provider)
-  // }
 
   function login(email, password) {
     return auth.signInWithEmailAndPassword(email, password)
@@ -60,7 +53,6 @@ export function AuthProvider({ children }) {
     login,
     logout,
     resetPassword,
-    // loginGoogle,
   }
 
   return (

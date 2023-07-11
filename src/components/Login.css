@@ -67,51 +67,6 @@
   cursor: pointer;
 }
 
-/* .login-form-btn {
-  width: 150px;
-  padding: 10px;
-  border: 2px solid white;
-  position: relative;
-  overflow: hidden;
-  background-color: transparent;
-  text-align: center;
-  text-transform: uppercase;
-  font-size: 1rem;
-  transition: 0.3s;
-  font-family: inherit;
-  color: white;
-  margin-top: 30px;
-  margin-bottom: 10px;
-  border-radius: 15px;
-  font-weight: 600;
-  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
-  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
-  cursor: pointer;
-}
-
-.login-form-btn::before {
-  content: "";
-  width: 0;
-  height: 300%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(45deg);
-  background: #a370f0;
-  transition: 0.5s ease;
-  display: block;
-  z-index: -1;
-}
-
-.login-form-btn:hover::before {
-  width: 105%;
-}
-
-.login-form-btn:hover {
-  color: white;
-  border: 2px solid #a370f0;
-} */
-
 .login-form-btn {
   padding: 10px;
   border: unset;
@@ -128,7 +83,7 @@
   overflow: hidden;
   cursor: pointer;
   width: 150px;
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
 .login-form-btn::before {
@@ -155,10 +110,11 @@
 }
 
 .error-messages {
-  width: 90%;
+  width: 100%;
   height: 8%;
   color: #ba3939;
   font-size: 1.1rem;
+  font-weight: 500;
   background: #ffe0e0;
   border: 1px solid #a33a3a;
   display: flex;
@@ -168,6 +124,36 @@
   margin-top: 0;
   border-radius: 10px;
   padding: 5px;
+  white-space: nowrap;
+}
+
+.success-messages {
+  width: 100%;
+  height: 8%;
+  color: #73ba39;
+  font-size: 1.1rem;
+  font-weight: 500;
+  background: #e9ffe0;
+  border: 1px solid #73ba39;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 0;
+  border-radius: 10px;
+  padding: 5px;
+  white-space: nowrap;
+}
+
+.forgotPassword-link {
+  margin-top: 0px;
+}
+
+.link-forgotPass {
+  color: #1b1c2d;
+  font-weight: 500;
+  font-size: 1.06rem;
+  cursor: pointer;
 }
 
 @media all and (max-width: 880px) {
