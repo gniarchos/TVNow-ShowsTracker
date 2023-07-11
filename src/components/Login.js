@@ -24,7 +24,7 @@ export default function Login() {
   async function handleSubmit(e) {
     e.preventDefault()
 
-    if (!resetPassword) {
+    if (forgotPass === false) {
       try {
         setError("")
         await login(emailRef.current.value, passwordRef.current.value)

@@ -7,6 +7,7 @@ import email from "../images/email.png"
 import user from "../images/user.png"
 import { useAuth } from "../authentication/AuthContext"
 import { useNavigate } from "react-router-dom"
+import { Icon } from "@iconify/react"
 
 export default function Signup() {
   document.title = "TVTime | Signup "
@@ -32,16 +33,23 @@ export default function Signup() {
 
     try {
       setError("")
-      await signup(
+      const errorCode = await signup(
         emailRef.current.value,
         passwordRef.current.value,
         usernameRef.current.value,
         fnameRef.current.value,
         lnameRef.current.value
       )
-      navigate("/")
+
+      console.log(errorCode)
+      if (errorCode === "auth/email-already-in-use") {
+        // console.log("Email already exists")
+        setError("The email address is already in use")
+      } else {
+        navigate("/")
+      }
     } catch {
-      setError("Failed to creat an account")
+      setError("Failed to create an account")
     }
   }
 
@@ -62,6 +70,12 @@ export default function Signup() {
       <div className="signup-bg">
         <form onSubmit={handleSubmit} className="form-div-signup">
           <h1>Create an Account</h1>
+          {error && (
+            <p className="error-messages">
+              <Icon icon="fluent:error-circle-12-filled" />
+              {error}
+            </p>
+          )}
           <div className="div-field">
             <input
               className="input-text name"

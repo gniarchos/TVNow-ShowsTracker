@@ -13,8 +13,22 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = React.useState(true)
 
   async function signup(email, password, username, fname, lname) {
-    return auth.createUserWithEmailAndPassword(email, password).then((cred) => {
-      return db.collection("users").doc(cred.user.uid).set({
+    // return auth
+    //   .createUserWithEmailAndPassword(email, password)
+    //   .then((cred) => {
+    //     return db.collection("users").doc(cred.user.uid).set({
+    //       username: username,
+    //       fname: fname,
+    //       lname: lname,
+    //       member_since: serverTimestamp(),
+    //       watching_time: 0,
+    //       total_episodes: 0,
+    //       profile_cover_selection: "default",
+    //     })
+    //   })
+    try {
+      const cred = await auth.createUserWithEmailAndPassword(email, password)
+      await db.collection("users").doc(cred.user.uid).set({
         username: username,
         fname: fname,
         lname: lname,
@@ -23,7 +37,9 @@ export function AuthProvider({ children }) {
         total_episodes: 0,
         profile_cover_selection: "default",
       })
-    })
+    } catch (error) {
+      return error.code
+    }
   }
 
   function login(email, password) {
