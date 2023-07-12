@@ -358,7 +358,11 @@ export default function Profile() {
       )
         .then((res) => res.json())
         .then((data) => {
-          if (data.status === "Canceled") {
+          // console.log(data.number_of_seasons, show)
+          if (
+            data.status === "Canceled" &&
+            data.number_of_seasons < show.seasonNumber
+          ) {
             setShow_modal(true)
 
             db.collection(`watchlist-${currentUser.uid}`)
