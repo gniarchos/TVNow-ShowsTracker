@@ -85,6 +85,8 @@ export default function Profile() {
       : "soon"
   )
 
+  const [coverImageSelected, setCoverImageSelected] = React.useState(false)
+
   React.useEffect(() => {
     window.scrollTo(0, 0)
   }, [location])
@@ -244,7 +246,7 @@ export default function Profile() {
     setCoverSelectionShowName("Edit your cover")
   }
 
-  function closeCoverSelector() {
+  function updateCoverImage() {
     db.collection("users")
       .doc(currentUser.uid)
       .update({
@@ -259,6 +261,12 @@ export default function Profile() {
         ? localStorage.getItem("cover_temp_selection")
         : selectedCoverImage
     )
+
+    setCoverImageSelected(false)
+  }
+
+  function closeCoverSelector() {
+    setCoverImageSelected(false)
     setIsSelectCoverOpen(false)
   }
 
@@ -802,6 +810,7 @@ export default function Profile() {
   function temporarySaveCoverSelection(image) {
     const fixed_image = image.replace("w500", "original")
     localStorage.setItem("cover_temp_selection", fixed_image)
+    setCoverImageSelected(true)
   }
 
   function handleCoverSelector() {
@@ -1097,8 +1106,17 @@ export default function Profile() {
                   className="covers_back_icon"
                 />
               )}
-              <h1>{coverSelectionShowName}</h1>
+              <h1 className="coverSection-title">{coverSelectionShowName}</h1>
+              {coverImageSelected === true && (
+                <p
+                  className="btn-save-changes-cover"
+                  onClick={updateCoverImage}
+                >
+                  <Icon icon="dashicons:cloud-saved" width={20} /> Save Changes
+                </p>
+              )}
             </div>
+            {/* <button className="btn-save-changes-cover">Save Changes</button> */}
 
             {hideShowsCoverSelection === false && (
               <h3

@@ -496,6 +496,34 @@
   align-items: center;
   gap: 10px;
   width: 100%;
+  /* position: relative; */
+}
+
+.coverSection-title {
+  font-size: 1.8rem;
+}
+
+.btn-save-changes-cover {
+  color: #000000;
+  border: 2px solid black;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  /* padding: 5px; */
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: #000000;
+  color: #e7e7e7;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-save-changes-cover:hover {
+  background-color: #e7e7e7;
+  color: #000000;
 }
 
 .covers_back_icon {
@@ -843,5 +871,9 @@
 
   .noShows-text {
     font-size: 1.1rem;
+  }
+
+  .btn-save-changes-cover {
+    font-size: 1rem;
   }
 }
