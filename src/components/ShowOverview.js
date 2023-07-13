@@ -40,16 +40,20 @@ export default function ShowOverview() {
   const [rottenTomatoesRating, setRottenTomatoesRating] = React.useState(0)
   const [traktRating, setTraktRating] = React.useState(0)
   const [mobile, setMobile] = React.useState(window.innerWidth <= 499)
-  const [seasonRuntimeData, setSeasonRuntimeData] = React.useState()
+  const [seasonRuntimeData, setSeasonRuntimeData] = React.useState([])
   const [userWatchingTime, setUserWatchingTime] = React.useState(0)
   const [userWatchedEpisodes, setUserWatchedEpisodes] = React.useState(0)
   const [isMarkSeasonClicked, setIsMarkSeasonClicked] = React.useState(false)
   const [currentUserEpisode, setCurrentUserEpisode] = React.useState(0)
   const [currentUserSeason, setCurrentUserSeason] = React.useState(0)
+  const [seasonUntilReleasedEpisode, setSeasonUntilReleasedEpisode] =
+    React.useState([])
 
   const handleWindowSizeChange = () => {
     setMobile(window.innerWidth <= 499)
   }
+  const [selectedSeasonData, setSelectedSeasonData] = React.useState()
+  const [semiReleasedSeason, setSemiReleasedSeason] = React.useState(false)
 
   React.useEffect(() => {
     db.collection("users")
@@ -149,26 +153,37 @@ export default function ShowOverview() {
     }
   }, [seasonRuntimeData])
 
-  // console.log("SEASON NUMBER STATE", seasonNumber)
-  // console.log("seasonRuntimeData", seasonRuntimeData)
+  function markSeasonWatched(event) {
+    event.stopPropagation()
 
-  function markSeasonWatched() {
-    fetch(
-      `https://api.themoviedb.org/3/tv/${show.id}/season/${seasonNumber}?api_key=***REMOVED***&language=en-US`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        // console.log(data)
-        setSeasonRuntimeData(() => {
-          return data.episodes.map((episode) => {
-            return parseInt(episode.runtime)
-          })
-        })
+    // fetch(
+    //   `https://api.themoviedb.org/3/tv/${show.id}/season/${seasonNumber}?api_key=***REMOVED***&language=en-US`
+    // )
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     // console.log(data)
+    //     setSeasonRuntimeData(() => {
+    //       return data.episodes.map((episode) => {
+    //         if (episode.runtime !== null) {
+    //           return parseInt(episode.runtime)
+    //         }
+    //       })
+    //     })
+    //   })
+
+    setSeasonRuntimeData(() => {
+      return selectedSeasonData.episodes.map((episode) => {
+        if (episode.runtime !== null) {
+          return parseInt(episode.runtime)
+        }
       })
+    })
+
+    setCurrentUserSeason((prevSeason) => prevSeason + 1)
+
+    setIsMarkSeasonClicked(true)
 
     // setMarkSeason(true)
-    setCurrentUserSeason((prevSeason) => prevSeason + 1)
-    setIsMarkSeasonClicked(true)
   }
 
   // console.log(show)
@@ -219,6 +234,8 @@ export default function ShowOverview() {
   // console.log(show)
 
   React.useEffect(() => {
+    setSeasonUntilReleasedEpisode([])
+
     var collectionRef = db.collection(`watchlist-${location.state.userId}`)
     var query = collectionRef.where("show_name", "==", show.name)
 
@@ -231,6 +248,38 @@ export default function ShowOverview() {
         setCurrentUserSeason(data.season_number)
       })
     })
+
+    fetch(
+      `https://api.themoviedb.org/3/tv/${show.id}/season/${seasonNumber}?api_key=***REMOVED***&language=en-US`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setSelectedSeasonData(data)
+        data.episodes.map((episode, index) => {
+          let season_next_date_fix =
+            episode.air_date !== null && episode.air_date.split("-")
+
+          let date_1 = new Date(
+            `${season_next_date_fix[1]}/${season_next_date_fix[2]}/${next_date_fix[0]}`
+          )
+
+          let today = new Date()
+          let difference = date_1.getTime() - today.getTime()
+
+          let TotalDaysUntilEpisode = Math.ceil(difference / (1000 * 3600 * 24))
+
+          setSeasonUntilReleasedEpisode((prevData) => [
+            ...prevData,
+            TotalDaysUntilEpisode,
+          ])
+        })
+
+        seasonUntilReleasedEpisode.map((day) => {
+          if (day > 0) {
+            setSemiReleasedSeason(true)
+          }
+        })
+      })
   }, [seasonNumber])
 
   const divImgStyle = {
@@ -318,9 +367,28 @@ export default function ShowOverview() {
         className={i === 1 ? "season-div active" : "season-div"}
       >
         {currentUserSeason === i && (
-          <p className="watchingNow-p">Watching Now</p>
+          <p
+            className="watchingNow-p"
+            onClick={(e) => {
+              e.stopPropagation()
+            }}
+          >
+            Watching Now
+          </p>
         )}
         Season {i}
+        {currentUserSeason === seasonNumber &&
+          seasonNumber === i &&
+          currentUserEpisode === 0 &&
+          seasonNumber <= i &&
+          semiReleasedSeason === false && (
+            <Icon
+              icon="icon-park-solid:check-one"
+              className="markSeason-check"
+              onClick={(e) => markSeasonWatched(e)}
+              width={30}
+            />
+          )}
       </div>
     )
   }
@@ -705,16 +773,6 @@ export default function ShowOverview() {
 
             <div>
               <h1 className="seasonsEpisodesTitle">Seasons & Episodes</h1>
-              {currentUserSeason === seasonNumber &&
-                currentUserEpisode === 0 && (
-                  <button
-                    className="markSeason-btn"
-                    onClick={markSeasonWatched}
-                  >
-                    <Icon icon="ic:round-fact-check" />
-                    Mark Season {seasonNumber} as Watched
-                  </button>
-                )}
 
               <div
                 style={seasonEpisodesStyle}
