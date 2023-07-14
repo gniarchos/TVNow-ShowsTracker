@@ -107,12 +107,6 @@ export default function Profile() {
 
       setFinished(!finished)
     })
-
-    // if (userCoverSettings === "default") {
-    //   setSelectedCoverImage(def_cover)
-    // } else {
-    //   setSelectedCoverImage(userCoverSettings)
-    // }
   }, [])
 
   React.useEffect(() => {
@@ -196,10 +190,6 @@ export default function Profile() {
           setShowsData((prevData) => {
             return [...prevData, data]
           })
-
-          // setShowsImages((prevImages) => {
-          //   return [...prevImages, data.images.backdrops]
-          // })
         })
 
       fetch(
@@ -238,6 +228,10 @@ export default function Profile() {
   function updateCoverDefault() {
     setSelectedCoverImage(def_cover)
     setIsSelectCoverOpen(false)
+
+    db.collection("users").doc(currentUser.uid).update({
+      profile_cover_selection: def_cover,
+    })
   }
 
   function goBackToSelectionCovers() {
