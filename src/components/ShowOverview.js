@@ -75,6 +75,12 @@ export default function ShowOverview() {
   }, [])
 
   React.useEffect(() => {
+    localStorage.setItem("watching_time", userWatchingTime)
+
+    localStorage.setItem("total_episodes", userWatchedEpisodes)
+  }, [userWatchingTime, userWatchedEpisodes])
+
+  React.useEffect(() => {
     setIsShowAddedInWatchList(false)
     db.collection(`watchlist-${location.state.userId}`)
       .where("show_name", "==", show.name)
@@ -156,21 +162,6 @@ export default function ShowOverview() {
   function markSeasonWatched(event) {
     event.stopPropagation()
 
-    // fetch(
-    //   `https://api.themoviedb.org/3/tv/${show.id}/season/${seasonNumber}?api_key=***REMOVED***&language=en-US`
-    // )
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     // console.log(data)
-    //     setSeasonRuntimeData(() => {
-    //       return data.episodes.map((episode) => {
-    //         if (episode.runtime !== null) {
-    //           return parseInt(episode.runtime)
-    //         }
-    //       })
-    //     })
-    //   })
-
     setSeasonRuntimeData(() => {
       return selectedSeasonData.episodes.map((episode) => {
         if (episode.runtime !== null) {
@@ -182,11 +173,7 @@ export default function ShowOverview() {
     setCurrentUserSeason((prevSeason) => prevSeason + 1)
 
     setIsMarkSeasonClicked(true)
-
-    // setMarkSeason(true)
   }
-
-  // console.log(show)
 
   const seasonEpisodesStyle = {
     flexDirection: scrolled && "column",
