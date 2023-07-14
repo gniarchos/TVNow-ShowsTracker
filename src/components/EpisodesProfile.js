@@ -226,8 +226,16 @@ export default function EpisodesProfile(props) {
             >
               {props.showName}
             </h3>
-            <p>Total Seasons: {props.season_number}</p>
-            <p>Total Episodes: {props.episode_number}</p>
+            {!props.stoppedShows ? (
+              <p>Total Seasons: {props.season_number}</p>
+            ) : (
+              <p>Season: {props.season_number}</p>
+            )}
+            {!props.stoppedShows ? (
+              <p>Total Episodes: {props.episode_number}</p>
+            ) : (
+              <p>Episode: {props.episode_number + 1}</p>
+            )}
           </div>
         )}
 

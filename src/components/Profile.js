@@ -14,7 +14,6 @@ import PuffLoader from "react-spinners/PuffLoader"
 import HistoryEpisodes from "./HistoryEpisodes"
 import { Icon } from "@iconify/react"
 import Modal from "./Modal"
-// import { Set } from "immutable"
 
 export default function Profile() {
   document.title = `TVTime | TV Shows Tracker`
@@ -45,13 +44,11 @@ export default function Profile() {
     React.useState("Edit your cover")
   const [selectedCoverImage, setSelectedCoverImage] =
     React.useState(userCoverSettings)
-
   const [mobileLayout, setMobileLayout] = React.useState(
     localStorage.getItem("mobileLayoutSelection")
       ? localStorage.getItem("mobileLayoutSelection")
       : "cards"
   )
-
   const [watchNextSection, setWatchNextSection] = React.useState(
     localStorage.getItem("watchNextSection")
       ? JSON.parse(localStorage.getItem("watchNextSection"))
@@ -72,11 +69,15 @@ export default function Profile() {
       ? JSON.parse(localStorage.getItem("finishedSection"))
       : true
   )
+  const [stoppedSection, setStoppedSection] = React.useState(
+    localStorage.getItem("stoppedSection")
+      ? JSON.parse(localStorage.getItem("stoppedSection"))
+      : true
+  )
   const [historySection, setHistorySection] = React.useState(
     localStorage.getItem("historySection")
       ? JSON.parse(localStorage.getItem("historySection"))
       : true
-    // false
   )
   const [upToDateSettings, setUpToDateSettings] = React.useState(false)
   const [upToDateFilter, setUpToDateFilter] = React.useState(
@@ -84,7 +85,6 @@ export default function Profile() {
       ? localStorage.getItem("upToDateFilter")
       : "soon"
   )
-
   const [coverImageSelected, setCoverImageSelected] = React.useState(false)
 
   React.useEffect(() => {
@@ -360,7 +360,6 @@ export default function Profile() {
       )
         .then((res) => res.json())
         .then((data) => {
-          // console.log(data.number_of_seasons, show)
           if (
             data.status === "Canceled" &&
             data.number_of_seasons < show.seasonNumber
@@ -694,6 +693,33 @@ export default function Profile() {
       )
     })
 
+  const stoppedShows = myShows
+    .filter((show) => show.status === "stopped")
+    .map((show, showIndex) => {
+      return (
+        <EpisodesProfile
+          mobileLayout={mobileLayout}
+          backdrop_path={showsData
+            .filter((allData) => allData.name === show.show_name)
+            .map((allData) => {
+              return allData.backdrop_path
+            })}
+          showName={show.show_name}
+          currentUserID={currentUser.uid}
+          episode_number={show.episodeNumber}
+          season_number={show.seasonNumber}
+          today={0}
+          difference={0}
+          daysUntilCurrentEpisode={0}
+          finishedShow={true}
+          stoppedShows={true}
+          showID={show.show_id}
+          triggerLoadDataLocalStorage={triggerLoadDataLocalStorage}
+          resetSeasonData={resetSeasonData}
+        />
+      )
+    })
+
   const watchedHistory = historyData.map((history) => {
     return (
       <HistoryEpisodes
@@ -724,7 +750,7 @@ export default function Profile() {
 
   function toggleSections(event) {
     const { id } = event.target
-    console.log("EVENT ID:", id)
+    // console.log("EVENT ID:", id)
 
     if (id === "watchNext") {
       setWatchNextSection(!watchNextSection)
@@ -738,6 +764,9 @@ export default function Profile() {
     } else if (id === "finished") {
       setFinishedSection(!finishedSection)
       localStorage.setItem("finishedSection", !finishedSection)
+    } else if (id === "stopped") {
+      setStoppedSection(!stoppedSection)
+      localStorage.setItem("stoppedSection", !stoppedSection)
     } else if (id === "history") {
       setHistorySection(!historySection)
       localStorage.setItem("historySection", !historySection)
@@ -1060,6 +1089,26 @@ export default function Profile() {
             {finishedShows.length > 0 && finishedSection && (
               <>
                 <div className="details-container">{finishedShows}</div>
+                <div className="divider line glow"></div>
+              </>
+            )}
+
+            {/* STOPPED SHOWS - SECTION */}
+            {stoppedShows.length > 0 && (
+              <div className="title-button">
+                <h1 className="profile-section-title">Stopped</h1>
+                <button
+                  id="stopped"
+                  className="viewMore-button"
+                  onClick={(e) => toggleSections(e)}
+                >
+                  {stoppedSection ? "Hide" : "Show"}
+                </button>
+              </div>
+            )}
+            {stoppedShows.length > 0 && stoppedSection && (
+              <>
+                <div className="details-container">{stoppedShows}</div>
                 <div className="divider line glow"></div>
               </>
             )}
