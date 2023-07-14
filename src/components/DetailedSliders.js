@@ -15,6 +15,16 @@ export default function DetailedSliders() {
 
   const show_title = React.useRef("")
   const navigate = useNavigate()
+  const [genresFilters, setGenresFilters] = React.useState(
+    localStorage.getItem("genresFilters")
+      ? localStorage.getItem("genresFilters")
+      : null
+  )
+  const [genresFiltersName, setGenresFiltersName] = React.useState(
+    localStorage.getItem("genresFiltersName")
+      ? localStorage.getItem("genresFiltersName")
+      : "Show All"
+  )
   const [page, setPage] = React.useState(
     localStorage.getItem("currentPage")
       ? localStorage.getItem("currentPage")
@@ -23,8 +33,8 @@ export default function DetailedSliders() {
   const [allShows, setAllShows] = React.useState([])
   const [totalPages, setTotalPages] = React.useState(0)
   const [totalResults, setTotalResults] = React.useState(0)
-  const [genresFilters, setGenresFilters] = React.useState()
-  const [genresFiltersName, setGenresFiltersName] = React.useState("Show All")
+
+  const [loading, setLoading] = React.useState(true)
 
   let allGenres = [
     "Show All",
@@ -54,6 +64,10 @@ export default function DetailedSliders() {
         setAllShows(data.results)
         setTotalResults(data.total_results)
       })
+
+    setTimeout(function () {
+      setLoading(false)
+    }, 500)
   }, [page, location.state.fetchLink, genresFilters])
 
   function goToNextPage(event) {
@@ -83,65 +97,97 @@ export default function DetailedSliders() {
     if (id === "Show All") {
       setGenresFiltersName("Show All")
       setGenresFilters("Show All")
+      localStorage.setItem("genresFiltersName", "Show All")
+      localStorage.setItem("genresFilters", "Show All")
     } else if (id === "Action & Adventure") {
       setGenresFiltersName("Action & Adventure")
       setGenresFilters(10759)
+      localStorage.setItem("genresFiltersName", "Action & Adventure")
+      localStorage.setItem("genresFilters", 10759)
       setPage(1)
     } else if (id === "Animation") {
       setGenresFiltersName("Animation")
       setGenresFilters(16)
+      localStorage.setItem("genresFiltersName", "Animation")
+      localStorage.setItem("genresFilters", 16)
       setPage(1)
     } else if (id === "Comedy") {
       setGenresFiltersName("Comedy")
       setGenresFilters(35)
+      localStorage.setItem("genresFiltersName", "Comedy")
+      localStorage.setItem("genresFilters", 35)
       setPage(1)
     } else if (id === "Crime") {
       setGenresFiltersName("Crime")
       setGenresFilters(80)
+      localStorage.setItem("genresFiltersName", "Crime")
+      localStorage.setItem("genresFilters", 80)
       setPage(1)
     } else if (id === "Documentary") {
       setGenresFiltersName("Documentary")
       setGenresFilters(99)
+      localStorage.setItem("genresFiltersName", "Documentary")
+      localStorage.setItem("genresFilters", 99)
       setPage(1)
     } else if (id === "Drama") {
       setGenresFiltersName("Drama")
       setGenresFilters(18)
+      localStorage.setItem("genresFiltersName", "Drama")
+      localStorage.setItem("genresFilters", 18)
       setPage(1)
     } else if (id === "Family") {
       setGenresFiltersName("Family")
       setGenresFilters(10751)
+      localStorage.setItem("genresFiltersName", "Family")
+      localStorage.setItem("genresFilters", 10751)
       setPage(1)
     } else if (id === "Kids") {
       setGenresFiltersName("Kids")
       setGenresFilters(10762)
+      localStorage.setItem("genresFiltersName", "Kids")
+      localStorage.setItem("genresFilters", 10762)
       setPage(1)
     } else if (id === "Mystery") {
       setGenresFiltersName("Mystery")
       setGenresFilters(9648)
+      localStorage.setItem("genresFiltersName", "Mystery")
+      localStorage.setItem("genresFilters", 9648)
       setPage(1)
     } else if (id === "News") {
       setGenresFiltersName("News")
       setGenresFilters(10763)
+      localStorage.setItem("genresFiltersName", "News")
+      localStorage.setItem("genresFilters", 10763)
       setPage(1)
     } else if (id === "Reality") {
       setGenresFiltersName("Reality")
       setGenresFilters(10764)
+      localStorage.setItem("genresFiltersName", "Reality")
+      localStorage.setItem("genresFilters", 10764)
       setPage(1)
     } else if (id === "Soap") {
       setGenresFiltersName("Soap")
       setGenresFilters(10766)
+      localStorage.setItem("genresFiltersName", "Soap")
+      localStorage.setItem("genresFilters", 10766)
       setPage(1)
     } else if (id === "Talk") {
       setGenresFiltersName("Talk")
       setGenresFilters(10767)
+      localStorage.setItem("genresFiltersName", "Talk")
+      localStorage.setItem("genresFilters", 10767)
       setPage(1)
     } else if (id === "War & Politics") {
       setGenresFiltersName("War & Politics")
       setGenresFilters(10768)
+      localStorage.setItem("genresFiltersName", "War & Politics")
+      localStorage.setItem("genresFilters", 10768)
       setPage(1)
     } else if (id === "Western") {
       setGenresFiltersName("Western")
       setGenresFilters(37)
+      localStorage.setItem("genresFiltersName", "Western")
+      localStorage.setItem("genresFilters", 37)
       setPage(1)
     }
   }
@@ -199,13 +245,15 @@ export default function DetailedSliders() {
               <p>&#8226;</p>
               <p>Page {page}</p>
             </div>
-
-            {allShows.length <= 0 && (
-              <div>
-                <p>Sorry, there are no tv shows that matched your query.</p>
-              </div>
-            )}
           </div>
+          {allShows.length <= 0 && !loading && (
+            <div className="noSearchResults-div">
+              <p>
+                <Icon icon="ic:baseline-sms-failed" width={30} />
+                Sorry, we can't find the TVShow you're looking for.
+              </p>
+            </div>
+          )}
           {location.state.sectionTitle !== "Trending Now" &&
             location.state.sectionTitle !== "Search Results" && (
               <div className="search-discover-filters">{filtersSelection}</div>
@@ -213,30 +261,32 @@ export default function DetailedSliders() {
 
           <div className="detailedSlider-div">{list}</div>
 
-          <div className="pagination-container">
-            <ReactPaginate
-              breakLabel="..."
-              nextLabel={<Icon icon="carbon:next-filled" />}
-              onPageChange={(e) => goToNextPage(e)}
-              pageRangeDisplayed={2}
-              marginPagesDisplayed={1}
-              pageCount={
-                totalPages > 500 &&
-                (location.state.sectionTitle === "Popular Today" ||
-                  location.state.sectionTitle === "Discover")
-                  ? 500
-                  : totalPages
-              }
-              previousLabel={<Icon icon="carbon:previous-filled" />}
-              renderOnZeroPageCount={null}
-              containerClassName="pagination"
-              pageLinkClassName="page-num"
-              previousLinkClassName="page-buttons"
-              nextLinkClassName="page-buttons"
-              activeLinkClassName="active"
-              forcePage={page - 1}
-            />
-          </div>
+          {allShows.length > 0 && !loading && (
+            <div className="pagination-container">
+              <ReactPaginate
+                breakLabel="..."
+                nextLabel={<Icon icon="carbon:next-filled" />}
+                onPageChange={(e) => goToNextPage(e)}
+                pageRangeDisplayed={2}
+                marginPagesDisplayed={1}
+                pageCount={
+                  totalPages > 500 &&
+                  (location.state.sectionTitle === "Popular Today" ||
+                    location.state.sectionTitle === "Discover")
+                    ? 500
+                    : totalPages
+                }
+                previousLabel={<Icon icon="carbon:previous-filled" />}
+                renderOnZeroPageCount={null}
+                containerClassName="pagination"
+                pageLinkClassName="page-num"
+                previousLinkClassName="page-buttons"
+                nextLinkClassName="page-buttons"
+                activeLinkClassName="active"
+                forcePage={page - 1}
+              />
+            </div>
+          )}
         </div>
         <Footer />
       </div>

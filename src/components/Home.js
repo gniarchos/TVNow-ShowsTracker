@@ -24,6 +24,9 @@ export default function Home() {
     window.scrollTo(0, 0)
   }, [])
 
+  localStorage.setItem("genresFiltersName", "Show All")
+  localStorage.setItem("genresFilters", "Show All")
+
   React.useEffect(() => {
     setLoading(true)
 

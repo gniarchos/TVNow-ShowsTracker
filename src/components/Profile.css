@@ -803,6 +803,7 @@
     z-index: 5;
     border: 1px solid grey;
     color: #000000;
+    border: 1px solid transparent;
   }
 
   .info-card-grid {
