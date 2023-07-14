@@ -8,8 +8,7 @@ import { useAuth } from "../authentication/AuthContext"
 
 export default function MySuggestions() {
   const [allSuggestions, setAllSuggestions] = React.useState([])
-  const [finished, setFinished] = React.useState(false)
-  const { currentUser, logout } = useAuth()
+  const { currentUser } = useAuth()
 
   const navigate = useNavigate()
 
@@ -19,7 +18,7 @@ export default function MySuggestions() {
     "1399",
     "1668",
     "62560",
-    "66788",
+    "61244",
     "70523",
     "71446",
     "60574",
@@ -39,8 +38,6 @@ export default function MySuggestions() {
         .then((data) => {
           setAllSuggestions((prevData) => [...prevData, data])
         })
-
-      setFinished(true)
     })
   }, [])
 
