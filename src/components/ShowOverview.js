@@ -218,8 +218,6 @@ export default function ShowOverview() {
       })
   }, [finished, seasonNumber])
 
-  // console.log(show)
-
   React.useEffect(() => {
     setSeasonUntilReleasedEpisode([])
 
@@ -230,7 +228,6 @@ export default function ShowOverview() {
       querySnapshot.forEach(function (doc) {
         // Access the data in each document
         var data = doc.data()
-        // console.log(data)
         setCurrentUserEpisode(data.episode_number)
         setCurrentUserSeason(data.season_number)
       })
@@ -242,12 +239,12 @@ export default function ShowOverview() {
       .then((res) => res.json())
       .then((data) => {
         setSelectedSeasonData(data)
-        data.episodes.map((episode, index) => {
+        data.episodes.map((episode) => {
           let season_next_date_fix =
             episode.air_date !== null && episode.air_date.split("-")
 
           let date_1 = new Date(
-            `${season_next_date_fix[1]}/${season_next_date_fix[2]}/${next_date_fix[0]}`
+            `${season_next_date_fix[1]}/${season_next_date_fix[2]}/${season_next_date_fix[0]}`
           )
 
           let today = new Date()
@@ -260,14 +257,17 @@ export default function ShowOverview() {
             TotalDaysUntilEpisode,
           ])
         })
-
-        seasonUntilReleasedEpisode.map((day) => {
-          if (day > 0) {
-            setSemiReleasedSeason(true)
-          }
-        })
       })
   }, [seasonNumber])
+
+  React.useEffect(() => {
+    console.log(seasonUntilReleasedEpisode)
+    seasonUntilReleasedEpisode.map((day) => {
+      if (day > 0) {
+        setSemiReleasedSeason(true)
+      }
+    })
+  }, [seasonUntilReleasedEpisode])
 
   const divImgStyle = {
     backgroundImage: `url('https://image.tmdb.org/t/p/original/${show.backdrop_path}')`,
