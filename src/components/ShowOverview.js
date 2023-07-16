@@ -166,6 +166,8 @@ export default function ShowOverview() {
       return selectedSeasonData.episodes.map((episode) => {
         if (episode.runtime !== null) {
           return parseInt(episode.runtime)
+        } else {
+          return 0
         }
       })
     })
@@ -200,22 +202,22 @@ export default function ShowOverview() {
         setFinished(true)
       })
 
-    const url = `https://mdblist.p.rapidapi.com/?i=${show.external_ids.imdb_id}`
-    const options = {
-      method: "GET",
-      headers: {
-        "X-RapidAPI-Key": "***REMOVED***",
-        "X-RapidAPI-Host": "mdblist.p.rapidapi.com",
-      },
-    }
+    // const url = `https://mdblist.p.rapidapi.com/?i=${show.external_ids.imdb_id}`
+    // const options = {
+    //   method: "GET",
+    //   headers: {
+    //     "X-RapidAPI-Key": "***REMOVED***",
+    //     "X-RapidAPI-Host": "mdblist.p.rapidapi.com",
+    //   },
+    // }
 
-    fetch(url, options)
-      .then((res) => res.json())
-      .then((data) => {
-        setImdbRating(data.ratings[0].value)
-        setRottenTomatoesRating(data.ratings[4].value)
-        setTraktRating(data.ratings[3].value)
-      })
+    // fetch(url, options)
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setImdbRating(data.ratings[0].value)
+    //     setRottenTomatoesRating(data.ratings[4].value)
+    //     setTraktRating(data.ratings[3].value)
+    //   })
   }, [finished, seasonNumber])
 
   React.useEffect(() => {
@@ -239,6 +241,7 @@ export default function ShowOverview() {
       .then((res) => res.json())
       .then((data) => {
         setSelectedSeasonData(data)
+        console.log(data)
         data.episodes.map((episode) => {
           let season_next_date_fix =
             episode.air_date !== null && episode.air_date.split("-")
