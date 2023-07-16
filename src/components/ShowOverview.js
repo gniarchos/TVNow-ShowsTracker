@@ -354,23 +354,25 @@ export default function ShowOverview() {
         onClick={(e) => changeSeason(e)}
         className={i === 1 ? "season-div active" : "season-div"}
       >
-        {currentUserSeason === i && (
-          <p
-            className="watchingNow-p"
-            onClick={(e) => {
-              e.stopPropagation()
-            }}
-          >
-            Watching Now
-          </p>
-        )}
+        {currentUserSeason === i &&
+          showUserStatus[0]?.status === "watching" && (
+            <p
+              className="watchingNow-p"
+              onClick={(e) => {
+                e.stopPropagation()
+              }}
+            >
+              Watching Now
+            </p>
+          )}
         Season {i}
         {currentUserSeason === seasonNumber &&
           seasonNumber === i &&
           currentUserEpisode === 0 &&
           seasonNumber <= i &&
           semiReleasedSeason === false &&
-          selectedSeasonData?.episodes?.length !== 0 && (
+          selectedSeasonData?.episodes?.length !== 0 &&
+          showUserStatus[0]?.status === "watching" && (
             <Icon
               icon="icon-park-solid:check-one"
               className="markSeason-check"
