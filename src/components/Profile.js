@@ -853,6 +853,13 @@ export default function Profile() {
     setShow_modal(false)
   }
 
+  function jumpToReleventDiv(id) {
+    console.log(id)
+    const releventDiv = document.getElementById(id)
+    // behavior: "smooth" parameter for smooth movement
+    releventDiv.scrollIntoView({ behavior: "smooth" })
+  }
+
   return (
     <div>
       <div className="bg"></div>
@@ -894,19 +901,34 @@ export default function Profile() {
               </div>
 
               <div className="statistic-numbers">
-                <h3 className="stat-title">Watching </h3>
+                <h3
+                  className="stat-title clickable"
+                  onClick={() => jumpToReleventDiv("watching")}
+                >
+                  Watching
+                </h3>
                 <p className="stat-num">{watchingShows}</p>
               </div>
             </div>
 
             <div className="section-2">
               <div className="statistic-numbers">
-                <h3 className="stat-title">Finished </h3>
+                <h3
+                  className="stat-title clickable"
+                  onClick={() => jumpToReleventDiv("finished")}
+                >
+                  Finished{" "}
+                </h3>
                 <p className="stat-num">{hasFinishedShows}</p>
               </div>
 
               <div className="statistic-numbers">
-                <h3 className="stat-title">Not Started </h3>
+                <h3
+                  className="stat-title clickable"
+                  onClick={() => jumpToReleventDiv("not_started")}
+                >
+                  Not Started{" "}
+                </h3>
                 <p className="stat-num">{notStartedYetShows}</p>
               </div>
             </div>
@@ -965,7 +987,7 @@ export default function Profile() {
         <div>
           <div className="profile-wrapper">
             {watchNextShows.length > 0 && (
-              <div className="title-button">
+              <div id="watching" className="title-button">
                 <h1 className="profile-section-title">Watch Next</h1>
                 <button
                   id="watchNext"
@@ -1048,7 +1070,7 @@ export default function Profile() {
               </>
             )}
 
-            <div className="title-button">
+            <div id="not_started" className="title-button">
               <h1 className="profile-section-title">Your Watchlist</h1>
               <button
                 id="watchlist"
