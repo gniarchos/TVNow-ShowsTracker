@@ -241,7 +241,6 @@ export default function ShowOverview() {
       .then((res) => res.json())
       .then((data) => {
         setSelectedSeasonData(data)
-        console.log(data)
         data.episodes.map((episode) => {
           let season_next_date_fix =
             episode.air_date !== null && episode.air_date.split("-")
@@ -264,9 +263,8 @@ export default function ShowOverview() {
   }, [seasonNumber])
 
   React.useEffect(() => {
-    console.log(seasonUntilReleasedEpisode)
     seasonUntilReleasedEpisode.map((day) => {
-      if (day > 0) {
+      if (day > 0 || isNaN(day)) {
         setSemiReleasedSeason(true)
       }
     })
@@ -371,7 +369,8 @@ export default function ShowOverview() {
           seasonNumber === i &&
           currentUserEpisode === 0 &&
           seasonNumber <= i &&
-          semiReleasedSeason === false && (
+          semiReleasedSeason === false &&
+          selectedSeasonData?.episodes?.length !== 0 && (
             <Icon
               icon="icon-park-solid:check-one"
               className="markSeason-check"
