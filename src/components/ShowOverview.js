@@ -45,7 +45,7 @@ export default function ShowOverview() {
   const [userWatchedEpisodes, setUserWatchedEpisodes] = React.useState(0)
   const [isMarkSeasonClicked, setIsMarkSeasonClicked] = React.useState(false)
   const [currentUserEpisode, setCurrentUserEpisode] = React.useState(0)
-  const [currentUserSeason, setCurrentUserSeason] = React.useState(0)
+  const [currentUserSeason, setCurrentUserSeason] = React.useState(1)
   const [seasonUntilReleasedEpisode, setSeasonUntilReleasedEpisode] =
     React.useState([])
 
@@ -354,7 +354,8 @@ export default function ShowOverview() {
         onClick={(e) => changeSeason(e)}
         className={i === 1 ? "season-div active" : "season-div"}
       >
-        {currentUserSeason === i &&
+        {isShowAddedInWatchList &&
+          currentUserSeason === i &&
           (showUserStatus[0]?.status === "watching" ||
             showUserStatus[0]?.status === "not_started") && (
             <p
@@ -369,10 +370,10 @@ export default function ShowOverview() {
             </p>
           )}
         Season {i}
-        {currentUserSeason === seasonNumber &&
+        {isShowAddedInWatchList &&
+          currentUserSeason === seasonNumber &&
           seasonNumber === i &&
           currentUserEpisode === 0 &&
-          seasonNumber <= i &&
           semiReleasedSeason === false &&
           selectedSeasonData?.episodes?.length !== 0 &&
           (showUserStatus[0]?.status === "watching" ||
