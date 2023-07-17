@@ -355,14 +355,17 @@ export default function ShowOverview() {
         className={i === 1 ? "season-div active" : "season-div"}
       >
         {currentUserSeason === i &&
-          showUserStatus[0]?.status === "watching" && (
+          (showUserStatus[0]?.status === "watching" ||
+            showUserStatus[0]?.status === "not_started") && (
             <p
               className="watchingNow-p"
               onClick={(e) => {
                 e.stopPropagation()
               }}
             >
-              Watching Now
+              {showUserStatus[0]?.status === "not_started"
+                ? "Watch Next"
+                : "Watching Now"}
             </p>
           )}
         Season {i}
@@ -372,7 +375,8 @@ export default function ShowOverview() {
           seasonNumber <= i &&
           semiReleasedSeason === false &&
           selectedSeasonData?.episodes?.length !== 0 &&
-          showUserStatus[0]?.status === "watching" && (
+          (showUserStatus[0]?.status === "watching" ||
+            showUserStatus[0]?.status === "not_started") && (
             <Icon
               icon="icon-park-solid:check-one"
               className="markSeason-check"
