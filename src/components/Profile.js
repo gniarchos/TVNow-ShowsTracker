@@ -348,7 +348,7 @@ export default function Profile() {
       }
     })
 
-  const [canceled_shows, setCanceled_shows] = React.useState(new Set())
+  const [cancelled_shows, setCancelled_shows] = React.useState(new Set())
 
   const [show_modal, setShow_modal] = React.useState(false)
 
@@ -377,7 +377,7 @@ export default function Profile() {
                 })
               })
 
-            setCanceled_shows(canceled_shows.add(data.name))
+            setCancelled_shows(cancelled_shows.add(data.name))
           }
         })
 
@@ -854,9 +854,7 @@ export default function Profile() {
   }
 
   function jumpToReleventDiv(id) {
-    console.log(id)
     const releventDiv = document.getElementById(id)
-    // behavior: "smooth" parameter for smooth movement
     releventDiv.scrollIntoView({ behavior: "smooth" })
   }
 
@@ -866,7 +864,7 @@ export default function Profile() {
       <Navbar isLoggedIn={true} isProfile={true} />
 
       <Modal
-        canceled_shows={canceled_shows}
+        cancelled_shows={cancelled_shows}
         state={show_modal}
         closeModal={closeModal}
       />
@@ -1181,7 +1179,6 @@ export default function Profile() {
                 </p>
               )}
             </div>
-            {/* <button className="btn-save-changes-cover">Save Changes</button> */}
 
             {hideShowsCoverSelection === false && (
               <h3
