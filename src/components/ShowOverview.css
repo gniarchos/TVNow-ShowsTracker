@@ -215,6 +215,10 @@
   cursor: pointer;
 }
 
+.socials-links {
+  color: white;
+}
+
 .facebook:hover {
   color: rgb(66, 104, 179);
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;

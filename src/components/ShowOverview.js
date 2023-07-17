@@ -523,22 +523,6 @@ export default function ShowOverview() {
       )
     })
 
-  function goToFacebook() {
-    window.location.href = `https://www.facebook.com/watch/${show.external_ids.facebook_id}`
-  }
-
-  function goToInstagram() {
-    window.location.href = `https://www.instagram.com/${show.external_ids.instagram_id}`
-  }
-
-  function goToTwitter() {
-    window.location.href = `https://twitter.com/${show.external_ids.twitter_id}`
-  }
-
-  function goToImdb() {
-    window.location.href = `https://www.imdb.com/title/${show.external_ids.imdb_id}/`
-  }
-
   function swapVisualDays() {
     setShowDaysUntil(!showDaysUntil)
   }
@@ -851,36 +835,52 @@ export default function ShowOverview() {
           <div className="all-details-div">
             <div className="show-social">
               {show.external_ids.facebook_id !== null && (
-                <Icon
-                  onClick={goToFacebook}
-                  className="social-img facebook"
-                  icon="akar-icons:facebook-fill"
-                  width={30}
-                />
+                <a
+                  className="socials-links"
+                  href={`https://www.facebook.com/watch/${show.external_ids.facebook_id}`}
+                >
+                  <Icon
+                    className="social-img facebook"
+                    icon="akar-icons:facebook-fill"
+                    width={30}
+                  />
+                </a>
               )}
               {show.external_ids.instagram_id !== null && (
-                <Icon
-                  onClick={goToInstagram}
-                  className="social-img instagram"
-                  icon="akar-icons:instagram-fill"
-                  width={30}
-                />
+                <a
+                  className="socials-links"
+                  href={`https://www.instagram.com/${show.external_ids.instagram_id}`}
+                >
+                  <Icon
+                    className="social-img instagram"
+                    icon="akar-icons:instagram-fill"
+                    width={30}
+                  />
+                </a>
               )}
               {show.external_ids.twitter_id !== null && (
-                <Icon
-                  onClick={goToTwitter}
-                  className="social-img twitter"
-                  icon="akar-icons:twitter-fill"
-                  width={30}
-                />
+                <a
+                  className="socials-links"
+                  href={`https://twitter.com/${show.external_ids.twitter_id}`}
+                >
+                  <Icon
+                    className="social-img twitter"
+                    icon="akar-icons:twitter-fill"
+                    width={30}
+                  />
+                </a>
               )}
               {show.external_ids.imdb_id !== null && (
-                <Icon
-                  onClick={goToImdb}
-                  className="social-img imdb"
-                  icon="cib:imdb"
-                  width={30}
-                />
+                <a
+                  className="socials-links"
+                  href={`https://www.imdb.com/title/${show.external_ids.imdb_id}`}
+                >
+                  <Icon
+                    className="social-img imdb"
+                    icon="cib:imdb"
+                    width={30}
+                  />
+                </a>
               )}
             </div>
 
