@@ -7,7 +7,7 @@ import { Icon } from "@iconify/react"
 import YouTube from "react-youtube"
 import Footer from "./Footer"
 import noImg from "../images/no-image.png"
-import { collection, addDoc, serverTimestamp, doc } from "firebase/firestore"
+import { collection, addDoc, serverTimestamp } from "firebase/firestore"
 import { db } from "../services/firebase"
 import { useAuth } from "../authentication/AuthContext"
 import Episodes from "./Episodes"
@@ -535,6 +535,7 @@ export default function ShowOverview() {
       season_number: 1,
       episode_number: 0,
       status: "not_started",
+      date_watched: serverTimestamp(),
     })
   }
 
@@ -561,6 +562,7 @@ export default function ShowOverview() {
         querySnapshot.forEach((doc) => {
           doc.ref.update({
             status: "stopped",
+            date_watched: serverTimestamp(),
           })
         })
       })
@@ -574,6 +576,7 @@ export default function ShowOverview() {
         querySnapshot.forEach((doc) => {
           doc.ref.update({
             status: "watching",
+            date_watched: serverTimestamp(),
           })
         })
       })

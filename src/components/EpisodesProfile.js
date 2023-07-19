@@ -68,6 +68,7 @@ export default function EpisodesProfile(props) {
               doc.ref.update({
                 episode_number: props.episode_number + 1,
                 status: "watching",
+                date_watched: serverTimestamp(),
               })
             } else {
               if (
@@ -78,6 +79,7 @@ export default function EpisodesProfile(props) {
                   season_number: props.season_number + 1,
                   episode_number: 0,
                   status: "watching",
+                  date_watched: serverTimestamp(),
                 })
 
                 setTimeout(function () {
@@ -87,6 +89,7 @@ export default function EpisodesProfile(props) {
               } else {
                 doc.ref.update({
                   status: "finished",
+                  date_watched: serverTimestamp(),
                 })
               }
             }

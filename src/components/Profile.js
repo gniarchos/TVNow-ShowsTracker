@@ -94,19 +94,22 @@ export default function Profile() {
   React.useEffect(() => {
     setLoading(true)
 
-    db.collection(`watchlist-${currentUser.uid}`).onSnapshot((snapshot) => {
-      setMyShows(
-        snapshot.docs.map((doc) => ({
-          show_id: doc.data().show_id,
-          show_name: doc.data().show_name,
-          seasonNumber: doc.data().season_number,
-          episodeNumber: doc.data().episode_number,
-          status: doc.data().status,
-        }))
-      )
+    db.collection(`watchlist-${currentUser.uid}`)
+      .orderBy("date_watched", "desc")
+      .onSnapshot((snapshot) => {
+        setMyShows(
+          snapshot.docs.map((doc) => ({
+            show_id: doc.data().show_id,
+            show_name: doc.data().show_name,
+            seasonNumber: doc.data().season_number,
+            episodeNumber: doc.data().episode_number,
+            status: doc.data().status,
+            date_watched: doc.data().date_watched,
+          }))
+        )
 
-      setFinished(!finished)
-    })
+        setFinished(!finished)
+      })
   }, [])
 
   React.useEffect(() => {
