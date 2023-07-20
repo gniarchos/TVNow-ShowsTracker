@@ -61,51 +61,6 @@
   cursor: pointer;
 }
 
-/* .signup-btn {
-  width: 150px;
-  padding: 10px;
-  border: 2px solid white;
-  position: relative;
-  overflow: hidden;
-  background-color: transparent;
-  text-align: center;
-  text-transform: uppercase;
-  font-size: 1rem;
-  transition: 0.3s;
-  font-family: inherit;
-  color: white;
-  margin-top: 30px;
-  margin-bottom: 10px;
-  border-radius: 15px;
-  font-weight: 600;
-  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
-  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
-  cursor: pointer;
-}
-
-.signup-btn::before {
-  content: "";
-  width: 0;
-  height: 300%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(45deg);
-  background: #a370f0;
-  transition: 0.5s ease;
-  display: block;
-  z-index: -1;
-}
-
-.signup-btn:hover::before {
-  width: 105%;
-}
-
-.signup-btn:hover {
-  color: white;
-  border: 2px solid #a370f0;
-} */
-
 .signup-btn {
   padding: 10px;
   border: unset;

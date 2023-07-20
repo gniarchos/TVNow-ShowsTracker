@@ -4,7 +4,7 @@ import eye_off from "../images/eye-off.png"
 import eye from "../images/eye.png"
 import email from "../images/email.png"
 import { useAuth } from "../authentication/AuthContext"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { Icon } from "@iconify/react"
 
 export default function Login() {
@@ -15,7 +15,7 @@ export default function Login() {
 
   const emailRef = React.useRef()
   const passwordRef = React.useRef()
-  const { login, loginGoogle, resetPassword } = useAuth()
+  const { login, resetPassword } = useAuth()
   const navigate = useNavigate()
 
   const [message, setMessage] = React.useState("")

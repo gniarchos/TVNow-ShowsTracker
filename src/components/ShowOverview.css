@@ -244,6 +244,7 @@
   flex-direction: row;
   gap: 20px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .logos-img {
@@ -335,13 +336,10 @@
   position: absolute;
   right: 20px;
   bottom: 7px;
-  /* width: 35px;
-  height: 35px; */
   color: rgb(48, 48, 48, 0.4);
 }
 
 .markSeason-check:hover {
-  /* color: rgb(68, 185, 68); */
   color: rgb(0, 211, 0);
 }
 
@@ -349,13 +347,11 @@
   position: absolute;
   right: 20px;
   bottom: 7px;
-  /* color: rgb(48, 48, 48, 0.4); */
   color: rgb(0, 211, 0);
   filter: drop-shadow(1px 1px 1px #9b9494);
 }
 
 .markSeason-btn {
-  /* background-color: white; */
   background-color: rgba(219, 219, 223, 0.6);
   color: rgb(39, 39, 39);
   display: flex;

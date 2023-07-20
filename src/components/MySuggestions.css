@@ -8,17 +8,11 @@
 
 .suggestion-divs {
   position: absolute;
-  /* top: 42%; */
-  /* left: 100px; */
   bottom: 100px;
   left: 30px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
-
-.suggest-img {
-  /* margin-top: 70px; */
 }
 
 .suggest-title {

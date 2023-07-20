@@ -4,16 +4,9 @@ import { db } from "../services/firebase"
 export default function HistoryEpisodes(props) {
   const zeroPad = (num, places) => String(num).padStart(places, "0")
 
-  // const temp_total_episodes = localStorage.getItem("total_episodes")
-  // const temp_watching_time = localStorage.getItem("watching_time")
-
   const [userTime, setUserTime] = React.useState(0)
   const [userEpisodes, setUserEpisodes] = React.useState(0)
   const [reload, setReload] = React.useState(false)
-
-  const [episodeTimeToDelete, setEpisodeTimeToDelete] = React.useState(0)
-  const [episodesToDelete, setEpisodesToDelete] = React.useState(0)
-  const [episodeId, setEpisodeId] = React.useState([])
 
   React.useEffect(() => {
     db.collection("users")
@@ -28,10 +21,6 @@ export default function HistoryEpisodes(props) {
   }, [reload])
 
   function markAsUnwatched() {
-    // console.log("Name:", props.history_show_name)
-    // console.log("Episode:", props.history_episode_number + 1)
-    // console.log("Season:", props.history_season_number)
-
     db.collection(`watchlist-${props.currentUserID}`)
       .where("show_name", "==", props.history_show_name)
       .get()
@@ -51,10 +40,7 @@ export default function HistoryEpisodes(props) {
           .get()
           .then((snapshot) => {
             snapshot.docs.forEach((doc) => {
-              // console.log(doc.data().episode_number)
               if (doc.data().episode_number >= props.history_episode_number) {
-                // console.log(doc.id)
-
                 console.log("USERTIME: ", userTime)
                 console.log("USER EPISODES: ", userEpisodes)
                 console.log(userTime - doc.data().episode_time)
@@ -72,21 +58,11 @@ export default function HistoryEpisodes(props) {
           })
       )
 
-    function deleteEpisodeFromHistory(episode_to_delete, time_to_delete) {
+    function deleteEpisodeFromHistory(episode_to_delete) {
       setReload(!reload)
       db.collection(`history-${props.currentUserID}`)
         .doc(episode_to_delete)
         .delete()
-
-      //TODO: update tv time and episodes watched
-      // console.log(time_to_delete)
-
-      // db.collection("users")
-      //   .doc(props.currentUserID)
-      //   .update({
-      //     watching_time: userTime - time_to_delete,
-      //     total_episodes: userEpisodes - 1,
-      //   })
     }
   }
   return (

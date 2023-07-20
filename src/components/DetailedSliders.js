@@ -204,9 +204,10 @@ export default function DetailedSliders() {
             <img
               className="slider-img"
               src={`https://image.tmdb.org/t/p/w500/${list.poster_path}`}
+              alt="show"
             />
           ) : (
-            <img className="slider-no-img" src={noImg} />
+            <img className="slider-no-img" src={noImg} alt="not-found" />
           )}
         </div>
         <p ref={show_title} className="slider-title">

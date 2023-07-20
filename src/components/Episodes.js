@@ -28,7 +28,7 @@ export default function Episodes(props) {
 
             <div className="checked-div">
               {props.new_air_date <= props.today ? (
-                <h3 className="h3-until-episode"></h3>
+                <h3 className="h3-until-episode"> </h3>
               ) : isNaN(props.daysUntilCurrentEpisode) === true ? (
                 <h3 className="h3-until-episode">TBA</h3>
               ) : props.daysUntilCurrentEpisode !== 1 ? (

@@ -28,7 +28,6 @@ export default function ShowOverview() {
   const [seasonDetails, setSeasonDetails] = React.useState([])
   const [finished, setFinished] = React.useState(false)
   const [showDaysUntil, setShowDaysUntil] = React.useState(false)
-  const [scrolled, setScrolled] = React.useState(false)
   const navigate = useNavigate()
   const [toggleFullCast, setToggleFullCast] = React.useState(false)
   const { currentUser } = useAuth()
@@ -175,19 +174,6 @@ export default function ShowOverview() {
     setCurrentUserSeason((prevSeason) => prevSeason + 1)
 
     setIsMarkSeasonClicked(true)
-  }
-
-  const seasonEpisodesStyle = {
-    flexDirection: scrolled && "column",
-  }
-
-  const fixedSeasonsStyle = {
-    position: scrolled && "fixed",
-    top: scrolled && "73px",
-    width: scrolled && "71.5vw",
-
-    backgroundColor: scrolled && "black",
-    borderRadius: scrolled && "10px",
   }
 
   React.useEffect(() => {
@@ -421,7 +407,7 @@ export default function ShowOverview() {
             alt="logo-network"
           />
         ) : (
-          <img className="cast-no-img-profile" src={noImg} />
+          <img className="cast-no-img-profile" src={noImg} alt="not-found" />
         )}
         <div className="cast-info-div-profile">
           <h3 className="cast-name">{person.name}</h3>
@@ -446,7 +432,7 @@ export default function ShowOverview() {
             alt="logo-network"
           />
         ) : (
-          <img className="cast-no-img" src={noImg} />
+          <img className="cast-no-img" src={noImg} alt="not-found" />
         )}
         <div className="cast-info-div">
           <h3 className="cast-name">{person.name}</h3>
@@ -471,7 +457,7 @@ export default function ShowOverview() {
             alt="logo-network"
           />
         ) : (
-          <img className="cast-no-img" src={noImg} />
+          <img className="cast-no-img" src={noImg} alt="not-found" />
         )}
         <div className="cast-info-div">
           <h3 className="cast-name">{person.name}</h3>
@@ -513,9 +499,10 @@ export default function ShowOverview() {
               <img
                 className="recommending-img"
                 src={`https://image.tmdb.org/t/p/w500/${recommend.backdrop_path}`}
+                alt="show-recommendation"
               />
             ) : (
-              <img className="recommending-noImg" src={noImg} />
+              <img className="recommending-noImg" src={noImg} alt="not-found" />
             )}
           </div>
           <h3 className="cast-name">{recommend.name}</h3>
@@ -686,17 +673,18 @@ export default function ShowOverview() {
               </div>
             )}
 
-          {isShowAddedInWatchList && showUserStatus[0]?.status == "stopped" && (
-            <div className="seasons-network-container">
-              <p onClick={resumeWatchingShow} className="watchlist-show">
-                <Icon
-                  className="whishlist-icon-add-remove-show"
-                  icon="akar-icons:circle-x-fill"
-                />
-                Resume Show
-              </p>
-            </div>
-          )}
+          {isShowAddedInWatchList &&
+            showUserStatus[0]?.status === "stopped" && (
+              <div className="seasons-network-container">
+                <p onClick={resumeWatchingShow} className="watchlist-show">
+                  <Icon
+                    className="whishlist-icon-add-remove-show"
+                    icon="akar-icons:circle-x-fill"
+                  />
+                  Resume Show
+                </p>
+              </div>
+            )}
         </div>
       </div>
 
@@ -757,15 +745,8 @@ export default function ShowOverview() {
             <div>
               <h1 className="seasonsEpisodesTitle">Seasons & Episodes</h1>
 
-              <div
-                style={seasonEpisodesStyle}
-                className="seasons-episodes-wrapper"
-              >
-                <div
-                  style={fixedSeasonsStyle}
-                  ref={divSeasonRef}
-                  className="seasons-container"
-                >
+              <div className="seasons-episodes-wrapper">
+                <div ref={divSeasonRef} className="seasons-container">
                   {seasons}
                 </div>
 

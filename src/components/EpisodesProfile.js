@@ -169,7 +169,7 @@ export default function EpisodesProfile(props) {
             onError={(e) => handleImageError(e)}
           />
         ) : (
-          <img className="show-no-img" src={noImg} />
+          <img className="show-no-img" src={noImg} alt="no-img-found" />
         )}
 
         {props.is_premiering === "true" ||

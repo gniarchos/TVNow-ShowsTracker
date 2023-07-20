@@ -21,7 +21,7 @@ export default function Signup() {
   const lnameRef = React.useRef()
   const passwordRef = React.useRef()
   const passwordConfirmRef = React.useRef()
-  const { signup, currentUser } = useAuth()
+  const { signup } = useAuth()
   const navigate = useNavigate()
 
   async function handleSubmit(e) {

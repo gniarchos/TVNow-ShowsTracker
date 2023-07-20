@@ -7,9 +7,6 @@
   gap: 2%;
   position: relative;
   max-width: 100%;
-  /* margin-left: -2vw; */
-  /* margin-right: -2vw; */
-  /* background-color: red; */
 }
 
 .title-link {
@@ -19,7 +16,6 @@
   align-items: center;
   margin-left: 3vw;
   margin-right: 3vw;
-  /* z-index: 1; */
 }
 
 .viewMore-button {
@@ -68,7 +64,6 @@
   margin: auto;
   overflow: hidden;
   width: fit-content;
-  /* z-index: -1; */
 }
 
 .slider-img {
@@ -80,7 +75,6 @@
   margin-bottom: -6px;
   transition: all 0.3s;
   transform: scale(1);
-  /* z-index: 1; */
 }
 
 .readMore-btn {
@@ -161,14 +155,6 @@
   }
 
   .slider-img {
-    /* max-width: 235px;
-  min-height: 352px;
-  object-fit: cover;
-  z-index: -1;
-  position: relative;
-  margin-bottom: -6px;
-  transition: all 0.3s;
-  transform: scale(1); */
     max-width: 180px;
     min-height: 180px;
     object-fit: fill;
@@ -194,13 +180,6 @@
   }
 
   .slider-content {
-    /* display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-left: 0px;
-  background-color: rgb(12, 13, 13, 0.5);
-  z-index: 0;
-  margin-bottom: 20px; */
     max-width: 180px;
     min-height: 180px;
   }

@@ -17,8 +17,6 @@
 .logo-img {
   margin-top: 20px;
   margin-bottom: 20px;
-  /* width: 150px; */
-  /* height: 27px; */
 }
 
 .login-btn {
@@ -38,8 +36,6 @@
   cursor: pointer;
   width: 130px;
   border: 2px solid white;
-  /* margin-top: 30px; */
-
   margin-right: 5vw;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -147,9 +143,6 @@
 }
 
 .icons-nav-btns:hover {
-  /* color: #fdb0aa; */
-  /* box-shadow: rgba(255, 255, 255, 0.35) 0px 5px 15px; */
-  /* background-color: transparent; */
   transform: scale(1.2);
 }
 
@@ -163,8 +156,6 @@
     white-space: nowrap;
     font-size: 1rem;
     padding: 4px;
-
-    /* width: 100px; */
   }
 
   .login-btn::before {

@@ -17,7 +17,6 @@
   gap: 30px;
   flex-wrap: wrap;
   padding-bottom: 50px;
-  /* padding-left: 50px; */
   padding-left: 3%;
   margin-right: 0;
   width: 98.5vw;
@@ -139,7 +138,7 @@
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  justify-content: end;
+  justify-content: flex-end;
   gap: 100px;
   width: 38vw;
 }
@@ -148,7 +147,7 @@
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  justify-content: start;
+  justify-content: flex-start;
   gap: 100px;
 }
 
@@ -447,7 +446,6 @@
 
 .closeButton_covers_div {
   position: absolute;
-  /* left: 60vw; */
   left: -100vw;
   top: 50px;
   animation: slide-btn 0.5s forwards ease-in-out;
@@ -456,7 +454,6 @@
 .closeButton_covers {
   font-size: 1.8rem;
   font-weight: 800;
-  /* border-radius: 10px; */
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   border: none;
@@ -475,7 +472,6 @@
 
 .coverSelector-wrapper {
   position: fixed;
-  /* left: 0; */
   left: -100vw;
   top: 0px;
   background: #ffffff;
@@ -486,7 +482,6 @@
   padding: 25px;
   overflow-y: auto;
   animation: slide 0.5s forwards ease-in-out;
-  /* animation-delay: 0.5s; */
 }
 
 @keyframes slide {
@@ -507,7 +502,6 @@
   align-items: center;
   gap: 10px;
   width: 100%;
-  /* position: relative; */
 }
 
 .coverSection-title {
@@ -520,7 +514,6 @@
   border-radius: 10px;
   font-size: 1.1rem;
   font-weight: 500;
-  /* padding: 5px; */
   display: flex;
   align-items: center;
   gap: 5px;

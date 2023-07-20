@@ -1,14 +1,13 @@
 import React from "react"
 import "./Navbar.css"
 import logo from "../images/nav-logo-fixed.png"
-// import logo from "../images/nav-logo-tvnow.png"
 import { useAuth } from "../authentication/AuthContext"
 import { useNavigate, Link } from "react-router-dom"
 import searchImg from "../images/search.png"
 import { Icon } from "@iconify/react"
 
 export default function Navbar(props) {
-  const [error, setError] = React.useState("")
+  // const [error, setError] = React.useState("")
   const { currentUser, logout } = useAuth()
   const navigate = useNavigate()
   const [searchVisibility, setSearchVisibility] = React.useState(false)
@@ -17,13 +16,14 @@ export default function Navbar(props) {
   const [isMobile, setIsMobile] = React.useState(false)
 
   async function handleLogout() {
-    setError("")
+    // setError("")
 
     try {
       await logout()
       navigate("/index")
     } catch {
-      setError("Failed to log out.")
+      // setError("Failed to log out.")
+      console.log("Failed to log out.")
     }
   }
 

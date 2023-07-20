@@ -171,18 +171,6 @@
   }
 
   .noSearchResults-div p {
-    /* background-color: #e7e7e7;
-  color: #212237;
-  width: fit-content;
-  padding: 10px;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 600;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 5px; */
     margin-top: 40px;
     font-size: 1rem;
     padding: 5px;
@@ -199,7 +187,6 @@
 
   .no-image-div {
     max-width: 235px;
-    /* background-color: aliceblue; */
   }
 
   .slider-no-img {
