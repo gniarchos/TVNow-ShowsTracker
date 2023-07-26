@@ -83,6 +83,7 @@ export default function Profile() {
       : "soon"
   )
   const [coverImageSelected, setCoverImageSelected] = React.useState(false)
+  const [showLayoutMessage, setShowLayoutMessage] = React.useState(false)
 
   React.useEffect(() => {
     window.scrollTo(0, 0)
@@ -843,6 +844,16 @@ export default function Profile() {
   function changeLayoutMobile() {
     setMobileLayout((prevValue) => (prevValue === "cards" ? "grid" : "cards"))
 
+    setShowLayoutMessage((show) => !show)
+    var x = 0
+    var intervalID = setInterval(() => {
+      setShowLayoutMessage((show) => !show)
+
+      if (++x === 1) {
+        window.clearInterval(intervalID)
+      }
+    }, 2000)
+
     localStorage.setItem(
       "mobileLayoutSelection",
       mobileLayout === "cards" ? "grid" : "cards"
@@ -1240,6 +1251,10 @@ export default function Profile() {
           </div>
         </div>
       )}
+
+      <div className={showLayoutMessage === false ? "popup" : "popup show"}>
+        <p className="message-popup">Layout set to {mobileLayout}</p>
+      </div>
 
       <Footer />
     </div>

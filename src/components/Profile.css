@@ -5,6 +5,11 @@
   justify-content: center;
 }
 
+.popup {
+  visibility: hidden;
+  opacity: 0;
+}
+
 .episode-card-wrapper {
   background-color: #ffffff;
   color: black;
@@ -880,5 +885,34 @@
 
   .btn-save-changes-cover {
     font-size: 1rem;
+  }
+
+  .popup {
+    visibility: hidden;
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: opacity 350ms ease-in, visibility 0ms ease-in 350ms;
+  }
+
+  .popup.show {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 350ms ease-in, visibility 0ms ease-in 0ms;
+  }
+
+  .message-popup {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    /* width: fit-content; */
+    background-color: #ffffff;
+    color: #000;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 20px;
+    font-size: 0.95rem;
   }
 }
