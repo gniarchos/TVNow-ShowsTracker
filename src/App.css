@@ -1,11 +1,7 @@
 * {
   font-family: "Chillax";
-  /* scroll-behavior: smooth; */
   scroll-margin: 100px;
   box-sizing: border-box;
-
-  /* border: 0.5px solid red; */
-  /* overflow: visible; */
 }
 
 html {
@@ -14,14 +10,12 @@ html {
   max-width: 100%;
 
   /* FIREFOX SCROLLBAR */
-  scrollbar-color: #a684be transparent;
+  scrollbar-color: rgb(117, 117, 117) transparent;
   scrollbar-width: thin;
 }
 
 body {
   margin: 0;
-  /* background-image: linear-gradient(315deg, #a29bfe 0%, #000000 74%); */
-  /* background-attachment: fixed; */
   color: white;
 }
 
@@ -32,15 +26,11 @@ body {
 }
 
 .bg {
-  /* background: linear-gradient(315deg, #a29bfe 0%, #000000 74%);
-  background-repeat: no-repeat;
-  background-position: center; */
   background: rgb(39, 40, 43);
   height: 100vh;
   width: 100vw;
   max-width: 100%;
   position: fixed;
-  /* z-index usage is up to you.. although there is no need of using it because the default stack context will work. */
   z-index: -10;
 }
 
@@ -59,10 +49,5 @@ body {
 *::-webkit-scrollbar-thumb {
   border-radius: 5px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  /* background: linear-gradient(
-    to bottom,
-    hsl(240, 100%, 30%),
-    hsl(330, 100%, 40%)
-  ); */
   background: rgb(117, 117, 117);
 }

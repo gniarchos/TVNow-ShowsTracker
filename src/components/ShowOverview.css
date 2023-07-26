@@ -387,7 +387,7 @@
   margin-bottom: 20px;
   display: flex;
   flex-direction: row;
-  width: 60%;
+  width: 80%;
 }
 
 .episode-num {
@@ -399,17 +399,18 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 1500px;
+  /* width: 1500px; */
+  /* width: 90%; */
   padding-left: 20px;
 }
 
 .episode-img {
-  width: 50%;
+  width: 40%;
   object-fit: cover;
 }
 
 .episode-num-title {
-  width: 90%;
+  width: 100%;
 }
 
 .checked-div {
