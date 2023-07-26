@@ -16,7 +16,16 @@ export default function Footer() {
         </a>
       </div>
 
-      <h4 className="copyright">Giannis Niarchos © 2022-2023 </h4>
+      <div className="copyright-wrapper">
+        <a
+          href="https://gniarchos.github.io/portfolio/"
+          target="_blank"
+          className="copyright link-portfolio"
+        >
+          Giannis Niarchos
+        </a>
+        <h4 className="copyright"> © 2022-2023 </h4>
+      </div>
 
       <div className="footer-api">
         <h4>Powered by </h4>

@@ -17,8 +17,22 @@
   font-size: 1rem;
 }
 
+.copyright-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
 .copyright {
   font-size: 1rem;
+}
+
+.link-portfolio {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 600;
 }
 
 .socials {
