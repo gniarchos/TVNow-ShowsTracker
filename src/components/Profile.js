@@ -1168,89 +1168,104 @@ export default function Profile() {
         </div>
       )}
 
-      {isSelectCoverOpen === true && (
-        <div className="coverSelection_container">
-          <div className="coverSelector-wrapper">
-            <div className="coverTitle_div">
-              {hideShowsCoverSelection === true && (
-                <Icon
-                  icon="mingcute:arrow-left-fill"
-                  width={30}
-                  onClick={goBackToSelectionCovers}
-                  className="covers_back_icon"
-                />
-              )}
-              <h1 className="coverSection-title">{coverSelectionShowName}</h1>
-              {coverImageSelected === true && (
-                <p
-                  className="btn-save-changes-cover"
-                  onClick={updateCoverImage}
-                >
-                  <Icon icon="dashicons:cloud-saved" width={20} /> Save Changes
-                </p>
-              )}
-            </div>
-
-            {hideShowsCoverSelection === false && (
-              <h3
-                className="showCoverName defaultSelection"
-                onClick={updateCoverDefault}
-              >
-                <Icon icon="fluent-emoji-high-contrast:popcorn" width={45} />
-                TVTime Default Cover
-              </h3>
-            )}
-            {hideShowsCoverSelection === false &&
-              myShows.map((show) => {
-                return (
-                  <div>
-                    <h3
-                      className="showCoverName"
-                      onClick={() =>
-                        fetchShowImages(show.show_id, show.show_name)
-                      }
-                    >
-                      <Icon
-                        icon="ic:baseline-local-movies"
-                        className="movie-icon"
-                      />
-                      {show.show_name}
-                    </h3>
-                  </div>
-                )
-              })}
-
+      {/* {isSelectCoverOpen === true && ( */}
+      <div
+        className={
+          isSelectCoverOpen
+            ? "coverSelection_container isShown"
+            : "coverSelection_container"
+        }
+      >
+        <div
+          className={
+            isSelectCoverOpen
+              ? "coverSelector-wrapper showSelector"
+              : "coverSelector-wrapper"
+          }
+        >
+          <div className="coverTitle_div">
             {hideShowsCoverSelection === true && (
-              <div className="showsAllCoverPhotos">
-                {showsImages.map((img) => {
-                  return img
-                    .filter((img) => img.height >= 720)
-                    .map((image) => {
-                      return (
-                        <img
-                          className="cover-img-preview"
-                          src={`https://image.tmdb.org/t/p/w500/${image.file_path}`}
-                          alt="shows-images"
-                          onClick={() =>
-                            temporarySaveCoverSelection(
-                              `https://image.tmdb.org/t/p/w500/${image.file_path}`
-                            )
-                          }
-                        />
-                      )
-                    })
-                })}
-              </div>
+              <Icon
+                icon="mingcute:arrow-left-fill"
+                width={30}
+                onClick={goBackToSelectionCovers}
+                className="covers_back_icon"
+              />
+            )}
+            <h1 className="coverSection-title">{coverSelectionShowName}</h1>
+            {coverImageSelected === true && (
+              <p className="btn-save-changes-cover" onClick={updateCoverImage}>
+                <Icon icon="dashicons:cloud-saved" width={20} /> Save Changes
+              </p>
             )}
           </div>
 
-          <div className="closeButton_covers_div">
-            <button className="closeButton_covers" onClick={closeCoverSelector}>
-              X
-            </button>
-          </div>
+          {hideShowsCoverSelection === false && (
+            <h3
+              className="showCoverName defaultSelection"
+              onClick={updateCoverDefault}
+            >
+              <Icon icon="fluent-emoji-high-contrast:popcorn" width={45} />
+              TVTime Default Cover
+            </h3>
+          )}
+          {hideShowsCoverSelection === false &&
+            myShows.map((show) => {
+              return (
+                <div>
+                  <h3
+                    className="showCoverName"
+                    onClick={() =>
+                      fetchShowImages(show.show_id, show.show_name)
+                    }
+                  >
+                    <Icon
+                      icon="ic:baseline-local-movies"
+                      className="movie-icon"
+                    />
+                    {show.show_name}
+                  </h3>
+                </div>
+              )
+            })}
+
+          {hideShowsCoverSelection === true && (
+            <div className="showsAllCoverPhotos">
+              {showsImages.map((img) => {
+                return img
+                  .filter((img) => img.height >= 720)
+                  .map((image) => {
+                    return (
+                      <img
+                        className="cover-img-preview"
+                        src={`https://image.tmdb.org/t/p/w500/${image.file_path}`}
+                        alt="shows-images"
+                        onClick={() =>
+                          temporarySaveCoverSelection(
+                            `https://image.tmdb.org/t/p/w500/${image.file_path}`
+                          )
+                        }
+                      />
+                    )
+                  })
+              })}
+            </div>
+          )}
         </div>
-      )}
+
+        <div
+          className={
+            isSelectCoverOpen
+              ? "closeButton_covers_div showBtn"
+              : "closeButton_covers_div"
+          }
+        >
+          <button className="closeButton_covers" onClick={closeCoverSelector}>
+            X
+          </button>
+        </div>
+      </div>
+      {/* )} */}
 
       <div className={showLayoutMessage === false ? "popup" : "popup show"}>
         <p className="message-popup">Layout set to {mobileLayout}</p>
