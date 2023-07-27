@@ -56,6 +56,7 @@ export default function DetailedSliders() {
   ]
 
   React.useEffect(() => {
+    setPage(localStorage.getItem("currentPage"))
     fetch(`${location.state.fetchLink}${page}&with_genres=${genresFilters}`)
       .then((res) => res.json())
       .then((data) => {
@@ -71,6 +72,7 @@ export default function DetailedSliders() {
   }, [page, location.state.fetchLink, genresFilters])
 
   function goToNextPage(event) {
+    localStorage.setItem("currentPage", event.selected + 1)
     setPage(event.selected + 1)
     window.scrollTo(0, 0)
   }
