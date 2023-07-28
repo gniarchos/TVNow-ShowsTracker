@@ -14,6 +14,18 @@ export default function Navbar(props) {
   const [windowWidth, setWindowWidth] = React.useState()
   const [isSmaller, setIsSmaller] = React.useState(false)
   const [isMobile, setIsMobile] = React.useState(false)
+  const [showConfirmationLogOut, setShowConfirmationLogOut] =
+    React.useState(false)
+
+  function isUserWantToLogOut() {
+    setShowConfirmationLogOut((prevValue) =>
+      prevValue === false ? true : null
+    )
+
+    if (showConfirmationLogOut === true) {
+      handleLogout()
+    }
+  }
 
   async function handleLogout() {
     // setError("")
@@ -25,6 +37,10 @@ export default function Navbar(props) {
       // setError("Failed to log out.")
       console.log("Failed to log out.")
     }
+  }
+
+  function cancelLoggingOut() {
+    setShowConfirmationLogOut(false)
   }
 
   const backgroundStyle = {
@@ -147,7 +163,10 @@ export default function Navbar(props) {
               Profile
             </Link>
           )}
-          <button className="nav-btns" onClick={handleLogout}>
+          <button
+            className="nav-btns"
+            onClick={!showConfirmationLogOut && isUserWantToLogOut}
+          >
             Log out
           </button>
 
@@ -176,8 +195,26 @@ export default function Navbar(props) {
           <Icon
             className="icons-nav-btns"
             icon="akar-icons:sign-out"
-            onClick={handleLogout}
+            onClick={!showConfirmationLogOut && isUserWantToLogOut}
           />
+
+          <div
+            className={
+              showConfirmationLogOut
+                ? "confirmation-wrapper isActive"
+                : "confirmation-wrapper"
+            }
+          >
+            <p className="confirm-msg">Are you sure you want to log out?</p>
+            <div className="confirmation-btns-container">
+              <button onClick={isUserWantToLogOut} className="confirmation-btn">
+                Confirm
+              </button>
+              <button onClick={cancelLoggingOut} className="confirmation-btn">
+                Cancel
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
