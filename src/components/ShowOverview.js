@@ -111,8 +111,10 @@ export default function ShowOverview() {
   }, [show, isShowAddedInWatchList])
 
   React.useEffect(() => {
+    var total_season_time = 0
     if (isMarkSeasonClicked) {
       seasonRuntimeData?.map((time) => {
+        total_season_time = total_season_time + time
         localStorage.setItem(
           "watching_time",
           parseInt(localStorage.getItem("watching_time")) + time
@@ -155,6 +157,17 @@ export default function ShowOverview() {
             }
           })
         })
+
+      addDoc(collection(db, `history-${location.state.userId}`), {
+        show_name: show.name,
+        show_id: show.id,
+        season_number: parseInt(seasonNumber),
+        episode_number: seasonRuntimeData.length,
+        date_watched: serverTimestamp(),
+        episode_name: "Marked Season Watched",
+        show_cover: show.backdrop_path,
+        episode_time: total_season_time,
+      })
     }
   }, [seasonRuntimeData])
 

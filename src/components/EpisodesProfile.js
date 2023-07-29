@@ -50,12 +50,6 @@ export default function EpisodesProfile(props) {
         episode_time: parseInt(props.episode_time[0]),
       })
 
-      console.log(
-        "CURRENT SEASON EPISODE",
-        parseInt(props.curr_season_episodes)
-      )
-      console.log("EPISODE NUMBER", parseInt(props.curr_season_episodes) + 1)
-
       db.collection(`watchlist-${props.currentUserID}`)
         .where("show_name", "==", props.showName)
         .get()

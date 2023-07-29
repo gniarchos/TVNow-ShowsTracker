@@ -178,6 +178,7 @@ export default function Profile() {
             date_watched: doc.data().date_watched,
             episode_name: doc.data().episode_name,
             show_cover: doc.data().show_cover,
+            history_episode_time: doc.data().episode_time,
           }))
         )
       })
@@ -731,6 +732,7 @@ export default function Profile() {
         history_date_watched={history.episode_number}
         history_episode_name={history.episode_name}
         history_cover={history.show_cover}
+        history_episode_time={history.history_episode_time}
         currentUserID={currentUser.uid}
         resetSeasonData={resetSeasonData}
       />
@@ -1168,7 +1170,6 @@ export default function Profile() {
         </div>
       )}
 
-      {/* {isSelectCoverOpen === true && ( */}
       <div
         className={
           isSelectCoverOpen
@@ -1265,7 +1266,6 @@ export default function Profile() {
           </button>
         </div>
       </div>
-      {/* )} */}
 
       <div className={showLayoutMessage === false ? "popup" : "popup show"}>
         <p className="message-popup">Layout set to {mobileLayout}</p>
