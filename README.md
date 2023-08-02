@@ -2,7 +2,7 @@
 
 A TV Shows organizer to track and find information about any TV Show.
 
-This project uses the Firebase Database for login/signup and user data. The app fetches all the necessary data from two different APIs: [TheMovieDB API](https://www.themoviedb.org/documentation/api) and [MDBList API](ttps://rapidapi.com/linaspurinis/api/mdblist/).
+This project uses the Firebase Database for login/signup and user data. The app fetches all the necessary data from two different APIs: [TheMovieDB API](https://www.themoviedb.org/documentation/api) and [MDBList API](https://rapidapi.com/linaspurinis/api/mdblist/).
 
 Made with React.
 
