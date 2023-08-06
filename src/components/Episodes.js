@@ -1,5 +1,7 @@
 import React from "react"
 import "./ShowOverview.css"
+import noImg from "../images/no-image.png"
+import { Icon } from "@iconify/react"
 
 export default function Episodes(props) {
   const zeroPad = (num, places) => String(num).padStart(places, "0")
@@ -15,7 +17,11 @@ export default function Episodes(props) {
               alt="episode-img"
             />
           ) : (
-            <div style={{ width: "500px" }}></div>
+            <img
+              className="show-no-img-overview"
+              src={noImg}
+              alt="no-img-found"
+            />
           )}
 
           <div className="episode-info-container">
@@ -23,7 +29,25 @@ export default function Episodes(props) {
               <p className="episode-num">
                 S{zeroPad(props.seasonNum, 2)} | E{zeroPad(props.episodeNum, 2)}
               </p>
-              <p>{props.episodeName}</p>
+              <div className="episodeMoreInfo-wrapper">
+                <p className="episode-more-info">
+                  <Icon icon="fontisto:date" />{" "}
+                  {props.episodeAirDate !== null
+                    ? props.episodeAirDate?.split("-").reverse().join("-")
+                    : "Coming Soon"}
+                </p>
+                {props.episodeRuntime !== null && (
+                  <p className="episode-more-info">•</p>
+                )}
+                {props.episodeRuntime !== null && (
+                  <p className="episode-more-info">
+                    <Icon icon="entypo:time-slot" />
+                    {props.episodeRuntime}'
+                  </p>
+                )}
+              </div>
+
+              <p className="episode-name">{props.episodeName}</p>
             </div>
 
             <div className="checked-div">

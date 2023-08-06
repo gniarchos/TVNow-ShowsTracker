@@ -64,12 +64,15 @@
   font-size: 4rem;
   margin-top: -20px;
   margin-bottom: -10px;
+  text-shadow: 2px 1px 4px rgb(109, 109, 109);
 }
 
 .div-show-genres {
   display: flex;
   flex-direction: row;
   gap: 10px;
+  /* margin-top: -10px; */
+  margin-bottom: 10px;
 }
 
 .show-genres {
@@ -80,7 +83,7 @@
   padding-top: 2px;
   padding-bottom: 2px;
   color: black;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 500;
 }
 
@@ -160,6 +163,31 @@
   text-align: center;
   user-select: none;
   cursor: pointer;
+}
+
+.episodeMoreInfo-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  /* margin-bottom: -30px; */
+  /* position: absolute; */
+  /* top: 0; */
+  width: 100%;
+  margin-top: -25px;
+}
+
+.episode-more-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  color: #9b9494;
+  font-size: 0.9rem;
+}
+
+.show-no-img-overview {
+  width: 40%;
+  object-fit: cover;
 }
 
 .lastDate {
@@ -395,13 +423,19 @@
   font-weight: 600;
 }
 
+.episode-name {
+  width: 100%;
+}
+
 .episode-info-container {
   display: flex;
   flex-direction: row;
   align-items: center;
   /* width: 1500px; */
   /* width: 90%; */
+  width: 100%;
   padding-left: 20px;
+  position: relative;
 }
 
 .episode-img {
@@ -414,7 +448,7 @@
 }
 
 .checked-div {
-  width: fit-content;
+  width: 30%;
   display: flex;
   justify-content: center;
 }
@@ -439,10 +473,14 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  font-weight: 500;
+  gap: 6px;
+  font-weight: 600;
   cursor: pointer;
   user-select: none;
+}
+
+.stopShow {
+  margin-top: 8px;
 }
 
 .show-watchlist-buttons {
@@ -745,6 +783,26 @@
   .show-main-title-details {
     left: 10px;
   }
+
+  .episode-div {
+    width: 90%;
+  }
+}
+
+@media all and (max-width: 529px) {
+  .episode-div {
+    padding: 5px;
+  }
+
+  .episode-info-container {
+    height: 150px;
+    padding-left: 10px;
+  }
+
+  .show-no-img-overview {
+    height: 150px;
+    object-fit: cover;
+  }
 }
 
 /* MOBILE */
@@ -767,6 +825,7 @@
 
   .seasons-network-container {
     font-size: 0.9rem;
+    gap: 7px;
   }
 
   .whereToWatch-link {
@@ -863,6 +922,42 @@
   }
 
   .show-genres {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
+  }
+
+  .div-show-genres {
+    gap: 5px;
+    margin-bottom: 5px;
+  }
+
+  .show-status {
+    margin-bottom: 25px;
+  }
+
+  .show-no-img-overview {
+    width: 140px;
+    height: 150px;
+    object-fit: cover;
+  }
+
+  .episode-img {
+    width: 140px;
+    height: 150px;
+    object-fit: cover;
+  }
+
+  .episode-num-title {
+    width: 180%;
+  }
+
+  .episodeMoreInfo-wrapper {
+    width: 95%;
+    gap: 5px;
+    margin-left: -2px;
+  }
+
+  .episode-more-info {
+    font-size: 0.85rem;
+    gap: 3px;
   }
 }

@@ -54,6 +54,8 @@ export default function ShowOverview() {
   const [selectedSeasonData, setSelectedSeasonData] = React.useState()
   const [semiReleasedSeason, setSemiReleasedSeason] = React.useState(false)
 
+  console.log(seasonDetails)
+
   React.useEffect(() => {
     db.collection("users")
       .doc(location.state.userId)
@@ -676,7 +678,10 @@ export default function ShowOverview() {
           {isShowAddedInWatchList &&
             showUserStatus[0]?.status === "watching" && (
               <div className="seasons-network-container">
-                <p onClick={stopWatchingShow} className="watchlist-show">
+                <p
+                  onClick={stopWatchingShow}
+                  className="watchlist-show stopShow"
+                >
                   <Icon
                     className="whishlist-icon-add-remove-show"
                     icon="akar-icons:circle-x-fill"
@@ -787,6 +792,8 @@ export default function ShowOverview() {
                           seasonNum={seasonNumber}
                           episode={episode}
                           episodeName={episode.name}
+                          episodeAirDate={episode.air_date}
+                          episodeRuntime={episode.runtime}
                           daysUntilCurrentEpisode={daysUntilCurrentEpisode}
                           today={today}
                           new_air_date={new_air_date}

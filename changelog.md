@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.6.2] - 6-8-2023
+
+### Added
+
+- Added image not available in shows overview episodes if no image is available
+- Added aired date and runtime in episodes previews in show page
+
+### Updated
+
+- Updated background color in PWA mode
+- Improved the way of images loading in profile page
+- UI improvements in show name and info in shows pages
+- UI improvements in episodes in shows pages
+
+### Fixed
+
+- Fixed a spacing issues on shows page
+
+---
+
 ## [1.6.1] - 2-8-2023
 
 ### Added

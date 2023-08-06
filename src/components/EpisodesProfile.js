@@ -160,10 +160,16 @@ export default function EpisodesProfile(props) {
             }
             src={`https://image.tmdb.org/t/p/w500/${props.backdrop_path}`}
             alt="episode-card-img"
+            loading="lazy"
             onError={(e) => handleImageError(e)}
           />
         ) : (
-          <img className="show-no-img" src={noImg} alt="no-img-found" />
+          <img
+            loading="lazy"
+            className="show-no-img"
+            src={noImg}
+            alt="no-img-found"
+          />
         )}
 
         {props.is_premiering === "true" ||
