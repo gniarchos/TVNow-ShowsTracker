@@ -30,6 +30,28 @@
 
 .history-container {
   flex-direction: column;
+  position: relative;
+}
+
+.loadMoreHistory-btn {
+  width: 71%;
+  height: 40px;
+  position: absolute;
+  bottom: 0;
+  background-color: black;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 100ms ease-in;
+}
+
+.loadMoreHistory-btn:hover {
+  background-color: white;
+  /* border: 1px solid white; */
+  color: black;
 }
 
 .info-card {
@@ -316,7 +338,7 @@
 }
 
 .history-info-card {
-  width: 76%;
+  width: 85%;
 }
 
 .divider {
@@ -396,7 +418,7 @@
 }
 
 .clickable:hover {
-  text-shadow: 0px 5px 5px rgba(0, 0, 0, 0.41);
+  text-shadow: -2px 6px 8px rgba(0, 0, 0, 0.2);
 }
 
 .stat-num {
@@ -437,6 +459,10 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  margin-top: -30px;
+  margin-bottom: -30px;
 }
 
 .coverSelection_container {
@@ -615,7 +641,17 @@
   object-fit: contain;
 }
 
+.img-background {
+  width: 500px;
+  height: 281px;
+  background-color: #3a3a3c;
+}
+
 @media all and (max-width: 980px) {
+  .loadMoreHistory-btn {
+    width: 90vw;
+  }
+
   .history-card-wrapper {
     width: 90vw;
   }
@@ -655,8 +691,11 @@
   }
 
   .section-2 {
+    width: 50%;
+    padding-right: 20px;
     flex-direction: column;
     justify-content: center;
+    align-items: flex-end;
     gap: 0px;
   }
 
@@ -677,7 +716,7 @@
   }
 
   .stat-num {
-    font-size: 1.4rem;
+    font-size: 1.25rem;
     padding-left: 12px;
     order: 1;
   }
@@ -699,8 +738,21 @@
 }
 
 @media all and (max-width: 665px) {
+  .profile-wrapper {
+    overflow-x: hidden;
+  }
+
+  .img-background {
+    width: 400px;
+    height: 225px;
+  }
+
   .history-card-wrapper {
-    width: 100vw;
+    overflow-y: hidden;
+  }
+
+  .details-container {
+    width: 100%;
   }
 
   .episode-card-wrapper {
@@ -713,10 +765,6 @@
     justify-content: center;
     padding-left: 0px;
     width: 100vw;
-  }
-
-  .episode-card-img {
-    width: 100%;
   }
 
   .history-card-img {
@@ -752,9 +800,7 @@
     white-space: nowrap;
     text-overflow: ellipsis;
   }
-}
 
-@media all and (max-width: 665px) {
   .coverImg-selection-div {
     height: 75vh;
   }
@@ -782,24 +828,39 @@
   }
 
   .details-account {
-    align-items: flex-end;
-    justify-content: flex-end;
+    align-items: center;
     padding-right: 10px;
   }
 
   .section-2 {
     flex-direction: column;
     align-items: flex-end;
+    width: 50%;
+    padding-right: 0px;
+    gap: 8px;
+
+    /* width: 50%;
+    padding-right: 20px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 0px; */
   }
 
   .section-1 {
-    justify-content: flex-start;
-    align-items: start;
-    width: 50vw;
+    /* justify-content: center; */
+    align-items: flex-start;
+    width: 80%;
+    gap: 8px;
+    /* padding-left: -20px; */
   }
 
   .history-card-img {
     width: 150px;
+  }
+
+  .history-card-wrapper {
+    width: 100vw;
   }
 
   .btn-change-layout {
@@ -824,6 +885,10 @@
 
   .info-card-grid {
     width: 44vw;
+  }
+
+  .info-card h3 {
+    font-size: 1.05rem;
   }
 
   .info-card-grid h3 {
@@ -912,12 +977,52 @@
 
   .message-popup {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    /* width: fit-content; */
     background-color: #ffffff;
     color: #000;
     font-weight: 600;
     padding: 10px;
     border-radius: 20px;
     font-size: 0.95rem;
+  }
+
+  .img-background {
+    width: fit-content;
+    height: 210px;
+  }
+
+  .img-background.grid {
+    width: fit-content;
+    height: 100%;
+  }
+
+  .runtime-release {
+    font-size: 0.9rem;
+    right: auto;
+    left: 5px;
+  }
+
+  .episode-card-img {
+    object-fit: cover;
+    width: 100vw;
+    height: 210px;
+  }
+
+  .history-container {
+    margin-bottom: 30px;
+  }
+
+  .loadMoreHistory-btn {
+    width: 100vw;
+    border-radius: 0;
+  }
+
+  .top-info-div-profile {
+    margin-bottom: -40px;
+  }
+
+  .stat-num {
+    font-size: 1.2rem;
+    padding-left: 8px;
+    order: 1;
   }
 }

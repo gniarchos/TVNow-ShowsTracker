@@ -1,22 +1,53 @@
 # Changelog
 
+## [1.6.3] - 24-8-2023
+
+### Added
+
+- Added a background color to episode images in the Profile until the images load
+- Added a "Load More" button at the bottom of the History section in the Profile to load more watched episodes
+
+### Updated
+
+- UI improvements in the mobile version of the Profile
+- Marking an episode as watched in the Profile now applies instantly without displaying the loader
+- Renamed the component "EpisodesProfile" to "ProfileEpisodes"
+- Instantly update the user's TV Time and Episode Watched statistics
+- Changed the name of "TV Time" to "Your TV Time" in the user statistics within the Profile
+- Updated the logo image format from PNG to SVG
+- Renamed "Shows" to "Total Shows" in Profile page user's statistics
+- Renamed "Watching" to "Watching Now" in Profile page user's statistics
+- Swapped position of "Not Started" and "Finished" statistics in Profile
+
+### Fixed
+
+- Fixed and optimized the code for better performance on the Profile page
+- Resolved glitches in sections during the initial load of the Profile page
+- Addressed content display issues on smaller browser sizes in the Profile
+- Adjusted the position of the slide bar in scrolled element statistics on the Profile
+- Resolved an issue where the 'Up to Date' filters were not hidden when the sections were hidden
+- Addressed positioning of "Total Shows", "Watching Now" etc in smaller screen sizes
+- Fixed tinny bugs
+
+---
+
 ## [1.6.2] - 6-8-2023
 
 ### Added
 
-- Added image not available in shows overview episodes if no image is available
-- Added aired date and runtime in episodes previews in show page
+- Added "Image Not Available" to show overview episodes if no image is available
+- Added aired date and runtime to episode previews on the show page.
 
 ### Updated
 
 - Updated background color in PWA mode
-- Improved the way of images loading in profile page
-- UI improvements in show name and info in shows pages
-- UI improvements in episodes in shows pages
+- Improved the way images load on the profile page.
+- Made UI improvements to show names and info on show pages
+- Made UI improvements to episodes on show pages
 
 ### Fixed
 
-- Fixed a spacing issues on shows page
+- Fixed a spacing issues on the shows page
 
 ---
 
@@ -29,11 +60,11 @@
 
 ### Updated
 
-- Updated README on github
+- Updated README on GitHub
 
 ### Removed
 
-- Removed unnecessary video files
+- Deleted unnecessary video files
 
 ---
 
@@ -41,12 +72,12 @@
 
 ### Added
 
-- [BETA] Added mark seasons as unwatched from History section
+- [BETA] Added the ability to mark seasons as unwatched from the History section
 
 ### Updated
 
-- Updated the implementation of deleting an episode/season from History
-- Updated favicon to support all browsers and systems
+- Improved the implementation for deleting episodes/seasons from the History
+- Updated the favicon to ensure compatibility across all browsers and systems
 
 ---
 
@@ -54,9 +85,9 @@
 
 ### Added
 
-- Added a popup in profile in mobile when layout is changed
-- Added a link leading to my portfolio in footer
-- Added a confirmation popup when user click log out
+- Added a popup in the mobile profile when the layout is changed
+- Included a link leading to my portfolio in the footer
+- Added a confirmation popup when users click on the "Log Out" option
 
 ### Updated
 
@@ -64,10 +95,10 @@
 
 ### Fixed
 
-- Fixed some compatibility issues with Firefox browser
-- Fixed UI in shows genres on mobile
-- Fixed an issue with layout popup
-- Fixed an issue when on search function in multiple searches not settings page to 1
+- Fixed compatibility issues with the Firefox browser
+- Corrected the UI for show genres on mobile
+- Addressed an issue with the layout popup
+- Fixed an issue in the search function where multiple searches did not redirect to page 1
 
 ---
 
@@ -75,20 +106,20 @@
 
 ### Added
 
-- Added a feature to sort shows by last watched in profile
+- Implemented a feature to sort shows by last watched in the profile
 
 ### Updated
 
-- Updated UI on cancelled shows modal
-- Updated social media of shows links
-- Code optimizations
+- Enhanced the UI of the modal for cancelled shows
+- Updated the links to social media profiles of shows
+- Optimized the code for better performance
 
 ### Fixed
 
-- Fixed an issue where user couldn't mark a season as watched in Not Started shows
-- UI fixes when adding a show
-- Fixed some spellings
-- Fixed an issue when marking the last episode of the season as watched failed to execute
+- Resolved an issue where users couldn't mark a season as watched in "Not Started" shows
+- Fixed UI issues when adding a show
+- Corrected some spelling errors
+- Fixed an issue where marking the last episode of a season as watched failed to execute
 
 ---
 
@@ -96,18 +127,18 @@
 
 ### Added
 
-- Added a scroll to div when clicking on sections bar in profile
-- Added a check to remove the mark season as watched button if the season has no episodes yet
-- Reenabled ratings
+- Implemented scrolling to the section when clicking on the sections bar in the profile
+- Added a check to remove the "Mark Season as Watched" button if the season has no episodes yet
+- Re-enabled ratings
 
 ### Updated
 
-- Updated to detect if user finished watching the show and remove mark season as watched and watching now label
+- Updated to detect if the user has finished watching the show and removed the "Mark Season as Watched" button and the "Watching Now" label
 
 ### Fixed
 
-- Fixed calculating wrong watching time when marking the season as watched
-- Fixes in marking season as watched
+- Corrected the calculation of watching time when marking the season as watched
+- Made fixes to the functionality of marking the season as watched
 
 ---
 
@@ -123,8 +154,8 @@
 
 ### Fixed
 
-- Fixed a bug in search function page when applying a filter in popular/discover detailed section and go to a show and the go back the filter was disabled
-- UI fixes in footer
+- Addressed a bug on the search function page: When applying a filter in the popular/discover detailed section, going to a show, and then returning, the filter was disabled
+- Made UI fixes in the footer
 
 ---
 
@@ -132,12 +163,12 @@
 
 ### Added
 
-- Added a new section in profile for user's Stopped shows
+- Introduced a new section in the profile for the user's Stopped shows
 
 ### Fixed
 
-- Fixed default cover image not applying correctly
-- Fixed an issue in method for marking a season as watched
+- Resolved the issue of the default cover image not being applied correctly
+- Corrected an issue in the method used for marking a season as watched
 
 ---
 
@@ -145,12 +176,12 @@
 
 ### Added
 
-- Added a better method for updating profile cover images
+- Implemented an improved method for updating profile cover images
 
 ### Fixed
 
-- Fixed an issue that caused auto detecting canceled shows to change status to finished even if user hasn't finished watching the show yet
-- Fixed default cover image
+- Addressed an issue that caused auto-detecting canceled shows to change status to finished even if the user hasn't finished watching the show yet
+- Corrected the default cover image
 
 ---
 
@@ -158,17 +189,17 @@
 
 ### Added
 
-- Added a feature to mark entire season as watched
-- Added a label to show in which season the user currently is ("Watching Now" / "Watch Next")
-- Added a method to reset password
-- Added a check to detect if an email already exists in database
+- Implemented a feature to mark an entire season as watched
+- Added a label to indicate the season the user is currently in ("Watching Now" / "Watch Next").
+- Added a method for resetting user's password
+- Added a check to detect if an email already exists in the database
 
 ### Fixed
 
-- Fixed error message in login page
-- Fixed some general bugs in code
-- Fixed the method calculating and saving user's statistics when marking the season as watched
-- Fixed an issue when marking the season as watched in Returning Series
+- Resolved an error message in the login page
+- Addressed some general bugs in the code
+- Corrected the method for calculating and saving user statistics when marking a season as watched
+- Fixed an issue related to marking a season as watched in Returning Series
 
 ---
 
@@ -176,7 +207,7 @@
 
 ### Update
 
-- Redesigned profile cover selection menu
+- Revamped the menu for selecting profile covers
 
 ---
 
@@ -184,7 +215,7 @@
 
 ### Added
 
-- Switched from iMDB API to MDBList API due to pricing issues
+- Transitioned from using the iMDB API to the MDBList API due to pricing concerns
 
 ### Update
 
@@ -192,7 +223,7 @@
 
 ### Removed
 
-- Removed iMDB API
+- Eliminated the usage of the iMDB API
 
 ---
 
@@ -201,32 +232,32 @@
 ### Added
 
 - Added an info message when a new season of a show got announced but the episode list is still empty
-- Added a function to detect if images didn't load correctly
-- Added a new layout of tv show episodes cards in profile on mobile
+- Added a function to detect if images failed to load correctly
+- Implemented a new layout for TV show episode cards in the profile on mobile
 - Added a button to switch between layouts
-- Added an method to detect programmatically if the device is a mobile
-- Added a focus method in search bar when the users press the search button to start typing immediately
+- Introduced a method to programmatically detect if the device is a mobile
+- Added a focus method in the search bar when users press the search button, enabling immediate typing
 
 ### Update
 
-- Updated UI on mobile devices to be more clean and readable
-- Updated the texts showing in landing page
-- Changed the position and style of displaying show name and genres text in suggestion carousel
-- Updated background colors in Navbar for logged in and logout users
-- Updated placeholder text in search bar
+- Enhanced the UI for mobile devices to be cleaner and more readable
+- Updated the text displayed on the landing page
+- Adjusted the position and style for displaying show names and genre texts in the suggestion carousel
+- Updated background colors in the Navbar for logged-in and logged-out users
+- Refined the placeholder text in the search bar
 - Updated Navbar button sizes in small devices or screen sizes
-- Updated default values of ratings in tv shows page
+- Updated the default values of ratings on the TV shows page
 
 ### Fixed
 
-- Fixed on discover/trending detailed list the page number to be set to 1 when the user changes filters
-- Fixed UI in discover/trending page
-- Fixed a bug when navigating between suggested shows if in Show A user selected Season 2 it was already selected in Show B too instead of Season 1
-- Cleared code
+- Fixed the issue on the discover/trending detailed list where the page number was not reset to 1 when the user changed filters
+- Corrected the UI in the discover/trending page
+- Resolved a bug in navigating between suggested shows where if a user selected Season 2 in Show A, it was also selected in Show B instead of Season 1
+- Performed code cleanup
 
 ### Removed
 
-- Removed button "Find More" in suggestion carousel
+- Removed the "Find More" button from the suggestion carousel
 
 ---
 
@@ -234,7 +265,7 @@
 
 ### Added
 
-- Added a method to constantly check if user's tv shows got canceled.
+- Added a method to continuously check if the user's TV shows have been canceled
 
 ---
 
@@ -242,8 +273,8 @@
 
 ### Update
 
-- [BETA] Updated History section in profile to calculate delete episode better and update the watch next shows
-- [BETA] Increased the number of episodes showed in history section from 20 to 50
+- [BETA] Improved the History section in the profile to enhance the calculation for deleting episodes and updating the watch next shows
+- [BETA] Raised the number of episodes displayed in the history section from 20 to 50
 
 ---
 
@@ -251,20 +282,20 @@
 
 ### Added
 
-- Added in profile page next to episodes tags ("FINALE" or "PREMIER")
+- Added "FINALE" or "PREMIER" tags next to episodes tags on the profile page
 
 ### Updated
 
-- Updated the default setting of Up to Date shows to "Soon"
-- Increased loading time to prevent issues
+- Adjusted the default setting of Up to Date shows to "Soon.
+- Extended loading time to mitigate potential issues
 
 ### Fixed
 
-- Fixed profile episode cards widths and sizes
-- Fixed method for calculating dates
-- Fixed TV Time statistics spelling for single/plural numbers (ex. 1 MONTH / 2 MONTHS etc)
-- Fixed on tv shows page the cast cards heights
-- Fixed a bug in profile width on smaller screen sizes
+- Corrected profile episode card widths and sizes
+- Rectified the method for calculating dates
+- Fixed TV Time statistics spelling for singular/plural numbers (e.g., 1 MONTH / 2 MONTHS, etc.)
+- Addressed the height of cast cards on the TV shows page
+- Resolved a bug in the profile width on smaller screen size
 
 ---
 
@@ -272,7 +303,7 @@
 
 ### Updated
 
-- Updated README on github
+- Updated README on GitHub
 
 ---
 

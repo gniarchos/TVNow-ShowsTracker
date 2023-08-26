@@ -5,7 +5,7 @@ import { db } from "../services/firebase"
 import { useLocation } from "react-router-dom"
 import { useAuth } from "../authentication/AuthContext"
 import def_cover from "../images/def-cover.jpg"
-import EpisodesProfile from "./EpisodesProfile"
+import ProfileEpisodes from "./ProfileEpisodes"
 import Footer from "./Footer"
 import PuffLoader from "react-spinners/PuffLoader"
 import HistoryEpisodes from "./HistoryEpisodes"
@@ -31,8 +31,16 @@ export default function Profile() {
   const [loading, setLoading] = React.useState(true)
   const [isFirstLoad, setIsFirstLoad] = React.useState(true)
   const [historyData, setHistoryData] = React.useState([])
-  const [userWatchingTime, setUserWatchingTime] = React.useState(0)
-  const [userWatchedEpisodes, setUserWatchedEpisodes] = React.useState(0)
+  const [userWatchingTime, setUserWatchingTime] = React.useState(
+    localStorage.getItem("watching_time")
+      ? localStorage.getItem("watching_time")
+      : 0
+  )
+  const [userWatchedEpisodes, setUserWatchedEpisodes] = React.useState(
+    localStorage.getItem("total_episodes")
+      ? localStorage.getItem("total_episodes")
+      : 0
+  )
   const [isSelectCoverOpen, setIsSelectCoverOpen] = React.useState(false)
   const [userCoverSettings, setUserCoverSettings] = React.useState()
   const [hideShowsCoverSelection, setHideShowsCoverSelection] =
@@ -84,6 +92,25 @@ export default function Profile() {
   )
   const [coverImageSelected, setCoverImageSelected] = React.useState(false)
   const [showLayoutMessage, setShowLayoutMessage] = React.useState(false)
+  const [cancelled_shows, setCancelled_shows] = React.useState(new Set())
+  const [show_modal, setShow_modal] = React.useState(false)
+  const [userTime, setUserTime] = React.useState(
+    localStorage.getItem("watching_time")
+      ? localStorage.getItem("watching_time")
+      : userWatchingTime
+  )
+
+  const [userEpisodes, setUserEpisodes] = React.useState(
+    localStorage.getItem("total_episodes")
+      ? localStorage.getItem("total_episodes")
+      : userWatchedEpisodes
+  )
+
+  const [watchingStatistic, setWatchingStatistic] = React.useState([])
+  const [loadMoreData, setLoadMoreData] = React.useState(true)
+  const [currentPageHistory, setCurrentPageHistory] = React.useState(1)
+
+  const itemsPerPage = 10
 
   React.useEffect(() => {
     window.scrollTo(0, 0)
@@ -119,55 +146,9 @@ export default function Profile() {
   }, [userCoverSettings])
 
   React.useEffect(() => {
-    db.collection("users")
-      .doc(currentUser.uid)
-      .get()
-      .then((snapshot) =>
-        setUserCoverSettings(snapshot.data().profile_cover_selection)
-      )
-
-    db.collection("users")
-      .doc(currentUser.uid)
-      .get()
-      .then((snapshot) => setUserWatchingTime(snapshot.data().watching_time))
-
-    db.collection("users")
-      .doc(currentUser.uid)
-      .get()
-      .then((snapshot) =>
-        setUserWatchedEpisodes(snapshot.data().total_episodes)
-      )
-
-    db.collection(`watchlist-${currentUser.uid}`)
-      .get()
-      .then((snap) => {
-        setTrackedShows(snap.size) // will return the collection size
-      })
-
-    db.collection(`watchlist-${currentUser.uid}`)
-      .where("status", "==", "watching")
-      .get()
-      .then((snap) => {
-        setWatchingShows(snap.size) // will return the collection size
-      })
-
-    db.collection(`watchlist-${currentUser.uid}`)
-      .where("status", "==", "finished")
-      .get()
-      .then((snap) => {
-        setHasFinishedShows(snap.size) // will return the collection size
-      })
-
-    db.collection(`watchlist-${currentUser.uid}`)
-      .where("status", "==", "not_started")
-      .get()
-      .then((snap) => {
-        setNotStartedYetShows(snap.size) // will return the collection size
-      })
-
     db.collection(`history-${currentUser.uid}`)
       .orderBy("date_watched", "desc")
-      .limit(50)
+      .limit(currentPageHistory * itemsPerPage)
       .onSnapshot((snapshot) => {
         setHistoryData(
           snapshot.docs.map((doc) => ({
@@ -182,35 +163,74 @@ export default function Profile() {
           }))
         )
       })
+  }, [finished, loadMoreData])
 
-    myShows.map(async (myShow, index) => {
-      await fetch(
-        `https://api.themoviedb.org/3/tv/${myShow.show_id}?api_key=***REMOVED***&language=en-US&include_image_language=en,null&append_to_response=external_ids,videos,aggregate_credits,content_ratings,recommendations,similar,watch/providers,images`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          setShowsData((prevData) => {
-            return [...prevData, data]
+  React.useEffect(() => {
+    Promise.all([
+      db.collection("users").doc(currentUser.uid).get(),
+      db.collection(`watchlist-${currentUser.uid}`).get(),
+      db
+        .collection(`watchlist-${currentUser.uid}`)
+        .where("status", "==", "watching")
+        .get(),
+      db
+        .collection(`watchlist-${currentUser.uid}`)
+        .where("status", "==", "finished")
+        .get(),
+      db
+        .collection(`watchlist-${currentUser.uid}`)
+        .where("status", "==", "not_started")
+        .get(),
+    ])
+      .then(
+        ([
+          userInfo,
+          watchlistSnapshot,
+          watchingSnapshot,
+          finishedSnapshot,
+          notStartedSnapshot,
+        ]) => {
+          const userDocInfo = userInfo.data()
+          setUserCoverSettings(userDocInfo.profile_cover_selection)
+          setUserWatchingTime(userDocInfo.watching_time)
+          setUserWatchedEpisodes(userDocInfo.total_episodes)
+          setTrackedShows(watchlistSnapshot.size)
+          setWatchingShows(watchingSnapshot.size)
+          setHasFinishedShows(finishedSnapshot.size)
+          setNotStartedYetShows(notStartedSnapshot.size)
+
+          const fetchPromises = myShows.map(async (myShow) => {
+            const [showRes, seasonRes] = await Promise.all([
+              fetch(
+                `https://api.themoviedb.org/3/tv/${myShow.show_id}?api_key=***REMOVED***&language=en-US&include_image_language=en,null&append_to_response=external_ids,videos,aggregate_credits,content_ratings,recommendations,similar,watch/providers,images`
+              ),
+              fetch(
+                `https://api.themoviedb.org/3/tv/${myShow.show_id}/season/${myShow.seasonNumber}?api_key=***REMOVED***&language=en-US`
+              ),
+            ])
+            const [showData, seasonData] = await Promise.all([
+              showRes.json(),
+              seasonRes.json(),
+            ])
+            setShowsData((prevData) => [...prevData, showData])
+            setSeasonData((prevData) => [
+              ...prevData,
+              { ...seasonData, show_id: myShow.show_id },
+            ])
           })
-        })
 
-      fetch(
-        `https://api.themoviedb.org/3/tv/${myShow.show_id}/season/${myShow.seasonNumber}?api_key=***REMOVED***&language=en-US`
+          localStorage.setItem("total_episodes", userWatchedEpisodes)
+          localStorage.setItem("watching_time", userWatchingTime)
+
+          triggerLoadDataLocalStorage()
+
+          return Promise.all(fetchPromises)
+        }
       )
-        .then((res) => res.json())
-        .then((data) => {
-          data.show_id = myShow.show_id
-          setSeasonData((prevData) => {
-            return [...prevData, data]
-          })
-        })
-    })
-
-    setLoading(false)
+      .finally(() => {
+        setLoading(false)
+      })
   }, [finished])
-
-  localStorage.setItem("total_episodes", userWatchedEpisodes)
-  localStorage.setItem("watching_time", userWatchingTime)
 
   async function fetchShowImages(show_id, show_name) {
     await fetch(
@@ -276,87 +296,75 @@ export default function Profile() {
 
   const watchNextShows = myShows
     .filter((show) => show.status === "watching")
-    .map((show, showIndex) => {
-      let show_date = new Date(
-        seasonData
-          .filter((season) => season.show_id === show.show_id)
-          .map((season) => {
-            return (
-              (season?.episodes !== undefined ||
-                season?.episodes?.length > 0) &&
-              season?.episodes[show.episodeNumber]?.air_date
-            )
-          })
+    .map((show, index) => {
+      const relevantSeasonData = seasonData.filter(
+        (season) => season.show_id === show.show_id
+      )
+      const relevantShowData = showsData.filter(
+        (allData) => allData.name === show.show_name
       )
 
-      let today = new Date()
-      let difference = show_date.getTime() - today.getTime()
-      let daysUntilCurrentEpisode = Math.ceil(difference / (1000 * 3600 * 24))
+      if (relevantSeasonData.length === 0 || relevantShowData.length === 0) {
+        return null // Skip rendering if relevant data is missing
+      }
 
-      if (
-        daysUntilCurrentEpisode <= 0 &&
-        isNaN(daysUntilCurrentEpisode) === false
-      ) {
+      const show_date = new Date(
+        relevantSeasonData.map(
+          (season) =>
+            (season?.episodes !== undefined || season?.episodes?.length > 0) &&
+            season?.episodes[show.episodeNumber]?.air_date
+        )
+      )
+      const today = new Date()
+      const difference = show_date.getTime() - today.getTime()
+      const daysUntilCurrentEpisode = Math.ceil(difference / (1000 * 3600 * 24))
+
+      if (daysUntilCurrentEpisode <= 0 && !isNaN(daysUntilCurrentEpisode)) {
+        var counter = counter++
         return (
-          <EpisodesProfile
+          <ProfileEpisodes
+            key={show.show_id}
             mobileLayout={mobileLayout}
-            backdrop_path={showsData
-              .filter((allData) => allData.name === show.show_name)
-              .map((allData) => {
-                return allData.backdrop_path
-              })}
+            backdrop_path={relevantShowData.map(
+              (allData) => allData.backdrop_path
+            )}
             showName={show.show_name}
-            episode_name={seasonData
-              .filter((season) => season.show_id === show.show_id)
-              ?.map((season) => {
-                return season.episodes[show.episodeNumber].name
-              })}
+            episode_name={relevantSeasonData.map(
+              (season) => season.episodes[show.episodeNumber]?.name
+            )}
             currentUserID={currentUser.uid}
             episode_number={show.episodeNumber}
             season_number={show.seasonNumber}
             today={today}
             difference={difference}
             daysUntilCurrentEpisode={daysUntilCurrentEpisode}
-            show_all_seasons={showsData
-              .filter((allData) => allData.name === show.show_name)
-              .map((allData) => {
-                return allData.number_of_seasons
-              })}
-            curr_season_episodes={seasonData
-              .filter((season) => season.show_id === show.show_id)
-              .map((season) => {
-                return season.episodes.length
-              })}
+            show_all_seasons={relevantShowData.map(
+              (allData) => allData.number_of_seasons
+            )}
+            curr_season_episodes={relevantSeasonData.map(
+              (season) => season.episodes.length
+            )}
             showID={show.show_id}
-            episode_time={seasonData
-              .filter((season) => season.show_id === show.show_id)
-              ?.map((season) => {
-                return season.episodes[show.episodeNumber].runtime !== null
-                  ? season.episodes[show.episodeNumber].runtime
-                  : 0
-              })}
+            episode_time={relevantSeasonData.map(
+              (season) => season.episodes[show.episodeNumber]?.runtime || 0
+            )}
             triggerLoadDataLocalStorage={triggerLoadDataLocalStorage}
             resetSeasonData={resetSeasonData}
-            show_status={showsData
-              .filter((allData) => allData.name === show.show_name)
-              .map((allData) => {
-                return allData.status
-              })
+            show_status={relevantShowData
+              .map((allData) => allData.status)
               .join("")}
             temp_total_episodes={localStorage.getItem("total_episodes")}
             temp_watching_time={localStorage.getItem("watching_time")}
           />
         )
       }
+
+      return null
     })
-
-  const [cancelled_shows, setCancelled_shows] = React.useState(new Set())
-
-  const [show_modal, setShow_modal] = React.useState(false)
 
   const upToDateShows = myShows
     .filter((show) => show.status === "watching")
-    .map((show, showIndex) => {
+    .map((show) => {
       fetch(
         `https://api.themoviedb.org/3/tv/${show.show_id}?api_key=***REMOVED***&language=en-US`
       )
@@ -416,7 +424,8 @@ export default function Profile() {
       ) {
         if (upToDateFilter === "all") {
           return (
-            <EpisodesProfile
+            <ProfileEpisodes
+              key={show.show_id}
               mobileLayout={mobileLayout}
               backdrop_path={showsData
                 .filter((allData) => allData.name === show.show_name)
@@ -469,7 +478,8 @@ export default function Profile() {
           parseInt(nextEpisodeDate_data) >= 0
         ) {
           return (
-            <EpisodesProfile
+            <ProfileEpisodes
+              key={show.show_id}
               mobileLayout={mobileLayout}
               backdrop_path={showsData
                 .filter((allData) => allData.name === show.show_name)
@@ -522,7 +532,8 @@ export default function Profile() {
           JSON.stringify(nextEpisodeDate_data) === "[false]"
         ) {
           return (
-            <EpisodesProfile
+            <ProfileEpisodes
+              key={show.show_id}
               mobileLayout={mobileLayout}
               backdrop_path={showsData
                 .filter((allData) => allData.name === show.show_name)
@@ -574,8 +585,6 @@ export default function Profile() {
       }
     })
 
-  // console.log(seasonData)
-
   const notStartedShows = myShows
     .filter((show) => show.status === "not_started")
     .map((show, showIndex) => {
@@ -595,7 +604,8 @@ export default function Profile() {
       let daysUntilCurrentEpisode = Math.ceil(difference / (1000 * 3600 * 24))
 
       return (
-        <EpisodesProfile
+        <ProfileEpisodes
+          key={show.show_id}
           mobileLayout={mobileLayout}
           backdrop_path={showsData
             .filter((allData) => allData.name === show.show_name)
@@ -665,7 +675,8 @@ export default function Profile() {
     .filter((show) => show.status === "finished")
     .map((show, showIndex) => {
       return (
-        <EpisodesProfile
+        <ProfileEpisodes
+          key={show.show_id}
           mobileLayout={mobileLayout}
           backdrop_path={showsData
             .filter((allData) => allData.name === show.show_name)
@@ -699,7 +710,8 @@ export default function Profile() {
     .filter((show) => show.status === "stopped")
     .map((show, showIndex) => {
       return (
-        <EpisodesProfile
+        <ProfileEpisodes
+          key={show.show_id}
           mobileLayout={mobileLayout}
           backdrop_path={showsData
             .filter((allData) => allData.name === show.show_name)
@@ -722,9 +734,10 @@ export default function Profile() {
       )
     })
 
-  const watchedHistory = historyData.map((history) => {
+  const watchedHistory = historyData.map((history, index) => {
     return (
       <HistoryEpisodes
+        key={index}
         history_show_name={history.show_name}
         history_show_id={history.show_id}
         history_season_number={history.season_number}
@@ -753,7 +766,6 @@ export default function Profile() {
 
   function toggleSections(event) {
     const { id } = event.target
-    // console.log("EVENT ID:", id)
 
     if (id === "watchNext") {
       setWatchNextSection(!watchNextSection)
@@ -791,22 +803,7 @@ export default function Profile() {
     }
   }
 
-  const [userTime, setUserTime] = React.useState(
-    localStorage.getItem("watching_time")
-      ? localStorage.getItem("watching_time")
-      : userWatchingTime
-  )
-
-  const [userEpisodes, setUserEpisodes] = React.useState(
-    localStorage.getItem("total_episodes")
-      ? localStorage.getItem("total_episodes")
-      : userWatchedEpisodes
-  )
-
-  const [watchingStatistic, setWatchingStatistic] = React.useState([])
   React.useEffect(() => {
-    setLoading(true)
-
     setUserTime(
       localStorage.getItem("watching_time")
         ? localStorage.getItem("watching_time")
@@ -827,11 +824,7 @@ export default function Profile() {
     const hours = Math.floor((minutes % (24 * 60)) / 60)
 
     setWatchingStatistic([months, days, hours])
-
-    setTimeout(function () {
-      setLoading(false)
-    }, 900)
-  }, [readLocalStorage, userWatchingTime, userTime])
+  }, [readLocalStorage, userWatchingTime, userTime, historyData])
 
   function temporarySaveCoverSelection(image) {
     const fixed_image = image.replace("w500", "original")
@@ -866,9 +859,14 @@ export default function Profile() {
     setShow_modal(false)
   }
 
-  function jumpToReleventDiv(id) {
-    const releventDiv = document.getElementById(id)
-    releventDiv.scrollIntoView({ behavior: "smooth" })
+  function jumpToRelevantDiv(id) {
+    const relevantDiv = document.getElementById(id)
+    relevantDiv.scrollIntoView({ behavior: "smooth" })
+  }
+
+  function loadMore() {
+    setCurrentPageHistory((prevPage) => prevPage + 1)
+    setLoadMoreData(!loadMoreData)
   }
 
   return (
@@ -907,16 +905,16 @@ export default function Profile() {
           <div className="details-account">
             <div className="section-1">
               <div className="statistic-numbers">
-                <h3 className="stat-title">Shows </h3>
+                <h3 className="stat-title">Total Shows </h3>
                 <p className="stat-num">{trackedShows}</p>
               </div>
 
               <div className="statistic-numbers">
                 <h3
                   className="stat-title clickable"
-                  onClick={() => jumpToReleventDiv("watching")}
+                  onClick={() => jumpToRelevantDiv("watching")}
                 >
-                  Watching
+                  Watching Now
                 </h3>
                 <p className="stat-num">{watchingShows}</p>
               </div>
@@ -926,21 +924,21 @@ export default function Profile() {
               <div className="statistic-numbers">
                 <h3
                   className="stat-title clickable"
-                  onClick={() => jumpToReleventDiv("finished")}
+                  onClick={() => jumpToRelevantDiv("not_started")}
                 >
-                  Finished{" "}
+                  Not Started{" "}
                 </h3>
-                <p className="stat-num">{hasFinishedShows}</p>
+                <p className="stat-num">{notStartedYetShows}</p>
               </div>
 
               <div className="statistic-numbers">
                 <h3
                   className="stat-title clickable"
-                  onClick={() => jumpToReleventDiv("not_started")}
+                  onClick={() => jumpToRelevantDiv("finished")}
                 >
-                  Not Started{" "}
+                  Finished
                 </h3>
-                <p className="stat-num">{notStartedYetShows}</p>
+                <p className="stat-num">{hasFinishedShows}</p>
               </div>
             </div>
           </div>
@@ -957,7 +955,7 @@ export default function Profile() {
       <div className="statistics-info-container">
         <div className="top-info-div-profile">
           <div className="info-div-profile">
-            <h1 className="stats-title">TV Time</h1>
+            <h1 className="stats-title">Your TV Time</h1>
             <div className="tvtime-container">
               <div className="tvtime-stats">
                 <p className="stats-number">{watchingStatistic[0]}</p>
@@ -987,15 +985,16 @@ export default function Profile() {
         </div>
       </div>
 
-      {loading === true && (
+      {loading === true && myShows.length === 0 ? (
         <div className="spinner-div">
           <PuffLoader color={"white"} size={100} />
           <h3>Reloading Data...</h3>
         </div>
-      )}
-
-      {loading === false && (
+      ) : (
         <div>
+          {/* <div>
+            <button onClick={forceReload}>Reload Data</button>
+          </div> */}
           <div className="profile-wrapper">
             {watchNextShows.length > 0 && (
               <div id="watching" className="title-button">
@@ -1020,11 +1019,13 @@ export default function Profile() {
               <div className="title-button">
                 <h1 className="profile-section-title uptodate-settings">
                   Up to Date
-                  <Icon
-                    className="setting-icon"
-                    icon="akar-icons:settings-horizontal"
-                    onClick={toggleUpToDateSettings}
-                  />
+                  {upToDateSection && (
+                    <Icon
+                      className="setting-icon"
+                      icon="akar-icons:settings-horizontal"
+                      onClick={toggleUpToDateSettings}
+                    />
+                  )}
                 </h1>
                 <button
                   id="upToDate"
@@ -1036,7 +1037,7 @@ export default function Profile() {
               </div>
             )}
 
-            {upToDateSettings && (
+            {upToDateSettings && upToDateSection && (
               <div className="upToDate-filters">
                 <h4
                   className={
@@ -1164,6 +1165,9 @@ export default function Profile() {
             {historySection && watchedHistory.length > 0 && (
               <div className="details-container history-container">
                 {watchedHistory}
+                <button className="loadMoreHistory-btn" onClick={loadMore}>
+                  Load More
+                </button>
               </div>
             )}
           </div>
@@ -1211,9 +1215,9 @@ export default function Profile() {
             </h3>
           )}
           {hideShowsCoverSelection === false &&
-            myShows.map((show) => {
+            myShows.map((show, index) => {
               return (
-                <div>
+                <div key={index}>
                   <h3
                     className="showCoverName"
                     onClick={() =>

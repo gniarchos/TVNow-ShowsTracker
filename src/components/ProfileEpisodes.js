@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom"
 import { Icon } from "@iconify/react"
 import noImg from "../images/no-image.png"
 
-export default function EpisodesProfile(props) {
+export default function ProfileEpisodes(props) {
   const navigate = useNavigate()
   const zeroPad = (num, places) => String(num).padStart(places, "0")
 
@@ -17,16 +17,11 @@ export default function EpisodesProfile(props) {
     db.collection("users")
       .doc(props.currentUserID)
       .get()
-      .then((snapshot) =>
-        setUserWatchingTime(parseInt(snapshot.data().watching_time))
-      )
-
-    db.collection("users")
-      .doc(props.currentUserID)
-      .get()
-      .then((snapshot) =>
-        setUserTotalEpisodes(parseInt(snapshot.data().total_episodes))
-      )
+      .then((snapshot) => {
+        const userData = snapshot.data()
+        setUserWatchingTime(parseInt(userData.watching_time))
+        setUserTotalEpisodes(parseInt(userData.total_episodes))
+      })
   }, [finished])
 
   function episodeMarker(event) {
@@ -129,7 +124,7 @@ export default function EpisodesProfile(props) {
   }
 
   function handleImageError(e) {
-    console.log("Something went wrong with your image")
+    // console.log("Something went wrong with your image")
     e.currentTarget.src = noImg
   }
 
@@ -152,17 +147,25 @@ export default function EpisodesProfile(props) {
         }
       >
         {props.backdrop_path[0] !== null ? (
-          <img
+          <div
             className={
               props.mobileLayout === "cards"
-                ? "episode-card-img"
-                : "history-card-img"
+                ? "img-background"
+                : "img-background grid"
             }
-            src={`https://image.tmdb.org/t/p/w500/${props.backdrop_path}`}
-            alt="episode-card-img"
-            loading="lazy"
-            onError={(e) => handleImageError(e)}
-          />
+          >
+            <img
+              className={
+                props.mobileLayout === "cards"
+                  ? "episode-card-img"
+                  : "history-card-img"
+              }
+              src={`https://image.tmdb.org/t/p/w500/${props.backdrop_path}`}
+              alt="episode-card-img"
+              loading="lazy"
+              onError={(e) => handleImageError(e)}
+            />
+          </div>
         ) : (
           <img
             loading="lazy"
@@ -207,7 +210,7 @@ export default function EpisodesProfile(props) {
             >
               {props.showName}
             </h3>
-            <p className="episode-num-card">
+            <div className="episode-num-card">
               S{zeroPad(props.season_number, 2)} | E
               {zeroPad(props.episode_number + 1, 2)}
               {props.curr_season_episodes - (props.episode_number + 1) !== 0 &&
@@ -221,7 +224,7 @@ export default function EpisodesProfile(props) {
                   {props.upToDate !== true ? "FINALE" : "PREMIER"}
                 </p>
               )}
-            </p>
+            </div>
             <p className="profile-episode-name">
               {props.episode_name !== "false" ? props.episode_name : "TBA"}
             </p>

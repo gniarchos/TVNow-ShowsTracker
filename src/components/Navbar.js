@@ -1,6 +1,7 @@
 import React from "react"
 import "./Navbar.css"
-import logo from "../images/nav-logo-fixed.png"
+// import logo from "../images/nav-logo-fixed.png"
+import logo from "../images/TVTime-logo-white.svg"
 import { useAuth } from "../authentication/AuthContext"
 import { useNavigate, Link } from "react-router-dom"
 import searchImg from "../images/search.png"
