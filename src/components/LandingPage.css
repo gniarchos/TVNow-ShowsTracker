@@ -1,5 +1,5 @@
 .landing-wrapper {
-  background-image: url("../images/landing-bg.jpg");
+  background-image: url(../images/landing-bg-min.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh;
@@ -36,17 +36,17 @@
 
 .item:nth-child(1) {
   animation: fadein 15s ease-in-out infinite;
-  color: black;
+  color: #000;
 }
 
 .item:nth-child(2) {
   animation: fadein 15s ease-in-out 5s infinite;
-  color: black;
+  color: #000;
 }
 
 .item:nth-child(3) {
   animation: fadein 15s ease-in-out 10s infinite;
-  color: black;
+  color: #000;
 }
 
 @keyframes fadein {
@@ -54,15 +54,12 @@
     opacity: 0;
   }
   6.25% {
-    /* 3s for fade in */
     opacity: 1;
   }
   26.75% {
-    /* roughly 10s for stay as-is */
     opacity: 1;
   }
   33% {
-    /* 3s for fade out */
     opacity: 0;
   }
 }
@@ -75,7 +72,7 @@
 .button-start {
   margin-top: 60px;
   background: #212237;
-  color: white;
+  color: #fff;
   font-family: inherit;
   padding: 0.35em;
   padding-left: 1.2em;
@@ -95,7 +92,7 @@
 }
 
 .button-start .icon {
-  background: white;
+  background: #fff;
   margin-left: 1em;
   position: absolute;
   display: flex;
@@ -104,7 +101,7 @@
   height: 2.2em;
   width: 2.2em;
   border-radius: 0.7em;
-  box-shadow: 0em 0em 0.5em 0em rgb(168, 168, 168);
+  box-shadow: 0 0 0.5em 0 #a8a8a8;
   right: 0.3em;
   transition: all 0.3s;
 }
@@ -142,12 +139,13 @@
     transform: translateX(-100%);
   }
   100% {
-    transform: translateX(0%);
+    transform: translateX(0);
   }
 }
 
 .popcorn-img {
   width: 320px;
+  height: 320px;
 }
 
 .about-landing {
@@ -218,7 +216,7 @@
 }
 
 .btn-learn-more:hover {
-  color: white;
+  color: #fff;
 }
 
 .btn-learn-more:hover::before {
@@ -229,16 +227,12 @@
   .landing-title {
     font-size: 3rem;
   }
-
   .item {
     font-size: 2rem;
   }
-
   .popcorn-img {
-    width: 320px;
     display: none;
   }
-
   .about-landing {
     flex-direction: column;
     gap: 0;
@@ -250,11 +244,9 @@
     font-size: 2rem;
     margin-bottom: 50px;
   }
-
   .item {
     font-size: 1.8rem;
   }
-
   .about-h1 {
     font-size: 3.5rem;
   }
@@ -262,14 +254,12 @@
 
 @media all and (max-width: 499px) {
   .landing-wrapper {
-    background-image: url("../images/landing-bg-mb.jpg");
+    background-image: url(../images/landing-bg-mb-min.jpg);
   }
-
   .landing-title {
     font-size: 2.35rem;
     margin-bottom: 40px;
   }
-
   .item {
     font-size: 1.7rem;
     font-weight: 600;

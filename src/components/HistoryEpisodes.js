@@ -1,34 +1,11 @@
 import React from "react"
 import { db } from "../services/firebase"
 import { useNavigate } from "react-router-dom"
+import "firebase/compat/firestore"
 
 export default function HistoryEpisodes(props) {
   const zeroPad = (num, places) => String(num).padStart(places, "0")
   const navigate = useNavigate()
-
-  // const [userTime, setUserTime] = React.useState(
-  //   localStorage.getItem("watching_time")
-  //     ? localStorage.getItem("watching_time")
-  //     : 0
-  // )
-  // const [userEpisodes, setUserEpisodes] = React.useState(
-  //   localStorage.getItem("total_episodes")
-  //     ? localStorage.getItem("total_episodes")
-  //     : 0
-  // )
-  // const [reload, setReload] = React.useState(false)
-
-  // React.useEffect(() => {
-  //   db.collection("users")
-  //     .doc(props.currentUserID)
-  //     .get()
-  //     .then((snapshot) => setUserTime(snapshot.data().watching_time))
-
-  //   db.collection("users")
-  //     .doc(props.currentUserID)
-  //     .get()
-  //     .then((snapshot) => setUserEpisodes(snapshot.data().total_episodes))
-  // }, [reload])
 
   function markAsUnwatched() {
     if (props.history_episode_name === "Marked Season Watched") {
@@ -36,13 +13,14 @@ export default function HistoryEpisodes(props) {
 
       db.collection(`history-${props.currentUserID}`)
         .where("show_name", "==", props.history_show_name)
-        .where("season_number", ">=", parseInt(props.history_season_number))
+        .where("episode_name", "==", "Marked Season Watched")
         .get()
         .then((snap) => {
-          for (let i = 0; i < snap.size; i++) {
-            // console.log(snap.docs[i].id) // will return the ids of each document
-            ids_to_delete.push(snap.docs[i].id)
-          }
+          snap.forEach((doc) => {
+            if (doc.data().season_number >= props.history_season_number) {
+              ids_to_delete.push(doc.id)
+            }
+          })
         })
         .then(() => {
           db.collection(`watchlist-${props.currentUserID}`)
@@ -57,54 +35,57 @@ export default function HistoryEpisodes(props) {
               })
             })
         })
-        .then(() =>
-          ids_to_delete.map((delete_id, index) => {
-            db.collection(`history-${props.currentUserID}`)
+        .then(() => {
+          var watchingTime = parseInt(localStorage.getItem("watching_time"))
+          var totalEpisodes = parseInt(localStorage.getItem("total_episodes"))
+          const promises = ids_to_delete.map((delete_id, index) => {
+            return db
+              .collection(`history-${props.currentUserID}`)
               .doc(delete_id)
               .get()
               .then((doc) => {
-                db.collection("users")
+                const episodeTime = doc.data().episode_time
+                if (index > 0) {
+                  watchingTime = parseInt(
+                    localStorage.getItem("watching_time") - episodeTime
+                  )
+                  totalEpisodes = parseInt(
+                    localStorage.getItem("total_episodes") -
+                      doc.data().episode_number
+                  )
+                }
+                return db
+                  .collection("users")
                   .doc(props.currentUserID)
                   .update({
-                    watching_time:
-                      parseInt(localStorage.getItem("watching_time")) -
-                      doc.data().episode_time,
-                    total_episodes:
-                      parseInt(localStorage.getItem("total_episodes")) -
-                      doc.data().episode_number,
+                    watching_time: watchingTime - episodeTime,
+                    total_episodes: totalEpisodes - doc.data().episode_number,
                   })
-
-                localStorage.setItem(
-                  "watching_time",
-                  localStorage.getItem("watching_time") -
-                    doc.data().episode_time
-                )
-                localStorage.setItem(
-                  "total_episodes",
-                  localStorage.getItem("total_episodes") -
-                    doc.data().episode_number
-                )
-              })
-              .then(() => {
-                deleteEpisodeFromHistory(delete_id)
               })
           })
-        )
+
+          Promise.all(promises).then(() => {
+            ids_to_delete.map((delete_id, index) => {
+              deleteEpisodeFromHistory(delete_id)
+            })
+          })
+        })
     } else {
       let ids_to_delete = []
 
       db.collection(`history-${props.currentUserID}`)
         .where("show_name", "==", props.history_show_name)
-        .where("episode_number", ">=", parseInt(props.history_episode_number))
+        .where("season_number", "==", parseInt(props.history_season_number))
         .get()
         .then((snap) => {
           snap.forEach((doc) => {
-            if (doc.data().episode_name !== "Marked Season Watched") {
-              ids_to_delete.push(doc.id)
+            if (doc.data().episode_number >= props.history_episode_number) {
+              if (doc.data().episode_name !== "Marked Season Watched") {
+                ids_to_delete.push(doc.id)
+              }
             }
           })
         })
-
         .then(() => {
           db.collection(`watchlist-${props.currentUserID}`)
             .where("show_name", "==", props.history_show_name)
@@ -118,44 +99,49 @@ export default function HistoryEpisodes(props) {
               })
             })
         })
-        .then(() =>
-          ids_to_delete.map((delete_id, index) => {
-            db.collection(`history-${props.currentUserID}`)
+        .then(() => {
+          var watchingTime = parseInt(localStorage.getItem("watching_time"))
+          var totalEpisodes = parseInt(localStorage.getItem("total_episodes"))
+          const promises = ids_to_delete.map((delete_id, index) => {
+            return db
+              .collection(`history-${props.currentUserID}`)
               .doc(delete_id)
               .get()
               .then((doc) => {
-                db.collection("users")
+                const episodeTime = doc.data().episode_time
+                if (index > 0) {
+                  watchingTime = parseInt(
+                    localStorage.getItem("watching_time") - episodeTime
+                  )
+                  totalEpisodes = parseInt(
+                    localStorage.getItem("total_episodes") - 1
+                  )
+                }
+                return db
+                  .collection("users")
                   .doc(props.currentUserID)
                   .update({
-                    watching_time:
-                      parseInt(localStorage.getItem("watching_time")) -
-                      doc.data().episode_time,
-                    total_episodes:
-                      parseInt(localStorage.getItem("total_episodes")) - 1,
+                    watching_time: watchingTime - episodeTime,
+                    total_episodes: totalEpisodes - 1,
                   })
-
-                localStorage.setItem(
-                  "watching_time",
-                  localStorage.getItem("watching_time") -
-                    doc.data().episode_time
-                )
-                localStorage.setItem(
-                  "total_episodes",
-                  localStorage.getItem("total_episodes") - 1
-                )
-              })
-              .then(() => {
-                deleteEpisodeFromHistory(delete_id)
               })
           })
-        )
+
+          Promise.all(promises).then(() => {
+            ids_to_delete.map((delete_id, index) => {
+              deleteEpisodeFromHistory(delete_id)
+            })
+          })
+        })
     }
 
     function deleteEpisodeFromHistory(episode_to_delete) {
-      // setReload(!reload)
       db.collection(`history-${props.currentUserID}`)
         .doc(episode_to_delete)
         .delete()
+        .then(() => {
+          window.location.reload()
+        })
     }
   }
 

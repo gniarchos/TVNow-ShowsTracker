@@ -11,6 +11,7 @@ import PuffLoader from "react-spinners/PuffLoader"
 import HistoryEpisodes from "./HistoryEpisodes"
 import { Icon } from "@iconify/react"
 import Modal from "./Modal"
+import ScrollToTop from "./ScrollToTop"
 
 export default function Profile() {
   document.title = `TVTime | TV Shows Tracker`
@@ -873,6 +874,7 @@ export default function Profile() {
     <div>
       <div className="bg"></div>
       <Navbar isLoggedIn={true} isProfile={true} />
+      <ScrollToTop />
 
       <Modal
         cancelled_shows={cancelled_shows}

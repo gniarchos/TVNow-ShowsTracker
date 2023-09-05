@@ -144,6 +144,7 @@ export default function LandingPage(props) {
               className="popcorn-img"
               src="https://media.giphy.com/media/AuZXGzk5qKRpG54Ewl/giphy.gif"
               alt="popcorn"
+              loading="lazy"
             />
           </div>
 

@@ -17,6 +17,11 @@
   font-size: 1rem;
 }
 
+.footer-api p {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
 .copyright-wrapper {
   display: flex;
   flex-direction: row;
@@ -26,6 +31,7 @@
 
 .copyright {
   font-size: 1rem;
+  font-weight: 600;
 }
 
 .link-portfolio {
@@ -33,6 +39,11 @@
   text-decoration: none;
   font-size: 1.1rem;
   font-weight: 600;
+  transition: all 250ms ease-in;
+}
+
+.link-portfolio:hover {
+  color: rgb(243, 178, 57);
 }
 
 .socials {
@@ -54,11 +65,6 @@
 .social-icon:hover {
   color: rgb(243, 178, 57);
   transition: all 250ms ease-in;
-}
-
-.api-images {
-  width: 50px;
-  height: 50px;
 }
 
 @media all and (max-width: 896px) {

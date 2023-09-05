@@ -54,8 +54,6 @@ export default function ShowOverview() {
   const [selectedSeasonData, setSelectedSeasonData] = React.useState()
   const [semiReleasedSeason, setSemiReleasedSeason] = React.useState(false)
 
-  console.log(seasonDetails)
-
   React.useEffect(() => {
     db.collection("users")
       .doc(location.state.userId)
@@ -202,24 +200,25 @@ export default function ShowOverview() {
       .then(() => {
         setFinished(true)
       })
-
-    const url = `https://mdblist.p.rapidapi.com/?i=${show.external_ids.imdb_id}`
-    const options = {
-      method: "GET",
-      headers: {
-        "X-RapidAPI-Key": "***REMOVED***",
-        "X-RapidAPI-Host": "mdblist.p.rapidapi.com",
-      },
-    }
-
-    fetch(url, options)
-      .then((res) => res.json())
-      .then((data) => {
-        setImdbRating(data.ratings[0].value)
-        setRottenTomatoesRating(data.ratings[4].value)
-        setTraktRating(data.ratings[3].value)
-      })
   }, [finished, seasonNumber])
+
+  React.useEffect(() => {
+    // const url = `https://mdblist.p.rapidapi.com/?i=${show.external_ids.imdb_id}`
+    // const options = {
+    //   method: "GET",
+    //   headers: {
+    //     "X-RapidAPI-Key": "***REMOVED***",
+    //     "X-RapidAPI-Host": "mdblist.p.rapidapi.com",
+    //   },
+    // }
+    // fetch(url, options)
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setImdbRating(data?.ratings[0]?.value)
+    //     setRottenTomatoesRating(data?.ratings[4]?.value)
+    //     setTraktRating(data?.ratings[3]?.value)
+    //   })
+  }, [location])
 
   React.useEffect(() => {
     setSeasonUntilReleasedEpisode([])
@@ -351,6 +350,7 @@ export default function ShowOverview() {
   for (i = 1; i <= show.number_of_seasons; i++) {
     seasons.push(
       <div
+        key={i}
         id={i - 1}
         onClick={(e) => changeSeason(e)}
         className={i === 1 ? "season-div active" : "season-div"}
@@ -390,9 +390,12 @@ export default function ShowOverview() {
     )
   }
 
+  console.log(show)
+
   const logos_networks = show.networks.map((logo) => {
     return (
       <img
+        key={logo.id}
         className="logos-img"
         src={`https://image.tmdb.org/t/p/w500/${logo.logo_path}`}
         alt="logo-network"
@@ -400,21 +403,29 @@ export default function ShowOverview() {
     )
   })
 
-  const createdBy = show.created_by.map((create) => {
-    return <p className="creator">{create.name}</p>
+  const createdBy = show.created_by.map((creator) => {
+    return (
+      <p key={creator.id} className="creator">
+        {creator.name}
+      </p>
+    )
   })
 
   const yearStarted_fix =
     show.first_air_date !== null ? show.first_air_date.split("-") : "-"
   const yearStarted = yearStarted_fix !== "-" ? `${yearStarted_fix[0]}` : "-"
 
-  const languages = show.languages.map((lang) => {
-    return <p className="show-languages">{lang}</p>
+  const languages = show.languages.map((lang, index) => {
+    return (
+      <p key={nanoid()} className="show-languages">
+        {lang}
+      </p>
+    )
   })
 
   const cast = show.aggregate_credits.cast.slice(0, 10).map((person) => {
     return (
-      <div className="cast-id">
+      <div key={person.id} className="cast-id">
         {person.profile_path !== null ? (
           <img
             className="cast-img-profile"
@@ -439,7 +450,7 @@ export default function ShowOverview() {
 
   const fullCast = show.aggregate_credits.cast.map((person) => {
     return (
-      <div className="cast-id-full">
+      <div key={person.id} className="cast-id-full">
         {person.profile_path !== null ? (
           <img
             className="cast-img"
@@ -464,7 +475,7 @@ export default function ShowOverview() {
 
   const fullCrew = show.aggregate_credits.crew.map((person) => {
     return (
-      <div className="cast-id-full">
+      <div key={person.id} className="cast-id-full">
         {person.profile_path !== null ? (
           <img
             className="cast-img"
@@ -506,6 +517,7 @@ export default function ShowOverview() {
     .map((recommend) => {
       return (
         <div
+          key={recommend.id}
           onClick={() => goToShow(recommend.id)}
           className="recomending-show"
         >
@@ -584,6 +596,7 @@ export default function ShowOverview() {
       })
   }
 
+  console.log(seasonDetails)
   return (
     <div className="showOverview-wrapper">
       <div className="bg"></div>
@@ -598,8 +611,8 @@ export default function ShowOverview() {
           <h1 className="show-title">{show.name}</h1>
 
           <div className="div-show-genres">
-            {show.genres.map((gen, index) => (
-              <p key={nanoid()} className="show-genres">
+            {show.genres.map((gen) => (
+              <p key={gen.id} className="show-genres">
                 {gen.name}
               </p>
             ))}
@@ -787,6 +800,7 @@ export default function ShowOverview() {
 
                       return (
                         <Episodes
+                          key={nanoid()}
                           episodesAnnounced={true}
                           episodeNum={index + 1}
                           seasonNum={seasonNumber}
@@ -807,8 +821,8 @@ export default function ShowOverview() {
                       )
                     })
                   ) : (
-                    <div>
-                      <Episodes episodesAnnounced={false} />
+                    <div key={nanoid()}>
+                      <Episodes key={nanoid()} episodesAnnounced={false} />
                     </div>
                   )}
                 </div>

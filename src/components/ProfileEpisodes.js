@@ -4,6 +4,7 @@ import { db } from "../services/firebase"
 import { useNavigate } from "react-router-dom"
 import { Icon } from "@iconify/react"
 import noImg from "../images/no-image.png"
+import watchedGif from "../images/watched.gif"
 
 export default function ProfileEpisodes(props) {
   const navigate = useNavigate()
@@ -12,6 +13,8 @@ export default function ProfileEpisodes(props) {
   const [finished, setFinished] = React.useState(false)
   const [userWatchingTime, setUserWatchingTime] = React.useState()
   const [userTotalEpisodes, setUserTotalEpisodes] = React.useState()
+  const [playGif, setPlayGif] = React.useState(false)
+  const [gifSrc, setGifSrc] = React.useState()
 
   React.useEffect(() => {
     db.collection("users")
@@ -24,88 +27,95 @@ export default function ProfileEpisodes(props) {
       })
   }, [finished])
 
-  function episodeMarker(event) {
-    const { style } = event.target
+  function episodeMarker() {
+    // const { style } = event.target
 
-    if (style.fill === "rgba(0, 0, 0, 0.3)") {
-      style.fill = "rgba(63, 195, 128, 1)"
+    // if (style.fill === "rgba(0, 0, 0, 0.3)") {
+    //   style.fill = "rgba(63, 195, 128, 1)"
 
-      setTimeout(function () {
-        style.fill = "rgba(0, 0, 0, 0.3)"
-      }, 200)
+    //   setTimeout(function () {
+    //     style.fill = "rgba(0, 0, 0, 0.3)"
+    //   }, 200)
 
-      addDoc(collection(db, `history-${props.currentUserID}`), {
-        show_name: props.showName,
-        show_id: props.showID,
-        season_number: props.season_number,
-        episode_number: props.episode_number,
-        date_watched: serverTimestamp(),
-        episode_name: props.episode_name[0],
-        show_cover: props.backdrop_path[0],
-        episode_time: parseInt(props.episode_time[0]),
-      })
+    addDoc(collection(db, `history-${props.currentUserID}`), {
+      show_name: props.showName,
+      show_id: props.showID,
+      season_number: props.season_number,
+      episode_number: props.episode_number,
+      date_watched: serverTimestamp(),
+      episode_name: props.episode_name[0],
+      show_cover: props.backdrop_path[0],
+      episode_time: parseInt(props.episode_time[0]),
+    })
 
-      db.collection(`watchlist-${props.currentUserID}`)
-        .where("show_name", "==", props.showName)
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
+    db.collection(`watchlist-${props.currentUserID}`)
+      .where("show_name", "==", props.showName)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          if (
+            parseInt(props.curr_season_episodes) !==
+            props.episode_number + 1
+          ) {
+            doc.ref.update({
+              episode_number: props.episode_number + 1,
+              status: "watching",
+              date_watched: serverTimestamp(),
+            })
+          } else {
             if (
-              parseInt(props.curr_season_episodes) !==
-              props.episode_number + 1
+              props.season_number + 1 <= parseInt(props.show_all_seasons) ||
+              props.show_status === "Returning Series"
             ) {
               doc.ref.update({
-                episode_number: props.episode_number + 1,
+                season_number: props.season_number + 1,
+                episode_number: 0,
                 status: "watching",
                 date_watched: serverTimestamp(),
               })
+
+              setTimeout(function () {
+                setFinished(false)
+                props.resetSeasonData()
+              }, 500)
             } else {
-              if (
-                props.season_number + 1 <= parseInt(props.show_all_seasons) ||
-                props.show_status === "Returning Series"
-              ) {
-                doc.ref.update({
-                  season_number: props.season_number + 1,
-                  episode_number: 0,
-                  status: "watching",
-                  date_watched: serverTimestamp(),
-                })
-
-                setTimeout(function () {
-                  setFinished(false)
-                  props.resetSeasonData()
-                }, 500)
-              } else {
-                doc.ref.update({
-                  status: "finished",
-                  date_watched: serverTimestamp(),
-                })
-              }
+              doc.ref.update({
+                status: "finished",
+                date_watched: serverTimestamp(),
+              })
             }
-          })
+          }
         })
+      })
 
-      db.collection("users")
-        .doc(props.currentUserID)
-        .update({
-          watching_time:
-            parseInt(userWatchingTime) + parseInt(props.episode_time[0]),
-          total_episodes: parseInt(userTotalEpisodes) + 1,
-        })
+    db.collection("users")
+      .doc(props.currentUserID)
+      .update({
+        watching_time:
+          parseInt(userWatchingTime) + parseInt(props.episode_time[0]),
+        total_episodes: parseInt(userTotalEpisodes) + 1,
+      })
 
-      localStorage.setItem(
-        "watching_time",
-        parseInt(userWatchingTime) + parseInt(props.episode_time[0])
-      )
+    localStorage.setItem(
+      "watching_time",
+      parseInt(userWatchingTime) + parseInt(props.episode_time[0])
+    )
 
-      localStorage.setItem("total_episodes", parseInt(userTotalEpisodes) + 1)
+    localStorage.setItem("total_episodes", parseInt(userTotalEpisodes) + 1)
 
-      props.triggerLoadDataLocalStorage()
+    props.triggerLoadDataLocalStorage()
 
-      setFinished(!finished)
-    } else {
-      style.fill = "rgba(0, 0, 0, 0.3)"
-    }
+    setFinished(!finished)
+    // } else {
+    //   style.fill = "rgba(0, 0, 0, 0.3)"
+    // }
+
+    setPlayGif(true)
+    // setGifSrc("https://media.giphy.com/media/XEgpdDno7WNmcod7PQ/giphy.gif")
+    setTimeout(() => {
+      setPlayGif(false)
+      // setGifSrc(null)
+    }, 1000)
   }
 
   function goToShow(showID) {
@@ -131,6 +141,7 @@ export default function ProfileEpisodes(props) {
   if (props.backdrop_path === "" || props.backdrop_path === undefined) {
     console.log("Image not loaded")
   }
+
   return (
     <div
       className={
@@ -146,6 +157,9 @@ export default function ProfileEpisodes(props) {
             : "history-profile-show-img-div"
         }
       >
+        {/* {playGif && (
+          <img className="popcorn-gif" src={gifSrc} alt="popcorn-gif" />
+        )} */}
         {props.backdrop_path[0] !== null ? (
           <div
             className={
@@ -225,7 +239,13 @@ export default function ProfileEpisodes(props) {
                 </p>
               )}
             </div>
-            <p className="profile-episode-name">
+            <p
+              className={
+                props.mobileLayout === "cards"
+                  ? "profile-episode-name"
+                  : "profile-episode-name grid"
+              }
+            >
               {props.episode_name !== "false" ? props.episode_name : "TBA"}
             </p>
           </div>
@@ -257,23 +277,21 @@ export default function ProfileEpisodes(props) {
         {props.finishedShow !== true && (
           <div>
             {props.daysUntilCurrentEpisode <= 0 ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width={85}
-                height={85}
-                viewBox="-5 -15 40 55"
-              >
-                <path
-                  style={{
-                    fill: "rgba(0, 0, 0, 0.3)",
-                    width: "100%",
-                    cursor: "pointer",
-                    userSelect: "none",
-                  }}
-                  onClick={(e) => episodeMarker(e)}
-                  d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm-1.999 14.413-3.713-3.705L7.7 11.292l2.299 2.295 5.294-5.294 1.414 1.414-6.706 6.706z"
-                ></path>
-              </svg>
+              !playGif ? (
+                <Icon
+                  icon="icon-park-solid:check-one"
+                  color="rgba(0, 0, 0, 0.3)"
+                  width={45}
+                  onClick={episodeMarker}
+                  className="markIcon"
+                />
+              ) : (
+                <Icon
+                  icon="line-md:loading-twotone-loop"
+                  width={45}
+                  className="markIcon"
+                />
+              )
             ) : isNaN(props.daysUntilCurrentEpisode) === true ? (
               <h3 className="h3-until-episode-profile">TBA</h3>
             ) : props.daysUntilCurrentEpisode !== 1 ? (

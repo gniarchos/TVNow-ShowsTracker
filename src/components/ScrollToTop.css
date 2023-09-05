@@ -1,0 +1,26 @@
+.scrollToTop_wrapper {
+  position: fixed;
+  bottom: 60px;
+  right: 20px;
+  z-index: 500;
+  opacity: 0;
+  transition: opacity 350ms ease-in-out;
+}
+
+.scrollToTop_wrapper.showButton {
+  opacity: 1;
+}
+
+.scrollToTop_btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  /* color: aliceblue; */
+}
+
+/* MOBILE */
+@media all and (max-width: 498px) {
+  .scrollToTop_wrapper {
+    display: none;
+  }
+}

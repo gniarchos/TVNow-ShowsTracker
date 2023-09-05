@@ -1,6 +1,31 @@
 # Changelog
 
-## [1.6.3] - 24-8-2023
+## [1.6.4] - 05-9-2023
+
+### Added
+
+- Added a hover effect to my name on the footer, leading to my portfolio.
+- Added links to APIs in the footer.
+- Added a scroll-to-top button on the profile page in the desktop version.
+- Added website's description in the header of HTML.
+
+### Updated
+
+- Updated the button in the Profile section to mark an episode as watched, it now shows a loader animation between episodes.
+- Updated some dependencies.
+- Optimized the method for history deletion to work properly.
+- Cleaned the code.
+
+### Fixed
+
+- [BETA] Fixed the history section, which was not working properly when deleting episodes, now, deleting an episode/season reloads the page.
+- [BETA] Fixed a critical bug that was causing episodes to not be deleted from the history at all.
+- Fixed a bug that was causing multiple API calls on the shows page.
+- Optimized the Landing page code with best practices using Lighthouse testing.
+
+---
+
+## [1.6.3] - 26-8-2023
 
 ### Added
 
