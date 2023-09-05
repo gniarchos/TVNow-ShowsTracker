@@ -203,21 +203,21 @@ export default function ShowOverview() {
   }, [finished, seasonNumber])
 
   React.useEffect(() => {
-    // const url = `https://mdblist.p.rapidapi.com/?i=${show.external_ids.imdb_id}`
-    // const options = {
-    //   method: "GET",
-    //   headers: {
-    //     "X-RapidAPI-Key": "***REMOVED***",
-    //     "X-RapidAPI-Host": "mdblist.p.rapidapi.com",
-    //   },
-    // }
-    // fetch(url, options)
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     setImdbRating(data?.ratings[0]?.value)
-    //     setRottenTomatoesRating(data?.ratings[4]?.value)
-    //     setTraktRating(data?.ratings[3]?.value)
-    //   })
+    const url = `https://mdblist.p.rapidapi.com/?i=${show.external_ids.imdb_id}`
+    const options = {
+      method: "GET",
+      headers: {
+        "X-RapidAPI-Key": "***REMOVED***",
+        "X-RapidAPI-Host": "mdblist.p.rapidapi.com",
+      },
+    }
+    fetch(url, options)
+      .then((res) => res.json())
+      .then((data) => {
+        setImdbRating(data?.ratings[0]?.value)
+        setRottenTomatoesRating(data?.ratings[4]?.value)
+        setTraktRating(data?.ratings[3]?.value)
+      })
   }, [location])
 
   React.useEffect(() => {
