@@ -15,6 +15,7 @@
 - Updated some dependencies.
 - Optimized the method for history deletion to work properly.
 - Cleaned the code.
+- Better support of PWA compatibility.
 
 ### Fixed
 
