@@ -31,7 +31,7 @@
 .input-text {
   font-size: 1.2rem;
   border-radius: 10px;
-  outline: none;
+  outline: 0;
   border: 2px solid transparent;
   padding: 10px;
   padding-right: 50px;
@@ -146,7 +146,7 @@
 }
 
 .forgotPassword-link {
-  margin-top: 0px;
+  margin-top: 0;
 }
 
 .link-forgotPass {
@@ -163,10 +163,6 @@
 
   .eye-img-log {
     top: -77px;
-  }
-
-  .pass-field {
-    gap: 6px;
   }
 
   .email-img {

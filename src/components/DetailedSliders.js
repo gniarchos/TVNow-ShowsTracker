@@ -16,20 +16,12 @@ export default function DetailedSliders() {
   const show_title = React.useRef("")
   const navigate = useNavigate()
   const [genresFilters, setGenresFilters] = React.useState(
-    localStorage.getItem("genresFilters")
-      ? localStorage.getItem("genresFilters")
-      : null
+    localStorage.getItem("genresFilters") ? localStorage.getItem("genresFilters") : null
   )
   const [genresFiltersName, setGenresFiltersName] = React.useState(
-    localStorage.getItem("genresFiltersName")
-      ? localStorage.getItem("genresFiltersName")
-      : "Show All"
+    localStorage.getItem("genresFiltersName") ? localStorage.getItem("genresFiltersName") : "Show All"
   )
-  const [page, setPage] = React.useState(
-    localStorage.getItem("currentPage")
-      ? localStorage.getItem("currentPage")
-      : 1
-  )
+  const [page, setPage] = React.useState(localStorage.getItem("currentPage") ? localStorage.getItem("currentPage") : 1)
   const [allShows, setAllShows] = React.useState([])
   const [totalPages, setTotalPages] = React.useState(0)
   const [totalResults, setTotalResults] = React.useState(0)
@@ -65,10 +57,9 @@ export default function DetailedSliders() {
         setAllShows(data.results)
         setTotalResults(data.total_results)
       })
-
-    setTimeout(function () {
-      setLoading(false)
-    }, 500)
+      .finally(() => {
+        setLoading(false)
+      })
   }, [page, location.state.fetchLink, genresFilters])
 
   function goToNextPage(event) {
@@ -194,20 +185,12 @@ export default function DetailedSliders() {
     }
   }
 
-  const list = allShows.map((list, index) => {
+  const list = allShows.map((list) => {
     return (
-      <div
-        onClick={() => goToShow(list.id)}
-        key={list.id}
-        className="slider-content"
-      >
+      <div key={list.id} onClick={() => goToShow(list.id)} className="slider-content">
         <div className="img-trend-container">
           {list.poster_path !== null ? (
-            <img
-              className="slider-img"
-              src={`https://image.tmdb.org/t/p/w500/${list.poster_path}`}
-              alt="show"
-            />
+            <img className="slider-img" src={`https://image.tmdb.org/t/p/w500/${list.poster_path}`} alt="show" />
           ) : (
             <img className="slider-no-img" src={noImg} alt="not-found" />
           )}
@@ -222,11 +205,8 @@ export default function DetailedSliders() {
   const filtersSelection = allGenres.map((gen) => {
     return (
       <h4
-        className={
-          genresFiltersName === `${gen}`
-            ? "filter-title active"
-            : "filter-title"
-        }
+        key={gen}
+        className={genresFiltersName === `${gen}` ? "filter-title active" : "filter-title"}
         id={gen}
         onClick={(e) => handleFilters(e)}
       >
@@ -237,7 +217,7 @@ export default function DetailedSliders() {
 
   return (
     <>
-      <div class="bg"></div>
+      <div className="bg"></div>
       <Navbar isLoggedIn={isLoggedIn} />
       <div className="footer-fixer">
         <div className="detailedSlider-wrapper">
@@ -257,10 +237,9 @@ export default function DetailedSliders() {
               </p>
             </div>
           )}
-          {location.state.sectionTitle !== "Trending Now" &&
-            location.state.sectionTitle !== "Search Results" && (
-              <div className="search-discover-filters">{filtersSelection}</div>
-            )}
+          {location.state.sectionTitle !== "Trending Now" && location.state.sectionTitle !== "Search Results" && (
+            <div className="search-discover-filters">{filtersSelection}</div>
+          )}
 
           <div className="detailedSlider-div">{list}</div>
 
@@ -274,8 +253,7 @@ export default function DetailedSliders() {
                 marginPagesDisplayed={1}
                 pageCount={
                   totalPages > 500 &&
-                  (location.state.sectionTitle === "Popular Today" ||
-                    location.state.sectionTitle === "Discover")
+                  (location.state.sectionTitle === "Popular Today" || location.state.sectionTitle === "Discover")
                     ? 500
                     : totalPages
                 }

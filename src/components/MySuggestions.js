@@ -2,7 +2,6 @@ import React from "react"
 import "./MySuggestions.css"
 import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
-import { nanoid } from "nanoid"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../authentication/AuthContext"
 
@@ -56,6 +55,8 @@ export default function MySuggestions() {
         <img
           className="suggest-img"
           src={`https://image.tmdb.org/t/p/original/${suggest.backdrop_path}`}
+          loading="lazy"
+          alt=""
         />
         <div className="suggestion-divs">
           <p onClick={() => goToShow(suggest)} className="suggest-title">
@@ -64,9 +65,7 @@ export default function MySuggestions() {
           <div className="div-suggest-genres">
             {suggest.genres.map((gen, index) => (
               <div key={index} className="genres-wrapper">
-                <p key={nanoid()} className="suggest-genres">
-                  {gen.name}
-                </p>
+                <p className="suggest-genres">{gen.name}</p>
               </div>
             ))}
           </div>

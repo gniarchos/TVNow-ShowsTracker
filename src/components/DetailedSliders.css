@@ -52,7 +52,7 @@
 }
 
 .page-num {
-  background-color: aliceblue;
+  background-color: #f0f8ff;
   padding-left: 2vw;
   padding-right: 2vw;
   color: #212237;
@@ -61,7 +61,7 @@
 }
 
 .page-buttons {
-  color: aliceblue;
+  color: #f0f8ff;
   cursor: pointer;
   font-size: 1.8rem;
   display: flex;
@@ -71,17 +71,17 @@
 
 .page-num:hover {
   background-color: #dd840c;
-  color: aliceblue;
+  color: #f0f8ff;
 }
 
 .pagination .active {
   background-color: #dd840c;
-  color: aliceblue;
+  color: #f0f8ff;
 }
 
 .no-image-div {
   max-width: 235px;
-  background-color: aliceblue;
+  background-color: #f0f8ff;
 }
 
 .slider-no-img {
@@ -131,16 +131,16 @@
   padding-top: 4px;
   padding-bottom: 4px;
   border-radius: 5px;
-  color: black;
+  color: #000;
   border: 2px solid transparent;
   width: max-content;
   white-space: nowrap;
 }
 
 .filter-title.active {
-  background-color: black;
-  color: white;
-  border: 2px solid white;
+  background-color: #000;
+  color: #fff;
+  border: 2px solid #fff;
 }
 
 .noSearchResults-div {
@@ -163,11 +163,10 @@
   gap: 5px;
 }
 
-/* MOBILE */
 @media all and (max-width: 499px) {
   .noSearchResults-div {
-    margin-left: 0vw;
-    margin-right: 0vw;
+    margin-left: 0;
+    margin-right: 0;
   }
 
   .noSearchResults-div p {

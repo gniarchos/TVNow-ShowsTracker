@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.6.5] - 06-9-2023
+
+### Added
+
+- Added animations for the episode name, number, and title when the user marks the episode as watched.
+
+### Updated
+
+- Set the default layout of the profile page to 'Grid' upon user login.
+
+### Fixed
+
+- Performance improvements.
+- Resolved code bugs and corrected spellings.
+- Addressed spacing issues with user show statistics when the page is reloaded by adding an initial number ("Total Shows," "Watching Now," etc.).
+
+---
+
 ## [1.6.4] - 05-9-2023
 
 ### Added

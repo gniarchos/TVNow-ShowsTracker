@@ -11,7 +11,7 @@ import PuffLoader from "react-spinners/PuffLoader"
 export default function Home() {
   const navigate = useNavigate()
   const isLoggedIn = true
-  const [allTrendings, setAllTrendings] = React.useState([])
+  const [allTrending, setAllTrending] = React.useState([])
   const [allPopular, setAllPopular] = React.useState([])
   const [allOnTheAir, setAllOnTheAir] = React.useState([])
   const [discover, setDiscover] = React.useState([])
@@ -30,41 +30,41 @@ export default function Home() {
   React.useEffect(() => {
     setLoading(true)
 
-    fetch(
-      "https://api.themoviedb.org/3/trending/tv/week?api_key=***REMOVED***&page=1"
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setAllTrendings(data.results)
-      })
+    const fetchAndSetData = async (url, setter) => {
+      const res = await fetch(url)
+      const data = await res.json()
+      setter(data.results)
+    }
 
-    fetch(
-      "https://api.themoviedb.org/3/tv/popular?api_key=***REMOVED***&language=en-US&page=1"
+    const trendingPromise = fetchAndSetData(
+      `https://api.themoviedb.org/3/trending/tv/week?api_key=***REMOVED***&page=1`,
+      setAllTrending
     )
-      .then((res) => res.json())
-      .then((data) => {
-        setAllPopular(data.results)
-      })
-
-    fetch(
-      "https://api.themoviedb.org/3/tv/on_the_air?api_key=***REMOVED***&language=en-US&page=1"
+    const popularPromise = fetchAndSetData(
+      `https://api.themoviedb.org/3/tv/popular?api_key=***REMOVED***&language=en-US&page=1`,
+      setAllPopular
     )
-      .then((res) => res.json())
-      .then((data) => {
-        setAllOnTheAir(data.results)
-      })
-
-    fetch(
-      "https://api.themoviedb.org/3/discover/tv?api_key=***REMOVED***&language=en-US&page=1"
+    const onTheAirPromise = fetchAndSetData(
+      `https://api.themoviedb.org/3/tv/on_the_air?api_key=***REMOVED***&language=en-US&page=1`,
+      setAllOnTheAir
     )
-      .then((res) => res.json())
-      .then((data) => {
-        setDiscover(data.results)
-      })
+    const discoverPromise = fetchAndSetData(
+      `https://api.themoviedb.org/3/discover/tv?api_key=***REMOVED***&language=en-US&page=1`,
+      setDiscover
+    )
 
-    setTimeout(function () {
-      setLoading(false)
-    }, 500)
+    Promise.all([
+      trendingPromise,
+      popularPromise,
+      onTheAirPromise,
+      discoverPromise,
+    ])
+      .then(() => {
+        // All fetch requests have completed successfully
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }, [])
 
   function toggleFindMore(section) {
@@ -123,7 +123,7 @@ export default function Home() {
       {loading === false && (
         <div className="home-wrapper">
           <Slider
-            listOfShows={allTrendings}
+            listOfShows={allTrending}
             section="Trending Now"
             toggleFindMore={toggleFindMore}
           />

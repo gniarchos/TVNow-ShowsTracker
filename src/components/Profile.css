@@ -19,8 +19,6 @@
 
 .popcorn-gif {
   position: absolute;
-  /* top: 0; */
-  /* bottom: -380px; */
   height: 431px;
   width: 500px;
   z-index: 880;
@@ -67,7 +65,6 @@
 
 .loadMoreHistory-btn:hover {
   background-color: white;
-  /* border: 1px solid white; */
   color: black;
 }
 
@@ -75,6 +72,14 @@
   width: 100%;
   opacity: 0;
   animation: fadeIn 1s ease-in-out forwards;
+  display: block;
+  transition: all 1s ease-in-out;
+}
+
+.info-card.markedAnimation,
+.info-card-grid.markedAnimation {
+  opacity: 0;
+  animation: fadeOutAndIn 2s ease-in-out forwards;
 }
 
 @keyframes fadeIn {
@@ -82,6 +87,18 @@
     opacity: 0;
   }
   to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOutAndIn {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
     opacity: 1;
   }
 }

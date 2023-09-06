@@ -1,6 +1,5 @@
 import React from "react"
 import "./Navbar.css"
-// import logo from "../images/nav-logo-fixed.png"
 import logo from "../images/TVTime-logo-white.svg"
 import { useAuth } from "../authentication/AuthContext"
 import { useNavigate, Link } from "react-router-dom"
@@ -160,7 +159,7 @@ export default function Navbar(props) {
             </Link>
           )}
           {props.isProfile !== true && (
-            <Link className="nav-btns" to="/profile">
+            <Link aria-label="profile" className="nav-btns" to="/profile">
               Profile
             </Link>
           )}
@@ -185,7 +184,7 @@ export default function Navbar(props) {
           )}
 
           {props.isProfile !== true && (
-            <Link to="/profile">
+            <Link aria-label="profile" to="/profile">
               <Icon
                 className="icons-nav-btns"
                 icon="healthicons:ui-user-profile"

@@ -67,8 +67,8 @@
 }
 
 .slider-img {
-  max-width: 235px;
-  min-height: 352px;
+  width: 235px;
+  height: 352px;
   object-fit: cover;
   z-index: -1;
   position: relative;

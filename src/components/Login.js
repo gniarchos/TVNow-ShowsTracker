@@ -21,6 +21,27 @@ export default function Login() {
   const [message, setMessage] = React.useState("")
   const [forgotPass, setForgotPass] = React.useState(false)
 
+  const [isMobile, setIsMobile] = React.useState(false)
+
+  React.useEffect(() => {
+    const mobileThreshold = 498
+
+    function checkIsMobile() {
+      const screenWidth = window.innerWidth
+      setIsMobile(screenWidth <= mobileThreshold)
+    }
+
+    checkIsMobile()
+
+    window.addEventListener("resize", checkIsMobile)
+  }, [])
+
+  React.useEffect(() => {
+    if (isMobile) {
+      localStorage.setItem("mobileLayoutSelection", "grid")
+    }
+  }, [isMobile])
+
   async function handleSubmit(e) {
     e.preventDefault()
 
@@ -79,13 +100,7 @@ export default function Login() {
             </p>
           )}
           <div className="div-field">
-            <input
-              className="input-text"
-              type="email"
-              placeholder="Email*"
-              ref={emailRef}
-              required
-            />
+            <input className="input-text" type="email" placeholder="Email*" ref={emailRef} required />
             <span className="span-img">
               <img className="email-img" src={email} alt="email" />
             </span>
@@ -101,20 +116,10 @@ export default function Login() {
                 ref={passwordRef}
               />
               <span className="span-img" onClick={togglePasswordVisibility}>
-                <img
-                  style={toggleStyleHidden}
-                  className="eye-off-img-log"
-                  src={eye_off}
-                  alt="eye-off"
-                />
+                <img style={toggleStyleHidden} className="eye-off-img-log" src={eye_off} alt="eye-off" />
               </span>
               <span className="span-img" onClick={togglePasswordVisibility}>
-                <img
-                  style={toggleStyleVisible}
-                  className="eye-img-log"
-                  src={eye}
-                  alt="eye"
-                />
+                <img style={toggleStyleVisible} className="eye-img-log" src={eye} alt="eye" />
               </span>
             </div>
           )}

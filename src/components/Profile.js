@@ -23,88 +23,61 @@ export default function Profile() {
   const location = useLocation()
   const { currentUser } = useAuth()
   const [showsImages, setShowsImages] = React.useState([])
-  const [trackedShows, setTrackedShows] = React.useState()
-  const [watchingShows, setWatchingShows] = React.useState()
-  const [hasFinishedShows, setHasFinishedShows] = React.useState()
-  const [notStartedYetShows, setNotStartedYetShows] = React.useState()
+  const [trackedShows, setTrackedShows] = React.useState(0)
+  const [watchingShows, setWatchingShows] = React.useState(0)
+  const [hasFinishedShows, setHasFinishedShows] = React.useState(0)
+  const [notStartedYetShows, setNotStartedYetShows] = React.useState(0)
   const [readLocalStorage, setReadLocalStorage] = React.useState(false)
   const [resetSeason, setResetSeason] = React.useState(false)
   const [loading, setLoading] = React.useState(true)
   const [isFirstLoad, setIsFirstLoad] = React.useState(true)
   const [historyData, setHistoryData] = React.useState([])
   const [userWatchingTime, setUserWatchingTime] = React.useState(
-    localStorage.getItem("watching_time")
-      ? localStorage.getItem("watching_time")
-      : 0
+    localStorage.getItem("watching_time") ? localStorage.getItem("watching_time") : 0
   )
   const [userWatchedEpisodes, setUserWatchedEpisodes] = React.useState(
-    localStorage.getItem("total_episodes")
-      ? localStorage.getItem("total_episodes")
-      : 0
+    localStorage.getItem("total_episodes") ? localStorage.getItem("total_episodes") : 0
   )
   const [isSelectCoverOpen, setIsSelectCoverOpen] = React.useState(false)
   const [userCoverSettings, setUserCoverSettings] = React.useState()
-  const [hideShowsCoverSelection, setHideShowsCoverSelection] =
-    React.useState(false)
-  const [coverSelectionShowName, setCoverSelectionShowName] =
-    React.useState("Edit your cover")
-  const [selectedCoverImage, setSelectedCoverImage] =
-    React.useState(userCoverSettings)
+  const [hideShowsCoverSelection, setHideShowsCoverSelection] = React.useState(false)
+  const [coverSelectionShowName, setCoverSelectionShowName] = React.useState("Edit your cover")
+  const [selectedCoverImage, setSelectedCoverImage] = React.useState(userCoverSettings)
   const [mobileLayout, setMobileLayout] = React.useState(
-    localStorage.getItem("mobileLayoutSelection")
-      ? localStorage.getItem("mobileLayoutSelection")
-      : "cards"
+    localStorage.getItem("mobileLayoutSelection") ? localStorage.getItem("mobileLayoutSelection") : "cards"
   )
   const [watchNextSection, setWatchNextSection] = React.useState(
-    localStorage.getItem("watchNextSection")
-      ? JSON.parse(localStorage.getItem("watchNextSection"))
-      : true
+    localStorage.getItem("watchNextSection") ? JSON.parse(localStorage.getItem("watchNextSection")) : true
   )
   const [upToDateSection, setUpToDateSection] = React.useState(
-    localStorage.getItem("upToDateSection")
-      ? JSON.parse(localStorage.getItem("upToDateSection"))
-      : true
+    localStorage.getItem("upToDateSection") ? JSON.parse(localStorage.getItem("upToDateSection")) : true
   )
   const [watchlistSection, setWatchlistSection] = React.useState(
-    localStorage.getItem("watchlistSection")
-      ? JSON.parse(localStorage.getItem("watchlistSection"))
-      : true
+    localStorage.getItem("watchlistSection") ? JSON.parse(localStorage.getItem("watchlistSection")) : true
   )
   const [finishedSection, setFinishedSection] = React.useState(
-    localStorage.getItem("finishedSection")
-      ? JSON.parse(localStorage.getItem("finishedSection"))
-      : true
+    localStorage.getItem("finishedSection") ? JSON.parse(localStorage.getItem("finishedSection")) : true
   )
   const [stoppedSection, setStoppedSection] = React.useState(
-    localStorage.getItem("stoppedSection")
-      ? JSON.parse(localStorage.getItem("stoppedSection"))
-      : true
+    localStorage.getItem("stoppedSection") ? JSON.parse(localStorage.getItem("stoppedSection")) : true
   )
   const [historySection, setHistorySection] = React.useState(
-    localStorage.getItem("historySection")
-      ? JSON.parse(localStorage.getItem("historySection"))
-      : true
+    localStorage.getItem("historySection") ? JSON.parse(localStorage.getItem("historySection")) : true
   )
   const [upToDateSettings, setUpToDateSettings] = React.useState(false)
   const [upToDateFilter, setUpToDateFilter] = React.useState(
-    localStorage.getItem("upToDateFilter")
-      ? localStorage.getItem("upToDateFilter")
-      : "soon"
+    localStorage.getItem("upToDateFilter") ? localStorage.getItem("upToDateFilter") : "soon"
   )
   const [coverImageSelected, setCoverImageSelected] = React.useState(false)
   const [showLayoutMessage, setShowLayoutMessage] = React.useState(false)
   const [cancelled_shows, setCancelled_shows] = React.useState(new Set())
   const [show_modal, setShow_modal] = React.useState(false)
   const [userTime, setUserTime] = React.useState(
-    localStorage.getItem("watching_time")
-      ? localStorage.getItem("watching_time")
-      : userWatchingTime
+    localStorage.getItem("watching_time") ? localStorage.getItem("watching_time") : userWatchingTime
   )
 
   const [userEpisodes, setUserEpisodes] = React.useState(
-    localStorage.getItem("total_episodes")
-      ? localStorage.getItem("total_episodes")
-      : userWatchedEpisodes
+    localStorage.getItem("total_episodes") ? localStorage.getItem("total_episodes") : userWatchedEpisodes
   )
 
   const [watchingStatistic, setWatchingStatistic] = React.useState([])
@@ -170,64 +143,41 @@ export default function Profile() {
     Promise.all([
       db.collection("users").doc(currentUser.uid).get(),
       db.collection(`watchlist-${currentUser.uid}`).get(),
-      db
-        .collection(`watchlist-${currentUser.uid}`)
-        .where("status", "==", "watching")
-        .get(),
-      db
-        .collection(`watchlist-${currentUser.uid}`)
-        .where("status", "==", "finished")
-        .get(),
-      db
-        .collection(`watchlist-${currentUser.uid}`)
-        .where("status", "==", "not_started")
-        .get(),
+      db.collection(`watchlist-${currentUser.uid}`).where("status", "==", "watching").get(),
+      db.collection(`watchlist-${currentUser.uid}`).where("status", "==", "finished").get(),
+      db.collection(`watchlist-${currentUser.uid}`).where("status", "==", "not_started").get(),
     ])
-      .then(
-        ([
-          userInfo,
-          watchlistSnapshot,
-          watchingSnapshot,
-          finishedSnapshot,
-          notStartedSnapshot,
-        ]) => {
-          const userDocInfo = userInfo.data()
-          setUserCoverSettings(userDocInfo.profile_cover_selection)
-          setUserWatchingTime(userDocInfo.watching_time)
-          setUserWatchedEpisodes(userDocInfo.total_episodes)
-          setTrackedShows(watchlistSnapshot.size)
-          setWatchingShows(watchingSnapshot.size)
-          setHasFinishedShows(finishedSnapshot.size)
-          setNotStartedYetShows(notStartedSnapshot.size)
+      .then(([userInfo, watchlistSnapshot, watchingSnapshot, finishedSnapshot, notStartedSnapshot]) => {
+        const userDocInfo = userInfo.data()
+        setUserCoverSettings(userDocInfo.profile_cover_selection)
+        setUserWatchingTime(userDocInfo.watching_time)
+        setUserWatchedEpisodes(userDocInfo.total_episodes)
+        setTrackedShows(watchlistSnapshot.size)
+        setWatchingShows(watchingSnapshot.size)
+        setHasFinishedShows(finishedSnapshot.size)
+        setNotStartedYetShows(notStartedSnapshot.size)
 
-          const fetchPromises = myShows.map(async (myShow) => {
-            const [showRes, seasonRes] = await Promise.all([
-              fetch(
-                `https://api.themoviedb.org/3/tv/${myShow.show_id}?api_key=***REMOVED***&language=en-US&include_image_language=en,null&append_to_response=external_ids,videos,aggregate_credits,content_ratings,recommendations,similar,watch/providers,images`
-              ),
-              fetch(
-                `https://api.themoviedb.org/3/tv/${myShow.show_id}/season/${myShow.seasonNumber}?api_key=***REMOVED***&language=en-US`
-              ),
-            ])
-            const [showData, seasonData] = await Promise.all([
-              showRes.json(),
-              seasonRes.json(),
-            ])
-            setShowsData((prevData) => [...prevData, showData])
-            setSeasonData((prevData) => [
-              ...prevData,
-              { ...seasonData, show_id: myShow.show_id },
-            ])
-          })
+        const fetchPromises = myShows.map(async (myShow) => {
+          const [showRes, seasonRes] = await Promise.all([
+            fetch(
+              `https://api.themoviedb.org/3/tv/${myShow.show_id}?api_key=***REMOVED***&language=en-US&include_image_language=en,null&append_to_response=external_ids,videos,aggregate_credits,content_ratings,recommendations,similar,watch/providers,images`
+            ),
+            fetch(
+              `https://api.themoviedb.org/3/tv/${myShow.show_id}/season/${myShow.seasonNumber}?api_key=***REMOVED***&language=en-US`
+            ),
+          ])
+          const [showData, seasonData] = await Promise.all([showRes.json(), seasonRes.json()])
+          setShowsData((prevData) => [...prevData, showData])
+          setSeasonData((prevData) => [...prevData, { ...seasonData, show_id: myShow.show_id }])
+        })
 
-          localStorage.setItem("total_episodes", userWatchedEpisodes)
-          localStorage.setItem("watching_time", userWatchingTime)
+        localStorage.setItem("total_episodes", userWatchedEpisodes)
+        localStorage.setItem("watching_time", userWatchingTime)
 
-          triggerLoadDataLocalStorage()
+        triggerLoadDataLocalStorage()
 
-          return Promise.all(fetchPromises)
-        }
-      )
+        return Promise.all(fetchPromises)
+      })
       .finally(() => {
         setLoading(false)
       })
@@ -298,12 +248,8 @@ export default function Profile() {
   const watchNextShows = myShows
     .filter((show) => show.status === "watching")
     .map((show, index) => {
-      const relevantSeasonData = seasonData.filter(
-        (season) => season.show_id === show.show_id
-      )
-      const relevantShowData = showsData.filter(
-        (allData) => allData.name === show.show_name
-      )
+      const relevantSeasonData = seasonData.filter((season) => season.show_id === show.show_id)
+      const relevantShowData = showsData.filter((allData) => allData.name === show.show_name)
 
       if (relevantSeasonData.length === 0 || relevantShowData.length === 0) {
         return null // Skip rendering if relevant data is missing
@@ -326,34 +272,22 @@ export default function Profile() {
           <ProfileEpisodes
             key={show.show_id}
             mobileLayout={mobileLayout}
-            backdrop_path={relevantShowData.map(
-              (allData) => allData.backdrop_path
-            )}
+            backdrop_path={relevantShowData.map((allData) => allData.backdrop_path)}
             showName={show.show_name}
-            episode_name={relevantSeasonData.map(
-              (season) => season.episodes[show.episodeNumber]?.name
-            )}
+            episode_name={relevantSeasonData.map((season) => season.episodes[show.episodeNumber]?.name)}
             currentUserID={currentUser.uid}
             episode_number={show.episodeNumber}
             season_number={show.seasonNumber}
             today={today}
             difference={difference}
             daysUntilCurrentEpisode={daysUntilCurrentEpisode}
-            show_all_seasons={relevantShowData.map(
-              (allData) => allData.number_of_seasons
-            )}
-            curr_season_episodes={relevantSeasonData.map(
-              (season) => season.episodes.length
-            )}
+            show_all_seasons={relevantShowData.map((allData) => allData.number_of_seasons)}
+            curr_season_episodes={relevantSeasonData.map((season) => season.episodes.length)}
             showID={show.show_id}
-            episode_time={relevantSeasonData.map(
-              (season) => season.episodes[show.episodeNumber]?.runtime || 0
-            )}
+            episode_time={relevantSeasonData.map((season) => season.episodes[show.episodeNumber]?.runtime || 0)}
             triggerLoadDataLocalStorage={triggerLoadDataLocalStorage}
             resetSeasonData={resetSeasonData}
-            show_status={relevantShowData
-              .map((allData) => allData.status)
-              .join("")}
+            show_status={relevantShowData.map((allData) => allData.status).join("")}
             temp_total_episodes={localStorage.getItem("total_episodes")}
             temp_watching_time={localStorage.getItem("watching_time")}
           />
@@ -366,15 +300,10 @@ export default function Profile() {
   const upToDateShows = myShows
     .filter((show) => show.status === "watching")
     .map((show) => {
-      fetch(
-        `https://api.themoviedb.org/3/tv/${show.show_id}?api_key=***REMOVED***&language=en-US`
-      )
+      fetch(`https://api.themoviedb.org/3/tv/${show.show_id}?api_key=***REMOVED***&language=en-US`)
         .then((res) => res.json())
         .then((data) => {
-          if (
-            data.status === "Canceled" &&
-            data.number_of_seasons < show.seasonNumber
-          ) {
+          if (data.status === "Canceled" && data.number_of_seasons < show.seasonNumber) {
             setShow_modal(true)
 
             db.collection(`watchlist-${currentUser.uid}`)
@@ -397,8 +326,7 @@ export default function Profile() {
           .filter((season) => season.show_id === show.show_id)
           .map((season) => {
             return (
-              (season?.episodes !== undefined ||
-                season?.episodes?.length > 0) &&
+              (season?.episodes !== undefined || season?.episodes?.length > 0) &&
               season?.episodes[show.episodeNumber]?.air_date
             )
           })
@@ -412,17 +340,12 @@ export default function Profile() {
         .filter((allData) => allData.name === show.show_name)
         .map((allData) => {
           let air_date_fix = allData.next_episode_to_air?.air_date.split("-")
-          let new_air_date =
-            air_date_fix !== undefined &&
-            `${air_date_fix[2]}/${air_date_fix[1]}/${air_date_fix[0]}`
+          let new_air_date = air_date_fix !== undefined && `${air_date_fix[2]}/${air_date_fix[1]}/${air_date_fix[0]}`
 
           return new_air_date
         })
 
-      if (
-        daysUntilCurrentEpisode > 0 ||
-        isNaN(daysUntilCurrentEpisode) === true
-      ) {
+      if (daysUntilCurrentEpisode > 0 || isNaN(daysUntilCurrentEpisode) === true) {
         if (upToDateFilter === "all") {
           return (
             <ProfileEpisodes
@@ -438,8 +361,7 @@ export default function Profile() {
                 .filter((season) => season.show_id === show.show_id)
                 .map((season) => {
                   return (
-                    (season?.episodes !== undefined ||
-                      season?.episodes?.length > 0) &&
+                    (season?.episodes !== undefined || season?.episodes?.length > 0) &&
                     season?.episodes[show.episodeNumber]?.name
                   )
                 })
@@ -474,10 +396,7 @@ export default function Profile() {
               filter={upToDateFilter}
             />
           )
-        } else if (
-          upToDateFilter === "soon" &&
-          parseInt(nextEpisodeDate_data) >= 0
-        ) {
+        } else if (upToDateFilter === "soon" && parseInt(nextEpisodeDate_data) >= 0) {
           return (
             <ProfileEpisodes
               key={show.show_id}
@@ -492,8 +411,7 @@ export default function Profile() {
                 .filter((season) => season.show_id === show.show_id)
                 .map((season) => {
                   return (
-                    (season?.episodes !== undefined ||
-                      season?.episodes?.length > 0) &&
+                    (season?.episodes !== undefined || season?.episodes?.length > 0) &&
                     season?.episodes[show.episodeNumber]?.name
                   )
                 })
@@ -528,10 +446,7 @@ export default function Profile() {
               filter={upToDateFilter}
             />
           )
-        } else if (
-          upToDateFilter === "returning" &&
-          JSON.stringify(nextEpisodeDate_data) === "[false]"
-        ) {
+        } else if (upToDateFilter === "returning" && JSON.stringify(nextEpisodeDate_data) === "[false]") {
           return (
             <ProfileEpisodes
               key={show.show_id}
@@ -546,8 +461,7 @@ export default function Profile() {
                 .filter((season) => season.show_id === show.show_id)
                 .map((season) => {
                   return (
-                    (season?.episodes !== undefined ||
-                      season?.episodes?.length > 0) &&
+                    (season?.episodes !== undefined || season?.episodes?.length > 0) &&
                     season?.episodes[show.episodeNumber]?.name
                   )
                 })
@@ -593,10 +507,7 @@ export default function Profile() {
         seasonData
           .filter((season) => season.show_id === show.show_id)
           .map((season) => {
-            return (
-              season.episodes !== undefined &&
-              season?.episodes[show?.episodeNumber]?.air_date
-            )
+            return season.episodes !== undefined && season?.episodes[show?.episodeNumber]?.air_date
           })
       )
 
@@ -617,10 +528,7 @@ export default function Profile() {
           episode_name={seasonData
             .filter((season) => season.show_id === show.show_id)
             .map((season) => {
-              return (
-                season.episodes !== undefined &&
-                season.episodes[show.episodeNumber].name
-              )
+              return season.episodes !== undefined && season.episodes[show.episodeNumber].name
             })}
           currentUserID={currentUser.uid}
           episode_number={show.episodeNumber}
@@ -660,11 +568,9 @@ export default function Profile() {
           nextEpisodeDate={showsData
             .filter((allData) => allData.name === show.show_name)
             .map((allData) => {
-              let air_date_fix =
-                allData.next_episode_to_air?.air_date.split("-")
+              let air_date_fix = allData.next_episode_to_air?.air_date.split("-")
               let new_air_date =
-                air_date_fix !== undefined &&
-                `${air_date_fix[2]}/${air_date_fix[1]}/${air_date_fix[0]}`
+                air_date_fix !== undefined && `${air_date_fix[2]}/${air_date_fix[1]}/${air_date_fix[0]}`
 
               return new_air_date
             })}
@@ -805,16 +711,10 @@ export default function Profile() {
   }
 
   React.useEffect(() => {
-    setUserTime(
-      localStorage.getItem("watching_time")
-        ? localStorage.getItem("watching_time")
-        : userWatchingTime
-    )
+    setUserTime(localStorage.getItem("watching_time") ? localStorage.getItem("watching_time") : userWatchingTime)
 
     setUserEpisodes(
-      localStorage.getItem("total_episodes")
-        ? localStorage.getItem("total_episodes")
-        : userWatchedEpisodes
+      localStorage.getItem("total_episodes") ? localStorage.getItem("total_episodes") : userWatchedEpisodes
     )
 
     let minutes = userTime
@@ -850,10 +750,7 @@ export default function Profile() {
       }
     }, 2000)
 
-    localStorage.setItem(
-      "mobileLayoutSelection",
-      mobileLayout === "cards" ? "grid" : "cards"
-    )
+    localStorage.setItem("mobileLayoutSelection", mobileLayout === "cards" ? "grid" : "cards")
   }
 
   function closeModal() {
@@ -876,29 +773,17 @@ export default function Profile() {
       <Navbar isLoggedIn={true} isProfile={true} />
       <ScrollToTop />
 
-      <Modal
-        cancelled_shows={cancelled_shows}
-        state={show_modal}
-        closeModal={closeModal}
-      />
+      <Modal cancelled_shows={cancelled_shows} state={show_modal} closeModal={closeModal} />
 
       <div className="profile-cover-div">
         <img className="profile-cover" src={selectedCoverImage} />
 
-        <button
-          onClick={handleCoverSelector}
-          type="button"
-          className="btn-change-cover"
-        >
+        <button onClick={handleCoverSelector} type="button" className="btn-change-cover">
           <Icon icon="ant-design:camera-filled" />
           Edit Cover
         </button>
 
-        <button
-          onClick={changeLayoutMobile}
-          type="button"
-          className="btn-change-layout"
-        >
+        <button onClick={changeLayoutMobile} type="button" className="btn-change-layout">
           <Icon icon="teenyicons:list-layout-solid" />
           Layout
         </button>
@@ -912,10 +797,7 @@ export default function Profile() {
               </div>
 
               <div className="statistic-numbers">
-                <h3
-                  className="stat-title clickable"
-                  onClick={() => jumpToRelevantDiv("watching")}
-                >
+                <h3 className="stat-title clickable" onClick={() => jumpToRelevantDiv("watching")}>
                   Watching Now
                 </h3>
                 <p className="stat-num">{watchingShows}</p>
@@ -924,20 +806,14 @@ export default function Profile() {
 
             <div className="section-2">
               <div className="statistic-numbers">
-                <h3
-                  className="stat-title clickable"
-                  onClick={() => jumpToRelevantDiv("not_started")}
-                >
+                <h3 className="stat-title clickable" onClick={() => jumpToRelevantDiv("not_started")}>
                   Not Started{" "}
                 </h3>
                 <p className="stat-num">{notStartedYetShows}</p>
               </div>
 
               <div className="statistic-numbers">
-                <h3
-                  className="stat-title clickable"
-                  onClick={() => jumpToRelevantDiv("finished")}
-                >
+                <h3 className="stat-title clickable" onClick={() => jumpToRelevantDiv("finished")}>
                   Finished
                 </h3>
                 <p className="stat-num">{hasFinishedShows}</p>
@@ -946,10 +822,7 @@ export default function Profile() {
           </div>
 
           <div className="user-div-container">
-            <img
-              className="user-img"
-              src="https://media.giphy.com/media/idwAvpAQKlX7ARsoWC/giphy.gif"
-            />
+            <img className="user-img" src="https://media.giphy.com/media/idwAvpAQKlX7ARsoWC/giphy.gif" />
           </div>
         </div>
       </div>
@@ -961,21 +834,15 @@ export default function Profile() {
             <div className="tvtime-container">
               <div className="tvtime-stats">
                 <p className="stats-number">{watchingStatistic[0]}</p>
-                <p className="stats-subtitle">
-                  {watchingStatistic[0] === 1 ? "MONTH" : "MONTHS"}
-                </p>
+                <p className="stats-subtitle">{watchingStatistic[0] === 1 ? "MONTH" : "MONTHS"}</p>
               </div>
               <div className="tvtime-stats">
                 <p className="stats-number">{watchingStatistic[1]}</p>
-                <p className="stats-subtitle">
-                  {watchingStatistic[1] === 1 ? "DAY" : "DAYS"}
-                </p>
+                <p className="stats-subtitle">{watchingStatistic[1] === 1 ? "DAY" : "DAYS"}</p>
               </div>
               <div className="tvtime-stats">
                 <p className="stats-number">{watchingStatistic[2]}</p>
-                <p className="stats-subtitle">
-                  {watchingStatistic[2] === 1 ? "HOUR" : "HOURS"}
-                </p>
+                <p className="stats-subtitle">{watchingStatistic[2] === 1 ? "HOUR" : "HOURS"}</p>
               </div>
             </div>
           </div>
@@ -1001,11 +868,7 @@ export default function Profile() {
             {watchNextShows.length > 0 && (
               <div id="watching" className="title-button">
                 <h1 className="profile-section-title">Watch Next</h1>
-                <button
-                  id="watchNext"
-                  className="viewMore-button"
-                  onClick={(e) => toggleSections(e)}
-                >
+                <button id="watchNext" className="viewMore-button" onClick={(e) => toggleSections(e)}>
                   {watchNextSection ? "Hide" : "Show"}
                 </button>
               </div>
@@ -1029,11 +892,7 @@ export default function Profile() {
                     />
                   )}
                 </h1>
-                <button
-                  id="upToDate"
-                  className="viewMore-button"
-                  onClick={(e) => toggleSections(e)}
-                >
+                <button id="upToDate" className="viewMore-button" onClick={(e) => toggleSections(e)}>
                   {upToDateSection ? "Hide" : "Show"}
                 </button>
               </div>
@@ -1042,33 +901,21 @@ export default function Profile() {
             {upToDateSettings && upToDateSection && (
               <div className="upToDate-filters">
                 <h4
-                  className={
-                    upToDateFilter === "all"
-                      ? "filter-title active"
-                      : "filter-title"
-                  }
+                  className={upToDateFilter === "all" ? "filter-title active" : "filter-title"}
                   id="all"
                   onClick={(e) => handleFilterUpToDate(e)}
                 >
                   All
                 </h4>
                 <h4
-                  className={
-                    upToDateFilter === "soon"
-                      ? "filter-title active"
-                      : "filter-title"
-                  }
+                  className={upToDateFilter === "soon" ? "filter-title active" : "filter-title"}
                   id="soon"
                   onClick={(e) => handleFilterUpToDate(e)}
                 >
                   Coming Soon
                 </h4>
                 <h4
-                  className={
-                    upToDateFilter === "returning"
-                      ? "filter-title active"
-                      : "filter-title"
-                  }
+                  className={upToDateFilter === "returning" ? "filter-title active" : "filter-title"}
                   id="returning"
                   onClick={(e) => handleFilterUpToDate(e)}
                 >
@@ -1086,11 +933,7 @@ export default function Profile() {
 
             <div id="not_started" className="title-button">
               <h1 className="profile-section-title">Your Watchlist</h1>
-              <button
-                id="watchlist"
-                className="viewMore-button"
-                onClick={(e) => toggleSections(e)}
-              >
+              <button id="watchlist" className="viewMore-button" onClick={(e) => toggleSections(e)}>
                 {watchlistSection ? "Hide" : "Show"}
               </button>
             </div>
@@ -1104,8 +947,7 @@ export default function Profile() {
             {notStartedShows.length <= 0 && (
               <div className="noShows-div">
                 <p className="noShows-text">
-                  <Icon icon="fluent:info-24-filled" width={30} /> Your
-                  watchlist is empty!
+                  <Icon icon="fluent:info-24-filled" width={30} /> Your watchlist is empty!
                 </p>
               </div>
             )}
@@ -1113,11 +955,7 @@ export default function Profile() {
             {finishedShows.length > 0 && (
               <div className="title-button">
                 <h1 className="profile-section-title">Finished</h1>
-                <button
-                  id="finished"
-                  className="viewMore-button"
-                  onClick={(e) => toggleSections(e)}
-                >
+                <button id="finished" className="viewMore-button" onClick={(e) => toggleSections(e)}>
                   {finishedSection ? "Hide" : "Show"}
                 </button>
               </div>
@@ -1133,11 +971,7 @@ export default function Profile() {
             {stoppedShows.length > 0 && (
               <div className="title-button">
                 <h1 className="profile-section-title">Stopped</h1>
-                <button
-                  id="stopped"
-                  className="viewMore-button"
-                  onClick={(e) => toggleSections(e)}
-                >
+                <button id="stopped" className="viewMore-button" onClick={(e) => toggleSections(e)}>
                   {stoppedSection ? "Hide" : "Show"}
                 </button>
               </div>
@@ -1154,11 +988,7 @@ export default function Profile() {
                 <h1 className="profile-section-title">
                   History <Icon icon="clarity:beta-solid" />
                 </h1>
-                <button
-                  id="history"
-                  className="viewMore-button"
-                  onClick={(e) => toggleSections(e)}
-                >
+                <button id="history" className="viewMore-button" onClick={(e) => toggleSections(e)}>
                   {historySection ? "Hide" : "Show"}
                 </button>
               </div>
@@ -1176,20 +1006,8 @@ export default function Profile() {
         </div>
       )}
 
-      <div
-        className={
-          isSelectCoverOpen
-            ? "coverSelection_container isShown"
-            : "coverSelection_container"
-        }
-      >
-        <div
-          className={
-            isSelectCoverOpen
-              ? "coverSelector-wrapper showSelector"
-              : "coverSelector-wrapper"
-          }
-        >
+      <div className={isSelectCoverOpen ? "coverSelection_container isShown" : "coverSelection_container"}>
+        <div className={isSelectCoverOpen ? "coverSelector-wrapper showSelector" : "coverSelector-wrapper"}>
           <div className="coverTitle_div">
             {hideShowsCoverSelection === true && (
               <Icon
@@ -1208,10 +1026,7 @@ export default function Profile() {
           </div>
 
           {hideShowsCoverSelection === false && (
-            <h3
-              className="showCoverName defaultSelection"
-              onClick={updateCoverDefault}
-            >
+            <h3 className="showCoverName defaultSelection" onClick={updateCoverDefault}>
               <Icon icon="fluent-emoji-high-contrast:popcorn" width={45} />
               TVTime Default Cover
             </h3>
@@ -1220,16 +1035,8 @@ export default function Profile() {
             myShows.map((show, index) => {
               return (
                 <div key={index}>
-                  <h3
-                    className="showCoverName"
-                    onClick={() =>
-                      fetchShowImages(show.show_id, show.show_name)
-                    }
-                  >
-                    <Icon
-                      icon="ic:baseline-local-movies"
-                      className="movie-icon"
-                    />
+                  <h3 className="showCoverName" onClick={() => fetchShowImages(show.show_id, show.show_name)}>
+                    <Icon icon="ic:baseline-local-movies" className="movie-icon" />
                     {show.show_name}
                   </h3>
                 </div>
@@ -1248,9 +1055,7 @@ export default function Profile() {
                         src={`https://image.tmdb.org/t/p/w500/${image.file_path}`}
                         alt="shows-images"
                         onClick={() =>
-                          temporarySaveCoverSelection(
-                            `https://image.tmdb.org/t/p/w500/${image.file_path}`
-                          )
+                          temporarySaveCoverSelection(`https://image.tmdb.org/t/p/w500/${image.file_path}`)
                         }
                       />
                     )
@@ -1260,13 +1065,7 @@ export default function Profile() {
           )}
         </div>
 
-        <div
-          className={
-            isSelectCoverOpen
-              ? "closeButton_covers_div showBtn"
-              : "closeButton_covers_div"
-          }
-        >
+        <div className={isSelectCoverOpen ? "closeButton_covers_div showBtn" : "closeButton_covers_div"}>
           <button className="closeButton_covers" onClick={closeCoverSelector}>
             X
           </button>
