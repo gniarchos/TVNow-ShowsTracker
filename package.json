@@ -1,6 +1,6 @@
 {
   "name": "tvshows-tracker",
-  "version": "1.6.6",
+  "version": "1.6.7",
   "private": true,
   "dependencies": {
     "nanoid": "^3.3.4",
