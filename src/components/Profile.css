@@ -41,6 +41,7 @@
   padding-left: 3%;
   margin-right: 0;
   width: 98.5vw;
+  margin-bottom: -10px;
 }
 
 .history-container {
@@ -400,20 +401,19 @@
 .line {
   margin-left: 4vw;
   margin-right: 5vw;
-  margin-bottom: 50px;
 }
 
 .glow:before {
   background: linear-gradient(to right, blue, hotpink);
   height: 6px;
-  filter: blur(5px);
+  filter: blur(8px);
   border-radius: 5px;
 }
 
 .glow:after {
   background: linear-gradient(to left, blue, hotpink);
   height: 6px;
-  filter: blur(5px);
+  filter: blur(8px);
   border-radius: 5px;
 }
 
@@ -1103,5 +1103,11 @@
   .until-episode-profile {
     font-size: 1rem;
     padding-right: 10px;
+  }
+
+  .line {
+    margin-left: 0vw;
+    margin-right: 0vw;
+    margin-bottom: 15px;
   }
 }
