@@ -491,6 +491,8 @@
   border-radius: 5px;
   color: black;
   border: 2px solid transparent;
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 .filter-title.active {
@@ -1109,5 +1111,9 @@
     margin-left: 0vw;
     margin-right: 0vw;
     margin-bottom: 15px;
+  }
+
+  .filter-title {
+    font-size: 0.9rem;
   }
 }

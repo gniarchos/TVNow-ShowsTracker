@@ -1043,7 +1043,7 @@ export default function Profile() {
 
             {upToDateSettings && upToDateSection && (
               <div className="upToDate-filters">
-                <h4
+                <p
                   className={
                     upToDateFilter === "all"
                       ? "filter-title active"
@@ -1053,8 +1053,8 @@ export default function Profile() {
                   onClick={(e) => handleFilterUpToDate(e)}
                 >
                   All
-                </h4>
-                <h4
+                </p>
+                <p
                   className={
                     upToDateFilter === "soon"
                       ? "filter-title active"
@@ -1064,8 +1064,8 @@ export default function Profile() {
                   onClick={(e) => handleFilterUpToDate(e)}
                 >
                   Coming Soon
-                </h4>
-                <h4
+                </p>
+                <p
                   className={
                     upToDateFilter === "returning"
                       ? "filter-title active"
@@ -1075,7 +1075,7 @@ export default function Profile() {
                   onClick={(e) => handleFilterUpToDate(e)}
                 >
                   Returning
-                </h4>
+                </p>
               </div>
             )}
 
