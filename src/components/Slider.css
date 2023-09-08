@@ -150,14 +150,10 @@
   }
 
   .slider-img {
+    width: 180px;
+    height: 280px;
     transition: none;
     transform: none;
-  }
-
-  .slider-img {
-    max-width: 180px;
-    min-height: 180px;
-    object-fit: fill;
   }
 
   .img-trend-container:hover .slider-img {

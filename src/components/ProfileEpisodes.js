@@ -45,7 +45,10 @@ export default function ProfileEpisodes(props) {
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
-            if (parseInt(props.curr_season_episodes) !== props.episode_number + 1) {
+            if (
+              parseInt(props.curr_season_episodes) !==
+              props.episode_number + 1
+            ) {
               doc.ref.update({
                 episode_number: props.episode_number + 1,
                 status: "watching",
@@ -80,11 +83,15 @@ export default function ProfileEpisodes(props) {
       db.collection("users")
         .doc(props.currentUserID)
         .update({
-          watching_time: parseInt(userWatchingTime) + parseInt(props.episode_time[0]),
+          watching_time:
+            parseInt(userWatchingTime) + parseInt(props.episode_time[0]),
           total_episodes: parseInt(userTotalEpisodes) + 1,
         })
 
-      localStorage.setItem("watching_time", parseInt(userWatchingTime) + parseInt(props.episode_time[0]))
+      localStorage.setItem(
+        "watching_time",
+        parseInt(userWatchingTime) + parseInt(props.episode_time[0])
+      )
 
       localStorage.setItem("total_episodes", parseInt(userTotalEpisodes) + 1)
 
@@ -118,20 +125,35 @@ export default function ProfileEpisodes(props) {
     e.currentTarget.src = noImg
   }
 
-  if (props.backdrop_path === "" || props.backdrop_path === undefined) {
-    console.log("Image not loaded")
-  }
-
   return (
-    <div className={props.mobileLayout === "cards" ? "episode-card-wrapper" : "history-card-wrapper"}>
-      <div className={props.mobileLayout === "cards" ? "profile-show-img-div" : "history-profile-show-img-div"}>
-        {/* {playGif && (
-          <img className="popcorn-gif" src={gifSrc} alt="popcorn-gif" />
-        )} */}
+    <div
+      className={
+        props.mobileLayout === "cards"
+          ? "episode-card-wrapper"
+          : "history-card-wrapper"
+      }
+    >
+      <div
+        className={
+          props.mobileLayout === "cards"
+            ? "profile-show-img-div"
+            : "history-profile-show-img-div"
+        }
+      >
         {props.backdrop_path[0] !== null ? (
-          <div className={props.mobileLayout === "cards" ? "img-background" : "img-background grid"}>
+          <div
+            className={
+              props.mobileLayout === "cards"
+                ? "img-background"
+                : "img-background grid"
+            }
+          >
             <img
-              className={props.mobileLayout === "cards" ? "episode-card-img" : "history-card-img"}
+              className={
+                props.mobileLayout === "cards"
+                  ? "episode-card-img"
+                  : "history-card-img"
+              }
               src={`https://image.tmdb.org/t/p/w500/${props.backdrop_path}`}
               alt="episode-card-img"
               loading="lazy"
@@ -139,12 +161,18 @@ export default function ProfileEpisodes(props) {
             />
           </div>
         ) : (
-          <img loading="lazy" className="show-no-img" src={noImg} alt="no-img-found" />
+          <img
+            loading="lazy"
+            className="show-no-img"
+            src={noImg}
+            alt="no-img-found"
+          />
         )}
 
         {props.is_premiering === "true" ||
-        (props.upToDate === true && JSON.stringify(props.nextEpisodeDate) !== "[false]") ? (
-          <h3 className="runtime-release">
+        (props.upToDate === true &&
+          JSON.stringify(props.nextEpisodeDate) !== "[false]") ? (
+          <h3 className="runtime-release upcoming">
             <Icon icon="fontisto:date" />
             {props.nextEpisodeDate}
           </h3>
@@ -157,7 +185,9 @@ export default function ProfileEpisodes(props) {
         )}
 
         <p className="runtime-release premiering">
-          {props.is_premiering === "true" && props.is_notStarted === true && "PREMIERE"}
+          {props.is_premiering === "true" &&
+            props.is_notStarted === true &&
+            "PREMIERE"}
         </p>
       </div>
 
@@ -174,27 +204,57 @@ export default function ProfileEpisodes(props) {
                 : "info-card-grid markedAnimation"
             }
           >
-            <h3 style={{ cursor: "pointer" }} onClick={() => goToShow(props.showID)}>
+            <p
+              className="show-name-profile"
+              onClick={() => goToShow(props.showID)}
+            >
               {props.showName}
-            </h3>
+            </p>
             <div className="episode-num-card">
-              S{zeroPad(props.season_number, 2)} | E{zeroPad(props.episode_number + 1, 2)}
-              {props.curr_season_episodes - (props.episode_number + 1) !== 0 && props.upToDate !== true ? (
-                <p className="episodes-left">+ {props.curr_season_episodes - (props.episode_number + 1)} More</p>
+              S{zeroPad(props.season_number, 2)} | E
+              {zeroPad(props.episode_number + 1, 2)}
+              {props.curr_season_episodes - (props.episode_number + 1) !== 0 &&
+              props.upToDate !== true ? (
+                <p className="episodes-left">
+                  + {props.curr_season_episodes - (props.episode_number + 1)}{" "}
+                  More
+                </p>
               ) : (
-                <p className="episodes-left">{props.upToDate !== true ? "FINALE" : "PREMIER"}</p>
+                <p className="episodes-left">
+                  {props.upToDate !== true ? "FINALE" : "PREMIER"}
+                </p>
               )}
             </div>
-            <p className={props.mobileLayout === "cards" ? "profile-episode-name" : "profile-episode-name grid"}>
-              {props.episode_name !== "false" ? props.episode_name : "TBA"}
+            <p
+              className={
+                props.mobileLayout === "cards"
+                  ? "profile-episode-name"
+                  : "profile-episode-name grid"
+              }
+            >
+              {props.episode_name.length > 0 &&
+              (props.episode_name !== "false" || props.episode_name === "")
+                ? props.episode_name
+                : "TBA"}
             </p>
           </div>
         ) : (
-          <div className={props.mobileLayout === "cards" ? "info-card" : "info-card-grid"}>
-            <h3 style={{ cursor: "pointer" }} onClick={() => goToShow(props.showID)}>
+          <div
+            className={
+              props.mobileLayout === "cards" ? "info-card" : "info-card-grid"
+            }
+          >
+            <p
+              className="show-name-profile"
+              onClick={() => goToShow(props.showID)}
+            >
               {props.showName}
-            </h3>
-            {!props.stoppedShows ? <p>Total Seasons: {props.season_number}</p> : <p>Season: {props.season_number}</p>}
+            </p>
+            {!props.stoppedShows ? (
+              <p>Total Seasons: {props.season_number}</p>
+            ) : (
+              <p>Season: {props.season_number}</p>
+            )}
             {!props.stoppedShows ? (
               <p>Total Episodes: {props.episode_number}</p>
             ) : (
@@ -215,14 +275,18 @@ export default function ProfileEpisodes(props) {
                   className="markIcon"
                 />
               ) : (
-                <Icon icon="line-md:loading-twotone-loop" width={45} className="markIcon" />
+                <Icon
+                  icon="line-md:loading-twotone-loop"
+                  width={45}
+                  className="markIcon"
+                />
               )
             ) : isNaN(props.daysUntilCurrentEpisode) === true ? (
-              <h3 className="h3-until-episode-profile">TBA</h3>
+              <h3 className="until-episode-profile">TBA</h3>
             ) : props.daysUntilCurrentEpisode !== 1 ? (
-              <h3 className="h3-until-episode-profile">{`${props.daysUntilCurrentEpisode} Days`}</h3>
+              <h3 className="until-episode-profile">{`${props.daysUntilCurrentEpisode} Days`}</h3>
             ) : (
-              <h3 className="h3-until-episode-profile">{`${props.daysUntilCurrentEpisode} Day`}</h3>
+              <h3 className="until-episode-profile">{`${props.daysUntilCurrentEpisode} Day`}</h3>
             )}
           </div>
         )}

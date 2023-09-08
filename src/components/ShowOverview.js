@@ -596,7 +596,6 @@ export default function ShowOverview() {
       })
   }
 
-  console.log(seasonDetails)
   return (
     <div className="showOverview-wrapper">
       <div className="bg"></div>

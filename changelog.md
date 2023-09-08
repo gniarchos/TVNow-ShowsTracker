@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.6.6] - 08-9-2023
+
+### Updated
+
+- Updated the PWA app's icon image.
+- Made minor visual updates to the profile UI.
+
+### Fixed
+
+- Corrected slider images to the proper width and height on mobile devices.
+- Resolved the issue of empty episode names in upcoming episodes that were either empty or null.
+
+### Removed
+
+- Deleted unused image files.
+
+---
+
 ## [1.6.5] - 06-9-2023
 
 ### Added

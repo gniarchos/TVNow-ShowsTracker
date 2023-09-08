@@ -172,12 +172,12 @@ export default function HistoryEpisodes(props) {
 
       <div className="history-badge-info-container">
         <div className="history-info-card">
-          <h3
-            style={{ cursor: "pointer" }}
+          <p
+            className="show-name-profile"
             onClick={() => goToShow(props.history_show_id)}
           >
             {props.history_show_name}
-          </h3>
+          </p>
           {props.history_episode_name === "Marked Season Watched" ? (
             <p className="episode-num-card">
               Season {props.history_season_number}
