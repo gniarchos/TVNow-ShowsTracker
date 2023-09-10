@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.6.8] - 10-9-2023
+
+### Added
+
+- Added "SERIES FINALE" to the latest episode of the TV show.
+- Added "PREMIERE" to the first episode of the TV show's season.
+
+### Updated
+
+- On the profile page, the "Up To Date" filter is initially set to "All" by default.
+
+### Fixed
+
+- Fixed an issue that caused the page number on the trending/on the air/Discover detailed page to not change to 1 when changing filters.
+
+---
+
 ## [1.6.7] - 08-9-2023
 
 ### Updated
