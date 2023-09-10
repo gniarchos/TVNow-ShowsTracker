@@ -215,13 +215,25 @@ export default function ProfileEpisodes(props) {
               {zeroPad(props.episode_number + 1, 2)}
               {props.curr_season_episodes - (props.episode_number + 1) !== 0 &&
               props.upToDate !== true ? (
-                <p className="episodes-left">
-                  + {props.curr_season_episodes - (props.episode_number + 1)}{" "}
-                  More
-                </p>
+                props.episode_number !== 0 ? (
+                  <p className="episodes-left">
+                    + {props.curr_season_episodes - (props.episode_number + 1)}{" "}
+                    More
+                  </p>
+                ) : (
+                  <p className="episodes-left">PREMIER</p>
+                )
               ) : (
                 <p className="episodes-left">
-                  {props.upToDate !== true ? "FINALE" : "PREMIER"}
+                  {/* {props.upToDate !== true ? "FINALE" : "PREMIER"} */}
+                  {props.curr_season_episodes === 0 || props.upToDate === true
+                    ? "PREMIER"
+                    : parseInt(props.show_all_seasons) ===
+                        parseInt(props.season_number) &&
+                      parseInt(props.curr_season_episodes) ===
+                        parseInt(props.episode_number + 1)
+                    ? "SERIES FINALE"
+                    : "FINALE"}
                 </p>
               )}
             </div>

@@ -89,7 +89,7 @@ export default function Profile() {
   const [upToDateFilter, setUpToDateFilter] = React.useState(
     localStorage.getItem("upToDateFilter")
       ? localStorage.getItem("upToDateFilter")
-      : "soon"
+      : "all"
   )
   const [coverImageSelected, setCoverImageSelected] = React.useState(false)
   const [showLayoutMessage, setShowLayoutMessage] = React.useState(false)
