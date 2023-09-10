@@ -16,17 +16,26 @@ export default function DetailedSliders() {
   const show_title = React.useRef("")
   const navigate = useNavigate()
   const [genresFilters, setGenresFilters] = React.useState(
-    localStorage.getItem("genresFilters") ? localStorage.getItem("genresFilters") : null
+    localStorage.getItem("genresFilters")
+      ? localStorage.getItem("genresFilters")
+      : null
   )
   const [genresFiltersName, setGenresFiltersName] = React.useState(
-    localStorage.getItem("genresFiltersName") ? localStorage.getItem("genresFiltersName") : "Show All"
+    localStorage.getItem("genresFiltersName")
+      ? localStorage.getItem("genresFiltersName")
+      : "Show All"
   )
-  const [page, setPage] = React.useState(localStorage.getItem("currentPage") ? localStorage.getItem("currentPage") : 1)
+  const [page, setPage] = React.useState(
+    localStorage.getItem("currentPage")
+      ? localStorage.getItem("currentPage")
+      : 1
+  )
   const [allShows, setAllShows] = React.useState([])
   const [totalPages, setTotalPages] = React.useState(0)
   const [totalResults, setTotalResults] = React.useState(0)
 
   const [loading, setLoading] = React.useState(true)
+  const [filterChanged, setFilterChanged] = React.useState(false)
 
   let allGenres = [
     "Show All",
@@ -48,7 +57,12 @@ export default function DetailedSliders() {
   ]
 
   React.useEffect(() => {
-    setPage(localStorage.getItem("currentPage"))
+    if (filterChanged) {
+      setPage(1)
+    } else {
+      setPage(localStorage.getItem("currentPage"))
+    }
+
     fetch(`${location.state.fetchLink}${page}&with_genres=${genresFilters}`)
       .then((res) => res.json())
       .then((data) => {
@@ -58,6 +72,7 @@ export default function DetailedSliders() {
         setTotalResults(data.total_results)
       })
       .finally(() => {
+        setFilterChanged(false)
         setLoading(false)
       })
   }, [page, location.state.fetchLink, genresFilters])
@@ -86,12 +101,14 @@ export default function DetailedSliders() {
 
   function handleFilters(event) {
     const { id } = event.target
+    setFilterChanged(true)
 
     if (id === "Show All") {
       setGenresFiltersName("Show All")
       setGenresFilters("Show All")
       localStorage.setItem("genresFiltersName", "Show All")
       localStorage.setItem("genresFilters", "Show All")
+      setPage(1)
     } else if (id === "Action & Adventure") {
       setGenresFiltersName("Action & Adventure")
       setGenresFilters(10759)
@@ -187,10 +204,18 @@ export default function DetailedSliders() {
 
   const list = allShows.map((list) => {
     return (
-      <div key={list.id} onClick={() => goToShow(list.id)} className="slider-content">
+      <div
+        key={list.id}
+        onClick={() => goToShow(list.id)}
+        className="slider-content"
+      >
         <div className="img-trend-container">
           {list.poster_path !== null ? (
-            <img className="slider-img" src={`https://image.tmdb.org/t/p/w500/${list.poster_path}`} alt="show" />
+            <img
+              className="slider-img"
+              src={`https://image.tmdb.org/t/p/w500/${list.poster_path}`}
+              alt="show"
+            />
           ) : (
             <img className="slider-no-img" src={noImg} alt="not-found" />
           )}
@@ -206,7 +231,11 @@ export default function DetailedSliders() {
     return (
       <h4
         key={gen}
-        className={genresFiltersName === `${gen}` ? "filter-title active" : "filter-title"}
+        className={
+          genresFiltersName === `${gen}`
+            ? "filter-title active"
+            : "filter-title"
+        }
         id={gen}
         onClick={(e) => handleFilters(e)}
       >
@@ -237,9 +266,10 @@ export default function DetailedSliders() {
               </p>
             </div>
           )}
-          {location.state.sectionTitle !== "Trending Now" && location.state.sectionTitle !== "Search Results" && (
-            <div className="search-discover-filters">{filtersSelection}</div>
-          )}
+          {location.state.sectionTitle !== "Trending Now" &&
+            location.state.sectionTitle !== "Search Results" && (
+              <div className="search-discover-filters">{filtersSelection}</div>
+            )}
 
           <div className="detailedSlider-div">{list}</div>
 
@@ -253,7 +283,8 @@ export default function DetailedSliders() {
                 marginPagesDisplayed={1}
                 pageCount={
                   totalPages > 500 &&
-                  (location.state.sectionTitle === "Popular Today" || location.state.sectionTitle === "Discover")
+                  (location.state.sectionTitle === "Popular Today" ||
+                    location.state.sectionTitle === "Discover")
                     ? 500
                     : totalPages
                 }
