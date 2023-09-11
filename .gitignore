@@ -23,5 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 .firebase
-# /src/services
+/src/services
 .env
