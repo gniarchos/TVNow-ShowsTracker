@@ -147,7 +147,7 @@ export default function HistoryEpisodes(props) {
 
   function goToShow(showID) {
     fetch(
-      `https://api.themoviedb.org/3/tv/${showID}?api_key=***REMOVED***&language=en-US&append_to_response=external_ids,videos,aggregate_credits,content_ratings,recommendations,similar,watch/providers,images`
+      `https://api.themoviedb.org/3/tv/${showID}?api_key=47b60aaf43a6f85780c217395976aee5&language=en-US&append_to_response=external_ids,videos,aggregate_credits,content_ratings,recommendations,similar,watch/providers,images`
     )
       .then((res) => res.json())
       .then((data) => {

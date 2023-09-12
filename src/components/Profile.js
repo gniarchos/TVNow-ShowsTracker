@@ -203,10 +203,10 @@ export default function Profile() {
           const fetchPromises = myShows.map(async (myShow) => {
             const [showRes, seasonRes] = await Promise.all([
               fetch(
-                `https://api.themoviedb.org/3/tv/${myShow.show_id}?api_key=***REMOVED***&language=en-US&include_image_language=en,null&append_to_response=external_ids,videos,aggregate_credits,content_ratings,recommendations,similar,watch/providers,images`
+                `https://api.themoviedb.org/3/tv/${myShow.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&include_image_language=en,null&append_to_response=external_ids,videos,aggregate_credits,content_ratings,recommendations,similar,watch/providers,images`
               ),
               fetch(
-                `https://api.themoviedb.org/3/tv/${myShow.show_id}/season/${myShow.seasonNumber}?api_key=***REMOVED***&language=en-US`
+                `https://api.themoviedb.org/3/tv/${myShow.show_id}/season/${myShow.seasonNumber}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
               ),
             ])
             const [showData, seasonData] = await Promise.all([
@@ -235,7 +235,7 @@ export default function Profile() {
 
   async function fetchShowImages(show_id, show_name) {
     await fetch(
-      `https://api.themoviedb.org/3/tv/${show_id}?api_key=***REMOVED***&language=en-US&include_image_language=en,null&append_to_response=images`
+      `https://api.themoviedb.org/3/tv/${show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&include_image_language=en,null&append_to_response=images`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -369,7 +369,7 @@ export default function Profile() {
     .filter((show) => show.status === "watching")
     .map((show) => {
       fetch(
-        `https://api.themoviedb.org/3/tv/${show.show_id}?api_key=***REMOVED***&language=en-US`
+        `https://api.themoviedb.org/3/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
       )
         .then((res) => res.json())
         .then((data) => {

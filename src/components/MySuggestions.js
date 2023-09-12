@@ -31,7 +31,7 @@ export default function MySuggestions() {
   React.useEffect(() => {
     myChoicesArray.forEach((id) => {
       fetch(
-        `https://api.themoviedb.org/3/tv/${id}?api_key=***REMOVED***&language=en-US&append_to_response=external_ids,videos,aggregate_credits,content_ratings,recommendations,similar,watch/providers`
+        `https://api.themoviedb.org/3/tv/${id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&append_to_response=external_ids,videos,aggregate_credits,content_ratings,recommendations,similar,watch/providers`
       )
         .then((res) => res.json())
         .then((data) => {

@@ -37,19 +37,19 @@ export default function Home() {
     }
 
     const trendingPromise = fetchAndSetData(
-      `https://api.themoviedb.org/3/trending/tv/week?api_key=***REMOVED***&page=1`,
+      `https://api.themoviedb.org/3/trending/tv/week?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&page=1`,
       setAllTrending
     )
     const popularPromise = fetchAndSetData(
-      `https://api.themoviedb.org/3/tv/popular?api_key=***REMOVED***&language=en-US&page=1`,
+      `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&page=1`,
       setAllPopular
     )
     const onTheAirPromise = fetchAndSetData(
-      `https://api.themoviedb.org/3/tv/on_the_air?api_key=***REMOVED***&language=en-US&page=1`,
+      `https://api.themoviedb.org/3/tv/on_the_air?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&page=1`,
       setAllOnTheAir
     )
     const discoverPromise = fetchAndSetData(
-      `https://api.themoviedb.org/3/discover/tv?api_key=***REMOVED***&language=en-US&page=1`,
+      `https://api.themoviedb.org/3/discover/tv?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&page=1`,
       setDiscover
     )
 
@@ -71,8 +71,7 @@ export default function Home() {
     if (section === "Trending Now") {
       navigate("/discover", {
         state: {
-          fetchLink:
-            "https://api.themoviedb.org/3/trending/tv/week?api_key=***REMOVED***&page=",
+          fetchLink: `https://api.themoviedb.org/3/trending/tv/week?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&page=`,
           sectionTitle: section,
           userId: currentUser.uid,
         },
@@ -80,8 +79,7 @@ export default function Home() {
     } else if (section === "Popular Today") {
       navigate("/discover", {
         state: {
-          fetchLink:
-            "https://api.themoviedb.org/3/tv/popular?api_key=***REMOVED***&language=en-US&page=",
+          fetchLink: `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&page=`,
           sectionTitle: section,
           userId: currentUser.uid,
         },
@@ -89,8 +87,7 @@ export default function Home() {
     } else if (section === "On The Air") {
       navigate("/discover", {
         state: {
-          fetchLink:
-            "https://api.themoviedb.org/3/tv/on_the_air?api_key=***REMOVED***&language=en-US&page=",
+          fetchLink: `https://api.themoviedb.org/3/tv/on_the_air?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&page=`,
           sectionTitle: section,
           userId: currentUser.uid,
         },
@@ -98,8 +95,7 @@ export default function Home() {
     } else if (section === "Discover") {
       navigate("/discover", {
         state: {
-          fetchLink:
-            "https://api.themoviedb.org/3/discover/tv?api_key=***REMOVED***&language=en-US&page=",
+          fetchLink: `https://api.themoviedb.org/3/discover/tv?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&page=`,
           sectionTitle: section,
           userId: currentUser.uid,
         },

@@ -56,7 +56,7 @@ export default function Navbar(props) {
 
       navigate("/discover", {
         state: {
-          fetchLink: `https://api.themoviedb.org/3/search/tv?api_key=***REMOVED***&language=en-US&query=${fixed_value}&include_adult=false&page=`,
+          fetchLink: `https://api.themoviedb.org/3/search/tv?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&query=${fixed_value}&include_adult=false&page=`,
           sectionTitle: "Search Results",
           userId: currentUser.uid,
         },
