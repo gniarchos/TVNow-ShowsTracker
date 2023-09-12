@@ -2,6 +2,11 @@
 
 ## [1.6.9] - 12-9-2023
 
+### Updated
+
+- Updated history of the repo to clear previous uploaded API keys.
+- Updated dependencies and outdated packages.
+
 ### Removed
 
 - Removed firebase.js into services folder for security reasons and replaced by the file "firebase_config_file".
