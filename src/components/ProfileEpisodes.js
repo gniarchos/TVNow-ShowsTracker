@@ -221,17 +221,18 @@ export default function ProfileEpisodes(props) {
                     More
                   </p>
                 ) : (
-                  <p className="episodes-left">PREMIER</p>
+                  <p className="episodes-left">PREMIERE</p>
                 )
               ) : (
                 <p className="episodes-left">
-                  {/* {props.upToDate !== true ? "FINALE" : "PREMIER"} */}
                   {props.curr_season_episodes === 0 || props.upToDate === true
-                    ? "PREMIER"
-                    : parseInt(props.show_all_seasons) ===
+                    ? "PREMIERE"
+                    : (parseInt(props.show_all_seasons) ===
                         parseInt(props.season_number) &&
-                      parseInt(props.curr_season_episodes) ===
-                        parseInt(props.episode_number + 1)
+                        parseInt(props.curr_season_episodes) ===
+                          parseInt(props.episode_number + 1) &&
+                        props.show_status === "Ended") ||
+                      props.show_status === "Canceled"
                     ? "SERIES FINALE"
                     : "FINALE"}
                 </p>

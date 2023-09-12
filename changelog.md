@@ -7,6 +7,11 @@
 - Updated history of the repo to clear previous uploaded API keys.
 - Updated dependencies and outdated packages.
 
+### Fixed
+
+- Spelling on the profile page has been corrected.
+- The "SEASON FINALE" tag now appears only on shows that have ended or finished.
+
 ### Removed
 
 - Removed firebase.js into services folder for security reasons and replaced by the file "firebase_config_file".
