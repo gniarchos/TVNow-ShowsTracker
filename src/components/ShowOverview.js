@@ -207,7 +207,7 @@ export default function ShowOverview() {
     const options = {
       method: "GET",
       headers: {
-        "X-RapidAPI-Key": "***REMOVED***",
+        "X-RapidAPI-Key": `${process.env.REACT_APP_MDBLIST_API}`,
         "X-RapidAPI-Host": "mdblist.p.rapidapi.com",
       },
     }
