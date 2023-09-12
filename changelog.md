@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.9] - 12-9-2023
+
+### Removed
+
+- Removed firebase.js into services folder for security reasons and replaced by the file "firebase_config_file".
+- Removed API keys from code for security reasons.
+
 ## [1.6.8] - 10-9-2023
 
 ### Added
