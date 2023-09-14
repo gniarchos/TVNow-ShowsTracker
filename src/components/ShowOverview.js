@@ -15,6 +15,7 @@ import trakt_logo from "../images/trakt-icon-red-white.png"
 
 export default function ShowOverview() {
   const location = useLocation()
+
   const isLoggedIn = true
   const show = location.state.data
 
@@ -53,6 +54,14 @@ export default function ShowOverview() {
   }
   const [selectedSeasonData, setSelectedSeasonData] = React.useState()
   const [semiReleasedSeason, setSemiReleasedSeason] = React.useState(false)
+
+  const [streamServicesAvailable, setStreamServicesAvailable] = React.useState([
+    {
+      service: "",
+      streamingType: "",
+      link: "",
+    },
+  ])
 
   React.useEffect(() => {
     db.collection("users")
@@ -203,22 +212,44 @@ export default function ShowOverview() {
   }, [finished, seasonNumber])
 
   React.useEffect(() => {
-    const url = `https://mdblist.p.rapidapi.com/?i=${show.external_ids.imdb_id}`
-    const options = {
+    const userCounty = localStorage.getItem("userCountry")
+
+    // MDBLIST API
+    const url_mdblist = `https://mdblist.p.rapidapi.com/?i=${show.external_ids.imdb_id}`
+    const options_1 = {
       method: "GET",
       headers: {
         "X-RapidAPI-Key": `${process.env.REACT_APP_MDBLIST_API}`,
         "X-RapidAPI-Host": "mdblist.p.rapidapi.com",
       },
     }
-    fetch(url, options)
+
+    // Streaming Availability API
+    const url_stream_availability = `https://streaming-availability.p.rapidapi.com/get?output_language=en&country=gr&imdb_id=${show.external_ids.imdb_id}`
+    const options_2 = {
+      method: "GET",
+      headers: {
+        "X-RapidAPI-Key": `${process.env.REACT_APP_STREAMING_AVAILABILITY_API}`,
+        "X-RapidAPI-Host": "streaming-availability.p.rapidapi.com",
+      },
+    }
+
+    fetch(url_mdblist, options_1)
       .then((res) => res.json())
       .then((data) => {
         setImdbRating(data?.ratings[0]?.value)
         setRottenTomatoesRating(data?.ratings[4]?.value)
         setTraktRating(data?.ratings[3]?.value)
       })
+
+    fetch(url_stream_availability, options_2)
+      .then((res) => res.json())
+      .then((data) => {
+        setStreamServicesAvailable(data.result?.streamingInfo[userCounty])
+      })
   }, [location])
+
+  console.log(streamServicesAvailable)
 
   React.useEffect(() => {
     setSeasonUntilReleasedEpisode([])
@@ -389,8 +420,6 @@ export default function ShowOverview() {
       </div>
     )
   }
-
-  console.log(show)
 
   const logos_networks = show.networks.map((logo) => {
     return (
@@ -723,10 +752,21 @@ export default function ShowOverview() {
           <div className="top-info-div">
             <div className="info-div">
               <h1>Where to watch</h1>
-              <a className="whereToWatch-link" href={show.homepage}>
-                <Icon icon="ci:play-circle-outline" />
-                Official Site
-              </a>
+              {streamServicesAvailable !== undefined &&
+              streamServicesAvailable[0]?.link ? (
+                <a
+                  className="whereToWatch-link"
+                  href={streamServicesAvailable[0]?.link}
+                >
+                  <Icon icon="ci:play-circle-outline" />
+                  Available Here
+                </a>
+              ) : (
+                <a className="whereToWatch-link" href={show.homepage}>
+                  <Icon icon="ci:play-circle-outline" />
+                  Official Site
+                </a>
+              )}
             </div>
 
             {lastDate !== "-" && (
