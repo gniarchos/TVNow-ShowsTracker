@@ -7,7 +7,6 @@ import Footer from "./Footer"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../authentication/AuthContext"
 import PuffLoader from "react-spinners/PuffLoader"
-import useGeoLocation from "react-ipgeolocation"
 
 export default function Home() {
   const navigate = useNavigate()
@@ -18,12 +17,6 @@ export default function Home() {
   const [discover, setDiscover] = React.useState([])
   const { currentUser } = useAuth()
   const [loading, setLoading] = React.useState(true)
-
-  const locationIP = useGeoLocation()
-  if (locationIP.isLoading === false) {
-    // console.log(locationIP)
-    localStorage.setItem("userCountry", locationIP.country.toLowerCase())
-  }
 
   localStorage.setItem("currentPage", 1)
 
