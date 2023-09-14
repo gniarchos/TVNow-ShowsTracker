@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.7.0] - 14-9-2023
+
+# Added
+
+- NEW: show streaming availability based on user's country using Streaming Availability API
+
+### Updated
+
+### Fixed
+
+### Removed
+
+---
+
 ## [1.6.9] - 12-9-2023
 
 ### Updated
@@ -16,6 +30,8 @@
 
 - Removed firebase.js into services folder for security reasons and replaced by the file "firebase_config_file".
 - Removed API keys from code for security reasons.
+
+---
 
 ## [1.6.8] - 10-9-2023
 
