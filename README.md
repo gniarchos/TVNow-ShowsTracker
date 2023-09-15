@@ -2,18 +2,22 @@
 
 A TV Shows organizer to track and find information about any TV Show.
 
-This project uses the Firebase Database for login/signup and user data. The app fetches all the necessary data from two different APIs: [TheMovieDB API](https://www.themoviedb.org/documentation/api) and [MDBList API](https://rapidapi.com/linaspurinis/api/mdblist/).
+This project utilizes the Firebase Database for login/signup and storing user data. The app fetches all the necessary information from various APIs: [TheMovieDB API](https://www.themoviedb.org/documentation/api) for TV Show details, the [MDBList API](https://rapidapi.com/linaspurinis/api/mdblist/) for TV Show ratings, and the [Streaming Availability API](https://rapidapi.com/movie-of-the-night-movie-of-the-night-default/api/streaming-availability) for information about TV Show streaming availability in the user's country.
 
 Made with React.
 
 ## 🛠️ Features
 
-- Track Shows
-- Track Episodes
-- Casts & Crew
-- Discover Trending Shows
-- Discover Popular Shows
-- Search for any Show
+- Add shows to your Watchlist
+- Mark episodes as watched or un-watched
+- Mark entire seasons as watched
+- Cast and crew information
+- Details about seasons and shows
+- Trending and popular shows
+- History of watched episodes
+- Search for any TV show and apply filters
+- User statistics for total TV watch time and episode count
+- Streaming availability in user's country
 - PWA (standalone app) compatibility
 
 ## 🚧 Made with
