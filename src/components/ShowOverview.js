@@ -12,12 +12,15 @@ import { db } from "../services/firebase"
 import { useAuth } from "../authentication/AuthContext"
 import Episodes from "./Episodes"
 import trakt_logo from "../images/trakt-icon-red-white.png"
+import YoutubeVideos from "./YoutubeVideos"
 
 export default function ShowOverview() {
   const location = useLocation()
 
   const isLoggedIn = true
   const show = location.state.data
+
+  // console.log(show)
 
   React.useEffect(() => {
     window.scrollTo(0, 0)
@@ -63,7 +66,22 @@ export default function ShowOverview() {
     },
   ])
 
+  const [showVideos, setShowVideos] = React.useState([])
+  const [youtubeKey, setYoutubeKey] = React.useState()
+  const [youtubeId, setYoutubeId] = React.useState()
+  const [moreVideosAvailable, setMoreVideosAvailable] = React.useState(false)
+
   React.useEffect(() => {
+    for (let i = 1; i <= show.number_of_seasons; i++) {
+      fetch(
+        `https://api.themoviedb.org/3/tv/${show.id}/season/${i}/videos?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setShowVideos((prevData) => [...prevData, data.results])
+        })
+    }
+
     db.collection("users")
       .doc(location.state.userId)
       .get()
@@ -76,11 +94,44 @@ export default function ShowOverview() {
         setUserWatchedEpisodes(snapshot.data().total_episodes)
       )
 
+    let trailerIndex = 0
+    let foundTrailer = false
+
+    show.videos.results.map((res, index) => {
+      if (res.name.includes("Trailer")) {
+        trailerIndex = index
+        foundTrailer = true
+
+        setYoutubeId(show.videos.results[trailerIndex].id)
+        setYoutubeKey(show.videos.results[trailerIndex].key)
+      }
+    })
+
+    if (foundTrailer === false) {
+      show.videos.results.map((res, index) => {
+        if (res.name.includes("Teaser")) {
+          trailerIndex = index
+          foundTrailer = true
+
+          setYoutubeId(show.videos.results[trailerIndex].id)
+          setYoutubeKey(show.videos.results[trailerIndex].key)
+        }
+      })
+    }
+
     window.addEventListener("resize", handleWindowSizeChange)
     return () => {
       window.removeEventListener("resize", handleWindowSizeChange)
     }
   }, [])
+
+  React.useEffect(() => {
+    for (let i = 0; i < show.number_of_seasons; i++) {
+      if (showVideos[i]?.length > 0) {
+        setMoreVideosAvailable(true)
+      }
+    }
+  }, [showVideos])
 
   React.useEffect(() => {
     localStorage.setItem("watching_time", userWatchingTime)
@@ -234,22 +285,20 @@ export default function ShowOverview() {
       },
     }
 
-    fetch(url_mdblist, options_1)
-      .then((res) => res.json())
-      .then((data) => {
-        setImdbRating(data?.ratings[0]?.value)
-        setRottenTomatoesRating(data?.ratings[4]?.value)
-        setTraktRating(data?.ratings[3]?.value)
-      })
+    // fetch(url_mdblist, options_1)
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setImdbRating(data?.ratings[0]?.value)
+    //     setRottenTomatoesRating(data?.ratings[4]?.value)
+    //     setTraktRating(data?.ratings[3]?.value)
+    //   })
 
-    fetch(url_stream_availability, options_2)
-      .then((res) => res.json())
-      .then((data) => {
-        setStreamServicesAvailable(data.result?.streamingInfo[userCounty])
-      })
+    // fetch(url_stream_availability, options_2)
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setStreamServicesAvailable(data.result?.streamingInfo[userCounty])
+    //   })
   }, [location])
-
-  console.log(streamServicesAvailable)
 
   React.useEffect(() => {
     setSeasonUntilReleasedEpisode([])
@@ -337,25 +386,6 @@ export default function ShowOverview() {
         ? "-"
         : Math.ceil(difference / (1000 * 3600 * 24))
       : "-"
-
-  let trailerIndex = 0
-  let foundTrailer = false
-
-  show.videos.results.map((res, index) => {
-    if (res.name.includes("Trailer")) {
-      trailerIndex = index
-      foundTrailer = true
-    }
-  })
-
-  if (foundTrailer === false) {
-    show.videos.results.map((res, index) => {
-      if (res.name.includes("Teaser")) {
-        trailerIndex = index
-        foundTrailer = true
-      }
-    })
-  }
 
   const opts = {
     height: mobile ? "200px" : "600px",
@@ -625,6 +655,11 @@ export default function ShowOverview() {
       })
   }
 
+  function changeYoutubeVideo(key, id) {
+    setYoutubeKey(key)
+    setYoutubeId(id)
+  }
+
   return (
     <div className="showOverview-wrapper">
       <div className="bg"></div>
@@ -800,14 +835,20 @@ export default function ShowOverview() {
               {show.overview !== "" && (
                 <p className="synopsis-text">{show.overview}</p>
               )}
-
               {show.videos.results.length > 0 && (
                 <YouTube
                   containerClassName={"youtube-container amru"}
-                  videoId={`${show.videos.results[trailerIndex].key}`}
-                  id={`${show.videos.results[trailerIndex].id}`}
+                  videoId={youtubeKey}
+                  id={youtubeId}
                   opts={opts}
                   className="youtube-trailer"
+                />
+              )}
+
+              {moreVideosAvailable && (
+                <YoutubeVideos
+                  changeVideo={changeYoutubeVideo}
+                  data={showVideos}
                 />
               )}
             </div>
