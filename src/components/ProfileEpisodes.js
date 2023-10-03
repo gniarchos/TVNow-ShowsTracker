@@ -184,10 +184,16 @@ export default function ProfileEpisodes(props) {
           )
         )}
 
-        <p className="runtime-release premiering">
+        <p
+          className={
+            props.mobileLayout === "cards"
+              ? "runtime-release premiering"
+              : "runtime-release premiering grid"
+          }
+        >
           {props.is_premiering === "true" &&
             props.is_notStarted === true &&
-            "PREMIERE"}
+            "NEW SERIES"}
         </p>
       </div>
 

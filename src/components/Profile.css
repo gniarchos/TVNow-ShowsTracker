@@ -1094,6 +1094,19 @@
     white-space: nowrap;
   }
 
+  .premiering {
+    top: 0px;
+    bottom: auto;
+  }
+
+  .premiering.grid {
+    top: auto;
+    bottom: 20px;
+    font-size: 0.7rem;
+    right: 4px;
+    left: 4px;
+  }
+
   .markIcon {
     padding-right: 10px;
   }
