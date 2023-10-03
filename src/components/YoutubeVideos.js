@@ -4,8 +4,8 @@ import "./ShowOverview.css"
 
 export default function YoutubeVideos(props) {
   const opts = {
-    height: "200px",
-    width: "300px",
+    height: props.isMobile ? "120px" : "200px",
+    width: props.isMobile ? "180" : "300px",
     playerVars: {
       modestbranding: 1,
       controls: 0,

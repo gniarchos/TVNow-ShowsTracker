@@ -70,6 +70,7 @@ export default function ShowOverview() {
   const [youtubeKey, setYoutubeKey] = React.useState()
   const [youtubeId, setYoutubeId] = React.useState()
   const [moreVideosAvailable, setMoreVideosAvailable] = React.useState(false)
+  const [videoIsSelected, setVideoIsSelected] = React.useState(false)
 
   React.useEffect(() => {
     for (let i = 1; i <= show.number_of_seasons; i++) {
@@ -123,7 +124,7 @@ export default function ShowOverview() {
     return () => {
       window.removeEventListener("resize", handleWindowSizeChange)
     }
-  }, [])
+  }, [show])
 
   React.useEffect(() => {
     for (let i = 0; i < show.number_of_seasons; i++) {
@@ -554,6 +555,7 @@ export default function ShowOverview() {
   })
 
   function goToShow(showID) {
+    setShowVideos([])
     setCurrentUserSeason(0)
     setCurrentUserEpisode(0)
     fetch(
@@ -656,6 +658,7 @@ export default function ShowOverview() {
   }
 
   function changeYoutubeVideo(key, id) {
+    setVideoIsSelected(true)
     setYoutubeKey(key)
     setYoutubeId(id)
   }
@@ -835,7 +838,7 @@ export default function ShowOverview() {
               {show.overview !== "" && (
                 <p className="synopsis-text">{show.overview}</p>
               )}
-              {show.videos.results.length > 0 && (
+              {(show.videos.results.length > 0 || videoIsSelected) && (
                 <YouTube
                   containerClassName={"youtube-container amru"}
                   videoId={youtubeKey}
@@ -847,6 +850,7 @@ export default function ShowOverview() {
 
               {moreVideosAvailable && (
                 <YoutubeVideos
+                  isMobile={mobile}
                   changeVideo={changeYoutubeVideo}
                   data={showVideos}
                 />

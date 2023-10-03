@@ -500,15 +500,17 @@
   overflow-x: auto;
   margin-right: 50px;
   min-height: 400px;
-  padding-bottom: 60px;
-  flex: 1;
+  /* padding-bottom: 60px; */
+  padding-top: 10px;
+  padding-bottom: 50px;
+  /* flex: 1; */
 }
 
 .cast-id {
   background-color: aliceblue;
   color: #212237;
-  max-height: fit-content;
   border-radius: 8px;
+  flex: 1;
 }
 
 .cast-info-div-profile {
@@ -983,5 +985,10 @@
   .episode-more-info {
     font-size: 0.85rem;
     gap: 3px;
+  }
+
+  .trans-video {
+    width: 120px;
+    height: 180px;
   }
 }
