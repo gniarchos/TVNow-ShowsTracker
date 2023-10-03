@@ -16,7 +16,7 @@ export default function YoutubeVideos(props) {
   const videos = props.data.map((videos) => {
     return videos.map((vid) => {
       return (
-        <div className="videos-wrapper">
+        <div key={vid.id} className="videos-wrapper">
           <YouTube
             containerClassName={"youtube-container amru"}
             videoId={vid.key}

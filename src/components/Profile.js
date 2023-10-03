@@ -214,10 +214,11 @@ export default function Profile() {
               seasonRes.json(),
             ])
             setShowsData((prevData) => [...prevData, showData])
-            setSeasonData((prevData) => [
-              ...prevData,
-              { ...seasonData, show_id: myShow.show_id },
-            ])
+            seasonData.success !== false &&
+              setSeasonData((prevData) => [
+                ...prevData,
+                { ...seasonData, show_id: myShow.show_id },
+              ])
           })
 
           localStorage.setItem("total_episodes", userWatchedEpisodes)
