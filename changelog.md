@@ -1,16 +1,28 @@
 # Changelog
 
-## [1.7.0] - 14-9-2023
+## [1.7.1] - 3-10-2023
 
-# Added
+### Added
 
-- NEW: show streaming availability based on user's country using Streaming Availability API
-
-### Updated
+- NEW: In the shows overview, a gallery for more videos and trailers has been added.
+- Added on profile page in upcoming new series a tag "NEW SERIES" instead of "PREMIERE"
 
 ### Fixed
 
-### Removed
+- Fixed position of "NEW SERIES" tag (previously "PREMIERE" tag) on mobile grid and cards layout
+
+### Updated
+
+- Updated README (15-9-2023)
+- Code optimization
+
+---
+
+## [1.7.0] - 14-9-2023
+
+### Added
+
+- NEW: show streaming availability based on user's country using Streaming Availability API
 
 ---
 
