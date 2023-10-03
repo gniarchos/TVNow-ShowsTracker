@@ -5,16 +5,21 @@
 ### Added
 
 - NEW: In the shows overview, a gallery for more videos and trailers has been added.
-- Added on profile page in upcoming new series a tag "NEW SERIES" instead of "PREMIERE"
+- Added on profile page in upcoming new series a tag "NEW SERIES" instead of "PREMIERE."
 
 ### Fixed
 
-- Fixed position of "NEW SERIES" tag (previously "PREMIERE" tag) on mobile grid and cards layout
+- Fixed the position of the "NEW SERIES" tag (previously the "PREMIERE" tag) on mobile grid and cards layout.
+- Addressed an issue when YouTube trailers and gallery were not updating correctly when the user is navigating between shows.
+- Fixed the height of cast's cards in shows that caused issues if big names appeared.
+- Fixed an issue where the official trailer was not found, and the YouTube player wasn't visible. Now, when the user selects a video from the gallery, the YouTube player is displayed correctly.
 
 ### Updated
 
-- Updated README (15-9-2023)
-- Code optimization
+- Updated README (15-9-2023).
+- Code optimization.
+- Renamed "History" section in profile to "Watched History".
+- Updated gallery UI preview videos to be more mobile friendly.
 
 ---
 
@@ -22,7 +27,7 @@
 
 ### Added
 
-- NEW: show streaming availability based on user's country using Streaming Availability API
+- NEW: show streaming availability based on user's country using Streaming Availability API.
 
 ---
 
