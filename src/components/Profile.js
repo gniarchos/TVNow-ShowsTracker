@@ -1155,7 +1155,7 @@ export default function Profile() {
             {watchedHistory.length > 0 && (
               <div className="title-button">
                 <h1 className="profile-section-title">
-                  History <Icon icon="clarity:beta-solid" />
+                  Watched History <Icon icon="clarity:beta-solid" />
                 </h1>
                 <button
                   id="history"
