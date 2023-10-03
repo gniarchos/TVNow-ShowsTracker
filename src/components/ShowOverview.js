@@ -285,19 +285,19 @@ export default function ShowOverview() {
       },
     }
 
-    // fetch(url_mdblist, options_1)
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     setImdbRating(data?.ratings[0]?.value)
-    //     setRottenTomatoesRating(data?.ratings[4]?.value)
-    //     setTraktRating(data?.ratings[3]?.value)
-    //   })
+    fetch(url_mdblist, options_1)
+      .then((res) => res.json())
+      .then((data) => {
+        setImdbRating(data?.ratings[0]?.value)
+        setRottenTomatoesRating(data?.ratings[4]?.value)
+        setTraktRating(data?.ratings[3]?.value)
+      })
 
-    // fetch(url_stream_availability, options_2)
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     setStreamServicesAvailable(data.result?.streamingInfo[userCounty])
-    //   })
+    fetch(url_stream_availability, options_2)
+      .then((res) => res.json())
+      .then((data) => {
+        setStreamServicesAvailable(data.result?.streamingInfo[userCounty])
+      })
   }, [location])
 
   React.useEffect(() => {
