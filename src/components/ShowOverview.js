@@ -225,7 +225,7 @@ export default function ShowOverview() {
         season_number: parseInt(seasonNumber),
         episode_number: seasonRuntimeData.length,
         date_watched: serverTimestamp(),
-        episode_name: "Marked Season Watched",
+        episode_name: "Entire Season Watched",
         show_cover: show.backdrop_path,
         episode_time: total_season_time,
       })
