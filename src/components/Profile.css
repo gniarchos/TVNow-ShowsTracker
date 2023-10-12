@@ -540,7 +540,7 @@
   z-index: 6;
   backdrop-filter: blur(5px);
   background-color: rgba(255, 255, 255, 0.3);
-  height: 92.5vh;
+  height: 94vh;
   opacity: 0;
   visibility: hidden;
   transition: 0.6s ease-in-out;
@@ -590,7 +590,7 @@
   z-index: 6;
   color: #000000;
   width: 60vw;
-  height: 92.5vh;
+  height: 94vh;
   padding: 25px;
   overflow-y: auto;
   transition-delay: 0.6s;
