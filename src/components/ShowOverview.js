@@ -665,7 +665,6 @@ export default function ShowOverview() {
 
   return (
     <div className="showOverview-wrapper">
-      <div className="bg"></div>
       <Navbar isLoggedIn={isLoggedIn} />
 
       <div style={divImgStyle} className="div-show-img">

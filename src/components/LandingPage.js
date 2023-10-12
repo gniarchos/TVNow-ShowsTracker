@@ -74,7 +74,6 @@ export default function LandingPage(props) {
 
   return (
     <>
-      <div className="bg"></div>
       <Navbar
         showLogin={showLogin}
         goToLogin={goToLogin}

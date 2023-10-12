@@ -31,7 +31,7 @@ export default function Footer() {
         >
           Giannis Niarchos
         </a>
-        <p className="copyright"> © 2022-2023 </p>
+        <p className="copyright"> © 2023 </p>
       </div>
 
       <div className="footer-api">

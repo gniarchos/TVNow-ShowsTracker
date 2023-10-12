@@ -246,7 +246,6 @@ export default function DetailedSliders() {
 
   return (
     <>
-      <div className="bg"></div>
       <Navbar isLoggedIn={isLoggedIn} />
       <div className="footer-fixer">
         <div className="detailedSlider-wrapper">

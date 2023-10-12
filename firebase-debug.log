@@ -1,0 +1,114 @@
+[debug] [2023-10-12T18:11:49.485Z] ----------------------------------------------------------------------
+[debug] [2023-10-12T18:11:49.488Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Giannis Niarchos\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2023-10-12T18:11:49.489Z] CLI Version:   12.5.3
+[debug] [2023-10-12T18:11:49.490Z] Platform:      win32
+[debug] [2023-10-12T18:11:49.490Z] Node Version:  v18.17.1
+[debug] [2023-10-12T18:11:49.492Z] Time:          Thu Oct 12 2023 21:11:49 GMT+0300 (Θερινή ώρα Ανατολικής Ευρώπης)
+[debug] [2023-10-12T18:11:49.492Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-10-12T18:11:49.502Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2023-10-12T18:11:49.880Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-10-12T18:11:49.882Z] > authorizing via signed-in user (giannisnrch@gmail.com)
+[debug] [2023-10-12T18:11:49.883Z] [iam] checking project tvtime-app-tracker for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-10-12T18:11:49.886Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/tvtime-app-tracker:testIamPermissions [none]
+[debug] [2023-10-12T18:11:49.888Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/tvtime-app-tracker:testIamPermissions x-goog-quota-user=projects/tvtime-app-tracker
+[debug] [2023-10-12T18:11:49.888Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/tvtime-app-tracker:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-12T18:11:51.082Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/tvtime-app-tracker:testIamPermissions 200
+[debug] [2023-10-12T18:11:51.082Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/tvtime-app-tracker:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-12T18:11:51.084Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/tvtime-app-tracker [none]
+[debug] [2023-10-12T18:11:51.572Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/tvtime-app-tracker 200
+[debug] [2023-10-12T18:11:51.572Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/tvtime-app-tracker {"projectId":"tvtime-app-tracker","projectNumber":"480145488948","displayName":"TVTime-ShowsTracker","name":"projects/tvtime-app-tracker","resources":{"hostingSite":"tvtime-app-tracker","storageBucket":"tvtime-app-tracker.appspot.com","locationId":"europe-west"},"state":"ACTIVE","etag":"1_b40335a2-3604-4ea5-94f0-014cf2a22d7f"}
+[info] 
+[info] === Deploying to 'tvtime-app-tracker'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2023-10-12T18:11:51.594Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/tvtime-app-tracker/versions [none]
+[debug] [2023-10-12T18:11:51.595Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/tvtime-app-tracker/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2023-10-12T18:11:53.167Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/tvtime-app-tracker/versions 200
+[debug] [2023-10-12T18:11:53.167Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/tvtime-app-tracker/versions {"name":"projects/480145488948/sites/tvtime-app-tracker/versions/cae0b2ae72433edb","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2023-10-12T18:12:11.010Z] *** [apiv2] error from fetch(https://firebase-public.firebaseio.com/cli.json, {"headers":{},"method":"GET"}): FetchError: request to https://firebase-public.firebaseio.com/cli.json failed, reason: connect ETIMEDOUT 2600:1901:0:4d00:::443
+[warn] !  Unable to fetch the CLI MOTD and remote config. 
+[debug] [2023-10-12T18:12:11.012Z] Failed to fetch MOTD FirebaseError: Failed to make request to https://firebase-public.firebaseio.com/cli.json
+[info] i  hosting[tvtime-app-tracker]: beginning deploy... 
+[info] i  hosting[tvtime-app-tracker]: found 35 files in build 
+[debug] [2023-10-12T18:12:12.707Z] [hosting] uploading with 200 concurrency
+[debug] [2023-10-12T18:12:14.363Z] [hosting] hash cache [YnVpbGQ] stored for 35 files
+[debug] [2023-10-12T18:12:14.364Z] [hosting][hash queue][FINAL] {"max":1634,"min":11,"avg":117.45714285714286,"active":0,"complete":35,"success":35,"errored":0,"retried":0,"total":35,"elapsed":1652}
+[debug] [2023-10-12T18:12:14.366Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/480145488948/sites/tvtime-app-tracker/versions/cae0b2ae72433edb:populateFiles [none]
+[debug] [2023-10-12T18:12:14.367Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/480145488948/sites/tvtime-app-tracker/versions/cae0b2ae72433edb:populateFiles {"files":{"/public-images/android-chrome-192x192.png":"1d4bf1befa5af76f8a184a1340e09e9fa425f9ed03fac83e1b485b23c9715a9d","/public-images/android-chrome-512x512.png":"58f3423e3d7613ec963c7360073a633464bd927e8923a60f1eb1c58df1ae54ba","/public-images/apple-touch-icon.png":"748f33c8b3c7ac29d68ae9d7c87818f35c821e011bd7b4725d3ff43ce23d6a7a","/public-images/browserconfig.xml":"c16fe77952fcd06d955381ed4680069b493954c2cb2ea67325d2b2e63c519113","/public-images/favicon-16x16.png":"c74dacd15f3efd5bcb5a8791ebab857fe4bec7686c9cef8494aba4f1b2efe6ef","/public-images/favicon-32x32.png":"cc0d3b0b229ceb33d47d9f10ea84b662b9ee511e9888e11e9717a3fd1012af52","/public-images/favicon.ico":"5bfac49dc51bada5efbbef8fdc5f48f15a02b482999d743584a0d85e930c0874","/public-images/ipadpro1_splash.png":"1b5c9903e1b26d244390af7954c8f17f58f28d2ff46e676665102852a31b01af","/public-images/ipadpro2_splash.png":"2b3bedc1a77502c77e94b11d76b66973e30348beaff10e0ac8a1b54b127cdc96","/public-images/ipadpro3_splash.png":"c52df29a40ac5b2c7c0414c5dce63334f86ec39698c4a16beeda42c4038c235d","/public-images/ipad_splash.png":"ae6a9fcf1ea0148200ba3135eb04e21aba9ae7ca511efd5c77d48d36e69ca62e","/public-images/iphone5_splash.png":"26190e0b0cfe9414287c2eed2b43a7eb7781b9c2ba2365da4a3c3883b6f619f7","/public-images/iphone6_splash.png":"5e106f2fc782b2a550e5ee278bdf0c3c5bb01bfde89ab4dee8f3154d6285ab0d","/public-images/iphoneplus_splash.png":"7f10ca603e9175b5878d92d6e56cba9ff655f0fedf901c5d1e8cb0d9350b58fd","/public-images/iphonexr_splash.png":"6a562ee45b4b4f1a54839c0e5076ead0f55982d6a1f31765d767e28da9e83f90","/public-images/iphonexsmax_splash.png":"ef5c83b2aad85936e1a422709bfd3195e103cae327327ad55c2a3ed164138399","/public-images/iphonex_splash.png":"2b7a64e2cae19fcbbcdb4178b3319e4b517db09d6a8fd4f05e0036f87b1b4df5","/public-images/maskable.png":"515e8f32ab6725d5b835c029ed6f935861e8772e164957ff9f9b864a239320a5","/public-images/mstile-150x150.png":"17c99bf074ab3d2cb2155dfc697826141d94fa66ffcb7964734ef732eec8527a","/public-images/original.png":"520ae49a96395d6e86c3f519717b08b003187f20e7e837bdd572f2e359ac288e","/public-images/safari-pinned-tab.svg":"7a4f15491744585b37e7e28f35dd43cab7693474e88249245092c7443115c3c9","/public-images/site.webmanifest":"49f5ba3b5ec10a3c836cfa2b32ba198a5a0b9f32aef8ef97073e45e79205e066","/asset-manifest.json":"6b3072488a535866b7f5247508ebaca09555f094ddc81592685af6a76f7ee70a","/index.html":"99950f0bd5a7d4cb42ef124b41e98e1869abd9fa8841740be21d31fc6c4cf3f0","/static/css/main.451b3e5d.css":"89472ae19cd69099ccbe7af9a03faa30bf6e17eac23c913fba0c670337dd5f9f","/static/js/main.0a35c34e.js.LICENSE.txt":"52b6d7a72c4801fdf36ea38d0a914454b5ab17eaa3451218728f37eba774ccda","/static/media/no-image.ebbc7b17947644e301a0.png":"86484e3e4e99e1524e470769046718ab5ffb33ce13b9ab86b2c36a1ec7dfd565","/static/media/trakt-icon-red-white.0192c839d16fd42f0612.png":"a35c48bbd6b6e7ae65988bde0305a018b80d28ce4282362ffaab10027818a90a","/static/media/TVTime-logo-white.3a71c91ef7492e0f04b705ac59d2ae58.svg":"89bf9242ade851e6b7f5ad353864760a797acf1471509c6b403759739c55db19","/static/css/main.451b3e5d.css.map":"d2abfaf5e74d64fff9424be1ad4c6143e8fedc45f5c253e2b90dcfa0763e053f","/static/media/landing-bg-mb-min.130c0fb130803088d7e2.jpg":"776ae5ca5b3843ad2d07f1b7a6ccfb923b794c4ec771116fab4d41522e91ccce","/static/media/landing-bg-min.7c773f7423ce2c8320c0.jpg":"471bc1f112ecf4e959ff2e043e1fda8f0b5d7defaf46008c675f0242fbab7c46","/static/js/main.0a35c34e.js":"e1ae3a5a88c4433c5d71dbc2fa56688d68b76b70235660ad70f6dba572d19346","/static/media/def-cover.a1237b857f7edd97a96a.jpg":"c2a2bc6b73ca00f77b327f6e5092a85f2065520b795181b3635d81f17b192740","/static/js/main.0a35c34e.js.map":"1e16fb1a8805fb3c89dfb2cdec2b229b4d09ca199dd228670dcb71389387e8ef"}}
+[debug] [2023-10-12T18:12:15.745Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/480145488948/sites/tvtime-app-tracker/versions/cae0b2ae72433edb:populateFiles 200
+[debug] [2023-10-12T18:12:15.745Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/480145488948/sites/tvtime-app-tracker/versions/cae0b2ae72433edb:populateFiles {"uploadRequiredHashes":["99950f0bd5a7d4cb42ef124b41e98e1869abd9fa8841740be21d31fc6c4cf3f0","d2abfaf5e74d64fff9424be1ad4c6143e8fedc45f5c253e2b90dcfa0763e053f","89472ae19cd69099ccbe7af9a03faa30bf6e17eac23c913fba0c670337dd5f9f","e1ae3a5a88c4433c5d71dbc2fa56688d68b76b70235660ad70f6dba572d19346","6b3072488a535866b7f5247508ebaca09555f094ddc81592685af6a76f7ee70a","1e16fb1a8805fb3c89dfb2cdec2b229b4d09ca199dd228670dcb71389387e8ef"],"uploadUrl":"https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files"}
+[debug] [2023-10-12T18:12:15.749Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files/99950f0bd5a7d4cb42ef124b41e98e1869abd9fa8841740be21d31fc6c4cf3f0 [none]
+[debug] [2023-10-12T18:12:15.750Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files/99950f0bd5a7d4cb42ef124b41e98e1869abd9fa8841740be21d31fc6c4cf3f0 [stream]
+[debug] [2023-10-12T18:12:15.753Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files/d2abfaf5e74d64fff9424be1ad4c6143e8fedc45f5c253e2b90dcfa0763e053f [none]
+[debug] [2023-10-12T18:12:15.753Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files/d2abfaf5e74d64fff9424be1ad4c6143e8fedc45f5c253e2b90dcfa0763e053f [stream]
+[debug] [2023-10-12T18:12:15.756Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files/89472ae19cd69099ccbe7af9a03faa30bf6e17eac23c913fba0c670337dd5f9f [none]
+[debug] [2023-10-12T18:12:15.756Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files/89472ae19cd69099ccbe7af9a03faa30bf6e17eac23c913fba0c670337dd5f9f [stream]
+[debug] [2023-10-12T18:12:15.758Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files/e1ae3a5a88c4433c5d71dbc2fa56688d68b76b70235660ad70f6dba572d19346 [none]
+[debug] [2023-10-12T18:12:15.758Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files/e1ae3a5a88c4433c5d71dbc2fa56688d68b76b70235660ad70f6dba572d19346 [stream]
+[debug] [2023-10-12T18:12:15.763Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files/6b3072488a535866b7f5247508ebaca09555f094ddc81592685af6a76f7ee70a [none]
+[debug] [2023-10-12T18:12:15.763Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files/6b3072488a535866b7f5247508ebaca09555f094ddc81592685af6a76f7ee70a [stream]
+[debug] [2023-10-12T18:12:15.767Z] >>> [apiv2][query] POST https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files/1e16fb1a8805fb3c89dfb2cdec2b229b4d09ca199dd228670dcb71389387e8ef [none]
+[debug] [2023-10-12T18:12:15.768Z] >>> [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files/1e16fb1a8805fb3c89dfb2cdec2b229b4d09ca199dd228670dcb71389387e8ef [stream]
+[debug] [2023-10-12T18:12:15.771Z] [hosting][populate queue][FINAL] {"max":1389,"min":1389,"avg":1389,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":1411}
+[debug] [2023-10-12T18:12:15.771Z] [hosting] uploads queued: 6
+[debug] [2023-10-12T18:12:17.172Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files/d2abfaf5e74d64fff9424be1ad4c6143e8fedc45f5c253e2b90dcfa0763e053f 200
+[debug] [2023-10-12T18:12:17.173Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files/d2abfaf5e74d64fff9424be1ad4c6143e8fedc45f5c253e2b90dcfa0763e053f [stream]
+[debug] [2023-10-12T18:12:17.193Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files/89472ae19cd69099ccbe7af9a03faa30bf6e17eac23c913fba0c670337dd5f9f 200
+[debug] [2023-10-12T18:12:17.193Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files/89472ae19cd69099ccbe7af9a03faa30bf6e17eac23c913fba0c670337dd5f9f [stream]
+[debug] [2023-10-12T18:12:17.274Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files/99950f0bd5a7d4cb42ef124b41e98e1869abd9fa8841740be21d31fc6c4cf3f0 200
+[debug] [2023-10-12T18:12:17.274Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files/99950f0bd5a7d4cb42ef124b41e98e1869abd9fa8841740be21d31fc6c4cf3f0 [stream]
+[debug] [2023-10-12T18:12:17.431Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files/6b3072488a535866b7f5247508ebaca09555f094ddc81592685af6a76f7ee70a 200
+[debug] [2023-10-12T18:12:17.431Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files/6b3072488a535866b7f5247508ebaca09555f094ddc81592685af6a76f7ee70a [stream]
+[debug] [2023-10-12T18:12:17.631Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files/e1ae3a5a88c4433c5d71dbc2fa56688d68b76b70235660ad70f6dba572d19346 200
+[debug] [2023-10-12T18:12:17.632Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files/e1ae3a5a88c4433c5d71dbc2fa56688d68b76b70235660ad70f6dba572d19346 [stream]
+[debug] [2023-10-12T18:12:19.130Z] <<< [apiv2][status] POST https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files/1e16fb1a8805fb3c89dfb2cdec2b229b4d09ca199dd228670dcb71389387e8ef 200
+[debug] [2023-10-12T18:12:19.131Z] <<< [apiv2][body] POST https://upload-firebasehosting.googleapis.com/upload/sites/tvtime-app-tracker/versions/cae0b2ae72433edb/files/1e16fb1a8805fb3c89dfb2cdec2b229b4d09ca199dd228670dcb71389387e8ef [stream]
+[debug] [2023-10-12T18:12:19.131Z] [hosting][upload queue][FINAL] {"max":3382,"min":1426,"avg":1891.3333333333333,"active":0,"complete":6,"success":6,"errored":0,"retried":0,"total":6,"elapsed":3385}
+[info] +  hosting[tvtime-app-tracker]: file upload complete 
+[debug] [2023-10-12T18:12:19.139Z] [hosting] deploy completed after 6477ms
+[debug] [2023-10-12T18:12:19.140Z] [
+  {
+    "config": {
+      "public": "build",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ],
+      "site": "tvtime-app-tracker"
+    },
+    "version": "projects/480145488948/sites/tvtime-app-tracker/versions/cae0b2ae72433edb"
+  }
+]
+[info] i  hosting[tvtime-app-tracker]: finalizing version... 
+[debug] [2023-10-12T18:12:19.149Z] >>> [apiv2][query] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/tvtime-app-tracker/versions/cae0b2ae72433edb updateMask=status%2Cconfig
+[debug] [2023-10-12T18:12:19.149Z] >>> [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/tvtime-app-tracker/versions/cae0b2ae72433edb {"status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]}}
+[debug] [2023-10-12T18:12:20.388Z] <<< [apiv2][status] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/tvtime-app-tracker/versions/cae0b2ae72433edb 200
+[debug] [2023-10-12T18:12:20.388Z] <<< [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/tvtime-app-tracker/versions/cae0b2ae72433edb {"name":"projects/480145488948/sites/tvtime-app-tracker/versions/cae0b2ae72433edb","status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2023-10-12T18:12:00.453770Z","createUser":{"email":"giannisnrch@gmail.com"},"finalizeTime":"2023-10-12T18:12:27.949328Z","finalizeUser":{"email":"giannisnrch@gmail.com"}}
+[debug] [2023-10-12T18:12:20.388Z] [hosting] finalized version for tvtime-app-tracker:[object Object]
+[info] +  hosting[tvtime-app-tracker]: version finalized 
+[info] i  hosting[tvtime-app-tracker]: releasing new version... 
+[debug] [2023-10-12T18:12:20.390Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/tvtime-app-tracker/channels/live/releases versionName=projects%2F480145488948%2Fsites%2Ftvtime-app-tracker%2Fversions%2Fcae0b2ae72433edb
+[debug] [2023-10-12T18:12:20.390Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/tvtime-app-tracker/channels/live/releases {}
+[debug] [2023-10-12T18:12:21.671Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/tvtime-app-tracker/channels/live/releases 200
+[debug] [2023-10-12T18:12:21.671Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/tvtime-app-tracker/channels/live/releases {"name":"projects/480145488948/sites/tvtime-app-tracker/channels/live/releases/1697134348659000","version":{"name":"projects/480145488948/sites/tvtime-app-tracker/versions/cae0b2ae72433edb","status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2023-10-12T18:12:00.453770Z","createUser":{"email":"giannisnrch@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocJTZg-yCdnlZbbPdpA1njPbsdZSc5-UKVSYH3MBuwUmXFE"},"finalizeTime":"2023-10-12T18:12:27.949328Z","finalizeUser":{"email":"giannisnrch@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocJTZg-yCdnlZbbPdpA1njPbsdZSc5-UKVSYH3MBuwUmXFE"}},"type":"DEPLOY","releaseTime":"2023-10-12T18:12:28.659Z","releaseUser":{"email":"giannisnrch@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocJTZg-yCdnlZbbPdpA1njPbsdZSc5-UKVSYH3MBuwUmXFE"}}
+[debug] [2023-10-12T18:12:21.671Z] [hosting] release: {"name":"projects/480145488948/sites/tvtime-app-tracker/channels/live/releases/1697134348659000","version":{"name":"projects/480145488948/sites/tvtime-app-tracker/versions/cae0b2ae72433edb","status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2023-10-12T18:12:00.453770Z","createUser":{"email":"giannisnrch@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocJTZg-yCdnlZbbPdpA1njPbsdZSc5-UKVSYH3MBuwUmXFE"},"finalizeTime":"2023-10-12T18:12:27.949328Z","finalizeUser":{"email":"giannisnrch@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocJTZg-yCdnlZbbPdpA1njPbsdZSc5-UKVSYH3MBuwUmXFE"}},"type":"DEPLOY","releaseTime":"2023-10-12T18:12:28.659Z","releaseUser":{"email":"giannisnrch@gmail.com","imageUrl":"https://lh3.googleusercontent.com/a/ACg8ocJTZg-yCdnlZbbPdpA1njPbsdZSc5-UKVSYH3MBuwUmXFE"}}
+[info] +  hosting[tvtime-app-tracker]: release complete 
+[info] 
+[info] +  Deploy complete! 
+[info] 
+[info] Project Console: https://console.firebase.google.com/project/tvtime-app-tracker/overview
+[info] Hosting URL: https://tvtime-app-tracker.web.app
+[debug] [2023-10-12T18:12:31.986Z] Error: Timed out.
+    at Timeout._onTimeout (C:\Users\Giannis Niarchos\AppData\Roaming\npm\node_modules\firebase-tools\lib\utils.js:254:49)
+    at listOnTimeout (node:internal/timers:569:17)
+    at process.processTimers (node:internal/timers:512:7)
+[error] 
+[error] Error: An unexpected error has occurred.

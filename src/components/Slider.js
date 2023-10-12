@@ -54,22 +54,20 @@ export default function Slider(props) {
   })
 
   return (
-    <>
-      <div className="test">
-        <div className="title-link">
-          <h1 className="slider-section">{props.section}</h1>
-          <button
-            className="viewMore-button"
-            onClick={() => props.toggleFindMore(props.section)}
-          >
-            View More
-          </button>
-        </div>
-
-        <div ref={divRef} className="slider-div">
-          {list}
-        </div>
+    <div>
+      <div className="title-link">
+        <h1 className="slider-section">{props.section}</h1>
+        <button
+          className="viewMore-button"
+          onClick={() => props.toggleFindMore(props.section)}
+        >
+          View More
+        </button>
       </div>
-    </>
+
+      <div ref={divRef} className="slider-div">
+        {list}
+      </div>
+    </div>
   )
 }

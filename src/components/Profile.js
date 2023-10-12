@@ -886,7 +886,6 @@ export default function Profile() {
   return (
     <>
       <div>
-        <div className="bg"></div>
         <Navbar isLoggedIn={true} isProfile={true} />
         <ScrollToTop />
 
