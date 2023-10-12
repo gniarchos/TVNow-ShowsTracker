@@ -16,6 +16,7 @@
 - Updated scroll to top position and interaction with footer.
 - Watched History is out of BETA.
 - Updated cover selection titles and save button font sizes in mobile.
+- Renamed "Marked Season Watched" to "Entire Season Watched" when a user marks a season as watched.
 
 ---
 
