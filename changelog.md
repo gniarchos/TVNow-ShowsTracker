@@ -20,7 +20,7 @@
 - Renamed "Marked Season Watched" to "Entire Season Watched" when a user marks a season as watched.
 - Updated footer copyright text.
 
-### Updated
+### Removed
 
 - Removed unnecessary code.
 
