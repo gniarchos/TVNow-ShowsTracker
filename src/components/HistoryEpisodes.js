@@ -2,12 +2,15 @@ import React from "react"
 import { db } from "../services/firebase"
 import { useNavigate } from "react-router-dom"
 import "firebase/compat/firestore"
+import { Icon } from "@iconify/react"
 
 export default function HistoryEpisodes(props) {
   const zeroPad = (num, places) => String(num).padStart(places, "0")
   const navigate = useNavigate()
+  const [playAnimation, setPlayAnimation] = React.useState(false)
 
   function markAsUnwatched() {
+    setPlayAnimation(true)
     if (props.history_episode_name === "Marked Season Watched") {
       let ids_to_delete = []
 
@@ -140,6 +143,9 @@ export default function HistoryEpisodes(props) {
         .doc(episode_to_delete)
         .delete()
         .then(() => {
+          setTimeout(() => {
+            setPlayAnimation(false)
+          }, 1000)
           window.location.reload()
         })
     }
@@ -171,7 +177,13 @@ export default function HistoryEpisodes(props) {
       </div>
 
       <div className="history-badge-info-container">
-        <div className="history-info-card">
+        <div
+          className={
+            !playAnimation
+              ? "history-info-card"
+              : "history-info-card markedAnimation"
+          }
+        >
           <p
             className="show-name-profile"
             onClick={() => goToShow(props.history_show_id)}
@@ -194,23 +206,21 @@ export default function HistoryEpisodes(props) {
         </div>
 
         <div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={85}
-            height={85}
-            viewBox="-5 -15 40 55"
-          >
-            <path
-              style={{
-                fill: "rgb(255, 99, 71)",
-                width: "100%",
-                cursor: "pointer",
-                userSelect: "none",
-              }}
+          {!playAnimation ? (
+            <Icon
+              icon="icon-park-solid:close-one"
+              color="rgb(255, 99, 71)"
+              width={35}
               onClick={markAsUnwatched}
-              d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm4.207 12.793-1.414 1.414L12 13.414l-2.793 2.793-1.414-1.414L10.586 12 7.793 9.207l1.414-1.414L12 10.586l2.793-2.793 1.414 1.414L13.414 12l2.793 2.793z"
-            ></path>
-          </svg>
+              className="markIcon"
+            />
+          ) : (
+            <Icon
+              icon="line-md:loading-twotone-loop"
+              width={35}
+              className="markIcon"
+            />
+          )}
         </div>
       </div>
     </div>
