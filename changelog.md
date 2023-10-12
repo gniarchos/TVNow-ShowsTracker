@@ -7,6 +7,7 @@
 - Corrected long episode names on the show overview page that were causing overflow issues.
 - Fixed the issue where the remove button from the watched history was not always visible on mobile.
 - Minor UI fixes in profile episodes.
+- Fixed cover selection menu not covering entire page.
 
 ### Updated
 
