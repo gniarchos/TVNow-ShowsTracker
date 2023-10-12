@@ -27,7 +27,9 @@
 }
 
 .markIcon {
-  padding-right: 10px;
+  position: relative;
+  right: 20px;
+  /* padding-right: 10px; */
   cursor: pointer;
   opacity: 1;
 }
@@ -54,8 +56,8 @@
   height: 40px;
   position: absolute;
   bottom: 0;
-  background-color: black;
-  color: white;
+  background-color: rgba(255, 255, 255, 0.603);
+  color: black;
   font-size: 1.1rem;
   font-weight: 600;
   border: none;
@@ -65,8 +67,8 @@
 }
 
 .loadMoreHistory-btn:hover {
-  background-color: white;
-  color: black;
+  background-color: rgb(22, 22, 22);
+  color: white;
 }
 
 .info-card {
@@ -135,7 +137,7 @@
   width: 100vw;
   max-width: 100%;
   position: relative;
-  margin-top: 70px;
+  margin-top: 60px;
 }
 
 .btn-change-cover {
@@ -257,21 +259,33 @@
   margin-top: 25px;
   text-align: center;
   color: black;
-}
-
-.info-div-profile:last-child {
   background-color: #ffffff;
   border-radius: 10px;
-  margin-left: 10vw;
+}
+
+.info-div-profile.mobile-stats {
+  display: flex;
+  flex-direction: row;
+  /* justify-content: center; */
+  align-items: center;
+  padding: 10px;
+  gap: 0;
+  width: 500px;
+}
+
+.info-div-profile.mobile-stats .stat-title {
+  margin-bottom: -20px;
+  font-weight: 800;
+}
+
+.info-div-profile.mobile-stats .stat-num {
+  margin-bottom: 0px;
 }
 
 .info-div-profile:first-child {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #ffffff;
-  border-radius: 10px;
-  margin-right: 10vw;
 }
 
 .tvtime-container {
@@ -386,6 +400,11 @@
 
 .history-info-card {
   width: 85%;
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+.history-info-card.markedAnimation {
+  animation: markedAnimation 0.5s ease-in-out;
 }
 
 .divider {
@@ -506,6 +525,7 @@
 .top-info-div-profile {
   display: flex;
   flex-direction: row;
+  gap: 20vw;
   justify-content: center;
   padding-top: 30px;
   padding-bottom: 30px;
@@ -701,7 +721,7 @@
   font-weight: 700;
   white-space: nowrap;
   overflow: hidden;
-  width: 120%;
+  width: 100%;
   text-overflow: ellipsis;
 }
 
@@ -836,12 +856,15 @@
   }
 
   .profile-episode-name {
-    width: auto;
+    width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  .profile-episode-name-history {
+  /* .profile-episode-name-history {
     width: auto;
-  }
+  } */
 
   .profile-cover-div {
     height: 350px;
@@ -1107,8 +1130,8 @@
     left: 4px;
   }
 
-  .markIcon {
-    padding-right: 10px;
+  .markIcon.grid {
+    right: 0px;
   }
 
   .show-name-profile {

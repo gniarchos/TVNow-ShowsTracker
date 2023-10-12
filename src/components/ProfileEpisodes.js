@@ -289,15 +289,23 @@ export default function ProfileEpisodes(props) {
                 <Icon
                   icon="icon-park-solid:check-one"
                   color="rgba(0, 0, 0, 0.3)"
-                  width={45}
+                  width={35}
                   onClick={episodeMarker}
-                  className="markIcon"
+                  className={
+                    props.mobileLayout === "cards"
+                      ? "markIcon"
+                      : "markIcon grid"
+                  }
                 />
               ) : (
                 <Icon
                   icon="line-md:loading-twotone-loop"
-                  width={45}
-                  className="markIcon"
+                  width={35}
+                  className={
+                    props.mobileLayout === "cards"
+                      ? "markIcon"
+                      : "markIcon grid"
+                  }
                 />
               )
             ) : isNaN(props.daysUntilCurrentEpisode) === true ? (

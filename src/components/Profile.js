@@ -110,12 +110,17 @@ export default function Profile() {
   const [watchingStatistic, setWatchingStatistic] = React.useState([])
   const [loadMoreData, setLoadMoreData] = React.useState(true)
   const [currentPageHistory, setCurrentPageHistory] = React.useState(1)
+  const [mobile, setMobile] = React.useState(window.innerWidth <= 499)
 
   const itemsPerPage = 10
 
   React.useEffect(() => {
     window.scrollTo(0, 0)
   }, [location])
+
+  const handleWindowSizeChange = () => {
+    setMobile(window.innerWidth <= 499)
+  }
 
   React.useEffect(() => {
     setLoading(true)
@@ -136,6 +141,11 @@ export default function Profile() {
 
         setFinished(!finished)
       })
+
+    window.addEventListener("resize", handleWindowSizeChange)
+    return () => {
+      window.removeEventListener("resize", handleWindowSizeChange)
+    }
   }, [])
 
   React.useEffect(() => {
@@ -874,413 +884,412 @@ export default function Profile() {
   }
 
   return (
-    <div>
-      <div className="bg"></div>
-      <Navbar isLoggedIn={true} isProfile={true} />
-      <ScrollToTop />
+    <>
+      <div>
+        <div className="bg"></div>
+        <Navbar isLoggedIn={true} isProfile={true} />
+        <ScrollToTop />
 
-      <Modal
-        cancelled_shows={cancelled_shows}
-        state={show_modal}
-        closeModal={closeModal}
-      />
+        <Modal
+          cancelled_shows={cancelled_shows}
+          state={show_modal}
+          closeModal={closeModal}
+        />
 
-      <div className="profile-cover-div">
-        <img className="profile-cover" src={selectedCoverImage} />
+        <div className="profile-cover-div">
+          <img className="profile-cover" src={selectedCoverImage} />
 
-        <button
-          onClick={handleCoverSelector}
-          type="button"
-          className="btn-change-cover"
-        >
-          <Icon icon="ant-design:camera-filled" />
-          Edit Cover
-        </button>
-
-        <button
-          onClick={changeLayoutMobile}
-          type="button"
-          className="btn-change-layout"
-        >
-          <Icon icon="teenyicons:list-layout-solid" />
-          Layout
-        </button>
-
-        <div className="user-details-container">
-          <div className="details-account">
-            <div className="section-1">
-              <div className="statistic-numbers">
-                <h3 className="stat-title">Total Shows </h3>
-                <p className="stat-num">{trackedShows}</p>
-              </div>
-
-              <div className="statistic-numbers">
-                <h3
-                  className="stat-title clickable"
-                  onClick={() => jumpToRelevantDiv("watching")}
-                >
-                  Watching Now
-                </h3>
-                <p className="stat-num">{watchingShows}</p>
-              </div>
-            </div>
-
-            <div className="section-2">
-              <div className="statistic-numbers">
-                <h3
-                  className="stat-title clickable"
-                  onClick={() => jumpToRelevantDiv("not_started")}
-                >
-                  Not Started{" "}
-                </h3>
-                <p className="stat-num">{notStartedYetShows}</p>
-              </div>
-
-              <div className="statistic-numbers">
-                <h3
-                  className="stat-title clickable"
-                  onClick={() => jumpToRelevantDiv("finished")}
-                >
-                  Finished
-                </h3>
-                <p className="stat-num">{hasFinishedShows}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="user-div-container">
-            <img
-              className="user-img"
-              src="https://media.giphy.com/media/idwAvpAQKlX7ARsoWC/giphy.gif"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="statistics-info-container">
-        <div className="top-info-div-profile">
-          <div className="info-div-profile">
-            <h1 className="stats-title">Your TV Time</h1>
-            <div className="tvtime-container">
-              <div className="tvtime-stats">
-                <p className="stats-number">{watchingStatistic[0]}</p>
-                <p className="stats-subtitle">
-                  {watchingStatistic[0] === 1 ? "MONTH" : "MONTHS"}
-                </p>
-              </div>
-              <div className="tvtime-stats">
-                <p className="stats-number">{watchingStatistic[1]}</p>
-                <p className="stats-subtitle">
-                  {watchingStatistic[1] === 1 ? "DAY" : "DAYS"}
-                </p>
-              </div>
-              <div className="tvtime-stats">
-                <p className="stats-number">{watchingStatistic[2]}</p>
-                <p className="stats-subtitle">
-                  {watchingStatistic[2] === 1 ? "HOUR" : "HOURS"}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="info-div-profile">
-            <h1 className="stats-title">Episodes Watched</h1>
-            <p className="stats-number">{userEpisodes}</p>
-          </div>
-        </div>
-      </div>
-
-      {loading === true && myShows.length === 0 ? (
-        <div className="spinner-div">
-          <PuffLoader color={"white"} size={100} />
-          <h3>Reloading Data...</h3>
-        </div>
-      ) : (
-        <div>
-          {/* <div>
-            <button onClick={forceReload}>Reload Data</button>
-          </div> */}
-          <div className="profile-wrapper">
-            {watchNextShows.length > 0 && (
-              <div id="watching" className="title-button">
-                <h1 className="profile-section-title">Watch Next</h1>
-                <button
-                  id="watchNext"
-                  className="viewMore-button"
-                  onClick={(e) => toggleSections(e)}
-                >
-                  {watchNextSection ? "Hide" : "Show"}
-                </button>
-              </div>
-            )}
-            {watchNextShows.length > 0 && watchNextSection && (
-              <>
-                <div className="details-container">{watchNextShows}</div>
-                <div className="divider line glow"></div>
-              </>
-            )}
-
-            {upToDateShows.length > 0 && (
-              <div className="title-button">
-                <h1 className="profile-section-title uptodate-settings">
-                  Up to Date
-                  {upToDateSection && (
-                    <Icon
-                      className="setting-icon"
-                      icon="akar-icons:settings-horizontal"
-                      onClick={toggleUpToDateSettings}
-                    />
-                  )}
-                </h1>
-                <button
-                  id="upToDate"
-                  className="viewMore-button"
-                  onClick={(e) => toggleSections(e)}
-                >
-                  {upToDateSection ? "Hide" : "Show"}
-                </button>
-              </div>
-            )}
-
-            {upToDateSettings && upToDateSection && (
-              <div className="upToDate-filters">
-                <p
-                  className={
-                    upToDateFilter === "all"
-                      ? "filter-title active"
-                      : "filter-title"
-                  }
-                  id="all"
-                  onClick={(e) => handleFilterUpToDate(e)}
-                >
-                  All
-                </p>
-                <p
-                  className={
-                    upToDateFilter === "soon"
-                      ? "filter-title active"
-                      : "filter-title"
-                  }
-                  id="soon"
-                  onClick={(e) => handleFilterUpToDate(e)}
-                >
-                  Coming Soon
-                </p>
-                <p
-                  className={
-                    upToDateFilter === "returning"
-                      ? "filter-title active"
-                      : "filter-title"
-                  }
-                  id="returning"
-                  onClick={(e) => handleFilterUpToDate(e)}
-                >
-                  Returning
-                </p>
-              </div>
-            )}
-
-            {upToDateShows.length > 0 && upToDateSection && (
-              <>
-                <div className="details-container">{upToDateShows}</div>
-                <div className="divider line glow"></div>
-              </>
-            )}
-
-            <div id="not_started" className="title-button">
-              <h1 className="profile-section-title">Your Watchlist</h1>
-              <button
-                id="watchlist"
-                className="viewMore-button"
-                onClick={(e) => toggleSections(e)}
-              >
-                {watchlistSection ? "Hide" : "Show"}
-              </button>
-            </div>
-            {notStartedShows.length > 0 && watchlistSection && (
-              <>
-                <div className="details-container">{notStartedShows}</div>
-                <div className="divider line glow"></div>
-              </>
-            )}
-
-            {notStartedShows.length <= 0 && (
-              <div className="noShows-div">
-                <p className="noShows-text">
-                  <Icon icon="fluent:info-24-filled" width={30} /> Your
-                  watchlist is empty!
-                </p>
-              </div>
-            )}
-
-            {finishedShows.length > 0 && (
-              <div className="title-button">
-                <h1 className="profile-section-title">Finished</h1>
-                <button
-                  id="finished"
-                  className="viewMore-button"
-                  onClick={(e) => toggleSections(e)}
-                >
-                  {finishedSection ? "Hide" : "Show"}
-                </button>
-              </div>
-            )}
-            {finishedShows.length > 0 && finishedSection && (
-              <>
-                <div className="details-container">{finishedShows}</div>
-                <div className="divider line glow"></div>
-              </>
-            )}
-
-            {/* STOPPED SHOWS - SECTION */}
-            {stoppedShows.length > 0 && (
-              <div className="title-button">
-                <h1 className="profile-section-title">Stopped</h1>
-                <button
-                  id="stopped"
-                  className="viewMore-button"
-                  onClick={(e) => toggleSections(e)}
-                >
-                  {stoppedSection ? "Hide" : "Show"}
-                </button>
-              </div>
-            )}
-            {stoppedShows.length > 0 && stoppedSection && (
-              <>
-                <div className="details-container">{stoppedShows}</div>
-                <div className="divider line glow"></div>
-              </>
-            )}
-
-            {watchedHistory.length > 0 && (
-              <div className="title-button">
-                <h1 className="profile-section-title">
-                  Watched History <Icon icon="clarity:beta-solid" />
-                </h1>
-                <button
-                  id="history"
-                  className="viewMore-button"
-                  onClick={(e) => toggleSections(e)}
-                >
-                  {historySection ? "Hide" : "Show"}
-                </button>
-              </div>
-            )}
-
-            {historySection && watchedHistory.length > 0 && (
-              <div className="details-container history-container">
-                {watchedHistory}
-                <button className="loadMoreHistory-btn" onClick={loadMore}>
-                  Load More
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      <div
-        className={
-          isSelectCoverOpen
-            ? "coverSelection_container isShown"
-            : "coverSelection_container"
-        }
-      >
-        <div
-          className={
-            isSelectCoverOpen
-              ? "coverSelector-wrapper showSelector"
-              : "coverSelector-wrapper"
-          }
-        >
-          <div className="coverTitle_div">
-            {hideShowsCoverSelection === true && (
-              <Icon
-                icon="mingcute:arrow-left-fill"
-                width={30}
-                onClick={goBackToSelectionCovers}
-                className="covers_back_icon"
-              />
-            )}
-            <h1 className="coverSection-title">{coverSelectionShowName}</h1>
-            {coverImageSelected === true && (
-              <p className="btn-save-changes-cover" onClick={updateCoverImage}>
-                <Icon icon="dashicons:cloud-saved" width={20} /> Save Changes
-              </p>
-            )}
-          </div>
-
-          {hideShowsCoverSelection === false && (
-            <h3
-              className="showCoverName defaultSelection"
-              onClick={updateCoverDefault}
-            >
-              <Icon icon="fluent-emoji-high-contrast:popcorn" width={45} />
-              TVTime Default Cover
-            </h3>
-          )}
-          {hideShowsCoverSelection === false &&
-            myShows.map((show, index) => {
-              return (
-                <div key={index}>
-                  <h3
-                    className="showCoverName"
-                    onClick={() =>
-                      fetchShowImages(show.show_id, show.show_name)
-                    }
-                  >
-                    <Icon
-                      icon="ic:baseline-local-movies"
-                      className="movie-icon"
-                    />
-                    {show.show_name}
-                  </h3>
-                </div>
-              )
-            })}
-
-          {hideShowsCoverSelection === true && (
-            <div className="showsAllCoverPhotos">
-              {showsImages.map((img) => {
-                return img
-                  .filter((img) => img.height >= 720)
-                  .map((image) => {
-                    return (
-                      <img
-                        className="cover-img-preview"
-                        src={`https://image.tmdb.org/t/p/w500/${image.file_path}`}
-                        alt="shows-images"
-                        onClick={() =>
-                          temporarySaveCoverSelection(
-                            `https://image.tmdb.org/t/p/w500/${image.file_path}`
-                          )
-                        }
-                      />
-                    )
-                  })
-              })}
-            </div>
-          )}
-        </div>
-
-        <div
-          className={
-            isSelectCoverOpen
-              ? "closeButton_covers_div showBtn"
-              : "closeButton_covers_div"
-          }
-        >
-          <button className="closeButton_covers" onClick={closeCoverSelector}>
-            X
+          <button
+            onClick={handleCoverSelector}
+            type="button"
+            className="btn-change-cover"
+          >
+            <Icon icon="ant-design:camera-filled" />
+            Edit Cover
           </button>
+
+          <button
+            onClick={changeLayoutMobile}
+            type="button"
+            className="btn-change-layout"
+          >
+            <Icon icon="teenyicons:list-layout-solid" />
+            Layout
+          </button>
+
+          <div className="user-details-container">
+            <div className="details-account">
+              <div className="section-1">
+                <div className="statistic-numbers">
+                  <h3 className="stat-title">Total Shows </h3>
+                  <p className="stat-num">{trackedShows}</p>
+                </div>
+
+                <div className="statistic-numbers">
+                  <h3
+                    className="stat-title clickable"
+                    onClick={() => jumpToRelevantDiv("watching")}
+                  >
+                    Watching Now
+                  </h3>
+                  <p className="stat-num">{watchingShows}</p>
+                </div>
+              </div>
+
+              <div className="section-2">
+                <div className="statistic-numbers">
+                  <h3
+                    className="stat-title clickable"
+                    onClick={() => jumpToRelevantDiv("not_started")}
+                  >
+                    Not Started{" "}
+                  </h3>
+                  <p className="stat-num">{notStartedYetShows}</p>
+                </div>
+
+                <div className="statistic-numbers">
+                  <h3
+                    className="stat-title clickable"
+                    onClick={() => jumpToRelevantDiv("finished")}
+                  >
+                    Finished
+                  </h3>
+                  <p className="stat-num">{hasFinishedShows}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="user-div-container">
+              <img
+                className="user-img"
+                src="https://media.giphy.com/media/idwAvpAQKlX7ARsoWC/giphy.gif"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="statistics-info-container">
+          <div className="top-info-div-profile">
+            <div className="info-div-profile">
+              <h1 className="stats-title">Your TV Time</h1>
+              <div className="tvtime-container">
+                <div className="tvtime-stats">
+                  <p className="stats-number">{watchingStatistic[0]}</p>
+                  <p className="stats-subtitle">
+                    {watchingStatistic[0] === 1 ? "MONTH" : "MONTHS"}
+                  </p>
+                </div>
+                <div className="tvtime-stats">
+                  <p className="stats-number">{watchingStatistic[1]}</p>
+                  <p className="stats-subtitle">
+                    {watchingStatistic[1] === 1 ? "DAY" : "DAYS"}
+                  </p>
+                </div>
+                <div className="tvtime-stats">
+                  <p className="stats-number">{watchingStatistic[2]}</p>
+                  <p className="stats-subtitle">
+                    {watchingStatistic[2] === 1 ? "HOUR" : "HOURS"}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="info-div-profile">
+              <h1 className="stats-title">Episodes Watched</h1>
+              <p className="stats-number">{userEpisodes}</p>
+            </div>
+          </div>
+        </div>
+
+        {loading === true && myShows.length === 0 ? (
+          <div className="spinner-div">
+            <PuffLoader color={"white"} size={100} />
+            <h3>Reloading Data...</h3>
+          </div>
+        ) : (
+          <div>
+            <div className="profile-wrapper">
+              {watchNextShows.length > 0 && (
+                <div id="watching" className="title-button">
+                  <h1 className="profile-section-title">Watch Next</h1>
+                  <button
+                    id="watchNext"
+                    className="viewMore-button"
+                    onClick={(e) => toggleSections(e)}
+                  >
+                    {watchNextSection ? "Hide" : "Show"}
+                  </button>
+                </div>
+              )}
+              {watchNextShows.length > 0 && watchNextSection && (
+                <>
+                  <div className="details-container">{watchNextShows}</div>
+                  <div className="divider line glow"></div>
+                </>
+              )}
+
+              {upToDateShows.length > 0 && (
+                <div className="title-button">
+                  <h1 className="profile-section-title uptodate-settings">
+                    Up to Date
+                    {upToDateSection && (
+                      <Icon
+                        className="setting-icon"
+                        icon="akar-icons:settings-horizontal"
+                        onClick={toggleUpToDateSettings}
+                      />
+                    )}
+                  </h1>
+                  <button
+                    id="upToDate"
+                    className="viewMore-button"
+                    onClick={(e) => toggleSections(e)}
+                  >
+                    {upToDateSection ? "Hide" : "Show"}
+                  </button>
+                </div>
+              )}
+
+              {upToDateSettings && upToDateSection && (
+                <div className="upToDate-filters">
+                  <p
+                    className={
+                      upToDateFilter === "all"
+                        ? "filter-title active"
+                        : "filter-title"
+                    }
+                    id="all"
+                    onClick={(e) => handleFilterUpToDate(e)}
+                  >
+                    All
+                  </p>
+                  <p
+                    className={
+                      upToDateFilter === "soon"
+                        ? "filter-title active"
+                        : "filter-title"
+                    }
+                    id="soon"
+                    onClick={(e) => handleFilterUpToDate(e)}
+                  >
+                    Coming Soon
+                  </p>
+                  <p
+                    className={
+                      upToDateFilter === "returning"
+                        ? "filter-title active"
+                        : "filter-title"
+                    }
+                    id="returning"
+                    onClick={(e) => handleFilterUpToDate(e)}
+                  >
+                    Returning
+                  </p>
+                </div>
+              )}
+
+              {upToDateShows.length > 0 && upToDateSection && (
+                <>
+                  <div className="details-container">{upToDateShows}</div>
+                  <div className="divider line glow"></div>
+                </>
+              )}
+
+              <div id="not_started" className="title-button">
+                <h1 className="profile-section-title">Your Watchlist</h1>
+                <button
+                  id="watchlist"
+                  className="viewMore-button"
+                  onClick={(e) => toggleSections(e)}
+                >
+                  {watchlistSection ? "Hide" : "Show"}
+                </button>
+              </div>
+              {notStartedShows.length > 0 && watchlistSection && (
+                <>
+                  <div className="details-container">{notStartedShows}</div>
+                  <div className="divider line glow"></div>
+                </>
+              )}
+
+              {notStartedShows.length <= 0 && (
+                <div className="noShows-div">
+                  <p className="noShows-text">
+                    <Icon icon="fluent:info-24-filled" width={30} /> Your
+                    watchlist is empty!
+                  </p>
+                </div>
+              )}
+
+              {finishedShows.length > 0 && (
+                <div className="title-button">
+                  <h1 className="profile-section-title">Finished</h1>
+                  <button
+                    id="finished"
+                    className="viewMore-button"
+                    onClick={(e) => toggleSections(e)}
+                  >
+                    {finishedSection ? "Hide" : "Show"}
+                  </button>
+                </div>
+              )}
+              {finishedShows.length > 0 && finishedSection && (
+                <>
+                  <div className="details-container">{finishedShows}</div>
+                  <div className="divider line glow"></div>
+                </>
+              )}
+
+              {/* STOPPED SHOWS - SECTION */}
+              {stoppedShows.length > 0 && (
+                <div className="title-button">
+                  <h1 className="profile-section-title">Stopped</h1>
+                  <button
+                    id="stopped"
+                    className="viewMore-button"
+                    onClick={(e) => toggleSections(e)}
+                  >
+                    {stoppedSection ? "Hide" : "Show"}
+                  </button>
+                </div>
+              )}
+              {stoppedShows.length > 0 && stoppedSection && (
+                <>
+                  <div className="details-container">{stoppedShows}</div>
+                  <div className="divider line glow"></div>
+                </>
+              )}
+
+              {watchedHistory.length > 0 && (
+                <div className="title-button">
+                  <h1 className="profile-section-title">Watched History</h1>
+                  <button
+                    id="history"
+                    className="viewMore-button"
+                    onClick={(e) => toggleSections(e)}
+                  >
+                    {historySection ? "Hide" : "Show"}
+                  </button>
+                </div>
+              )}
+
+              {historySection && watchedHistory.length > 0 && (
+                <div className="details-container history-container">
+                  {watchedHistory}
+                  <button className="loadMoreHistory-btn" onClick={loadMore}>
+                    Load More
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        <div
+          className={
+            isSelectCoverOpen
+              ? "coverSelection_container isShown"
+              : "coverSelection_container"
+          }
+        >
+          <div
+            className={
+              isSelectCoverOpen
+                ? "coverSelector-wrapper showSelector"
+                : "coverSelector-wrapper"
+            }
+          >
+            <div className="coverTitle_div">
+              {hideShowsCoverSelection === true && (
+                <Icon
+                  icon="mingcute:arrow-left-fill"
+                  width={30}
+                  onClick={goBackToSelectionCovers}
+                  className="covers_back_icon"
+                />
+              )}
+              <h1 className="coverSection-title">{coverSelectionShowName}</h1>
+              {coverImageSelected === true && (
+                <p
+                  className="btn-save-changes-cover"
+                  onClick={updateCoverImage}
+                >
+                  <Icon icon="dashicons:cloud-saved" width={20} /> Save Changes
+                </p>
+              )}
+            </div>
+
+            {hideShowsCoverSelection === false && (
+              <h3
+                className="showCoverName defaultSelection"
+                onClick={updateCoverDefault}
+              >
+                <Icon icon="fluent-emoji-high-contrast:popcorn" width={45} />
+                TVTime Default Cover
+              </h3>
+            )}
+            {hideShowsCoverSelection === false &&
+              myShows.map((show, index) => {
+                return (
+                  <div key={index}>
+                    <h3
+                      className="showCoverName"
+                      onClick={() =>
+                        fetchShowImages(show.show_id, show.show_name)
+                      }
+                    >
+                      <Icon
+                        icon="ic:baseline-local-movies"
+                        className="movie-icon"
+                      />
+                      {show.show_name}
+                    </h3>
+                  </div>
+                )
+              })}
+
+            {hideShowsCoverSelection === true && (
+              <div className="showsAllCoverPhotos">
+                {showsImages.map((img) => {
+                  return img
+                    .filter((img) => img.height >= 720)
+                    .map((image) => {
+                      return (
+                        <img
+                          className="cover-img-preview"
+                          src={`https://image.tmdb.org/t/p/w500/${image.file_path}`}
+                          alt="shows-images"
+                          onClick={() =>
+                            temporarySaveCoverSelection(
+                              `https://image.tmdb.org/t/p/w500/${image.file_path}`
+                            )
+                          }
+                        />
+                      )
+                    })
+                })}
+              </div>
+            )}
+          </div>
+
+          <div
+            className={
+              isSelectCoverOpen
+                ? "closeButton_covers_div showBtn"
+                : "closeButton_covers_div"
+            }
+          >
+            <button className="closeButton_covers" onClick={closeCoverSelector}>
+              X
+            </button>
+          </div>
+        </div>
+
+        <div className={showLayoutMessage === false ? "popup" : "popup show"}>
+          <p className="message-popup">Layout set to {mobileLayout}</p>
         </div>
       </div>
-
-      <div className={showLayoutMessage === false ? "popup" : "popup show"}>
-        <p className="message-popup">Layout set to {mobileLayout}</p>
-      </div>
-
       <Footer />
-    </div>
+    </>
   )
 }
