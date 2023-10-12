@@ -1208,7 +1208,15 @@ export default function Profile() {
                   className="covers_back_icon"
                 />
               )}
-              <h1 className="coverSection-title">{coverSelectionShowName}</h1>
+              <h1
+                className={
+                  coverImageSelected && mobile
+                    ? "coverSection-title selectedImage"
+                    : "coverSection-title"
+                }
+              >
+                {coverSelectionShowName}
+              </h1>
               {coverImageSelected === true && (
                 <p
                   className="btn-save-changes-cover"

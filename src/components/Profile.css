@@ -1155,9 +1155,12 @@
   .coverSection-title {
     font-size: 1.3rem;
     white-space: nowrap;
-    width: 50%;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .coverSection-title.selectedImage {
+    width: 50%;
   }
 
   .history-info-card {
