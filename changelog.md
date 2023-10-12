@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.7.2] - 12-10-2023
+
+### Fixed
+
+- Corrected long episode names on the show overview page that were causing overflow issues.
+- Fixed the issue where the remove button from the watched history was not always visible on mobile.
+- Minor UI fixes in profile episodes.
+
+### Updated
+
+- Minor UI updates in the show overview episodes in mobile, specifically related to the release date.
+- Resized the Navbar in desktop.
+- Resized search bar and minor UI fixes.
+- Updated scroll to top position and interaction with footer.
+- Watched History is out of BETA.
+- Updated cover selection titles and save button font sizes in mobile.
+
+---
+
 ## [1.7.1] - 3-10-2023
 
 ### Added
