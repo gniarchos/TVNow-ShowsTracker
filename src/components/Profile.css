@@ -29,7 +29,6 @@
 .markIcon {
   position: relative;
   right: 20px;
-  /* padding-right: 10px; */
   cursor: pointer;
   opacity: 1;
 }
@@ -721,7 +720,6 @@
   font-weight: 700;
   white-space: nowrap;
   overflow: hidden;
-  width: 100%;
   text-overflow: ellipsis;
 }
 
@@ -1160,5 +1158,9 @@
     width: 50%;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .history-info-card {
+    width: 48vw;
   }
 }

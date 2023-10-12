@@ -205,7 +205,7 @@ export default function HistoryEpisodes(props) {
           </p>
         </div>
 
-        <div>
+        <div className="markAsUnwatched_btn_wrapper">
           {!playAnimation ? (
             <Icon
               icon="icon-park-solid:close-one"
