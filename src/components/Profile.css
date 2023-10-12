@@ -536,7 +536,7 @@
 .coverSelection_container {
   position: fixed;
   left: 0;
-  top: 73px;
+  top: 60px;
   width: 100vw;
   z-index: 6;
   backdrop-filter: blur(5px);
@@ -993,10 +993,11 @@
   }
 
   .coverSelector-wrapper {
-    height: 93.5vh;
+    height: 100vh;
     top: 55px;
     width: 90vw;
     padding: 10px;
+    padding-bottom: 100px;
   }
 
   .showCoverName {
@@ -1026,7 +1027,7 @@
   }
 
   .btn-save-changes-cover {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   .popup {
@@ -1151,5 +1152,13 @@
 
   .filter-title {
     font-size: 0.9rem;
+  }
+
+  .coverSection-title {
+    font-size: 1.3rem;
+    white-space: nowrap;
+    width: 50%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
