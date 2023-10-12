@@ -7,7 +7,7 @@
   box-shadow: inset 0px -250px 58px -29px rgba(0, 0, 0, 0.5);
   position: relative;
   max-width: 100%;
-  margin-top: 70px;
+  margin-top: 60px;
 }
 
 .div-ratings {
@@ -424,6 +424,8 @@
 }
 
 .episode-name {
+  height: 50px;
+  overflow-y: auto;
   width: 100%;
 }
 
@@ -431,8 +433,6 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  /* width: 1500px; */
-  /* width: 90%; */
   width: 100%;
   padding-left: 20px;
   position: relative;
@@ -444,7 +444,7 @@
 }
 
 .episode-num-title {
-  width: 100%;
+  overflow: hidden;
 }
 
 .checked-div {
@@ -985,6 +985,7 @@
   .episode-more-info {
     font-size: 0.85rem;
     gap: 3px;
+    padding-left: 2px;
   }
 
   .trans-video {
