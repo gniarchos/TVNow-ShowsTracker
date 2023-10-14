@@ -921,7 +921,15 @@ export default function Profile() {
               <div className="section-1">
                 <div className="statistic-numbers">
                   <h3 className="stat-title">Total Shows </h3>
-                  <p className="stat-num">{trackedShows}</p>
+                  <p
+                    className={
+                      trackedShows.toString().length > 3 && mobile
+                        ? "stat-num longNumber"
+                        : "stat-num"
+                    }
+                  >
+                    {trackedShows}
+                  </p>
                 </div>
 
                 <div className="statistic-numbers">
@@ -929,7 +937,7 @@ export default function Profile() {
                     className="stat-title clickable"
                     onClick={() => jumpToRelevantDiv("watching")}
                   >
-                    Watching Now
+                    Watching
                   </h3>
                   <p className="stat-num">{watchingShows}</p>
                 </div>
@@ -943,7 +951,15 @@ export default function Profile() {
                   >
                     Not Started{" "}
                   </h3>
-                  <p className="stat-num">{notStartedYetShows}</p>
+                  <p
+                    className={
+                      notStartedYetShows.toString().length > 3 && mobile
+                        ? "stat-num longNumber"
+                        : "stat-num"
+                    }
+                  >
+                    {notStartedYetShows}
+                  </p>
                 </div>
 
                 <div className="statistic-numbers">

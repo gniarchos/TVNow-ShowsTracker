@@ -1106,6 +1106,10 @@
     order: 1;
   }
 
+  .stat-num.longNumber {
+    font-size: 1rem;
+  }
+
   .profile-episode-name {
     width: 230px;
   }
