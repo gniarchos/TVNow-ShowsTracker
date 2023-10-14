@@ -705,7 +705,8 @@
 
 .episode-card-img {
   width: 100%;
-  object-fit: contain;
+  height: 281px;
+  object-fit: cover;
 }
 
 .img-background {
