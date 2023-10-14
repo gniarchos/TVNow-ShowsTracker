@@ -23,7 +23,7 @@ export default function Home() {
   localStorage.setItem("currentPage", 1)
 
   if (locationIP.isLoading === false) {
-    localStorage.setItem("userCountry", locationIP.country.toLowerCase())
+    localStorage.setItem("userCountry", locationIP?.country?.toLowerCase())
   }
 
   React.useEffect(() => {
