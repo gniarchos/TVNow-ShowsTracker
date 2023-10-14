@@ -10,7 +10,7 @@ import noImg from "../images/no-image.png"
 import { collection, addDoc, serverTimestamp } from "firebase/firestore"
 import { db } from "../services/firebase"
 import { useAuth } from "../authentication/AuthContext"
-import Episodes from "./Episodes"
+import ShowEpisodes from "./Episodes"
 import trakt_logo from "../images/trakt-icon-red-white.png"
 import YoutubeVideos from "./YoutubeVideos"
 
@@ -889,7 +889,7 @@ export default function ShowOverview() {
                       )
 
                       return (
-                        <Episodes
+                        <ShowEpisodes
                           key={nanoid()}
                           episodesAnnounced={true}
                           episodeNum={index + 1}
@@ -912,7 +912,7 @@ export default function ShowOverview() {
                     })
                   ) : (
                     <div key={nanoid()}>
-                      <Episodes key={nanoid()} episodesAnnounced={false} />
+                      <ShowEpisodes key={nanoid()} episodesAnnounced={false} />
                     </div>
                   )}
                 </div>
