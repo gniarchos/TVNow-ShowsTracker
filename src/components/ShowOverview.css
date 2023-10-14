@@ -165,13 +165,14 @@
   cursor: pointer;
 }
 
+.episodes-dates.ended {
+  cursor: default;
+}
+
 .episodeMoreInfo-wrapper {
   display: flex;
   flex-direction: row;
   gap: 10px;
-  /* margin-bottom: -30px; */
-  /* position: absolute; */
-  /* top: 0; */
   width: 100%;
   margin-top: -25px;
 }
@@ -258,7 +259,7 @@
 }
 
 .twitter:hover {
-  color: rgb(29, 155, 240);
+  color: rgb(0, 0, 0);
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 

@@ -815,7 +815,14 @@ export default function ShowOverview() {
 
             <div className="info-div">
               <h1>{lastDate === "-" ? "Premiere" : "Next Episode"}</h1>
-              <p onClick={swapVisualDays} className="episodes-dates">
+              <p
+                onClick={swapVisualDays}
+                className={
+                  TotalDaysUntilEpisode !== "-"
+                    ? "episodes-dates"
+                    : "episodes-dates ended"
+                }
+              >
                 {showDaysUntil
                   ? TotalDaysUntilEpisode === "-"
                     ? "Ended Series"
@@ -966,7 +973,7 @@ export default function ShowOverview() {
                 >
                   <Icon
                     className="social-img twitter"
-                    icon="akar-icons:twitter-fill"
+                    icon="simple-icons:x"
                     width={30}
                   />
                 </a>
