@@ -16,6 +16,8 @@ export default function Navbar(props) {
   const [isMobile, setIsMobile] = React.useState(false)
   const [showConfirmationLogOut, setShowConfirmationLogOut] =
     React.useState(false)
+  const [searchSuggestionsList, setSearchSuggestionsList] = React.useState([])
+  const [searchQuery, setSearchQuery] = React.useState("")
 
   function isUserWantToLogOut() {
     setShowConfirmationLogOut((prevValue) =>
@@ -78,12 +80,73 @@ export default function Navbar(props) {
     } else {
       setSearchVisibility(false)
       setIsMobile(false)
+      setIsSmaller(false)
     }
   }, [window.innerWidth])
 
   function toggleSearchBox() {
     setSearchVisibility(!searchVisibility)
   }
+
+  React.useEffect(() => {
+    fetch(
+      `https://api.themoviedb.org/3/search/multi?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&query=${searchQuery}&include_adult=true&language=en-US&page=1`
+    )
+      .then((data) => data.json())
+      .then((data) => {
+        console.log(data.results)
+        return setSearchSuggestionsList(data.results)
+      })
+  }, [searchQuery])
+
+  console.log(searchSuggestionsList)
+
+  function selectSuggestionItem(showID, type) {
+    // console.log(suggestion)
+    setSearchSuggestionsList([])
+
+    if (type === "tv") {
+      fetch(
+        `https://api.themoviedb.org/3/tv/${showID}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&append_to_response=external_ids,videos,aggregate_credits,content_ratings,recommendations,similar,watch/providers,images`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          navigate("/overview", {
+            state: {
+              data: data,
+              userId: currentUser.uid,
+            },
+          })
+        })
+    }
+  }
+
+  // const slicedSuggestionsArray = searchSuggestionsList.slice(0, 15)
+  let searchSuggestions = searchSuggestionsList
+    .filter((item) => item.media_type === "tv" || item.media_type === "person")
+    .map((item) => {
+      if (item.media_type === "person") {
+        return (
+          <p
+            className="single-search-suggestion"
+            onClick={() => selectSuggestionItem(item.id, item.media_type)}
+          >
+            <Icon icon="fa6-solid:masks-theater" width={25} />
+            {item.name}
+          </p>
+        )
+      } else if (item.media_type === "tv") {
+        return (
+          <p
+            className="single-search-suggestion"
+            onClick={() => selectSuggestionItem(item.id, item.media_type)}
+          >
+            <Icon icon="fluent-emoji-high-contrast:film-frames" width={25} />
+            {item.name}
+          </p>
+        )
+      }
+    })
 
   const smallerSearchStyle = {
     display: "flex",
@@ -119,35 +182,52 @@ export default function Navbar(props) {
           </button>
         ))}
 
-      {props.isLoggedIn && (
-        <div className="search-div">
-          <input
-            onKeyDown={(e) => searchFunction(e)}
-            className="search-input"
-            type="text"
-            placeholder="Search"
-          />
-          <img className="search-img" src={searchImg} alt="search" />
+      {props.isLoggedIn && isSmaller === false && (
+        <div>
+          <div className="search-div">
+            <input
+              onKeyDown={(e) => searchFunction(e)}
+              className="search-input"
+              type="text"
+              placeholder="Search"
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <img className="search-img" src={searchImg} alt="search" />
+          </div>
+          {searchQuery.length > 3 && (
+            <div className="suggestionsSearchBox">{searchSuggestions}</div>
+          )}
         </div>
       )}
 
       {props.isLoggedIn && isSmaller === true && searchVisibility === true && (
-        <div style={smallerSearchStyle} className="search-div">
-          <Icon
-            className="backCloseSearchIcon"
-            icon="bi:arrow-left"
-            width={32}
-            onClick={toggleSearchBox}
-          />
-          <input
-            onKeyDown={(e) => searchFunction(e)}
-            className="search-input"
-            type="text"
-            placeholder="Search here..."
-            style={{ width: isMobile ? "86vw" : "45vw" }}
-            autoFocus
-          />
-          <img className="search-img" src={searchImg} alt="search" />
+        <div>
+          <div style={smallerSearchStyle} className="search-div">
+            <Icon
+              className="backCloseSearchIcon"
+              icon="bi:arrow-left"
+              width={32}
+              onClick={toggleSearchBox}
+            />
+            <input
+              onKeyDown={(e) => searchFunction(e)}
+              className="search-input"
+              type="text"
+              placeholder="Search here..."
+              style={{ width: isMobile ? "86vw" : "45vw" }}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              autoFocus
+            />
+            <img className="search-img" src={searchImg} alt="search" />
+          </div>
+          {searchQuery.length > 3 && (
+            <div
+              className="suggestionsSearchBox"
+              style={{ width: isMobile ? "86vw" : "45vw" }}
+            >
+              {searchSuggestions}
+            </div>
+          )}
         </div>
       )}
 
