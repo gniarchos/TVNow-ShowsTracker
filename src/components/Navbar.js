@@ -79,7 +79,7 @@ export default function Navbar(props) {
       setSearchVisibility(false)
       setIsMobile(false)
     }
-  }, [windowWidth])
+  }, [window.innerWidth])
 
   function toggleSearchBox() {
     setSearchVisibility(!searchVisibility)
