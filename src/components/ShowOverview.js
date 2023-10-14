@@ -10,7 +10,7 @@ import noImg from "../images/no-image.png"
 import { collection, addDoc, serverTimestamp } from "firebase/firestore"
 import { db } from "../services/firebase"
 import { useAuth } from "../authentication/AuthContext"
-import ShowEpisodes from "./Episodes"
+import ShowEpisodes from "./ShowEpisodes"
 import trakt_logo from "../images/trakt-icon-red-white.png"
 import YoutubeVideos from "./YoutubeVideos"
 
