@@ -8,6 +8,7 @@ import Home from "./components/Home"
 import ShowOverview from "./components/ShowOverview"
 import DetailedSliders from "./components/DetailedSliders"
 import Profile from "./components/Profile"
+import People from "./components/People"
 
 export default function App() {
   return (
@@ -23,6 +24,10 @@ export default function App() {
 
             <Route exact path="/overview" element={<PrivateRoute />}>
               <Route exact path="/overview" element={<ShowOverview />} />
+            </Route>
+
+            <Route exact path="/people" element={<PrivateRoute />}>
+              <Route exact path="/people" element={<People />} />
             </Route>
 
             <Route exact path="/discover" element={<PrivateRoute />}>
