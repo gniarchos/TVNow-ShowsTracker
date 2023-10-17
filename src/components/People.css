@@ -1,0 +1,126 @@
+.people-top-container {
+  margin-top: 50px;
+  height: 500px;
+  color: #ffffff;
+}
+
+.people-top-container-top {
+  background-color: rgba(78, 78, 78, 0.6);
+  backdrop-filter: blur(30px);
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.people-img {
+  border-radius: 300px;
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+}
+
+.birthday-age-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.people-more-info-wrapper {
+  margin-left: 3vw;
+  margin-right: 3vw;
+  margin-bottom: 30px;
+}
+
+.known-cast {
+  display: flex;
+  flex-direction: row;
+  overflow: auto;
+  gap: 20px;
+}
+
+.knownFor-img {
+  width: 235px;
+  height: 352px;
+  object-fit: cover;
+  margin-bottom: -6px;
+  transition: all 0.3s;
+  transform: scale(1);
+}
+
+.knownFor-img:hover {
+  transform: scale(1.1);
+}
+
+.knownFor-content {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(12, 13, 13, 0.5);
+  margin-bottom: 20px;
+  padding-top: 0;
+}
+
+.knownFor-info-wrapper {
+  width: 235px;
+  padding: 0px 10px;
+}
+
+.knownFor-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.knownFor-character {
+  width: 100%;
+}
+
+.img-knownFor-container {
+  cursor: pointer;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  width: fit-content;
+}
+
+.people-section-title {
+  border: 10px solid;
+  border-image-slice: 0 0 0 1;
+  border-width: 8px;
+  border-image-source: linear-gradient(to bottom, #743ad5, #d53a9d);
+  padding-left: 10px;
+}
+
+@media all and (max-width: 600px) {
+  .people-top-container-top {
+    flex-direction: column;
+    text-align: center;
+    gap: 0;
+  }
+
+  .people-img {
+    border-radius: 230px;
+    width: 230px;
+    height: 230px;
+  }
+}
+
+/* MOBILE */
+@media all and (max-width: 498px) {
+  .people-section-title {
+    font-size: 1.7rem;
+  }
+
+  .knownFor-info-wrapper {
+    width: 200px;
+  }
+
+  .knownFor-img {
+    width: 200px;
+    height: 290px;
+  }
+
+  .knownFor-img:hover {
+    transform: none;
+  }
+}
