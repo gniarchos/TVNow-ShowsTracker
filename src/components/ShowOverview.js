@@ -355,6 +355,15 @@ export default function ShowOverview() {
     backgroundImage: `url('https://image.tmdb.org/t/p/original/${show.backdrop_path}')`,
   }
 
+  function goToPeople(id) {
+    navigate("/people", {
+      state: {
+        userId: location.state.userId,
+        person_id: id,
+      },
+    })
+  }
+
   // DATES CONVERTED
   const last_date_fix =
     show.last_episode_to_air && show.last_episode_to_air.air_date.split("-")
@@ -496,7 +505,9 @@ export default function ShowOverview() {
           <img className="cast-no-img-profile" src={noImg} alt="not-found" />
         )}
         <div className="cast-info-div-profile">
-          <h3 className="cast-name">{person.name}</h3>
+          <h3 className="cast-name" onClick={() => goToPeople(person.id)}>
+            {person.name}
+          </h3>
           <p className="cast-subinfo">{person.roles[0].character}</p>
           <p className="cast-subinfo">
             {person.roles[0].episode_count > 1
@@ -521,7 +532,9 @@ export default function ShowOverview() {
           <img className="cast-no-img" src={noImg} alt="not-found" />
         )}
         <div className="cast-info-div">
-          <h3 className="cast-name">{person.name}</h3>
+          <h3 className="cast-name" onClick={() => goToPeople(person.id)}>
+            {person.name}
+          </h3>
           <p className="cast-subinfo">{person.roles[0].character}</p>
           <p className="cast-subinfo">
             {person.roles[0].episode_count > 1
@@ -546,7 +559,9 @@ export default function ShowOverview() {
           <img className="cast-no-img" src={noImg} alt="not-found" />
         )}
         <div className="cast-info-div">
-          <h3 className="cast-name">{person.name}</h3>
+          <h3 className="cast-name" onClick={() => goToPeople(person.id)}>
+            {person.name}
+          </h3>
           <p className="cast-subinfo">{person.known_for_department}</p>
           <p className="cast-subinfo">{person.jobs[0].job}</p>
         </div>

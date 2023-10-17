@@ -550,6 +550,7 @@
 .cast-name {
   white-space: nowrap;
   margin-bottom: -10px;
+  cursor: pointer;
 }
 
 .cast-subinfo:nth-child(2) {
