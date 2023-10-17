@@ -82,6 +82,10 @@
   position: relative;
 }
 
+.search-suggestions-wrapper {
+  position: relative;
+}
+
 .search-img {
   position: absolute;
   right: 2%;
@@ -92,7 +96,7 @@
 
 .suggestionsSearchBox {
   position: absolute;
-  top: 52px;
+  margin-top: 3px;
   background-color: #ffffff;
   border-radius: 8px;
   width: 30vw;
@@ -102,6 +106,11 @@
   flex-direction: column;
   justify-content: flex-start;
   gap: 0;
+}
+
+.suggestionsSearchBox.mobile {
+  position: absolute;
+  left: 45px;
 }
 
 .single-search-suggestion {
@@ -330,9 +339,5 @@
 
   .nav-links {
     margin-right: 28px;
-  }
-
-  .suggestionsSearchBox {
-    left: 45px;
   }
 }

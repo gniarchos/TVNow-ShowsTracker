@@ -99,15 +99,13 @@ export default function Navbar(props) {
       })
   }, [searchQuery])
 
-  console.log(searchSuggestionsList)
-
-  function selectSuggestionItem(showID, type) {
+  function selectSuggestionItem(id, type) {
     // console.log(suggestion)
     setSearchSuggestionsList([])
 
     if (type === "tv") {
       fetch(
-        `https://api.themoviedb.org/3/tv/${showID}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&append_to_response=external_ids,videos,aggregate_credits,content_ratings,recommendations,similar,watch/providers,images`
+        `https://api.themoviedb.org/3/tv/${id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&append_to_response=external_ids,videos,aggregate_credits,content_ratings,recommendations,similar,watch/providers,images`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -118,6 +116,13 @@ export default function Navbar(props) {
             },
           })
         })
+    } else {
+      navigate("/people", {
+        state: {
+          userId: currentUser.uid,
+          person_id: id,
+        },
+      })
     }
   }
 
@@ -183,7 +188,7 @@ export default function Navbar(props) {
         ))}
 
       {props.isLoggedIn && isSmaller === false && (
-        <div>
+        <div className="search-suggestions-wrapper">
           <div className="search-div">
             <input
               onKeyDown={(e) => searchFunction(e)}
@@ -201,7 +206,7 @@ export default function Navbar(props) {
       )}
 
       {props.isLoggedIn && isSmaller === true && searchVisibility === true && (
-        <div>
+        <div className="search-suggestions-wrapper">
           <div style={smallerSearchStyle} className="search-div">
             <Icon
               className="backCloseSearchIcon"
@@ -222,7 +227,7 @@ export default function Navbar(props) {
           </div>
           {searchQuery.length > 3 && (
             <div
-              className="suggestionsSearchBox"
+              className="suggestionsSearchBox mobile"
               style={{ width: isMobile ? "86vw" : "45vw" }}
             >
               {searchSuggestions}
