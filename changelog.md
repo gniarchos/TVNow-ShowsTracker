@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.8.0] - 17-10-2023
+
+### Added
+
+- Added search suggestions in search box.
+- Added a new page, "People," for actors and crew, providing information about them and their filmography.
+- Enabled people search suggestions in the search.
+
+### Fixed
+
+- Fixed "Image Not Available" to overflow the container in profile's episodes.
+- Fixed an issue where search box suggestions were not working well on smaller screens and mobile devices.
+
+### Updated
+
+- Changed Twitter logo to X logo in shows overview.
+- Now when user clicks/hovers in shows overview the "Ended Series" under "Next Episode" no cursor is shown.
+- Cleared code.
+- Renamed "Watching Now" to "Watching" in profile.
+- Now if user's shows counts are big numbers in mobile will increase font size to be visible.
+- Updates in search function.
+- Updated cast and crew links in the Show Overview to direct users to their respective detailed pages, providing information about them and their filmography.
+
+---
+
 ## [1.7.2] - 12-10-2023
 
 ### Fixed
