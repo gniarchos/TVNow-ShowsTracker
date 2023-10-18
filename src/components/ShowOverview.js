@@ -105,6 +105,7 @@ export default function ShowOverview() {
 
         setYoutubeId(show.videos.results[trailerIndex].id)
         setYoutubeKey(show.videos.results[trailerIndex].key)
+        setVideoIsSelected(true)
       }
     })
 
@@ -116,6 +117,7 @@ export default function ShowOverview() {
 
           setYoutubeId(show.videos.results[trailerIndex].id)
           setYoutubeKey(show.videos.results[trailerIndex].key)
+          setVideoIsSelected(true)
         }
       })
     }
@@ -264,7 +266,7 @@ export default function ShowOverview() {
   }, [finished, seasonNumber])
 
   React.useEffect(() => {
-    const userCounty = localStorage.getItem("userCountry")
+    const userCountry = localStorage.getItem("userCountry")
 
     // MDBLIST API
     const url_mdblist = `https://mdblist.p.rapidapi.com/?i=${show.external_ids.imdb_id}`
@@ -276,6 +278,14 @@ export default function ShowOverview() {
       },
     }
 
+    fetch(url_mdblist, options_1)
+      .then((res) => res.json())
+      .then((data_ratings) => {
+        setImdbRating(data_ratings.ratings[0]?.value)
+        setRottenTomatoesRating(data_ratings.ratings[4]?.value)
+        setTraktRating(data_ratings.ratings[3]?.value)
+      })
+
     // Streaming Availability API
     const url_stream_availability = `https://streaming-availability.p.rapidapi.com/get?output_language=en&country=gr&imdb_id=${show.external_ids.imdb_id}`
     const options_2 = {
@@ -286,18 +296,12 @@ export default function ShowOverview() {
       },
     }
 
-    fetch(url_mdblist, options_1)
-      .then((res) => res.json())
-      .then((data) => {
-        setImdbRating(data?.ratings[0]?.value)
-        setRottenTomatoesRating(data?.ratings[4]?.value)
-        setTraktRating(data?.ratings[3]?.value)
-      })
-
     fetch(url_stream_availability, options_2)
       .then((res) => res.json())
       .then((data) => {
-        setStreamServicesAvailable(data.result?.streamingInfo[userCounty])
+        if (userCountry && data.result?.streamingInfo[userCountry]) {
+          setStreamServicesAvailable(data.result?.streamingInfo[userCountry])
+        }
       })
   }, [location])
 
@@ -678,6 +682,8 @@ export default function ShowOverview() {
     setYoutubeId(id)
   }
 
+  console.log(show)
+
   return (
     <div className="showOverview-wrapper">
       <Navbar isLoggedIn={isLoggedIn} />
@@ -802,24 +808,32 @@ export default function ShowOverview() {
       {!toggleFullCast && (
         <div className="show-info-container">
           <div className="top-info-div">
-            <div className="info-div">
-              <h1>Where to watch</h1>
-              {streamServicesAvailable !== undefined &&
-              streamServicesAvailable[0]?.link ? (
-                <a
-                  className="whereToWatch-link"
-                  href={streamServicesAvailable[0]?.link}
-                >
-                  <Icon icon="ci:play-circle-outline" />
-                  Available Here
-                </a>
-              ) : (
-                <a className="whereToWatch-link" href={show.homepage}>
-                  <Icon icon="ci:play-circle-outline" />
-                  Official Site
-                </a>
+            {show.homepage !== "" &&
+              show.homepage !== null &&
+              (streamServicesAvailable !== undefined ||
+                !streamServicesAvailable[0]?.link) && (
+                <div className="info-div">
+                  <h1>Where to watch</h1>
+                  {streamServicesAvailable !== undefined &&
+                  streamServicesAvailable[0]?.link ? (
+                    <a
+                      className="whereToWatch-link"
+                      href={streamServicesAvailable[0]?.link}
+                    >
+                      <Icon icon="ci:play-circle-outline" />
+                      Available Here
+                    </a>
+                  ) : (
+                    show.homepage !== "" &&
+                    show.homepage !== null && (
+                      <a className="whereToWatch-link" href={show.homepage}>
+                        <Icon icon="ci:play-circle-outline" />
+                        Official Site
+                      </a>
+                    )
+                  )}
+                </div>
               )}
-            </div>
 
             {lastDate !== "-" && (
               <div className="info-div">
@@ -859,7 +873,7 @@ export default function ShowOverview() {
               {show.overview !== "" && (
                 <p className="synopsis-text">{show.overview}</p>
               )}
-              {(show.videos.results.length > 0 || videoIsSelected) && (
+              {show.videos.results.length > 0 && videoIsSelected && (
                 <YouTube
                   containerClassName={"youtube-container amru"}
                   videoId={youtubeKey}
