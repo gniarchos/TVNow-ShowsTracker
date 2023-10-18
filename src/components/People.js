@@ -260,9 +260,12 @@ export default function People() {
 
         <h1 className="people-section-title">Known for</h1>
         <div>
-          {in_cast_series?.length > 0 && (
-            <h2>Series ({in_cast_series?.length + in_crew_series?.length})</h2>
-          )}
+          {in_cast_series?.length > 0 ||
+            (in_crew_series?.length > 0 && (
+              <h2>
+                Series ({in_cast_series?.length + in_crew_series?.length})
+              </h2>
+            ))}
           {in_cast_series?.length > 0 && (
             <div className="knownFor-container">
               <p>IN CAST ({in_cast_series?.length})</p>
@@ -278,9 +281,12 @@ export default function People() {
         </div>
 
         <div>
-          {in_cast_movies?.length > 0 && (
-            <h2>Movies ({in_cast_movies?.length + in_crew_movies?.length})</h2>
-          )}
+          {in_cast_movies?.length > 0 ||
+            (in_crew_movies?.length > 0 && (
+              <h2>
+                Movies ({in_cast_movies?.length + in_crew_movies?.length})
+              </h2>
+            ))}
           {in_cast_movies?.length > 0 && (
             <div className="knownFor-container">
               <p>IN CAST ({in_cast_movies?.length})</p>
