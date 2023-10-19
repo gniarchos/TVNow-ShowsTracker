@@ -54,7 +54,7 @@ export default function People() {
 
   const backgroundStyle = {
     backgroundImage:
-      personDetails.profile_path !== null ||
+      personDetails.profile_path !== null &&
       personDetails.profile_path !== undefined
         ? `url(https://image.tmdb.org/t/p/w500/${personDetails.profile_path})`
         : `url(${noFace})`,
@@ -265,7 +265,7 @@ export default function People() {
           <h1 className="people-section-title">Known for</h1>
         ) : (
           <h2 className="people-section-title no-other-content">
-            Sorry, there is no available data for {personDetails.name}
+            Sorry, there is no more available data for {personDetails.name}
           </h2>
         )}
         <div>
