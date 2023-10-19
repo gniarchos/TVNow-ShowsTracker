@@ -95,6 +95,10 @@
   padding-left: 10px;
 }
 
+.people-section-title.no-other-content {
+  margin-bottom: 50vh;
+}
+
 @media all and (max-width: 600px) {
   .people-top-container-top {
     flex-direction: column;

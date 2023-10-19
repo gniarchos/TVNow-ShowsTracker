@@ -264,7 +264,7 @@ export default function People() {
         in_crew_movies?.length > 0 ? (
           <h1 className="people-section-title">Known for</h1>
         ) : (
-          <h2 className="people-section-title">
+          <h2 className="people-section-title no-other-content">
             Sorry, there is no available data for {personDetails.name}
           </h2>
         )}
