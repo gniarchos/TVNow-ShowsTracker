@@ -960,18 +960,20 @@ export default function ShowOverview() {
               </div>
             </div>
 
-            <div ref={divCast} className="cast-wrapper">
-              <h1>Series Cast</h1>
-              <div className="cast-div">
-                {cast}
-                <div className="fullListCast-div">
-                  <button onClick={showHideFullCast} className="all-cast-btn">
-                    Full List
-                    <Icon icon="codicon:arrow-small-right" width={40} />
-                  </button>
+            {cast.length > 0 && (
+              <div ref={divCast} className="cast-wrapper">
+                <h1>Series Cast</h1>
+                <div className="cast-div">
+                  {cast}
+                  <div className="fullListCast-div">
+                    <button onClick={showHideFullCast} className="all-cast-btn">
+                      Full List
+                      <Icon icon="codicon:arrow-small-right" width={40} />
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             {recommending.length > 0 && (
               <div className="recommend-wrapper">
@@ -1042,12 +1044,14 @@ export default function ShowOverview() {
               </div>
             )}
 
-            <div>
-              <h3 className="details-title">
-                {show.created_by.length > 1 ? "Creators" : "Creator"}
-              </h3>
-              {createdBy}
-            </div>
+            {createdBy.length > 0 && (
+              <div>
+                <h3 className="details-title">
+                  {show.created_by.length > 1 ? "Creators" : "Creator"}
+                </h3>
+                {createdBy}
+              </div>
+            )}
 
             {yearStarted !== "" && (
               <div>
@@ -1056,12 +1060,14 @@ export default function ShowOverview() {
               </div>
             )}
 
-            <div>
-              <h3 className="details-title">
-                {show.languages.length > 1 ? "Languages" : "Language"}
-              </h3>
-              <div className="languages-div">{languages}</div>
-            </div>
+            {show.languages.length > 0 && (
+              <div>
+                <h3 className="details-title">
+                  {show.languages.length > 1 ? "Languages" : "Language"}
+                </h3>
+                <div className="languages-div">{languages}</div>
+              </div>
+            )}
 
             <div>
               <h3 className="details-title">Episodes Runtime</h3>
