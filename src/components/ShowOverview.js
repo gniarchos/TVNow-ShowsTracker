@@ -13,6 +13,7 @@ import { useAuth } from "../authentication/AuthContext"
 import ShowEpisodes from "./ShowEpisodes"
 import trakt_logo from "../images/trakt-icon-red-white.png"
 import YoutubeVideos from "./YoutubeVideos"
+import ScrollToTop from "./ScrollToTop"
 
 export default function ShowOverview() {
   const location = useLocation()
@@ -687,8 +688,9 @@ export default function ShowOverview() {
   console.log(show)
 
   return (
-    <div className="showOverview-wrapper">
+    <div>
       <Navbar isLoggedIn={isLoggedIn} />
+      <ScrollToTop />
 
       <div style={divImgStyle} className="div-show-img">
         <div className="show-main-title-details">
