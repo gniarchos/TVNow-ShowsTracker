@@ -3,9 +3,6 @@ import "./Modal.css"
 import { Icon } from "@iconify/react"
 
 export default function Modal(props) {
-  const [style, setStyle] = React.useState("modal")
-  const [backgroundStyle, setBackgroundStyle] = React.useState("")
-
   const cancelled_list = Array.from(props.cancelled_shows).map((show) => {
     return (
       <div className="cancelled-shows-container">
@@ -16,25 +13,13 @@ export default function Modal(props) {
     )
   })
 
-  React.useEffect(() => {
-    setTimeout(function () {
-      if (style === "modal" && props.state === true) {
-        setStyle("modalShow")
-        setBackgroundStyle("coverSelection_container")
-      }
-    }, 1500)
-
-    setTimeout(function () {
-      if (style === "modalShow" || props.state === false) {
-        setStyle("modal")
-        setBackgroundStyle("")
-      }
-    }, 200)
-  }, [props.state])
-
   return (
-    <div className={backgroundStyle}>
-      <div className={style}>
+    <div
+      className={
+        props.state === true ? "modal_container isShown" : "modal_container"
+      }
+    >
+      <div className={props.state === true ? "modalShow" : "modal"}>
         <div className="modal-content">
           <div className="modal-main">
             <h3>
