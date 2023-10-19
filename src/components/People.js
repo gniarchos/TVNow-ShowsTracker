@@ -258,7 +258,16 @@ export default function People() {
           </>
         )}
 
-        <h1 className="people-section-title">Known for</h1>
+        {in_cast_series?.length > 0 ||
+        in_crew_series?.length > 0 ||
+        in_cast_movies?.length > 0 ||
+        in_crew_movies?.length > 0 ? (
+          <h1 className="people-section-title">Known for</h1>
+        ) : (
+          <h2 className="people-section-title">
+            Sorry, there is no available data for {personDetails.name}
+          </h2>
+        )}
         <div>
           {in_cast_series?.length > 0 ||
             (in_crew_series?.length > 0 && (
@@ -302,7 +311,7 @@ export default function People() {
         </div>
       </div>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   )
 }
