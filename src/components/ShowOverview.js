@@ -282,7 +282,7 @@ export default function ShowOverview() {
     fetch(url_mdblist, options_1)
       .then((res) => res.json())
       .then((data_ratings) => {
-        if (data_ratings.responce) {
+        if (data_ratings.response) {
           setImdbRating(data_ratings.ratings[0]?.value)
           setRottenTomatoesRating(data_ratings.ratings[4]?.value)
           setTraktRating(data_ratings.ratings[3]?.value)
