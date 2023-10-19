@@ -18,13 +18,15 @@ body {
   margin: 0;
   color: white;
   background: rgb(39, 40, 43);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .App {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100vh;
 }
 
 *::-webkit-scrollbar-track {
