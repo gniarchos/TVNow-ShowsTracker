@@ -385,7 +385,7 @@ export default function Profile() {
         .then((res) => res.json())
         .then((data) => {
           if (
-            data.status === "Canceled" &&
+            (data.status === "Canceled" || data.status === "Ended") &&
             data.number_of_seasons < show.seasonNumber
           ) {
             setShow_modal(true)
