@@ -1,5 +1,37 @@
 # Changelog
 
+## [1.8.1] - 20-10-2023
+
+### Added
+
+- Added a message if there is no available data to show on the people page.
+- Added a scroll to the top on the show overview page.
+
+### Fixed
+
+- Fixed "Movies" and "Series" not showing up in the "Known For" section for some persons.
+- Fixed the YouTube player that was visible even when no trailer was selected on the show overview.
+- Fixed "Where to Watch" to be visible even if there is a dead link on the show overview.
+- Fixed an error that occurred in Streaming Availability when the user's country is not available.
+- Fixed the show overview sections to handle empty info data.
+- Fixed "More episodes coming soon!" that was visible for ended shows in the shows overview.
+- Fixed the TVTime logo in the navbar not displaying properly in Firefox.
+- Fixed the people top container to not display the "no face" image when no image is available.
+- Fixed the position of "Days until episode" in the shows overview episodes.
+- Fixed a spelling error that caused the ratings not to work in the shows overview.
+- Fixed a bug in the function when checking for canceled shows.
+- Fixed the modal that informs users which shows were canceled.
+
+### Updated
+
+- Updated the UI in shows overview episodes' images, there is no longer a white border around them.
+
+### Removed
+
+- Removed the custom Firefox scrollbar.
+
+---
+
 ## [1.8.0] - 17-10-2023
 
 ### Added
