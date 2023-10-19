@@ -3,6 +3,7 @@ import Slider from "./Slider"
 import Navbar from "./Navbar"
 import MySuggestions from "./MySuggestions"
 import "./Home.css"
+import Footer from "./Footer"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../authentication/AuthContext"
 import PuffLoader from "react-spinners/PuffLoader"
@@ -144,6 +145,8 @@ export default function Home() {
           />
         </div>
       )}
+
+      <Footer />
     </>
   )
 }

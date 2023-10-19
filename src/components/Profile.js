@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom"
 import { useAuth } from "../authentication/AuthContext"
 import def_cover from "../images/def-cover.jpg"
 import ProfileEpisodes from "./ProfileEpisodes"
+import Footer from "./Footer"
 import PuffLoader from "react-spinners/PuffLoader"
 import HistoryEpisodes from "./HistoryEpisodes"
 import { Icon } from "@iconify/react"
@@ -1311,6 +1312,7 @@ export default function Profile() {
           <p className="message-popup">Layout set to {mobileLayout}</p>
         </div>
       </div>
+      <Footer />
     </>
   )
 }

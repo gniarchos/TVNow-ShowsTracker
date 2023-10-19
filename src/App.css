@@ -8,15 +8,16 @@ html {
   overflow-y: overlay;
   width: 100vw;
   max-width: 100%;
+
+  /* FIREFOX SCROLLBAR */
+  scrollbar-color: rgb(117, 117, 117) transparent;
+  scrollbar-width: thin;
 }
 
 body {
   margin: 0;
   color: white;
   background: rgb(39, 40, 43);
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
 .App {

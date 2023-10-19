@@ -3,6 +3,7 @@ import "./DetailedSliders.css"
 import { Icon } from "@iconify/react"
 import { useNavigate, useLocation } from "react-router-dom"
 import Navbar from "./Navbar"
+import Footer from "./Footer"
 import ReactPaginate from "react-paginate"
 import noImg from "../images/no-image.png"
 
@@ -246,56 +247,59 @@ export default function DetailedSliders() {
   return (
     <>
       <Navbar isLoggedIn={isLoggedIn} />
-      <div className="detailedSlider-wrapper">
-        <div className="title-link-detailed">
-          <h1 className="search-title">{location.state.sectionTitle}</h1>
-          <div className="search-info">
-            <p>Found {totalResults} Results</p>
-            <p>&#8226;</p>
-            <p>Page {page}</p>
+      <div className="footer-fixer">
+        <div className="detailedSlider-wrapper">
+          <div className="title-link-detailed">
+            <h1 className="search-title">{location.state.sectionTitle}</h1>
+            <div className="search-info">
+              <p>Found {totalResults} Results</p>
+              <p>&#8226;</p>
+              <p>Page {page}</p>
+            </div>
           </div>
-        </div>
-        {allShows.length <= 0 && !loading && (
-          <div className="noSearchResults-div">
-            <p>
-              <Icon icon="ic:baseline-sms-failed" width={30} />
-              Sorry, we can't find the TVShow you're looking for.
-            </p>
-          </div>
-        )}
-        {location.state.sectionTitle !== "Trending Now" &&
-          location.state.sectionTitle !== "Search Results" && (
-            <div className="search-discover-filters">{filtersSelection}</div>
+          {allShows.length <= 0 && !loading && (
+            <div className="noSearchResults-div">
+              <p>
+                <Icon icon="ic:baseline-sms-failed" width={30} />
+                Sorry, we can't find the TVShow you're looking for.
+              </p>
+            </div>
           )}
+          {location.state.sectionTitle !== "Trending Now" &&
+            location.state.sectionTitle !== "Search Results" && (
+              <div className="search-discover-filters">{filtersSelection}</div>
+            )}
 
-        <div className="detailedSlider-div">{list}</div>
+          <div className="detailedSlider-div">{list}</div>
 
-        {allShows.length > 0 && !loading && (
-          <div className="pagination-container">
-            <ReactPaginate
-              breakLabel="..."
-              nextLabel={<Icon icon="carbon:next-filled" />}
-              onPageChange={(e) => goToNextPage(e)}
-              pageRangeDisplayed={2}
-              marginPagesDisplayed={1}
-              pageCount={
-                totalPages > 500 &&
-                (location.state.sectionTitle === "Popular Today" ||
-                  location.state.sectionTitle === "Discover")
-                  ? 500
-                  : totalPages
-              }
-              previousLabel={<Icon icon="carbon:previous-filled" />}
-              renderOnZeroPageCount={null}
-              containerClassName="pagination"
-              pageLinkClassName="page-num"
-              previousLinkClassName="page-buttons"
-              nextLinkClassName="page-buttons"
-              activeLinkClassName="active"
-              forcePage={page - 1}
-            />
-          </div>
-        )}
+          {allShows.length > 0 && !loading && (
+            <div className="pagination-container">
+              <ReactPaginate
+                breakLabel="..."
+                nextLabel={<Icon icon="carbon:next-filled" />}
+                onPageChange={(e) => goToNextPage(e)}
+                pageRangeDisplayed={2}
+                marginPagesDisplayed={1}
+                pageCount={
+                  totalPages > 500 &&
+                  (location.state.sectionTitle === "Popular Today" ||
+                    location.state.sectionTitle === "Discover")
+                    ? 500
+                    : totalPages
+                }
+                previousLabel={<Icon icon="carbon:previous-filled" />}
+                renderOnZeroPageCount={null}
+                containerClassName="pagination"
+                pageLinkClassName="page-num"
+                previousLinkClassName="page-buttons"
+                nextLinkClassName="page-buttons"
+                activeLinkClassName="active"
+                forcePage={page - 1}
+              />
+            </div>
+          )}
+        </div>
+        <Footer />
       </div>
     </>
   )

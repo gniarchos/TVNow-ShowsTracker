@@ -311,7 +311,7 @@ export default function People() {
         </div>
       </div>
 
-      {/* <Footer /> */}
+      <Footer />
     </div>
   )
 }

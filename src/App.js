@@ -9,7 +9,6 @@ import ShowOverview from "./components/ShowOverview"
 import DetailedSliders from "./components/DetailedSliders"
 import Profile from "./components/Profile"
 import People from "./components/People"
-import Footer from "./components/Footer"
 
 export default function App() {
   return (
@@ -41,7 +40,6 @@ export default function App() {
           </Routes>
         </AuthProvider>
       </Router>
-      <Footer />
     </div>
   )
 }

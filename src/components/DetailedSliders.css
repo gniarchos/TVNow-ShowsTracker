@@ -1,7 +1,13 @@
 .detailedSlider-wrapper {
   margin-top: 100px;
   z-index: 5;
+}
+
+.footer-fixer {
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .detailedSlider-div {
