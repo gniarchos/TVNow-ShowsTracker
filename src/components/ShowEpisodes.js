@@ -64,9 +64,12 @@ export default function ShowEpisodes(props) {
           </div>
         </div>
       ) : (
-        <div className="episode-div">
-          <p className="noEpisodesMessage">More episodes coming soon!</p>
-        </div>
+        props.status !== "Ended" &&
+        props.status !== "Canceled" && (
+          <div className="episode-div">
+            <p className="noEpisodesMessage">More episodes coming soon!</p>
+          </div>
+        )
       )}
     </div>
   )
