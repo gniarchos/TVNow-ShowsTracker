@@ -5,7 +5,6 @@ import "./ShowOverview.css"
 import { nanoid } from "nanoid"
 import { Icon } from "@iconify/react"
 import YouTube from "react-youtube"
-import Footer from "./Footer"
 import noImg from "../images/no-image.png"
 import { collection, addDoc, serverTimestamp } from "firebase/firestore"
 import { db } from "../services/firebase"
@@ -1103,8 +1102,6 @@ export default function ShowOverview() {
           </div>
         </div>
       )}
-
-      <Footer />
     </div>
   )
 }

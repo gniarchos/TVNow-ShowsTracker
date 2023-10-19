@@ -1,3 +1,7 @@
+.people-wrapper {
+  height: 100vh;
+}
+
 .people-top-container {
   margin-top: 50px;
   height: 500px;

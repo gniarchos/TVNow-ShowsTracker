@@ -192,7 +192,7 @@ export default function People() {
     })
 
   return (
-    <div>
+    <div className="people-wrapper">
       <Navbar isLoggedIn={isLoggedIn} />
       <div style={backgroundStyle} className="people-top-container">
         <div className="people-top-container-top">

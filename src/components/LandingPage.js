@@ -4,7 +4,6 @@ import Login from "./Login"
 import { Icon } from "@iconify/react"
 import Signup from "./Signup"
 import Navbar from "./Navbar"
-import Footer from "./Footer"
 import def_cover from "../images/def-cover.jpg"
 
 export default function LandingPage(props) {
@@ -180,8 +179,6 @@ export default function LandingPage(props) {
           </div>
         </div>
       )}
-
-      <Footer />
     </>
   )
 }
