@@ -1,6 +1,6 @@
 import React from "react"
 import LandingPage from "./components/LandingPage"
-import "./app.css"
+import "./App.css"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { AuthProvider } from "./authentication/AuthContext"
 import PrivateRoute from "./components/PrivateRoute"
