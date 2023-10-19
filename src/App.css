@@ -8,10 +8,6 @@ html {
   overflow-y: overlay;
   width: 100vw;
   max-width: 100%;
-
-  /* FIREFOX SCROLLBAR */
-  scrollbar-color: rgb(117, 117, 117) transparent;
-  scrollbar-width: thin;
 }
 
 body {
