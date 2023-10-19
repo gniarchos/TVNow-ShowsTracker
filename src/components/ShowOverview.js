@@ -281,9 +281,11 @@ export default function ShowOverview() {
     fetch(url_mdblist, options_1)
       .then((res) => res.json())
       .then((data_ratings) => {
-        setImdbRating(data_ratings.ratings[0]?.value)
-        setRottenTomatoesRating(data_ratings.ratings[4]?.value)
-        setTraktRating(data_ratings.ratings[3]?.value)
+        if (data_ratings.responce) {
+          setImdbRating(data_ratings.ratings[0]?.value)
+          setRottenTomatoesRating(data_ratings.ratings[4]?.value)
+          setTraktRating(data_ratings.ratings[3]?.value)
+        }
       })
 
     // Streaming Availability API
@@ -843,7 +845,13 @@ export default function ShowOverview() {
             )}
 
             <div className="info-div">
-              <h1>{lastDate === "-" ? "Premiere" : "Next Episode"}</h1>
+              <h1>
+                {lastDate === "-" &&
+                show.status !== "Ended" &&
+                show.status === "Canceled"
+                  ? "Premiere"
+                  : "Next Episode"}
+              </h1>
               <p
                 onClick={swapVisualDays}
                 className={
@@ -941,7 +949,11 @@ export default function ShowOverview() {
                     })
                   ) : (
                     <div key={nanoid()}>
-                      <ShowEpisodes key={nanoid()} episodesAnnounced={false} />
+                      <ShowEpisodes
+                        key={nanoid()}
+                        status={show.status}
+                        episodesAnnounced={false}
+                      />
                     </div>
                   )}
                 </div>
@@ -1021,12 +1033,14 @@ export default function ShowOverview() {
               )}
             </div>
 
-            <div className="networks-container">
-              <h3 className="details-title">
-                {show.networks.length > 1 ? "Networks" : "Network"}
-              </h3>
-              <div className="logos-networks-div">{logos_networks}</div>
-            </div>
+            {show.networks > 0 && (
+              <div className="networks-container">
+                <h3 className="details-title">
+                  {show.networks.length > 1 ? "Networks" : "Network"}
+                </h3>
+                <div className="logos-networks-div">{logos_networks}</div>
+              </div>
+            )}
 
             <div>
               <h3 className="details-title">
@@ -1035,10 +1049,12 @@ export default function ShowOverview() {
               {createdBy}
             </div>
 
-            <div>
-              <h3 className="details-title">Year</h3>
-              {yearStarted}
-            </div>
+            {yearStarted !== "" && (
+              <div>
+                <h3 className="details-title">Year</h3>
+                {yearStarted}
+              </div>
+            )}
 
             <div>
               <h3 className="details-title">
