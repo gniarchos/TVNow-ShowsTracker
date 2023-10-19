@@ -408,7 +408,6 @@
 }
 
 .episode-div {
-  padding: 10px;
   background-color: white;
   border-radius: 5px;
   color: black;
@@ -444,6 +443,7 @@
 }
 
 .episode-num-title {
+  width: 70%;
   overflow: hidden;
 }
 
@@ -815,10 +815,6 @@
 }
 
 @media all and (max-width: 529px) {
-  .episode-div {
-    padding: 5px;
-  }
-
   .episode-info-container {
     height: 150px;
     padding-left: 10px;
@@ -971,8 +967,9 @@
     object-fit: cover;
   }
 
-  .episode-num-title {
-    width: 180%;
+  .h3-until-episode {
+    width: 50px;
+    font-size: 1.1rem;
   }
 
   .episodeMoreInfo-wrapper {
