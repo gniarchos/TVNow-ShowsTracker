@@ -63,6 +63,9 @@ export default function Navbar(props) {
           userId: currentUser.uid,
         },
       })
+
+      setSearchVisibility(false)
+      setSearchQuery("")
     }
   }
 
