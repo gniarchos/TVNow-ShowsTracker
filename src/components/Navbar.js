@@ -126,6 +126,7 @@ export default function Navbar(props) {
     }
 
     setSearchVisibility(false)
+    setSearchQuery("")
   }
 
   // const slicedSuggestionsArray = searchSuggestionsList.slice(0, 15)
