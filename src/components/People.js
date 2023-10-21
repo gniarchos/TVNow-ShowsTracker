@@ -15,6 +15,8 @@ export default function People() {
   const [personKnownFor, setPersonKnownFor] = React.useState([])
   const [isLoading, setIsLoading] = React.useState(true)
 
+  document.title = `TVTime | ${personDetails.name}`
+
   function goToShow(showID) {
     fetch(
       `https://api.themoviedb.org/3/tv/${showID}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&append_to_response=external_ids,videos,aggregate_credits,content_ratings,recommendations,similar,watch/providers,images`
@@ -31,6 +33,8 @@ export default function People() {
   }
 
   React.useEffect(() => {
+    window.scrollTo(0, 0)
+
     setIsLoading(true)
 
     Promise.all([
@@ -85,7 +89,11 @@ export default function People() {
                 src={`https://image.tmdb.org/t/p/w500/${cast.poster_path}`}
               />
             ) : (
-              <img className="slider-no-img" src={noImg} alt="not-found" />
+              <img
+                className="people-no-media-img"
+                src={noImg}
+                alt="not-found"
+              />
             )}
           </div>
           <div className="knownFor-info-wrapper">
@@ -116,7 +124,11 @@ export default function People() {
                 src={`https://image.tmdb.org/t/p/w500/${cast.poster_path}`}
               />
             ) : (
-              <img className="slider-no-img" src={noImg} alt="not-found" />
+              <img
+                className="people-no-media-img"
+                src={noImg}
+                alt="not-found"
+              />
             )}
           </div>
           <div className="knownFor-info-wrapper">
@@ -150,7 +162,11 @@ export default function People() {
                   src={`https://image.tmdb.org/t/p/w500/${cast.poster_path}`}
                 />
               ) : (
-                <img className="slider-no-img" src={noImg} alt="not-found" />
+                <img
+                  className="people-no-media-img"
+                  src={noImg}
+                  alt="not-found"
+                />
               )}
             </a>
           </div>
@@ -179,7 +195,11 @@ export default function People() {
                   src={`https://image.tmdb.org/t/p/w500/${cast.poster_path}`}
                 />
               ) : (
-                <img className="slider-no-img" src={noImg} alt="not-found" />
+                <img
+                  className="people-no-media-img"
+                  src={noImg}
+                  alt="not-found"
+                />
               )}
             </a>
           </div>
@@ -190,6 +210,8 @@ export default function People() {
         </div>
       )
     })
+
+  console.log(in_cast_movies?.length, in_crew_movies?.length)
 
   return (
     <div className="people-wrapper">
@@ -250,66 +272,71 @@ export default function People() {
         </div>
       </div>
 
-      <div className="people-more-info-wrapper">
-        {personDetails.biography !== "" && (
-          <>
-            <h1 className="people-section-title">Biography</h1>
-            <p>{personDetails.biography}</p>
-          </>
-        )}
+      {!isLoading && (
+        <div className="people-more-info-wrapper">
+          {personDetails.biography !== "" && (
+            <>
+              <h1 className="people-section-title">Biography</h1>
+              <p>{personDetails.biography}</p>
+            </>
+          )}
 
-        {in_cast_series?.length > 0 ||
-        in_crew_series?.length > 0 ||
-        in_cast_movies?.length > 0 ||
-        in_crew_movies?.length > 0 ? (
-          <h1 className="people-section-title">Known for</h1>
-        ) : (
-          <h2 className="people-section-title no-other-content">
-            Sorry, there is no more available data for {personDetails.name}
-          </h2>
-        )}
-        <div>
           {in_cast_series?.length > 0 ||
-            (in_crew_series?.length > 0 && (
-              <h2>
-                Series ({in_cast_series?.length + in_crew_series?.length})
-              </h2>
-            ))}
-          {in_cast_series?.length > 0 && (
-            <div className="knownFor-container">
-              <p>IN CAST ({in_cast_series?.length})</p>
-              <div className="known-cast">{in_cast_series}</div>
-            </div>
+          in_crew_series?.length > 0 ||
+          in_cast_movies?.length > 0 ||
+          in_crew_movies?.length > 0 ? (
+            <h1 className="people-section-title">Known for</h1>
+          ) : (
+            <h2 className="people-section-title no-other-content">
+              Sorry, there is no more available data for {personDetails.name}
+            </h2>
           )}
-          {in_crew_series?.length > 0 && (
-            <div>
-              <p>IN CREW ({in_crew_series?.length})</p>
-              <div className="known-cast">{in_crew_series}</div>
-            </div>
-          )}
-        </div>
 
-        <div>
-          {in_cast_movies?.length > 0 ||
-            (in_crew_movies?.length > 0 && (
-              <h2>
-                Movies ({in_cast_movies?.length + in_crew_movies?.length})
-              </h2>
-            ))}
-          {in_cast_movies?.length > 0 && (
-            <div className="knownFor-container">
-              <p>IN CAST ({in_cast_movies?.length})</p>
-              <div className="known-cast">{in_cast_movies}</div>
-            </div>
-          )}
-          {in_crew_movies?.length > 0 && (
-            <div>
-              <p>IN CREW ({in_crew_movies?.length})</p>
-              <div className="known-cast">{in_crew_movies}</div>
-            </div>
-          )}
+          {(in_cast_series.length > 0 || in_crew_series.length > 0) &&
+            personKnownFor !== null && (
+              <div>
+                <h2>
+                  Series ({in_cast_series?.length + in_crew_series?.length})
+                </h2>
+
+                {in_cast_series?.length > 0 && (
+                  <div className="knownFor-container">
+                    <p>IN CAST ({in_cast_series?.length})</p>
+                    <div className="known-cast">{in_cast_series}</div>
+                  </div>
+                )}
+                {in_crew_series?.length > 0 && (
+                  <div>
+                    <p>IN CREW ({in_crew_series?.length})</p>
+                    <div className="known-cast">{in_crew_series}</div>
+                  </div>
+                )}
+              </div>
+            )}
+
+          {(in_cast_movies.length > 0 || in_crew_movies.length > 0) &&
+            personKnownFor !== null && (
+              <div>
+                <h2>
+                  Movies ({in_cast_movies?.length + in_crew_movies?.length})
+                </h2>
+
+                {in_cast_movies?.length > 0 && (
+                  <div className="knownFor-container">
+                    <p>IN CAST ({in_cast_movies?.length})</p>
+                    <div className="known-cast">{in_cast_movies}</div>
+                  </div>
+                )}
+                {in_crew_movies?.length > 0 && (
+                  <div>
+                    <p>IN CREW ({in_crew_movies?.length})</p>
+                    <div className="known-cast">{in_crew_movies}</div>
+                  </div>
+                )}
+              </div>
+            )}
         </div>
-      </div>
+      )}
 
       <Footer />
     </div>

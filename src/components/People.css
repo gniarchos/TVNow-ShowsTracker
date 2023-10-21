@@ -99,6 +99,12 @@
   margin-bottom: 50vh;
 }
 
+.people-no-media-img {
+  height: 352.5px;
+  max-width: 235px;
+  object-fit: cover;
+}
+
 @media all and (max-width: 600px) {
   .people-top-container-top {
     flex-direction: column;
@@ -130,5 +136,10 @@
 
   .knownFor-img:hover {
     transform: none;
+  }
+
+  .people-no-media-img {
+    width: 200px;
+    height: 290px;
   }
 }
