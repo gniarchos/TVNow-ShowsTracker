@@ -94,7 +94,7 @@ export default function Navbar(props) {
     )
       .then((data) => data.json())
       .then((data) => {
-        console.log(data.results)
+        // console.log(data.results)
         return setSearchSuggestionsList(data.results)
       })
   }, [searchQuery])
