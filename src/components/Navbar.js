@@ -124,6 +124,8 @@ export default function Navbar(props) {
         },
       })
     }
+
+    setSearchVisibility(false)
   }
 
   // const slicedSuggestionsArray = searchSuggestionsList.slice(0, 15)
