@@ -1,5 +1,5 @@
 .detailedSlider-wrapper {
-  margin-top: 100px;
+  margin-top: 85px;
   z-index: 5;
 }
 
@@ -193,5 +193,9 @@
     max-height: 260px;
     max-width: 180px;
     object-fit: cover;
+  }
+
+  .search-title {
+    font-size: 1.8rem;
   }
 }
