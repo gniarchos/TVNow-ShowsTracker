@@ -49,7 +49,7 @@ export default function People() {
         Promise.all(responses.map((response) => response.json()))
       )
       .then((data) => {
-        console.log(data)
+        // console.log(data)
         setPersonKnownFor(data[0])
         setPersonDetails(data[1])
       })
@@ -210,8 +210,6 @@ export default function People() {
         </div>
       )
     })
-
-  console.log(in_cast_movies?.length, in_crew_movies?.length)
 
   return (
     <div className="people-wrapper">
