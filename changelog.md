@@ -1,5 +1,32 @@
 # Changelog
 
+## [1.8.2] - 20-10-2023
+
+### Added
+
+- Added the name of the person to the tab's name in the people page.
+
+### Fixed
+
+- Fixed the issue where "No image available" was not appearing correctly on mobile devices in the people page.
+- Reset the scroll position to the top when visiting the people page.
+- Fixed the issue where the titles "Movies" and "Series" were not appearing even if there was data to show on the people page.
+- Fixed the issue where the "Not found more info" message appeared briefly before the data had loaded.
+- UI fixes in detailed sliders page.
+- Fixed the issue where networks were not showing up in the shows overview.
+- Implemented a lot of code optimizations in the shows overview.
+- Corrected functions and variable names in the shows overview.
+- Fixed the issue where videos in the video gallery were not resetting when using the back browser's button in the shows overview.
+
+### Updated
+
+- Cleaned up the code.
+- Now, when searching for something in the search bar on mobile, it will automatically close.
+- Updated the function for toggling the full cast and crew in the shows overview to automatically scroll to the relevant section.
+- UI updates in the show overview page for the latest/next panel on mobile.
+
+---
+
 ## [1.8.1] - 20-10-2023
 
 ### Added
