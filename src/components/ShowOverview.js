@@ -1,4 +1,4 @@
-import React from "react"
+import { useEffect, useState, useRef, useMemo } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import Navbar from "./Navbar"
 import "./ShowOverview.css"
@@ -21,132 +21,149 @@ export default function ShowOverview() {
   const isLoggedIn = true
   const show = location.state.data
 
-  // console.log(show)
-
-  React.useEffect(() => {
+  useEffect(() => {
     window.scrollTo(0, 0)
   }, [location])
 
   document.title = `TVTime | ${show.name}`
 
-  const [seasonNumber, setSeasonNumber] = React.useState("1")
-  const [seasonDetails, setSeasonDetails] = React.useState([])
-  const [finished, setFinished] = React.useState(false)
-  const [showDaysUntil, setShowDaysUntil] = React.useState(false)
+  const [seasonNumber, setSeasonNumber] = useState("1")
+  const [seasonDetails, setSeasonDetails] = useState([])
+  const [finished, setFinished] = useState(false)
+  const [showDaysUntil, setShowDaysUntil] = useState(false)
   const navigate = useNavigate()
-  const [toggleFullCast, setToggleFullCast] = React.useState(false)
+  const [toggleFullCast, setToggleFullCast] = useState(false)
   const { currentUser } = useAuth()
-  const [isShowAddedInWatchList, setIsShowAddedInWatchList] =
-    React.useState(false)
-  const [showUserStatus, setShowUserStatus] = React.useState([""])
-  const divCast = React.useRef()
-  const [imdbRating, setImdbRating] = React.useState(0.0)
-  const [rottenTomatoesRating, setRottenTomatoesRating] = React.useState(0)
-  const [traktRating, setTraktRating] = React.useState(0)
-  const [mobile, setMobile] = React.useState(window.innerWidth <= 499)
-  const [seasonRuntimeData, setSeasonRuntimeData] = React.useState([])
-  const [userWatchingTime, setUserWatchingTime] = React.useState(0)
-  const [userWatchedEpisodes, setUserWatchedEpisodes] = React.useState(0)
-  const [isMarkSeasonClicked, setIsMarkSeasonClicked] = React.useState(false)
-  const [currentUserEpisode, setCurrentUserEpisode] = React.useState(0)
-  const [currentUserSeason, setCurrentUserSeason] = React.useState(1)
-  const [seasonUntilReleasedEpisode, setSeasonUntilReleasedEpisode] =
-    React.useState([])
-
-  const handleWindowSizeChange = () => {
-    setMobile(window.innerWidth <= 499)
-  }
-  const [selectedSeasonData, setSelectedSeasonData] = React.useState()
-  const [semiReleasedSeason, setSemiReleasedSeason] = React.useState(false)
-
-  const [streamServicesAvailable, setStreamServicesAvailable] = React.useState([
+  const [isShowAddedInWatchList, setIsShowAddedInWatchList] = useState(false)
+  const [showUserStatus, setShowUserStatus] = useState([""])
+  const [imdbRating, setImdbRating] = useState(0.0)
+  const [rottenTomatoesRating, setRottenTomatoesRating] = useState(0)
+  const [traktRating, setTraktRating] = useState(0)
+  const [mobile, setMobile] = useState(window.innerWidth <= 499)
+  const [seasonRuntimeData, setSeasonRuntimeData] = useState([])
+  const [userWatchingTime, setUserWatchingTime] = useState(0)
+  const [userWatchedEpisodes, setUserWatchedEpisodes] = useState(0)
+  const [isMarkSeasonClicked, setIsMarkSeasonClicked] = useState(false)
+  const [currentUserEpisode, setCurrentUserEpisode] = useState(0)
+  const [currentUserSeason, setCurrentUserSeason] = useState(1)
+  const [seasonUntilReleasedEpisode, setSeasonUntilReleasedEpisode] = useState(
+    []
+  )
+  const [streamServicesAvailable, setStreamServicesAvailable] = useState([
     {
       service: "",
       streamingType: "",
       link: "",
     },
   ])
+  const [selectedSeasonData, setSelectedSeasonData] = useState()
+  const [semiReleasedSeason, setSemiReleasedSeason] = useState(false)
+  const [showVideos, setShowVideos] = useState([])
+  const [youtubeKey, setYoutubeKey] = useState()
+  const [youtubeId, setYoutubeId] = useState()
+  const [moreVideosAvailable, setMoreVideosAvailable] = useState(false)
+  const [videoIsSelected, setVideoIsSelected] = useState(false)
+  const divSeasonRef = useRef("")
 
-  const [showVideos, setShowVideos] = React.useState([])
-  const [youtubeKey, setYoutubeKey] = React.useState()
-  const [youtubeId, setYoutubeId] = React.useState()
-  const [moreVideosAvailable, setMoreVideosAvailable] = React.useState(false)
-  const [videoIsSelected, setVideoIsSelected] = React.useState(false)
+  const memoShowData = useMemo(
+    () => ({
+      show,
+    }),
+    [show]
+  )
 
-  React.useEffect(() => {
-    for (let i = 1; i <= show.number_of_seasons; i++) {
-      fetch(
-        `https://api.themoviedb.org/3/tv/${show.id}/season/${i}/videos?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          setShowVideos((prevData) => [...prevData, data.results])
-        })
+  const memoVideosData = useMemo(
+    () => ({
+      showVideos,
+      youtubeKey,
+      youtubeId,
+    }),
+    [showVideos]
+  )
+
+  const handleWindowSizeChange = () => {
+    setMobile(window.innerWidth <= 499)
+  }
+
+  useEffect(() => {
+    const fetchVideos = async () => {
+      setShowVideos([])
+      for (let i = 1; i <= memoShowData.show.number_of_seasons; i++) {
+        const response = await fetch(
+          `https://api.themoviedb.org/3/tv/${memoShowData.show.id}/season/${i}/videos?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
+        )
+        const data = await response.json()
+        setShowVideos((prevData) => [...prevData, data.results])
+      }
     }
 
-    db.collection("users")
-      .doc(location.state.userId)
-      .get()
-      .then((snapshot) => setUserWatchingTime(snapshot.data().watching_time))
+    const fetchUserData = async () => {
+      const userSnapshot = await db
+        .collection("users")
+        .doc(location.state.userId)
+        .get()
+      setUserWatchingTime(userSnapshot.data().watching_time)
+      setUserWatchedEpisodes(userSnapshot.data().total_episodes)
+    }
 
-    db.collection("users")
-      .doc(location.state.userId)
-      .get()
-      .then((snapshot) =>
-        setUserWatchedEpisodes(snapshot.data().total_episodes)
-      )
+    const findTrailer = () => {
+      let trailerIndex = 0
+      let foundTrailer = false
 
-    let trailerIndex = 0
-    let foundTrailer = false
-
-    show.videos.results.map((res, index) => {
-      if (res.name.includes("Trailer")) {
-        trailerIndex = index
-        foundTrailer = true
-
-        setYoutubeId(show.videos.results[trailerIndex].id)
-        setYoutubeKey(show.videos.results[trailerIndex].key)
-        setVideoIsSelected(true)
-      }
-    })
-
-    if (foundTrailer === false) {
-      show.videos.results.map((res, index) => {
-        if (res.name.includes("Teaser")) {
+      memoShowData.show.videos.results.some((res, index) => {
+        if (res.name.includes("Trailer")) {
           trailerIndex = index
           foundTrailer = true
 
-          setYoutubeId(show.videos.results[trailerIndex].id)
-          setYoutubeKey(show.videos.results[trailerIndex].key)
+          setYoutubeId(memoShowData.show.videos.results[trailerIndex].id)
+          setYoutubeKey(memoShowData.show.videos.results[trailerIndex].key)
           setVideoIsSelected(true)
         }
       })
+
+      if (!foundTrailer) {
+        memoShowData.show.videos.results.some((res, index) => {
+          if (res.name.includes("Teaser")) {
+            trailerIndex = index
+            foundTrailer = true
+
+            setYoutubeId(memoShowData.show.videos.results[trailerIndex].id)
+            setYoutubeKey(memoShowData.show.videos.results[trailerIndex].key)
+            setVideoIsSelected(true)
+          }
+        })
+      }
     }
+
+    fetchVideos()
+    fetchUserData()
+    findTrailer()
 
     window.addEventListener("resize", handleWindowSizeChange)
     return () => {
       window.removeEventListener("resize", handleWindowSizeChange)
     }
-  }, [show])
+  }, [memoShowData.show])
 
-  React.useEffect(() => {
-    for (let i = 0; i < show.number_of_seasons; i++) {
-      if (showVideos[i]?.length > 0) {
+  useEffect(() => {
+    for (let i = 0; i < memoShowData.show.number_of_seasons; i++) {
+      if (memoVideosData.showVideos[i]?.length > 0) {
         setMoreVideosAvailable(true)
+        break
       }
     }
-  }, [showVideos])
+  }, [memoVideosData.showVideos])
 
-  React.useEffect(() => {
+  useEffect(() => {
     localStorage.setItem("watching_time", userWatchingTime)
 
     localStorage.setItem("total_episodes", userWatchedEpisodes)
   }, [userWatchingTime, userWatchedEpisodes])
 
-  React.useEffect(() => {
+  useEffect(() => {
     setIsShowAddedInWatchList(false)
     db.collection(`watchlist-${location.state.userId}`)
-      .where("show_name", "==", show.name)
+      .where("show_name", "==", memoShowData.show.name)
       .get()
       .then((querySnapshot) => {
         if (!querySnapshot.empty) {
@@ -155,7 +172,7 @@ export default function ShowOverview() {
       })
 
     db.collection(`watchlist-${location.state.userId}`)
-      .where("show_name", "==", show.name)
+      .where("show_name", "==", memoShowData.show.name)
       .onSnapshot((snapshot) => {
         setShowUserStatus(
           snapshot.docs.map((doc) => ({
@@ -169,16 +186,15 @@ export default function ShowOverview() {
     }
     divSeasonRef.current.childNodes[0].classList.add("active")
 
-    setSeasonNumber("0")
     setSeasonNumber("1")
     setFinished(false)
-  }, [show, isShowAddedInWatchList])
+  }, [memoShowData.show, isShowAddedInWatchList])
 
-  React.useEffect(() => {
+  useEffect(() => {
     var total_season_time = 0
     if (isMarkSeasonClicked) {
-      seasonRuntimeData?.map((time) => {
-        total_season_time = total_season_time + time
+      seasonRuntimeData?.forEach((time) => {
+        total_season_time += time
         localStorage.setItem(
           "watching_time",
           parseInt(localStorage.getItem("watching_time")) + time
@@ -197,15 +213,17 @@ export default function ShowOverview() {
           watching_time: parseInt(localStorage.getItem("watching_time")),
           total_episodes: parseInt(localStorage.getItem("total_episodes")),
         })
+
       db.collection(`watchlist-${location.state.userId}`)
-        .where("show_name", "==", show.name)
+        .where("show_name", "==", memoShowData.show.name)
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
             // UPDATE DATABASE
             if (
-              parseInt(seasonNumber) + 1 <= show.number_of_seasons ||
-              show.status === "Returning Series"
+              parseInt(seasonNumber) + 1 <=
+                memoShowData.show.number_of_seasons ||
+              memoShowData.show.status === "Returning Series"
             ) {
               doc.ref.update({
                 season_number: parseInt(seasonNumber) + 1,
@@ -213,7 +231,10 @@ export default function ShowOverview() {
                 status: "watching",
               })
             } else {
-              if (show.status === "Ended" || show.status === "Canceled") {
+              if (
+                memoShowData.show.status === "Ended" ||
+                memoShowData.show.status === "Canceled"
+              ) {
                 doc.ref.update({
                   status: "finished",
                 })
@@ -223,13 +244,13 @@ export default function ShowOverview() {
         })
 
       addDoc(collection(db, `history-${location.state.userId}`), {
-        show_name: show.name,
-        show_id: show.id,
+        show_name: memoShowData.show.name,
+        show_id: memoShowData.show.id,
         season_number: parseInt(seasonNumber),
         episode_number: seasonRuntimeData.length,
         date_watched: serverTimestamp(),
         episode_name: "Entire Season Watched",
-        show_cover: show.backdrop_path,
+        show_cover: memoShowData.show.backdrop_path,
         episode_time: total_season_time,
       })
     }
@@ -253,9 +274,9 @@ export default function ShowOverview() {
     setIsMarkSeasonClicked(true)
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetch(
-      `https://api.themoviedb.org/3/tv/${show.id}/season/${seasonNumber}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
+      `https://api.themoviedb.org/3/tv/${memoShowData.show.id}/season/${seasonNumber}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -266,11 +287,11 @@ export default function ShowOverview() {
       })
   }, [finished, seasonNumber])
 
-  React.useEffect(() => {
+  useEffect(() => {
     const userCountry = localStorage.getItem("userCountry")
 
     // MDBLIST API
-    const url_mdblist = `https://mdblist.p.rapidapi.com/?i=${show.external_ids.imdb_id}`
+    const url_mdblist = `https://mdblist.p.rapidapi.com/?i=${memoShowData.show.external_ids.imdb_id}`
     const options_1 = {
       method: "GET",
       headers: {
@@ -290,7 +311,7 @@ export default function ShowOverview() {
       })
 
     // Streaming Availability API
-    const url_stream_availability = `https://streaming-availability.p.rapidapi.com/get?output_language=en&country=gr&imdb_id=${show.external_ids.imdb_id}`
+    const url_stream_availability = `https://streaming-availability.p.rapidapi.com/get?output_language=en&country=gr&imdb_id=${memoShowData.show.external_ids.imdb_id}`
     const options_2 = {
       method: "GET",
       headers: {
@@ -308,11 +329,11 @@ export default function ShowOverview() {
       })
   }, [location])
 
-  React.useEffect(() => {
+  useEffect(() => {
     setSeasonUntilReleasedEpisode([])
 
     var collectionRef = db.collection(`watchlist-${location.state.userId}`)
-    var query = collectionRef.where("show_name", "==", show.name)
+    var query = collectionRef.where("show_name", "==", memoShowData.show.name)
 
     query.get().then(function (querySnapshot) {
       querySnapshot.forEach(function (doc) {
@@ -324,45 +345,40 @@ export default function ShowOverview() {
     })
 
     fetch(
-      `https://api.themoviedb.org/3/tv/${show.id}/season/${seasonNumber}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
+      `https://api.themoviedb.org/3/tv/${memoShowData.show.id}/season/${seasonNumber}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
     )
       .then((res) => res.json())
       .then((data) => {
         setSelectedSeasonData(data)
-        data.episodes.map((episode) => {
-          let season_next_date_fix =
-            episode.air_date !== null && episode.air_date.split("-")
-
-          let date_1 = new Date(
-            `${season_next_date_fix[1]}/${season_next_date_fix[2]}/${season_next_date_fix[0]}`
+        data.episodes.forEach((episode) => {
+          const airDate = new Date(episode.air_date)
+          const today = new Date()
+          const difference = airDate.getTime() - today.getTime()
+          const totalDaysUntilEpisode = Math.ceil(
+            difference / (1000 * 3600 * 24)
           )
-
-          let today = new Date()
-          let difference = date_1.getTime() - today.getTime()
-
-          let TotalDaysUntilEpisode = Math.ceil(difference / (1000 * 3600 * 24))
 
           setSeasonUntilReleasedEpisode((prevData) => [
             ...prevData,
-            TotalDaysUntilEpisode,
+            totalDaysUntilEpisode,
           ])
         })
       })
   }, [seasonNumber])
 
-  React.useEffect(() => {
-    seasonUntilReleasedEpisode.map((day) => {
-      if (day > 0 || isNaN(day)) {
+  useEffect(() => {
+    seasonUntilReleasedEpisode.forEach((day) => {
+      if (day > 0) {
         setSemiReleasedSeason(true)
       }
     })
   }, [seasonUntilReleasedEpisode])
 
   const divImgStyle = {
-    backgroundImage: `url('https://image.tmdb.org/t/p/original/${show.backdrop_path}')`,
+    backgroundImage: `url('https://image.tmdb.org/t/p/original/${memoShowData.show.backdrop_path}')`,
   }
 
-  function goToPeople(id) {
+  function navigateToPeople(id) {
     navigate("/people", {
       state: {
         userId: location.state.userId,
@@ -373,33 +389,36 @@ export default function ShowOverview() {
 
   // DATES CONVERTED
   const last_date_fix =
-    show.last_episode_to_air && show.last_episode_to_air.air_date.split("-")
+    memoShowData.show.last_episode_to_air &&
+    memoShowData.show.last_episode_to_air.air_date.split("-")
   const lastDate =
     last_date_fix !== null
       ? `${last_date_fix[2]}-${last_date_fix[1]}-${last_date_fix[0]}`
       : "-"
   const next_date_fix =
-    show.next_episode_to_air !== null &&
-    show.next_episode_to_air.air_date.split("-")
+    memoShowData.show.next_episode_to_air !== null &&
+    memoShowData.show.next_episode_to_air.air_date.split("-")
   const nextDate =
-    show.next_episode_to_air === null &&
-    (show.status === "Canceled" || show.status === "Ended")
+    memoShowData.show.next_episode_to_air === null &&
+    (memoShowData.show.status === "Canceled" ||
+      memoShowData.show.status === "Ended")
       ? "Ended Series"
-      : show.next_episode_to_air === null
+      : memoShowData.show.next_episode_to_air === null
       ? "TBA"
       : `${next_date_fix[2]}-${next_date_fix[1]}-${next_date_fix[0]}`
 
-  let date_1 = new Date(
+  let nextEpisodeDate = new Date(
     `${next_date_fix[1]}/${next_date_fix[2]}/${next_date_fix[0]}`
   )
   let today = new Date()
 
-  let difference = date_1.getTime() - today.getTime()
+  let difference = nextEpisodeDate.getTime() - today.getTime()
   let TotalDaysUntilEpisode =
-    show.status !== "Ended"
+    memoShowData.show.status !== "Ended"
       ? nextDate === "TBA"
         ? "--"
-        : show.status === "Canceled" || show.status === "Ended"
+        : memoShowData.show.status === "Canceled" ||
+          memoShowData.show.status === "Ended"
         ? "-"
         : Math.ceil(difference / (1000 * 3600 * 24))
       : "-"
@@ -408,8 +427,6 @@ export default function ShowOverview() {
     height: mobile ? "200px" : "600px",
     width: "95%",
   }
-
-  const divSeasonRef = React.useRef("")
 
   function changeSeason(event) {
     const { id } = event.target
@@ -424,8 +441,7 @@ export default function ShowOverview() {
   }
 
   let seasons = []
-  let i = 1
-  for (i = 1; i <= show.number_of_seasons; i++) {
+  for (let i = 1; i <= memoShowData.show.number_of_seasons; i++) {
     seasons.push(
       <div
         key={i}
@@ -468,18 +484,18 @@ export default function ShowOverview() {
     )
   }
 
-  const logos_networks = show.networks.map((logo) => {
+  const networkLogos = memoShowData.show.networks.map((logo) => {
     return (
       <img
         key={logo.id}
         className="logos-img"
         src={`https://image.tmdb.org/t/p/w500/${logo.logo_path}`}
-        alt="logo-network"
+        alt=""
       />
     )
   })
 
-  const createdBy = show.created_by.map((creator) => {
+  const creators = memoShowData.show.created_by.map((creator) => {
     return (
       <p key={creator.id} className="creator">
         {creator.name}
@@ -488,31 +504,65 @@ export default function ShowOverview() {
   })
 
   const yearStarted_fix =
-    show.first_air_date !== null ? show.first_air_date.split("-") : "-"
+    memoShowData.show.first_air_date !== null
+      ? memoShowData.show.first_air_date.split("-")
+      : "-"
   const yearStarted = yearStarted_fix !== "-" ? `${yearStarted_fix[0]}` : "-"
 
-  const languages = show.languages.map((lang, index) => {
+  const languages = memoShowData.show.languages.map((language) => {
     return (
       <p key={nanoid()} className="show-languages">
-        {lang}
+        {language}
       </p>
     )
   })
 
-  const cast = show.aggregate_credits.cast.slice(0, 10).map((person) => {
+  const cast = memoShowData.show.aggregate_credits.cast
+    .slice(0, 10)
+    .map((person) => {
+      return (
+        <div key={person.id} className="cast-id">
+          {person.profile_path !== null ? (
+            <img
+              className="cast-img-profile"
+              src={`https://image.tmdb.org/t/p/w500/${person.profile_path}`}
+              alt="logo-network"
+            />
+          ) : (
+            <img className="cast-no-img-profile" src={noImg} alt="not-found" />
+          )}
+          <div className="cast-info-div-profile">
+            <h3
+              className="cast-name"
+              onClick={() => navigateToPeople(person.id)}
+            >
+              {person.name}
+            </h3>
+            <p className="cast-subinfo">{person.roles[0].character}</p>
+            <p className="cast-subinfo">
+              {person.roles[0].episode_count > 1
+                ? `${person.roles[0].episode_count} Episodes`
+                : `${person.roles[0].episode_count} Episode`}
+            </p>
+          </div>
+        </div>
+      )
+    })
+
+  const fullCast = memoShowData.show.aggregate_credits.cast.map((person) => {
     return (
-      <div key={person.id} className="cast-id">
+      <div key={person.id} className="cast-id-full">
         {person.profile_path !== null ? (
           <img
-            className="cast-img-profile"
+            className="cast-img"
             src={`https://image.tmdb.org/t/p/w500/${person.profile_path}`}
             alt="logo-network"
           />
         ) : (
-          <img className="cast-no-img-profile" src={noImg} alt="not-found" />
+          <img className="cast-no-img" src={noImg} alt="not-found" />
         )}
-        <div className="cast-info-div-profile">
-          <h3 className="cast-name" onClick={() => goToPeople(person.id)}>
+        <div className="cast-info-div">
+          <h3 className="cast-name" onClick={() => navigateToPeople(person.id)}>
             {person.name}
           </h3>
           <p className="cast-subinfo">{person.roles[0].character}</p>
@@ -526,7 +576,7 @@ export default function ShowOverview() {
     )
   })
 
-  const fullCast = show.aggregate_credits.cast.map((person) => {
+  const fullCrew = memoShowData.show.aggregate_credits.crew.map((person) => {
     return (
       <div key={person.id} className="cast-id-full">
         {person.profile_path !== null ? (
@@ -539,34 +589,7 @@ export default function ShowOverview() {
           <img className="cast-no-img" src={noImg} alt="not-found" />
         )}
         <div className="cast-info-div">
-          <h3 className="cast-name" onClick={() => goToPeople(person.id)}>
-            {person.name}
-          </h3>
-          <p className="cast-subinfo">{person.roles[0].character}</p>
-          <p className="cast-subinfo">
-            {person.roles[0].episode_count > 1
-              ? `${person.roles[0].episode_count} Episodes`
-              : `${person.roles[0].episode_count} Episode`}
-          </p>
-        </div>
-      </div>
-    )
-  })
-
-  const fullCrew = show.aggregate_credits.crew.map((person) => {
-    return (
-      <div key={person.id} className="cast-id-full">
-        {person.profile_path !== null ? (
-          <img
-            className="cast-img"
-            src={`https://image.tmdb.org/t/p/w500/${person.profile_path}`}
-            alt="logo-network"
-          />
-        ) : (
-          <img className="cast-no-img" src={noImg} alt="not-found" />
-        )}
-        <div className="cast-info-div">
-          <h3 className="cast-name" onClick={() => goToPeople(person.id)}>
+          <h3 className="cast-name" onClick={() => navigateToPeople(person.id)}>
             {person.name}
           </h3>
           <p className="cast-subinfo">{person.known_for_department}</p>
@@ -576,7 +599,7 @@ export default function ShowOverview() {
     )
   })
 
-  function goToShow(showID) {
+  function navigateToShow(showID) {
     setShowVideos([])
     setCurrentUserSeason(0)
     setCurrentUserEpisode(0)
@@ -595,13 +618,15 @@ export default function ShowOverview() {
       })
   }
 
-  const recommending = show.recommendations.results
+  // TODO: CHECK THE CODE BELLOW
+
+  const recommending = memoShowData.show.recommendations.results
     .slice(0, 10)
     .map((recommend) => {
       return (
         <div
           key={recommend.id}
-          onClick={() => goToShow(recommend.id)}
+          onClick={() => navigateToShow(recommend.id)}
           className="recomending-show"
         >
           <div className="img-recommend-container">
@@ -627,8 +652,8 @@ export default function ShowOverview() {
   function addToWatchList() {
     setIsShowAddedInWatchList(true)
     addDoc(collection(db, `watchlist-${location.state.userId}`), {
-      show_name: show.name,
-      show_id: show.id,
+      show_name: memoShowData.show.name,
+      show_id: memoShowData.show.id,
       season_number: 1,
       episode_number: 0,
       status: "not_started",
@@ -636,10 +661,10 @@ export default function ShowOverview() {
     })
   }
 
-  function removeToWatchList() {
+  function removeFromWatchList() {
     setIsShowAddedInWatchList(false)
     db.collection(`watchlist-${location.state.userId}`)
-      .where("show_name", "==", show.name)
+      .where("show_name", "==", memoShowData.show.name)
       .get()
       .then((querySnapshot) => {
         querySnapshot.docs[0].ref.delete()
@@ -648,12 +673,20 @@ export default function ShowOverview() {
 
   function showHideFullCast() {
     setToggleFullCast(!toggleFullCast)
-    window.scrollTo(0, 0)
   }
+
+  useEffect(() => {
+    if (toggleFullCast) {
+      const fullCastDiv = document.querySelector(".fullCast-container")
+      fullCastDiv?.scrollIntoView()
+    } else {
+      window.scrollTo(0, 0)
+    }
+  }, [toggleFullCast])
 
   function stopWatchingShow() {
     db.collection(`watchlist-${location.state.userId}`)
-      .where("show_name", "==", show.name)
+      .where("show_name", "==", memoShowData.show.name)
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -667,7 +700,7 @@ export default function ShowOverview() {
 
   function resumeWatchingShow() {
     db.collection(`watchlist-${location.state.userId}`)
-      .where("show_name", "==", show.name)
+      .where("show_name", "==", memoShowData.show.name)
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -685,8 +718,6 @@ export default function ShowOverview() {
     setYoutubeId(id)
   }
 
-  console.log(show)
-
   return (
     <div>
       <Navbar isLoggedIn={isLoggedIn} />
@@ -695,13 +726,15 @@ export default function ShowOverview() {
       <div style={divImgStyle} className="div-show-img">
         <div className="show-main-title-details">
           <h4 className="show-status">
-            {show.status === "In Production" ? "Upcoming" : show.status}
+            {memoShowData.show.status === "In Production"
+              ? "Upcoming"
+              : memoShowData.show.status}
           </h4>
 
-          <h1 className="show-title">{show.name}</h1>
+          <h1 className="show-title">{memoShowData.show.name}</h1>
 
           <div className="div-show-genres">
-            {show.genres.map((gen) => (
+            {memoShowData.show.genres.map((gen) => (
               <p key={gen.id} className="show-genres">
                 {gen.name}
               </p>
@@ -750,13 +783,15 @@ export default function ShowOverview() {
 
           <div className="seasons-network-container">
             <h3 className="show-total-seasons">
-              {show.number_of_seasons > 1
-                ? `${show.number_of_seasons} Seasons`
-                : `${show.number_of_seasons} Season`}
+              {memoShowData.show.number_of_seasons > 1
+                ? `${memoShowData.show.number_of_seasons} Seasons`
+                : `${memoShowData.show.number_of_seasons} Season`}
             </h3>
             <h3 className="show-total-seasons">&#8226;</h3>
             <h3 className="show-network">
-              {show.networks.length > 0 ? show.networks[0].name : "Unknown"}
+              {memoShowData.show.networks.length > 0
+                ? memoShowData.show.networks[0].name
+                : "Unknown"}
             </h3>
             <h3 className="show-total-seasons">&#8226;</h3>
             <div className="show-watchlist-buttons"></div>
@@ -769,7 +804,7 @@ export default function ShowOverview() {
                 Add to Watchlist
               </p>
             ) : (
-              <p onClick={removeToWatchList} className="watchlist-show">
+              <p onClick={removeFromWatchList} className="watchlist-show">
                 <Icon
                   className="whishlist-icon-add-remove-show"
                   icon="bi:bookmark-star-fill"
@@ -812,8 +847,8 @@ export default function ShowOverview() {
       {!toggleFullCast && (
         <div className="show-info-container">
           <div className="top-info-div">
-            {show.homepage !== "" &&
-              show.homepage !== null &&
+            {memoShowData.show.homepage !== "" &&
+              memoShowData.show.homepage !== null &&
               (streamServicesAvailable !== undefined ||
                 !streamServicesAvailable[0]?.link) && (
                 <div className="info-div">
@@ -828,9 +863,12 @@ export default function ShowOverview() {
                       Available Here
                     </a>
                   ) : (
-                    show.homepage !== "" &&
-                    show.homepage !== null && (
-                      <a className="whereToWatch-link" href={show.homepage}>
+                    memoShowData.show.homepage !== "" &&
+                    memoShowData.show.homepage !== null && (
+                      <a
+                        className="whereToWatch-link"
+                        href={memoShowData.show.homepage}
+                      >
                         <Icon icon="ci:play-circle-outline" />
                         Official Site
                       </a>
@@ -849,8 +887,8 @@ export default function ShowOverview() {
             <div className="info-div">
               <h1>
                 {lastDate === "-" &&
-                show.status !== "Ended" &&
-                show.status === "Canceled"
+                (memoShowData.show.status !== "Ended" ||
+                  memoShowData.show.status !== "Canceled")
                   ? "Premiere"
                   : "Next Episode"}
               </h1>
@@ -879,25 +917,26 @@ export default function ShowOverview() {
         <div className="show-main-container">
           <div className="all-data-div">
             <div className="synopsis-div">
-              {show.overview !== "" && <h1>Synopsis</h1>}
-              {show.overview !== "" && (
-                <p className="synopsis-text">{show.overview}</p>
+              {memoShowData.show.overview !== "" && <h1>Synopsis</h1>}
+              {memoShowData.show.overview !== "" && (
+                <p className="synopsis-text">{memoShowData.show.overview}</p>
               )}
-              {show.videos.results.length > 0 && videoIsSelected && (
-                <YouTube
-                  containerClassName={"youtube-container amru"}
-                  videoId={youtubeKey}
-                  id={youtubeId}
-                  opts={opts}
-                  className="youtube-trailer"
-                />
-              )}
+              {memoShowData.show.videos.results.length > 0 &&
+                videoIsSelected && (
+                  <YouTube
+                    containerClassName={"youtube-container amru"}
+                    videoId={youtubeKey}
+                    id={youtubeId}
+                    opts={opts}
+                    className="youtube-trailer"
+                  />
+                )}
 
               {moreVideosAvailable && (
                 <YoutubeVideos
                   isMobile={mobile}
                   changeVideo={changeYoutubeVideo}
-                  data={showVideos}
+                  data={memoVideosData.showVideos}
                 />
               )}
             </div>
@@ -941,8 +980,8 @@ export default function ShowOverview() {
                           today={today}
                           new_air_date={new_air_date}
                           currentUserID={location.state.userId}
-                          showName={show.name}
-                          showID={show.id}
+                          showName={memoShowData.show.name}
+                          showID={memoShowData.show.id}
                           current_season_episodes_count={
                             seasonDetails.episodes.length
                           }
@@ -953,7 +992,7 @@ export default function ShowOverview() {
                     <div key={nanoid()}>
                       <ShowEpisodes
                         key={nanoid()}
-                        status={show.status}
+                        status={memoShowData.show.status}
                         episodesAnnounced={false}
                       />
                     </div>
@@ -963,7 +1002,7 @@ export default function ShowOverview() {
             </div>
 
             {cast.length > 0 && (
-              <div ref={divCast} className="cast-wrapper">
+              <div className="cast-wrapper">
                 <h1>Series Cast</h1>
                 <div className="cast-div">
                   {cast}
@@ -987,10 +1026,10 @@ export default function ShowOverview() {
 
           <div className="all-details-div">
             <div className="show-social">
-              {show.external_ids.facebook_id !== null && (
+              {memoShowData.show.external_ids.facebook_id !== null && (
                 <a
                   className="socials-links"
-                  href={`https://www.facebook.com/watch/${show.external_ids.facebook_id}`}
+                  href={`https://www.facebook.com/watch/${memoShowData.show.external_ids.facebook_id}`}
                 >
                   <Icon
                     className="social-img facebook"
@@ -999,10 +1038,10 @@ export default function ShowOverview() {
                   />
                 </a>
               )}
-              {show.external_ids.instagram_id !== null && (
+              {memoShowData.show.external_ids.instagram_id !== null && (
                 <a
                   className="socials-links"
-                  href={`https://www.instagram.com/${show.external_ids.instagram_id}`}
+                  href={`https://www.instagram.com/${memoShowData.show.external_ids.instagram_id}`}
                 >
                   <Icon
                     className="social-img instagram"
@@ -1011,10 +1050,10 @@ export default function ShowOverview() {
                   />
                 </a>
               )}
-              {show.external_ids.twitter_id !== null && (
+              {memoShowData.show.external_ids.twitter_id !== null && (
                 <a
                   className="socials-links"
-                  href={`https://twitter.com/${show.external_ids.twitter_id}`}
+                  href={`https://twitter.com/${memoShowData.show.external_ids.twitter_id}`}
                 >
                   <Icon
                     className="social-img twitter"
@@ -1023,10 +1062,10 @@ export default function ShowOverview() {
                   />
                 </a>
               )}
-              {show.external_ids.imdb_id !== null && (
+              {memoShowData.show.external_ids.imdb_id !== null && (
                 <a
                   className="socials-links"
-                  href={`https://www.imdb.com/title/${show.external_ids.imdb_id}`}
+                  href={`https://www.imdb.com/title/${memoShowData.show.external_ids.imdb_id}`}
                 >
                   <Icon
                     className="social-img imdb"
@@ -1037,21 +1076,25 @@ export default function ShowOverview() {
               )}
             </div>
 
-            {show.networks > 0 && (
+            {memoShowData.show.networks.length > 0 && (
               <div className="networks-container">
                 <h3 className="details-title">
-                  {show.networks.length > 1 ? "Networks" : "Network"}
+                  {memoShowData.show.networks.length > 1
+                    ? "Networks"
+                    : "Network"}
                 </h3>
-                <div className="logos-networks-div">{logos_networks}</div>
+                <div className="logos-networks-div">{networkLogos}</div>
               </div>
             )}
 
-            {createdBy.length > 0 && (
+            {creators.length > 0 && (
               <div>
                 <h3 className="details-title">
-                  {show.created_by.length > 1 ? "Creators" : "Creator"}
+                  {memoShowData.show.created_by.length > 1
+                    ? "Creators"
+                    : "Creator"}
                 </h3>
-                {createdBy}
+                {creators}
               </div>
             )}
 
@@ -1062,10 +1105,12 @@ export default function ShowOverview() {
               </div>
             )}
 
-            {show.languages.length > 0 && (
+            {memoShowData.show.languages.length > 0 && (
               <div>
                 <h3 className="details-title">
-                  {show.languages.length > 1 ? "Languages" : "Language"}
+                  {memoShowData.show.languages.length > 1
+                    ? "Languages"
+                    : "Language"}
                 </h3>
                 <div className="languages-div">{languages}</div>
               </div>
@@ -1074,20 +1119,20 @@ export default function ShowOverview() {
             <div>
               <h3 className="details-title">Episodes Runtime</h3>
               <p className="creator">
-                {show.episode_run_time.length > 0
-                  ? `${show.episode_run_time}'`
+                {memoShowData.show.episode_run_time.length > 0
+                  ? `${memoShowData.show.episode_run_time}'`
                   : "-"}
               </p>
             </div>
 
             <div>
               <h3 className="details-title">Number of Episodes</h3>
-              <p className="creator">{show.number_of_episodes}</p>
+              <p className="creator">{memoShowData.show.number_of_episodes}</p>
             </div>
 
             <div>
               <h3 className="details-title">Type</h3>
-              <p className="creator">{show.type}</p>
+              <p className="creator">{memoShowData.show.type}</p>
             </div>
           </div>
         </div>
