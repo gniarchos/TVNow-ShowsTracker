@@ -23,7 +23,7 @@
 - Cleaned up the code.
 - Now, when searching for something in the search bar on mobile, it will automatically close.
 - Updated the function for toggling the full cast and crew in the shows overview to automatically scroll to the relevant section.
-- UI updates in the show overview page for the latest/next panel on mobile.
+- UI updates in the show overview page for the latest/next panel on mobile and season episodes.
 
 ---
 
