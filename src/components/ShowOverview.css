@@ -183,6 +183,7 @@
   gap: 5px;
   color: #9b9494;
   font-size: 0.9rem;
+  white-space: nowrap;
 }
 
 .show-no-img-overview {
