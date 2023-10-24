@@ -726,7 +726,8 @@ export default function ShowOverview() {
       <div style={divImgStyle} className="div-show-img">
         <div className="show-main-title-details">
           <h4 className="show-status">
-            {memoShowData.show.status === "In Production"
+            {memoShowData.show.status === "In Production" ||
+            memoShowData.show.status === "Planned"
               ? "Upcoming"
               : memoShowData.show.status}
           </h4>
