@@ -8,8 +8,8 @@
 - Implemented a lot of code optimizations in the profile.
 - Improved load time in the profile page.
 - Organized better the pages and the code into folders.
-- Renamed "Slider" components to "ShowsList".
-- Renamed "DetailedSlider" components to "DetailedShowsList".
+- Renamed "Slider" component to "ShowsList".
+- Renamed "DetailedSlider" component to "DetailedShowsList".
 - Divided profile page sections into new components: "WatchedNextSection", "UpToDateSection", "WatchlistSection", "FinishedStoppedSection" and "HistorySection".
 
 ---
