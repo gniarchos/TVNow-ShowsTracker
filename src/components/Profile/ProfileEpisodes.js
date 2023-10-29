@@ -1,9 +1,9 @@
 import React from "react"
 import { collection, addDoc, serverTimestamp } from "firebase/firestore"
-import { db } from "../services/firebase"
+import { db } from "../../services/firebase"
 import { useNavigate } from "react-router-dom"
 import { Icon } from "@iconify/react"
-import noImg from "../images/no-image.png"
+import noImg from "../../images/no-image.png"
 
 export default function ProfileEpisodes(props) {
   const navigate = useNavigate()

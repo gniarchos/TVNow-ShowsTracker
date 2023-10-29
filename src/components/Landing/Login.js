@@ -1,9 +1,9 @@
 import React from "react"
 import "./Login.css"
-import eye_off from "../images/eye-off.png"
-import eye from "../images/eye.png"
-import email from "../images/email.png"
-import { useAuth } from "../authentication/AuthContext"
+import eye_off from "../../images/eye-off.png"
+import eye from "../../images/eye.png"
+import email from "../../images/email.png"
+import { useAuth } from "../../authentication/AuthContext"
 import { useNavigate } from "react-router-dom"
 import { Icon } from "@iconify/react"
 
@@ -100,7 +100,13 @@ export default function Login() {
             </p>
           )}
           <div className="div-field">
-            <input className="input-text" type="email" placeholder="Email*" ref={emailRef} required />
+            <input
+              className="input-text"
+              type="email"
+              placeholder="Email*"
+              ref={emailRef}
+              required
+            />
             <span className="span-img">
               <img className="email-img" src={email} alt="email" />
             </span>
@@ -116,10 +122,20 @@ export default function Login() {
                 ref={passwordRef}
               />
               <span className="span-img" onClick={togglePasswordVisibility}>
-                <img style={toggleStyleHidden} className="eye-off-img-log" src={eye_off} alt="eye-off" />
+                <img
+                  style={toggleStyleHidden}
+                  className="eye-off-img-log"
+                  src={eye_off}
+                  alt="eye-off"
+                />
               </span>
               <span className="span-img" onClick={togglePasswordVisibility}>
-                <img style={toggleStyleVisible} className="eye-img-log" src={eye} alt="eye" />
+                <img
+                  style={toggleStyleVisible}
+                  className="eye-img-log"
+                  src={eye}
+                  alt="eye"
+                />
               </span>
             </div>
           )}

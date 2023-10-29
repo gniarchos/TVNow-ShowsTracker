@@ -1,13 +1,13 @@
 import React from "react"
-import "./DetailedSliders.css"
+import "./DetailedShowsList.css"
 import { Icon } from "@iconify/react"
 import { useNavigate, useLocation } from "react-router-dom"
-import Navbar from "./Navbar"
-import Footer from "./Footer"
+import Navbar from "../Navbar/Navbar"
+import Footer from "../Footer/Footer"
 import ReactPaginate from "react-paginate"
-import noImg from "../images/no-image.png"
+import noImg from "../../images/no-image.png"
 
-export default function DetailedSliders() {
+export default function DetailedShowsList() {
   document.title = "TVTime | TV Shows Tracker"
 
   const location = useLocation()

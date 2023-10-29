@@ -1,9 +1,9 @@
 import React from "react"
-import "./Slider.css"
+import "./ShowsList.css"
 import { useNavigate } from "react-router-dom"
-import { useAuth } from "../authentication/AuthContext"
+import { useAuth } from "../../authentication/AuthContext"
 
-export default function Slider(props) {
+export default function ShowsList(props) {
   document.title = "TVTime | TV Shows Tracker"
 
   const show_title = React.useRef("")

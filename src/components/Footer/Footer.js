@@ -1,7 +1,7 @@
 import React from "react"
 import "./Footer.css"
-import api_logo from "../images/api-logo.png"
-import mdblist_logo from "../images/mdblist_logo.png"
+import api_logo from "../../images/api-logo.png"
+import mdblist_logo from "../../images/mdblist_logo.png"
 import { Icon } from "@iconify/react"
 
 export default function Footer() {

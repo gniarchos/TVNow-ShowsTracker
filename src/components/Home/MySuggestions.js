@@ -3,7 +3,7 @@ import "./MySuggestions.css"
 import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import { useNavigate } from "react-router-dom"
-import { useAuth } from "../authentication/AuthContext"
+import { useAuth } from "../../authentication/AuthContext"
 
 export default function MySuggestions() {
   const [allSuggestions, setAllSuggestions] = React.useState([])

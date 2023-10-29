@@ -1,10 +1,10 @@
 import React from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import "./People.css"
-import Navbar from "./Navbar"
-import Footer from "./Footer"
-import noImg from "../images/no-image.png"
-import noFace from "../images/no-face.png"
+import Navbar from "../Navbar/Navbar"
+import Footer from "../Footer/Footer"
+import noImg from "../../images/no-image.png"
+import noFace from "../../images/no-face.png"
 
 export default function People() {
   const isLoggedIn = true

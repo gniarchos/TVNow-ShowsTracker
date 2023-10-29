@@ -1,9 +1,9 @@
 import React from "react"
 import "./ShowOverview.css"
-import noImg from "../images/no-image.png"
+import noImg from "../../images/no-image.png"
 import { Icon } from "@iconify/react"
 
-export default function Episodes(props) {
+export default function ShowEpisodes(props) {
   const zeroPad = (num, places) => String(num).padStart(places, "0")
 
   return (
@@ -64,9 +64,12 @@ export default function Episodes(props) {
           </div>
         </div>
       ) : (
-        <div className="episode-div">
-          <p className="noEpisodesMessage">More episodes coming soon!</p>
-        </div>
+        props.status !== "Ended" &&
+        props.status !== "Canceled" && (
+          <div className="episode-div">
+            <p className="noEpisodesMessage">More episodes coming soon!</p>
+          </div>
+        )
       )}
     </div>
   )

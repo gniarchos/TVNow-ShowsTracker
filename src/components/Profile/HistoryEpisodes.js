@@ -1,5 +1,5 @@
 import React from "react"
-import { db } from "../services/firebase"
+import { db } from "../../services/firebase"
 import { useNavigate } from "react-router-dom"
 import "firebase/compat/firestore"
 import { Icon } from "@iconify/react"

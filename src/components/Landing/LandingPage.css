@@ -1,5 +1,5 @@
 .landing-wrapper {
-  background-image: url(../images/landing-bg-min.jpg);
+  background-image: url(../../images/landing-bg-min.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh;
@@ -254,7 +254,7 @@
 
 @media all and (max-width: 499px) {
   .landing-wrapper {
-    background-image: url(../images/landing-bg-mb-min.jpg);
+    background-image: url(../../images/landing-bg-mb-min.jpg);
   }
   .landing-title {
     font-size: 2.35rem;
