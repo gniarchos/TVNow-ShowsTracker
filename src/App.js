@@ -1,19 +1,19 @@
 import React from "react"
-import LandingPage from "./components/LandingPage"
+import LandingPage from "./components/Landing/LandingPage"
 import "./App.css"
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { AuthProvider } from "./authentication/AuthContext"
-import PrivateRoute from "./components/PrivateRoute"
-import Home from "./components/Home"
-import ShowOverview from "./components/ShowOverview"
-import DetailedSliders from "./components/DetailedSliders"
-import Profile from "./components/Profile"
-import People from "./components/People"
+import PrivateRoute from "./components/Other/PrivateRoute"
+import Home from "./components/Home/Home"
+import ShowOverview from "./components/Show/ShowOverview"
+import DetailedSliders from "./components/DetailedShowsList/DetailedShowsList"
+import Profile from "./components/Profile/Profile"
+import People from "./components/People/People"
 
 export default function App() {
   return (
     <div className="App">
-      <Router>
+      <BrowserRouter>
         <AuthProvider>
           <Routes>
             <Route path="/index" element={<LandingPage />} />
@@ -39,7 +39,7 @@ export default function App() {
             </Route>
           </Routes>
         </AuthProvider>
-      </Router>
+      </BrowserRouter>
     </div>
   )
 }
