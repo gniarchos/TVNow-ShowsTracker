@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.8.3] - 29-10-2023
+
+### Updated
+
+- Cleaned up the code.
+- Implemented a lot of code optimizations in the profile.
+- Improved load time in the profile page.
+- Organized better the pages and the code into folders.
+- Renamed "Slider" components to "ShowsList".
+- Renamed "DetailedSlider" components to "DetailedShowsList".
+- Divided profile page sections into new components: "WatchedNextSection", "UpToDateSection", "WatchlistSection", "FinishedStoppedSection" and "HistorySection".
+
+---
+
 ## [1.8.2] - 24-10-2023
 
 ### Added
