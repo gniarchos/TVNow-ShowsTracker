@@ -1,11 +1,16 @@
-import React from "react"
+import React, { useContext } from "react"
 import { collection, addDoc, serverTimestamp } from "firebase/firestore"
 import { db } from "../../services/firebase"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Icon } from "@iconify/react"
 import noImg from "../../images/no-image.png"
+import "./ProfileEpisodes.css"
+import { ProfileContext } from "./Profile"
 
 export default function ProfileEpisodes(props) {
+  const { triggerFetchUserData, setTriggerFetchUserData } =
+    useContext(ProfileContext)
+
   const navigate = useNavigate()
   const zeroPad = (num, places) => String(num).padStart(places, "0")
 
@@ -28,10 +33,10 @@ export default function ProfileEpisodes(props) {
   function episodeMarker() {
     setPlayAnimation(true)
 
-    setTimeout(() => {
-      addDoc(collection(db, `history-${props.currentUserID}`), {
+    const addEpisodeToHistory = () => {
+      return addDoc(collection(db, `history-${props.currentUserID}`), {
         show_name: props.showName,
-        show_id: props.showID,
+        show_id: props.show_id,
         season_number: props.season_number,
         episode_number: props.episode_number,
         date_watched: serverTimestamp(),
@@ -39,8 +44,11 @@ export default function ProfileEpisodes(props) {
         show_cover: props.backdrop_path[0],
         episode_time: parseInt(props.episode_time[0]),
       })
+    }
 
-      db.collection(`watchlist-${props.currentUserID}`)
+    const updateWatchList = async () => {
+      return await db
+        .collection(`watchlist-${props.currentUserID}`)
         .where("show_name", "==", props.showName)
         .get()
         .then((querySnapshot) => {
@@ -65,11 +73,6 @@ export default function ProfileEpisodes(props) {
                   status: "watching",
                   date_watched: serverTimestamp(),
                 })
-
-                setTimeout(function () {
-                  setFinished(false)
-                  props.resetSeasonData()
-                }, 500)
               } else {
                 doc.ref.update({
                   status: "finished",
@@ -79,44 +82,40 @@ export default function ProfileEpisodes(props) {
             }
           })
         })
+    }
 
-      db.collection("users")
-        .doc(props.currentUserID)
-        .update({
-          watching_time:
-            parseInt(userWatchingTime) + parseInt(props.episode_time[0]),
-          total_episodes: parseInt(userTotalEpisodes) + 1,
-        })
-
+    const updateUserStatistics = async () => {
       localStorage.setItem(
         "watching_time",
         parseInt(userWatchingTime) + parseInt(props.episode_time[0])
       )
-
       localStorage.setItem("total_episodes", parseInt(userTotalEpisodes) + 1)
-
-      props.triggerLoadDataLocalStorage()
-
-      setFinished(!finished)
-    }, 1000)
-
-    setTimeout(() => {
-      setPlayAnimation(false)
-    }, 1000)
-  }
-
-  function goToShow(showID) {
-    fetch(
-      `https://api.themoviedb.org/3/tv/${showID}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&append_to_response=external_ids,videos,aggregate_credits,content_ratings,recommendations,similar,watch/providers,images`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        navigate("/overview", {
-          state: {
-            data: data,
-            userId: props.currentUserID,
-          },
+      return await db
+        .collection("users")
+        .doc(props.currentUserID)
+        .update({
+          watching_time: userWatchingTime + parseInt(props.episode_time[0]),
+          total_episodes: userTotalEpisodes + 1,
         })
+    }
+
+    Promise.all([
+      addEpisodeToHistory(),
+      updateWatchList(),
+      updateUserStatistics(),
+    ])
+      .then(() => {
+        // console.log("Both fetch calls finished.")
+        setFinished(!finished)
+        setTriggerFetchUserData(!triggerFetchUserData)
+      })
+      .then(() => {
+        setTimeout(() => {
+          setPlayAnimation(false)
+        }, 500)
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error)
       })
   }
 
@@ -170,14 +169,16 @@ export default function ProfileEpisodes(props) {
         )}
 
         {props.is_premiering === "true" ||
-        (props.upToDate === true &&
+        (props.isInSectionUpToDate === true &&
           JSON.stringify(props.nextEpisodeDate) !== "[false]") ? (
           <h3 className="runtime-release upcoming">
             <Icon icon="fontisto:date" />
             {props.nextEpisodeDate}
           </h3>
         ) : (
-          props.episode_time && (
+          props.episode_time[0] !== 0 &&
+          props.episode_time[0] !== null &&
+          props.episode_time[0] !== undefined && (
             <h3 className="runtime-release">
               <Icon icon="entypo:time-slot" /> {props.episode_time}'
             </h3>
@@ -210,17 +211,17 @@ export default function ProfileEpisodes(props) {
                 : "info-card-grid markedAnimation"
             }
           >
-            <p
+            <Link
+              to={`/show?show_name=${props.showName}&show_id=${props.show_id}`}
               className="show-name-profile"
-              onClick={() => goToShow(props.showID)}
             >
               {props.showName}
-            </p>
+            </Link>
             <div className="episode-num-card">
               S{zeroPad(props.season_number, 2)} | E
               {zeroPad(props.episode_number + 1, 2)}
               {props.curr_season_episodes - (props.episode_number + 1) !== 0 &&
-              props.upToDate !== true ? (
+              props.isInSectionUpToDate !== true ? (
                 props.episode_number !== 0 ? (
                   <p className="episodes-left">
                     + {props.curr_season_episodes - (props.episode_number + 1)}{" "}
@@ -230,8 +231,17 @@ export default function ProfileEpisodes(props) {
                   <p className="episodes-left">PREMIERE</p>
                 )
               ) : (
-                <p className="episodes-left">
-                  {props.curr_season_episodes === 0 || props.upToDate === true
+                <p
+                  className={
+                    props.nextEpisodeDate[0] === false &&
+                    parseInt(props.curr_season_episodes) !==
+                      parseInt(props.episode_number + 1)
+                      ? "episodes-left hide"
+                      : "episodes-left"
+                  }
+                >
+                  {props.curr_season_episodes === 0 ||
+                  props.isInSectionUpToDate === true
                     ? "PREMIERE"
                     : (parseInt(props.show_all_seasons) ===
                         parseInt(props.season_number) &&
@@ -251,7 +261,7 @@ export default function ProfileEpisodes(props) {
                   : "profile-episode-name grid"
               }
             >
-              {props.episode_name.length > 0 &&
+              {props.episode_name?.length > 0 &&
               (props.episode_name !== "false" || props.episode_name === "")
                 ? props.episode_name
                 : "TBA"}
@@ -263,21 +273,21 @@ export default function ProfileEpisodes(props) {
               props.mobileLayout === "cards" ? "info-card" : "info-card-grid"
             }
           >
-            <p
+            <Link
+              to={`/show?show_name=${props.showName}&show_id=${props.showID}`}
               className="show-name-profile"
-              onClick={() => goToShow(props.showID)}
             >
               {props.showName}
-            </p>
+            </Link>
             {!props.stoppedShows ? (
               <p>Total Seasons: {props.season_number}</p>
             ) : (
-              <p>Season: {props.season_number}</p>
+              <p>Stopped Season: {props.season_number}</p>
             )}
             {!props.stoppedShows ? (
               <p>Total Episodes: {props.episode_number}</p>
             ) : (
-              <p>Episode: {props.episode_number + 1}</p>
+              <p>Stopped Episode: {props.episode_number + 1}</p>
             )}
           </div>
         )}

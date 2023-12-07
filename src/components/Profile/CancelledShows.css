@@ -1,0 +1,154 @@
+.modal {
+  width: 100vw;
+  position: fixed;
+  top: -50px;
+  left: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  opacity: 0;
+  transition: all 0.5s ease-in;
+}
+
+.modalShow {
+  width: 100vw;
+  position: fixed;
+  top: 80px;
+  left: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  opacity: 1;
+  transition: all 1s ease-in;
+}
+
+.modal-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  width: 40vw;
+  background-color: rgb(255, 255, 255);
+  color: black;
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px;
+  position: relative;
+  top: -30%;
+  gap: 15px;
+  padding-left: 40px;
+  padding-right: 40px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.modal_container {
+  position: fixed;
+  left: 0;
+  top: 60px;
+  width: 100vw;
+  z-index: 6;
+  backdrop-filter: blur(5px);
+  background-color: rgba(255, 255, 255, 0.3);
+  height: 94vh;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.6s ease-in-out;
+}
+
+.modal_container.isShown {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-icon {
+  width: 10px;
+}
+
+.modal-main {
+  width: 100%;
+  font-size: 1.3rem;
+}
+
+.modal-main h3::after {
+  content: "";
+  width: 100%;
+  height: 1px;
+  background-color: rgb(114, 108, 108, 0.5);
+  position: relative;
+  top: 10px;
+  display: block;
+}
+
+.show_canceled_name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.modal-button {
+  width: 100px;
+  margin-top: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  background: white;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 2px solid black;
+  transition: all 0.5s ease;
+  color: black;
+}
+
+.modal-button:hover {
+  background: black;
+  color: white;
+  transition: all 0.5s ease;
+}
+
+.cancelled-shows-container {
+  display: flex;
+  align-items: flex-start;
+}
+
+@media all and (max-width: 1124px) {
+  .modal-content {
+    width: 60vw;
+  }
+}
+
+@media all and (max-width: 750px) {
+  .modal-content {
+    width: 80vw;
+  }
+}
+
+@media all and (max-width: 566px) {
+  .modal-content {
+    width: 100vw;
+  }
+
+  .modal-icon {
+    width: 45px;
+    height: 45px;
+  }
+
+  .modal-content {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .modal-main {
+    font-size: 1rem;
+  }
+
+  .show_canceled_name {
+    font-size: 1.1rem;
+  }
+}

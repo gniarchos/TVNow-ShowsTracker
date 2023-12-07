@@ -1,0 +1,254 @@
+.episode-card-wrapper {
+  background-color: #ffffff;
+  color: black;
+  width: 500px;
+}
+
+.profile-show-img-div {
+  position: relative;
+  max-width: 500px;
+}
+
+.img-background {
+  width: 500px;
+  height: 281px;
+  background-color: #3a3a3c;
+}
+
+.episode-card-img {
+  width: 100%;
+  height: 281px;
+  object-fit: cover;
+}
+
+.show-no-img {
+  width: 500px;
+  height: 281px;
+}
+
+.runtime-release {
+  position: absolute;
+  bottom: 0;
+  right: 10px;
+  background-color: #e7e7e7;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 5px;
+  font-weight: 500;
+  font-size: 1.1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.premiering {
+  right: auto;
+  left: 10px;
+}
+
+.badge-info-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  padding-left: 2%;
+  margin-right: -15px;
+  inline-size: 100%;
+  overflow-wrap: break-word;
+}
+
+.info-card {
+  /* padding-top: 15px; */
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+  display: block;
+  transition: all 1s ease-in-out;
+}
+
+.info-card.markedAnimation,
+.info-card-grid.markedAnimation {
+  opacity: 0;
+  animation: fadeOutAndIn 2s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOutAndIn {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.show-name-profile {
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  width: 100%;
+  color: black;
+  text-decoration: none;
+}
+
+.episode-num-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  /* margin-top: -10px; */
+  margin-bottom: -10px;
+}
+
+.episodes-left {
+  background: #ededed;
+  border-radius: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  font-size: 0.9rem;
+}
+
+.episodes-left.hide {
+  visibility: hidden;
+}
+
+.profile-episode-name {
+  width: 400px;
+  margin-bottom: 0;
+}
+
+.markIcon {
+  position: relative;
+  right: 20px;
+  cursor: pointer;
+  opacity: 1;
+}
+
+.until-episode-profile {
+  text-align: center;
+  font-weight: 500;
+  color: rgb(160, 160, 169);
+  width: 50px;
+  margin-right: 15px;
+  font-size: 1.15rem;
+}
+
+@media all and (max-width: 665px) {
+  .episode-card-wrapper {
+    width: fit-content;
+  }
+
+  .img-background {
+    width: 100%;
+  }
+
+  .profile-episode-name {
+    width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+/* MOBILE */
+@media all and (max-width: 498px) {
+  .img-background {
+    width: fit-content;
+    height: 210px;
+  }
+
+  .img-background.grid {
+    width: fit-content;
+    height: 100%;
+  }
+
+  .episode-card-img {
+    object-fit: cover;
+    width: 100vw;
+    height: 210px;
+  }
+
+  .runtime-release {
+    font-size: 0.9rem;
+    right: auto;
+    left: 5px;
+  }
+
+  .runtime-release.upcoming {
+    width: 100%;
+    bottom: -9px;
+    left: 0px;
+    border-radius: 0;
+    background-color: #ffffff;
+  }
+
+  .premiering {
+    top: 0px;
+    bottom: auto;
+  }
+
+  .premiering.grid {
+    top: auto;
+    bottom: 20px;
+    font-size: 0.7rem;
+    right: 4px;
+    left: 4px;
+  }
+
+  .badge-info-container {
+    gap: 10px;
+  }
+
+  .info-card-grid {
+    overflow: hidden;
+    width: 47vw;
+    margin-top: 10px;
+  }
+
+  .show-name-profile {
+    font-size: 1rem;
+  }
+
+  .profile-episode-name {
+    width: 230px;
+  }
+
+  .profile-episode-name.grid {
+    margin-bottom: 5px;
+    width: 190px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .markIcon.grid {
+    right: 0px;
+  }
+
+  .until-episode-profile {
+    font-size: 1rem;
+    padding-right: 10px;
+  }
+}
