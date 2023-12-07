@@ -3,20 +3,22 @@ import "./LandingPage.css"
 import Login from "./Login"
 import { Icon } from "@iconify/react"
 import Signup from "./Signup"
-import Navbar from "../Navbar/Navbar"
-import Footer from "../Footer/Footer"
+import LandingNavbar from "../Headers/LandingNavbar"
 import def_cover from "../../images/def-cover.jpg"
+import { useAuth } from "../../authentication/AuthContext"
+import { Navigate } from "react-router-dom"
 
-export default function LandingPage(props) {
+export default function LandingPage() {
   const [showLoginPage, setShowLoginPage] = React.useState(false)
   const [showLogin, setShowLogin] = React.useState(false)
-
   const [hideStarting, setHideStarting] = React.useState(false)
 
   const [showSignUpPage, setShowSignUpPage] = React.useState(false)
   const [showSignUp, setShowSignUp] = React.useState(false)
 
   const [calledFrom, setCalledFrom] = React.useState("")
+
+  const { currentUser } = useAuth()
 
   localStorage.setItem("cover_temp_selection", def_cover)
 
@@ -74,7 +76,8 @@ export default function LandingPage(props) {
 
   return (
     <>
-      <Navbar
+      {currentUser !== null && <Navigate to="/" replace />}
+      <LandingNavbar
         showLogin={showLogin}
         goToLogin={goToLogin}
         goToSignUp={goToSignUp}
@@ -82,6 +85,7 @@ export default function LandingPage(props) {
         switchToLogin={switchToLogin}
         switchToSignUp={switchToSignUp}
       />
+
       <div className="landing-wrapper">
         {!showLoginPage && !showSignUpPage && (
           <div
@@ -92,7 +96,7 @@ export default function LandingPage(props) {
             <h1 className="landing-title">Tracking Shows Made Easy</h1>
             <div>
               <h2 className="item frame-1">
-                <b>TRACK</b> what you watch
+                <b>TRACK</b> shows you watch
               </h2>
               <h2 className="item frame-2">
                 <b>FIND</b> trending shows
@@ -175,13 +179,11 @@ export default function LandingPage(props) {
               className="btn-learn-more"
               onClick={() => window.scrollTo(0, 0)}
             >
-              JOIN US TO FIND MORE
+              JOIN TO FIND MORE
             </button>
           </div>
         </div>
       )}
-
-      <Footer />
     </>
   )
 }
