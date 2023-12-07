@@ -1,0 +1,75 @@
+.page-not-found {
+  margin-top: 119px;
+  margin-left: 3vw;
+  margin-right: 3vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-not-found h1 {
+  font-size: 3rem;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.error404-title {
+  color: #fcc63d;
+}
+
+.go-home-error404 {
+  padding: 10px;
+  border: unset;
+  color: #212121;
+  z-index: 1;
+  background: #e8e8e8;
+  position: relative;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 900;
+  font-size: 1rem;
+  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  transition: all 250ms;
+  overflow: hidden;
+  cursor: pointer;
+  /* width: 150px; */
+  margin-top: 10px;
+  transition: all 250ms;
+}
+
+.go-home-error404:hover {
+  background: #000000;
+  color: #e8e8e8;
+}
+
+.go-home-error404::before {
+  width: 100%;
+}
+
+.page-not-found img {
+  width: 400px;
+}
+
+@media all and (max-width: 615px) {
+  .page-not-found h1 {
+    font-size: 3rem;
+    white-space: nowrap;
+  }
+
+  .page-not-found img {
+    width: 90vw;
+  }
+}
+
+@media all and (max-width: 499px) {
+  .page-not-found h1 {
+    font-size: 2.5rem;
+    white-space: nowrap;
+  }
+
+  .page-not-found img {
+    width: 80vw;
+  }
+}
