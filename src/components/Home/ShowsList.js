@@ -1,71 +1,53 @@
 import React from "react"
 import "./ShowsList.css"
-import { useNavigate } from "react-router-dom"
-import { useAuth } from "../../authentication/AuthContext"
+import { Link } from "react-router-dom"
 
 export default function ShowsList(props) {
   document.title = "TVTime | TV Shows Tracker"
 
   const show_title = React.useRef("")
   const divRef = React.useRef("")
-  const navigate = useNavigate()
-  const { currentUser } = useAuth()
-
-  function goToShow(showID) {
-    fetch(
-      `https://api.themoviedb.org/3/tv/${showID}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&append_to_response=external_ids,videos,aggregate_credits,content_ratings,recommendations,similar,watch/providers,images`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        navigate("/overview", {
-          state: {
-            data: data,
-            userId: currentUser.uid,
-          },
-        })
-      })
-  }
 
   const list = props.listOfShows.slice(0, 12).map((list, index) => {
     return (
-      <div
-        onClick={() => goToShow(list.id)}
+      <Link
+        to={`/show?show_name=${list.name}&show_id=${list.id}`}
         key={list.id}
-        className="slider-content"
+        className="show-card-content"
       >
         {props.section !== "Discover" && props.section !== "On The Air" && (
-          <p className="slider-num">{index + 1}</p>
+          <p className="show-card-num">{index + 1}</p>
         )}
         <div className="cards-wrapper">
           <div className="img-trend-container">
             <img
-              className="slider-img"
+              className="show-card-img"
               src={`https://image.tmdb.org/t/p/w500/${list.poster_path}`}
               alt="show"
             />
           </div>
 
-          <p ref={show_title} className="slider-title">
+          <p ref={show_title} className="show-card-title">
             {list.name}
           </p>
         </div>
-      </div>
+      </Link>
     )
   })
 
   return (
     <div>
       <div className="title-link">
-        <h1 className="slider-section">{props.section}</h1>
-        <button
+        <h1 className="show-card-section">{props.section}</h1>
+        <Link
+          to={`/discover?title=${props.section}&type=${props.type}&page=1`}
           className="viewMore-button"
-          onClick={() => props.toggleFindMore(props.section)}
         >
           View More
-        </button>
+        </Link>
       </div>
 
-      <div ref={divRef} className="slider-div">
+      <div ref={divRef} className="show-card-div">
         {list}
       </div>
     </div>

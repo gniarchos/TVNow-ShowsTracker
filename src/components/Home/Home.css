@@ -18,3 +18,13 @@
   margin-top: 400px;
   margin-bottom: 600px;
 }
+
+.mySuggestions {
+  height: 700px;
+}
+
+@media all and (max-width: 816px) {
+  .mySuggestions {
+    height: 500px;
+  }
+}

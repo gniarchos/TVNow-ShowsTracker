@@ -23,6 +23,7 @@
   margin-top: 0;
   text-align: left;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .div-suggest-genres {
@@ -80,18 +81,13 @@
   }
 
   .suggest-img {
-    margin-top: 70px;
     object-fit: cover;
     width: 50vw;
-    height: 450px;
+    height: 500px;
   }
 }
 
 @media all and (max-width: 499px) {
-  .suggestions-wrapper {
-    margin-top: -20px;
-  }
-
   .suggestion-divs {
     bottom: -100px;
     left: 0;

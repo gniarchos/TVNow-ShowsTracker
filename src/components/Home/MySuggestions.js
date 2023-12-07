@@ -1,15 +1,12 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import "./MySuggestions.css"
 import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
-import { useNavigate } from "react-router-dom"
-import { useAuth } from "../../authentication/AuthContext"
+import { Link } from "react-router-dom"
 
 export default function MySuggestions() {
-  const [allSuggestions, setAllSuggestions] = React.useState([])
-  const { currentUser } = useAuth()
-
-  const navigate = useNavigate()
+  const [allSuggestions, setAllSuggestions] = useState([])
+  const [loading, setLoading] = useState(true)
 
   let myChoicesArray = [
     "66732",
@@ -28,7 +25,8 @@ export default function MySuggestions() {
   ]
   myChoicesArray = myChoicesArray.sort(() => Math.random() - 0.5)
 
-  React.useEffect(() => {
+  useEffect(() => {
+    setLoading(true)
     myChoicesArray.forEach((id) => {
       fetch(
         `https://api.themoviedb.org/3/tv/${id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&append_to_response=external_ids,videos,aggregate_credits,content_ratings,recommendations,similar,watch/providers`
@@ -37,19 +35,11 @@ export default function MySuggestions() {
         .then((data) => {
           setAllSuggestions((prevData) => [...prevData, data])
         })
+        .finally(() => setLoading(false))
     })
   }, [])
 
-  function goToShow(ShowData) {
-    navigate("/overview", {
-      state: {
-        data: ShowData,
-        userId: currentUser.uid,
-      },
-    })
-  }
-
-  const suggestions = allSuggestions.map((suggest, index) => {
+  const suggestions = allSuggestions.map((suggest) => {
     return (
       <div key={suggest.id} className="suggestion-container">
         <img
@@ -59,9 +49,12 @@ export default function MySuggestions() {
           alt=""
         />
         <div className="suggestion-divs">
-          <p onClick={() => goToShow(suggest)} className="suggest-title">
+          <Link
+            to={`/show?show_name=${suggest.name}&show_id=${suggest.id}`}
+            className="suggest-title"
+          >
             {suggest.name}
-          </p>
+          </Link>
           <div className="div-suggest-genres">
             {suggest.genres.map((gen, index) => (
               <div key={index} className="genres-wrapper">
@@ -76,7 +69,7 @@ export default function MySuggestions() {
 
   return (
     <div className="suggestions-wrapper">
-      {allSuggestions.length >= 13 && (
+      {loading === false && (
         <Carousel
           className="carousel"
           autoPlay={true}
