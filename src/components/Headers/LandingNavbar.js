@@ -1,0 +1,35 @@
+import React from "react"
+import "./Headers.css"
+import logo from "../../images/TVTime-logo-white.svg"
+import { Link } from "react-router-dom"
+
+export default function LandingNavbar(props) {
+  const backgroundStyle = {
+    background: "rgb(12, 13, 13, 0.2)",
+  }
+
+  return (
+    <div style={backgroundStyle} className="navbar-wrapper">
+      <Link to="/" className="logo-link">
+        <img className="logo-img" src={logo} alt="logo" />
+      </Link>
+
+      {!props.hideStarting && (
+        <button className="login-btn" onClick={props.goToLogin}>
+          Login
+        </button>
+      )}
+
+      {props.hideStarting &&
+        (props.showLogin ? (
+          <button className="login-btn" onClick={props.switchToSignUp}>
+            Sign up
+          </button>
+        ) : (
+          <button className="login-btn" onClick={props.switchToLogin}>
+            Login
+          </button>
+        ))}
+    </div>
+  )
+}
