@@ -1,5 +1,75 @@
 # Changelog
 
+## [1.9.0] - 7-12-2023
+
+### Added
+
+- Implemented a comprehensive app layout that incorporates a Navbar and Footer in a more effective manner.
+- Added separate Navbar versions for logged-in and logged-out users, enhancing usability.
+- Created a new file, "LandingHeader," within the Headers folder for the landing page.
+- Included an "Error 404 Page Not Found" feature.
+- Enabled link sharing among users.
+- Added new components, "Filters.js" and "ShowCard.js," within the DetailedShowList folder to improve code organization.
+- Added components such as "ShowBanner," "ShowDetailedGeneralInfo," "ShowFullCast," and "ShowTrackingInfo" into the Show folder.
+- Added a "DetailedInfoContainer" directory inside the Show folder.
+- Added "ShowDetailedInfoContainer," "DetailedSeasonsEpisodes," "DetailedShowCast," "DetailedShowEpisodes," and "YoutubeVideos" components into the DetailedInfoContainer folder.
+- Added a loader within the ShowOverview component to display while data is being fetched.
+- Implemented a new bottom navbar in the PWA app (standalone app) to enhance the user experience.
+- Added the "ProfileCover" component into the Profile folder.
+
+### Fixed
+
+- Fixed landing page visibility for logged-in users; now, it automatically redirects them to the home page.
+- Implemented numerous UI improvements and fixes in the DetailedShowsList component.
+- Set the maximum number of pages in the DetailedShowsList component to 500, aligning with API recommendations.
+- Adjusted the video gallery in the ShowOverview component to hide the scrollbar when unnecessary.
+- Rectified page interactions with the navbar regarding margins.
+- Resolved issues within the Stopped section in the profile, ensuring correct data display.
+- Addressed multiple bugs and eliminated repeated code across all components.
+- Implemented UI fixes for Navbar elements.
+
+### Updated
+
+- Renamed the "Navbar" folder to "Headers".
+- Split the "Navbar" component into "MainNavbar" and "LandingNavbar".
+- Updated specific information details on the landing page.
+- Ensured proper hiding of Navbar links on each page.
+- Refactored code in DetailedShowsList and ShowList components.
+- Changed the URL of the ShowOverview component from "/overview" to "/show".
+- Improved filters in detailed lists.
+- Code cleanup and improvements across all components.
+- Transitioned from the "react-ipgeolocation" package to "ipapi.co" for retrieving user location from their IP.
+- Completely rewrote the ShowOverview component.
+- Renamed "ShowEpisodes" to "DetailedShowEpisodes".
+- Improved UI in ShowOverview component for ShowBanner's buttons.
+- Updated placeholder image usage when cast member photos are unavailable in ShowFullCast and DetailedShowCast components.
+- Improved UI for ShowOverview content on desktop and mobile.
+- Improved load performance on the ShowOverview and Profile pages.
+- Renamed "Recommending Shows" to "More like this" in ShowOverview.
+- Renamed "Synopsis" to "Storyline" in ShowOverview.
+- Made UI improvements on the Profile page.
+- Renamed "WatchNextSection" to "ProfileWatchNext".
+- Reorganized and updated code in ProfileWatchNext component.
+- Renamed "WatchlistSection" to "ProfileWatchlist".
+- Reorganized and updated code in ProfileWatchlist component.
+- Renamed "FinishedStoppedSections" to "ProfileFinishedStopped".
+- Reorganized and updated code in ProfileFinishedStopped component.
+- Removed the "Premiere" tag from TBA episodes in profile sections.
+- Added an info message if profile sections are empty of episodes.
+- Updated the History section to display a loader when deleting episodes or seasons until everything is deleted (e.g., multiple episodes/seasons).
+- Improved handling of statistics in Profile.
+- Renamed the "Modal" component to "CanceledShows" and relocated it to the Profile folder.
+- Updated and enhanced the code in the People component.
+
+### Removed
+
+- Removed Navbar and Footer components from every component using Layout.
+- Removed genre filters in "On the Air" and "Popular Today" from the detailed list section due to lack of support.
+- Removed unnecessary code from all the component.
+- Temporarily disabled the "Remove Show" functionality on the Show overview page - the button is still visible.
+
+---
+
 ## [1.8.3] - 29-10-2023
 
 ### Updated
