@@ -1,13 +1,6 @@
 .detailedSlider-wrapper {
-  margin-top: 85px;
+  margin-top: 20px;
   z-index: 5;
-}
-
-.footer-fixer {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
 .detailedSlider-div {
@@ -18,6 +11,58 @@
   column-gap: 120px;
   row-gap: 20px;
   margin: 15px;
+}
+
+.card-show-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 0px;
+  background-color: rgb(12, 13, 13, 0.5);
+  z-index: 0;
+  margin-bottom: 20px;
+  text-decoration: none;
+}
+
+.card-show-img-container {
+  position: relative;
+  box-shadow: 0px 60px 54px -40px rgba(0, 0, 0, 0.75) inset;
+  cursor: pointer;
+  background-color: transparent;
+  margin: auto;
+  overflow: hidden;
+  width: fit-content;
+}
+
+.card-show-img {
+  width: 235px;
+  height: 352px;
+  object-fit: cover;
+  z-index: -1;
+  position: relative;
+  margin-bottom: -6px;
+  transition: all 0.3s;
+  transform: scale(1);
+}
+
+.card-show-img-container:hover .card-show-img {
+  transform: scale(1.1);
+}
+
+.card-show-title {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: fit-content;
+  max-width: 211px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  color: #e7e7e7;
 }
 
 .search-title {
@@ -84,7 +129,7 @@
   background-color: #f0f8ff;
 }
 
-.slider-no-img {
+.card-info-no-img {
   height: 352.5px;
   max-width: 235px;
   object-fit: cover;
@@ -163,6 +208,15 @@
   gap: 5px;
 }
 
+.spinner-div-detailedList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 200px;
+  margin-bottom: 600px;
+}
+
 @media all and (max-width: 499px) {
   .noSearchResults-div p {
     margin-top: 40px;
@@ -176,15 +230,11 @@
     gap: 10px;
   }
 
-  .detailedSlider-wrapper {
-    margin-top: 80px;
-  }
-
   .no-image-div {
     max-width: 235px;
   }
 
-  .slider-no-img {
+  .card-info-no-img {
     max-height: 260px;
     max-width: 180px;
     object-fit: cover;
@@ -192,5 +242,23 @@
 
   .search-title {
     font-size: 1.8rem;
+  }
+
+  .card-show-img-container:hover .card-show-img {
+    transform: none;
+  }
+
+  .card-show-title {
+    width: 180px;
+    font-size: 1rem;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  .card-show-img {
+    width: 180px;
+    height: 280px;
+    transition: none;
+    transform: none;
   }
 }
