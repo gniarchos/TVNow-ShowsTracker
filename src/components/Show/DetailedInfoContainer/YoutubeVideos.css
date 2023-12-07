@@ -1,0 +1,44 @@
+.videos-wrapper {
+  position: relative;
+}
+
+.videos-wrapper p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.youtube-trailer {
+  display: flex;
+  align-items: center;
+}
+
+.trans-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 200px;
+  background: rgba(0, 0, 0, 0);
+  cursor: pointer;
+}
+
+.previewVideos {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  width: 95%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  gap: 10px;
+}
+
+/* MOBILE */
+@media all and (max-width: 499px) {
+  .trans-video {
+    width: 120px;
+    height: 180px;
+  }
+}

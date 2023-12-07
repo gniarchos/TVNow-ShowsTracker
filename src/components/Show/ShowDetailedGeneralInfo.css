@@ -1,0 +1,87 @@
+.all-details-div {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 20%;
+  padding-left: 20px;
+}
+
+.show-social {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 30px;
+  margin-top: 35px;
+}
+
+.socials-links {
+  color: white;
+}
+
+.social-img {
+  cursor: pointer;
+}
+
+.facebook:hover {
+  color: rgb(66, 104, 179);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.instagram:hover {
+  color: #bc2a8d;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.twitter:hover {
+  color: rgb(0, 0, 0);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.imdb:hover {
+  color: rgb(243, 206, 19);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.details-title {
+  margin-bottom: 5px;
+}
+
+.logos-networks-div {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.languages-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.creator {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 1.1rem;
+}
+
+.logos-img {
+  width: 130px;
+}
+
+.show-languages {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+}
+
+@media all and (max-width: 1004px) {
+  .all-details-div {
+    width: 85vw;
+    margin-top: -30px;
+    margin-bottom: 40px;
+  }
+}

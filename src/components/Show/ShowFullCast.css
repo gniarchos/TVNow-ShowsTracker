@@ -1,0 +1,117 @@
+.fullCast-container {
+  margin-top: 60px;
+  margin-left: 3vw;
+  margin-right: 3vw;
+}
+
+.backShow-btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: none;
+  color: #eeeeee;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: -10px;
+  margin-left: -10px;
+  cursor: pointer;
+  z-index: 1;
+  border: none;
+}
+
+.cast-crew-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+}
+
+.fullCast-div {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fullCrew-div {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cast-id-full {
+  background-color: aliceblue;
+  color: #212237;
+  border-radius: 10px;
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.cast-img {
+  width: 220px;
+  height: 230px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.cast-no-img {
+  width: 220px;
+  height: 230px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.cast-info-div {
+  padding: 10px;
+}
+
+.cast-name {
+  white-space: nowrap;
+  margin-bottom: -10px;
+  cursor: pointer;
+}
+
+.cast-subinfo:nth-child(2) {
+  margin-top: 15px;
+}
+
+.cast-subinfo {
+  margin-bottom: 0;
+  margin-top: 5px;
+  color: #a0a0a9;
+}
+
+@media all and (max-width: 1120px) {
+  .cast-crew-wrapper {
+    flex-direction: column;
+  }
+
+  .cast-id-full {
+    width: 93vw;
+  }
+}
+
+@media all and (max-width: 499px) {
+  .cast-img {
+    width: 50%;
+    object-fit: contain;
+    margin-left: -20px;
+  }
+
+  .cast-no-img {
+    width: 50%;
+    object-fit: cover;
+    margin-left: -20px;
+    padding-right: 15px;
+  }
+
+  .cast-info-div {
+    padding-left: 0;
+  }
+}
