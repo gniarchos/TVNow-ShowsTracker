@@ -9,6 +9,8 @@ import ShowOverview from "./components/Show/ShowOverview"
 import DetailedSliders from "./components/DetailedShowsList/DetailedShowsList"
 import Profile from "./components/Profile/Profile"
 import People from "./components/People/People"
+import Layout from "./components/Layout/Layout"
+import PageNotFound from "./components/Other/PageNotFound"
 
 export default function App() {
   return (
@@ -16,26 +18,22 @@ export default function App() {
       <BrowserRouter>
         <AuthProvider>
           <Routes>
-            <Route path="/index" element={<LandingPage />} />
+            <Route index path="/index" element={<LandingPage />} />
+            <Route path="/" element={<PrivateRoute />}>
+              <Route element={<Layout />}>
+                <Route path="/" element={<Home />} />
 
-            <Route exact path="/" element={<PrivateRoute />}>
-              <Route exact path="/" element={<Home />} />
-            </Route>
+                <Route path="/show" element={<ShowOverview />} />
 
-            <Route exact path="/overview" element={<PrivateRoute />}>
-              <Route exact path="/overview" element={<ShowOverview />} />
-            </Route>
+                <Route path="/people" element={<People />} />
 
-            <Route exact path="/people" element={<PrivateRoute />}>
-              <Route exact path="/people" element={<People />} />
-            </Route>
+                <Route path="/discover" element={<DetailedSliders />} />
 
-            <Route exact path="/discover" element={<PrivateRoute />}>
-              <Route exact path="/discover" element={<DetailedSliders />} />
-            </Route>
+                <Route path="/profile" element={<Profile />} />
 
-            <Route exact path="/profile" element={<PrivateRoute />}>
-              <Route exact path="/profile" element={<Profile />} />
+                <Route path="/error404" element={<PageNotFound />} />
+                <Route path="*" element={<PageNotFound />} />
+              </Route>
             </Route>
           </Routes>
         </AuthProvider>
