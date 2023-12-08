@@ -18,6 +18,7 @@ Made with React.
 - Search for any TV show and apply filters
 - User statistics for total TV watch time and episode count
 - Streaming availability in user's country
+- Search for cast and crews - Known for
 - PWA (standalone app) compatibility
 
 ## 🚧 Made with
