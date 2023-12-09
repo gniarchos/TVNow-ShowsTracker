@@ -208,15 +208,6 @@
   gap: 5px;
 }
 
-.spinner-div-detailedList {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 200px;
-  margin-bottom: 600px;
-}
-
 @media all and (max-width: 499px) {
   .noSearchResults-div p {
     margin-top: 40px;
