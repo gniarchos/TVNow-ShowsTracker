@@ -7,6 +7,7 @@ import LandingNavbar from "../Headers/LandingNavbar"
 import def_cover from "../../images/def-cover.jpg"
 import { useAuth } from "../../authentication/AuthContext"
 import { Navigate } from "react-router-dom"
+import Footer from "../Footer/Footer"
 
 export default function LandingPage() {
   const [showLoginPage, setShowLoginPage] = React.useState(false)
@@ -184,6 +185,7 @@ export default function LandingPage() {
           </div>
         </div>
       )}
+      <Footer />
     </>
   )
 }
