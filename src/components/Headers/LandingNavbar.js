@@ -5,7 +5,6 @@ import { Link } from "react-router-dom"
 
 export default function LandingNavbar(props) {
   const backgroundStyle = {
-    // background: "rgb(12, 13, 13, 0.2)",
     background: "transparent",
   }
 
