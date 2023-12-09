@@ -5,11 +5,12 @@ import { Link } from "react-router-dom"
 
 export default function LandingNavbar(props) {
   const backgroundStyle = {
-    background: "rgb(12, 13, 13, 0.2)",
+    // background: "rgb(12, 13, 13, 0.2)",
+    background: "transparent",
   }
 
   return (
-    <div style={backgroundStyle} className="navbar-wrapper">
+    <div style={backgroundStyle} className="navbar-wrapper landing">
       <Link to="/" className="logo-link">
         <img className="logo-img" src={logo} alt="logo" />
       </Link>
