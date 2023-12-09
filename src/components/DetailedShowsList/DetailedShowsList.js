@@ -6,6 +6,7 @@ import ReactPaginate from "react-paginate"
 import PuffLoader from "react-spinners/PuffLoader"
 import ShowCard from "./ShowCard"
 import Filters from "./Filters"
+import Loader from "../Other/Loader"
 
 export default function DetailedShowsList() {
   document.title = "TVTime | TV Shows Tracker"
@@ -87,6 +88,7 @@ export default function DetailedShowsList() {
   useEffect(() => {
     window.scrollTo(0, 0)
 
+    // TODO: make promise all type of fetch
     if (fetchLink === undefined) {
       setLoading(true)
     } else {
@@ -133,6 +135,10 @@ export default function DetailedShowsList() {
     param_section_filter = id
   }
 
+  if (loading) {
+    return <Loader />
+  }
+
   return (
     <div className="detailedSlider-wrapper">
       <div className="title-link-detailed">
@@ -153,7 +159,7 @@ export default function DetailedShowsList() {
           />
         )}
 
-      {allShows.length <= 0 && !loading && (
+      {allShows.length <= 0 && (
         <div className="noSearchResults-div">
           <p>
             <Icon icon="ic:baseline-sms-failed" width={30} />
@@ -164,14 +170,7 @@ export default function DetailedShowsList() {
 
       <ShowCard allShows={allShows} />
 
-      {loading && (
-        <div className="spinner-div-detailedList">
-          <PuffLoader color={"white"} size={100} />
-          <h3>Reloading Data...</h3>
-        </div>
-      )}
-
-      {allShows.length > 0 && totalPages > 2 && !loading && (
+      {allShows.length > 0 && totalPages > 2 && (
         <div className="pagination-container">
           <ReactPaginate
             breakLabel="..."
