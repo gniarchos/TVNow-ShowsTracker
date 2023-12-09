@@ -60,7 +60,7 @@ export default function ShowOverview() {
     const fetchUserStatusOfShow = () => {
       return db
         .collection(`watchlist-${currentUser.uid}`)
-        .where("show_name", "==", param_show_name)
+        .where("show_id", "==", param_show_id)
         .onSnapshot((snapshot) => {
           setShowUserStatus(
             snapshot.docs.map((doc) => ({

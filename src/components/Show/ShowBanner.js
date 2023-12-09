@@ -12,9 +12,8 @@ export default function ShowBanner(props) {
   }
 
   useEffect(() => {
-    // setIsShowAddedInWatchList(false)
     db.collection(`watchlist-${props.currentUser}`)
-      .where("show_name", "==", props.show_name)
+      .where("show_id", "==", props.show_id)
       .get()
       .then((querySnapshot) => {
         if (!querySnapshot.empty) {
@@ -79,7 +78,7 @@ export default function ShowBanner(props) {
     const continueWatching = async () => {
       return await db
         .collection(`watchlist-${props.currentUser}`)
-        .where("show_name", "==", props.show_name)
+        .where("show_id", "==", props.show_id)
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
@@ -93,12 +92,10 @@ export default function ShowBanner(props) {
 
     Promise.all([continueWatching()])
       .then(() => {
-        console.log("Show re-added watching list")
-        // Handle any additional logic after both API calls are completed
+        // console.log("Show re-added watching list")
       })
       .catch((error) => {
         console.error("Error adding to database:", error)
-        // Handle errors if any of the promises reject
       })
   }
 
@@ -120,12 +117,10 @@ export default function ShowBanner(props) {
 
     Promise.all([stopWatching()])
       .then(() => {
-        console.log("Show removed from watching list")
-        // Handle any additional logic after both API calls are completed
+        // console.log("Show removed from watching list")
       })
       .catch((error) => {
         console.error("Error adding to database:", error)
-        // Handle errors if any of the promises reject
       })
   }
 
