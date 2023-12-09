@@ -1,4 +1,5 @@
-import { useEffect, useState, createContext, useRef } from "react"
+import { useEffect, useState, createContext } from "react"
+import Loader from "../Other/Loader"
 import ScrollToTop from "../Other/ScrollToTop"
 import CancelledShows from "./CancelledShows"
 import ProfileCover from "./ProfileCover"
@@ -7,7 +8,6 @@ import ProfileStatistics from "./ProfileStatistics"
 import ProfileWatchNext from "./ProfileWatchNext"
 import "./Profile.css"
 import { db } from "../../services/firebase"
-import PuffLoader from "react-spinners/PuffLoader"
 import ProfileUpToDate from "./ProfileUpToDate"
 import ProfileWatchList from "./ProfileWatchlist"
 import ProfileFinishedStopped from "./ProfileFinishedStopped"
@@ -219,12 +219,7 @@ export default function Profile() {
   }
 
   if (loading) {
-    return (
-      <div className="spinner-div-profile">
-        <PuffLoader color={"white"} size={100} />
-        <h3>Reloading Data...</h3>
-      </div>
-    )
+    return <Loader />
   }
 
   return (

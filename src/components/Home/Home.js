@@ -3,6 +3,7 @@ import "./Home.css"
 import PuffLoader from "react-spinners/PuffLoader"
 import MySuggestions from "./MySuggestions"
 import ShowsList from "./ShowsList"
+import Loader from "../Other/Loader"
 
 export default function Home() {
   const [allTrending, setAllTrending] = useState([])
@@ -61,12 +62,7 @@ export default function Home() {
   }, [])
 
   if (loading) {
-    return (
-      <div className="spinner-div-home">
-        <PuffLoader color={"white"} size={100} />
-        <h3>Reloading Data...</h3>
-      </div>
-    )
+    return <Loader />
   }
 
   return (

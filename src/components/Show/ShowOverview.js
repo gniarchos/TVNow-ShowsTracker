@@ -4,6 +4,7 @@ import { useAuth } from "../../authentication/AuthContext"
 import { useSearchParams } from "react-router-dom"
 import { db } from "../../services/firebase"
 import PuffLoader from "react-spinners/PuffLoader"
+import Loader from "../Other/Loader"
 
 const ShowBanner = lazy(() => import("./ShowBanner"))
 const ScrollToTop = lazy(() => import("../Other/ScrollToTop"))
@@ -146,12 +147,7 @@ export default function ShowOverview() {
   }
 
   if (isLoading) {
-    return (
-      <div className="spinner-div-show">
-        <PuffLoader color={"white"} size={100} />
-        <h3>Reloading Data...</h3>
-      </div>
-    )
+    return <Loader />
   } else if (toggleFullCast) {
     return (
       <div>

@@ -4,6 +4,7 @@ import "./People.css"
 import noImg from "../../images/no-image.png"
 import noFace from "../../images/no-face.png"
 import PuffLoader from "react-spinners/PuffLoader"
+import Loader from "../Other/Loader"
 
 export default function People() {
   const [personDetails, setPersonDetails] = React.useState([])
@@ -218,12 +219,7 @@ export default function People() {
     })
 
   if (isLoading) {
-    return (
-      <div className="spinner-div-home">
-        <PuffLoader color={"white"} size={100} />
-        <h3>Reloading Data...</h3>
-      </div>
-    )
+    return <Loader />
   }
 
   return (
