@@ -5,18 +5,25 @@
 ### Added
 
 - Re-added the footer on the Landing page.
+- Added a new file inside Other folder, "Loader", to include it in every component that has a loader.
 
 ### Updated
 
 - Reduced the size of the TVTime logo in the navbar in the PWA app.
 - Decreased the height of the bottom navbar in the PWA app.
 - Adjusted the position of the logout button in the PWA app.
+- Cleaned up "DetailedShowsList" component code.
 
 ### Fixed
 
 - Corrected the wrong position of the search bar in the PWA app.
 - Made minor UI fixes to the Login/Logout buttons in the navbar on the landing page.
 - Rectified the navbar in the Landing page and its interaction with the content below in the UI.
+- Fixed a bug in Show Overview that caused the page to crash if the first air date waw empty.
+
+### Removed
+
+- Removed loader code from every component, and replaced it with a new Loader component.
 
 ---
 
