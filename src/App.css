@@ -50,3 +50,11 @@ body {
   justify-content: space-between;
   padding-bottom: 80px;
 }
+
+.loader-div-global {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
