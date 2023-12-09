@@ -20,6 +20,7 @@
 - Made minor UI fixes to the Login/Logout buttons in the navbar on the landing page.
 - Rectified the navbar in the Landing page and its interaction with the content below in the UI.
 - Fixed a bug in Show Overview that caused the page to crash if the first air date waw empty.
+- Fixed a bug that caused two shows with the same name to be added to user's Watchlist.
 
 ### Removed
 
