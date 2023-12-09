@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.9.1] - 9-12-2023
+
+### Added
+
+- Re-added the footer on the Landing page.
+
+### Updated
+
+- Reduced the size of the TVTime logo in the navbar in the PWA app.
+- Decreased the height of the bottom navbar in the PWA app.
+- Adjusted the position of the logout button in the PWA app.
+
+### Fixed
+
+- Corrected the wrong position of the search bar in the PWA app.
+- Made minor UI fixes to the Login/Logout buttons in the navbar on the landing page.
+- Rectified the navbar in the Landing page and its interaction with the content below in the UI.
+
+---
+
 ## [1.9.0] - 7-12-2023
 
 ### Added
