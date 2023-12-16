@@ -7,6 +7,7 @@
 - Fixed the "Show Full Cast" button in Show to cause page to break.
 - Fixed shows not getting the user's watching status in Show Overview.
 - Fixed upcoming date for new Shows to be blank if not date is announced, now it displays "Coming Soon".
+- Fixed the format of the show ID to be added in user's Watchlist in database that caused issues.
 
 ---
 
