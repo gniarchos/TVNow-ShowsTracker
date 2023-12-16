@@ -13,10 +13,11 @@ export default function ShowBanner(props) {
 
   useEffect(() => {
     db.collection(`watchlist-${props.currentUser}`)
-      .where("show_id", "==", props.show_id)
+      .where("show_id", "==", parseInt(props.show_id))
       .get()
       .then((querySnapshot) => {
         if (!querySnapshot.empty) {
+          console.log("hey")
           setIsShowAddedInWatchList(true)
         }
       })
@@ -26,7 +27,7 @@ export default function ShowBanner(props) {
     const addShowToDatabase = async () => {
       return await addDoc(collection(db, `watchlist-${props.currentUser}`), {
         show_name: props.show_name,
-        show_id: props.show_id,
+        show_id: parseInt(props.show_id),
         season_number: 1,
         episode_number: 0,
         status: "not_started",
@@ -78,7 +79,7 @@ export default function ShowBanner(props) {
     const continueWatching = async () => {
       return await db
         .collection(`watchlist-${props.currentUser}`)
-        .where("show_id", "==", props.show_id)
+        .where("show_id", "==", parseInt(props.show_id))
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {

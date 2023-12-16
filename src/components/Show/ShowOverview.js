@@ -5,14 +5,16 @@ import { useSearchParams } from "react-router-dom"
 import { db } from "../../services/firebase"
 import PuffLoader from "react-spinners/PuffLoader"
 import Loader from "../Other/Loader"
+import ShowFullCast from "./ShowFullCast"
+import ShowBanner from "./ShowBanner"
 
-const ShowBanner = lazy(() => import("./ShowBanner"))
+// const ShowBanner = lazy(() => import("./ShowBanner"))
 const ScrollToTop = lazy(() => import("../Other/ScrollToTop"))
 const ShowTrackingInfo = lazy(() => import("./ShowTrackingInfo"))
 const ShowDetailedInfoContainer = lazy(() =>
   import("./DetailedInfoContainer/ShowDetailedInfoContainer")
 )
-const ShowFullCast = lazy(() => import("./ShowFullCast"))
+// const ShowFullCast = lazy(() => import("./ShowFullCast"))
 const ShowDetailedGeneralInfo = lazy(() => import("./ShowDetailedGeneralInfo"))
 
 export const ShowOverviewContext = createContext()
@@ -60,7 +62,7 @@ export default function ShowOverview() {
     const fetchUserStatusOfShow = () => {
       return db
         .collection(`watchlist-${currentUser.uid}`)
-        .where("show_id", "==", param_show_id)
+        .where("show_id", "==", parseInt(param_show_id))
         .onSnapshot((snapshot) => {
           setShowUserStatus(
             snapshot.docs.map((doc) => ({
