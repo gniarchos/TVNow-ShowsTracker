@@ -124,6 +124,10 @@ export default function ProfileEpisodes(props) {
     e.currentTarget.src = noImg
   }
 
+  if (props.showName === "Doctor Who") {
+    console.log(props.nextEpisodeDate)
+  }
+
   return (
     <div
       className={
@@ -171,10 +175,17 @@ export default function ProfileEpisodes(props) {
         {props.is_premiering === "true" ||
         (props.isInSectionUpToDate === true &&
           JSON.stringify(props.nextEpisodeDate) !== "[false]") ? (
-          <h3 className="runtime-release upcoming">
-            <Icon icon="fontisto:date" />
-            {props.nextEpisodeDate}
-          </h3>
+          props.nextEpisodeDate[0] !== false ? (
+            <h3 className="runtime-release upcoming">
+              <Icon icon="fontisto:date" />
+              {props.nextEpisodeDate}
+            </h3>
+          ) : (
+            <h3 className="runtime-release upcoming">
+              <Icon icon="fontisto:date" />
+              Coming Soon
+            </h3>
+          )
         ) : (
           props.episode_time[0] !== 0 &&
           props.episode_time[0] !== null &&
