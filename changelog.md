@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.9.2] - 16-12-2023
+
+### Fixed
+
+- Fixed the "Show Full Cast" button in Show to cause page to break.
+- Fixed shows not getting the user's watching status in Show Overview.
+- Fixed upcoming date for new Shows to be blank if not date is announced, now it displays "Coming Soon".
+
+---
+
 ## [1.9.1] - 9-12-2023
 
 ### Added
