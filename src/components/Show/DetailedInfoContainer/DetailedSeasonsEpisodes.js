@@ -166,7 +166,7 @@ export default function DetailedSeasonsEpisodes(props) {
       const addSeasonToHistory = () => {
         return addDoc(collection(db, `history-${props.currentUser}`), {
           show_name: props.showData.name,
-          show_id: props.showData.id,
+          show_id: parseInt(props.showData.id),
           season_number: parseInt(seasonNumber),
           episode_number: seasonRuntimeData.length,
           date_watched: serverTimestamp(),

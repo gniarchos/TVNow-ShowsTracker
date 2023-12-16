@@ -36,7 +36,7 @@ export default function ProfileEpisodes(props) {
     const addEpisodeToHistory = () => {
       return addDoc(collection(db, `history-${props.currentUserID}`), {
         show_name: props.showName,
-        show_id: props.show_id,
+        show_id: parseInt(props.show_id),
         season_number: props.season_number,
         episode_number: props.episode_number,
         date_watched: serverTimestamp(),
