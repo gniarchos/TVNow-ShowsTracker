@@ -203,6 +203,26 @@
 
 .confirmation-wrapper {
   position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.6s ease-in-out;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.confirmation-wrapper.isActive {
+  visibility: visible;
+  opacity: 1;
+}
+
+.confirmation-container {
+  position: absolute;
   top: -500px;
   left: 50%;
   transform: translateX(-50%);
@@ -220,7 +240,7 @@
   opacity: 0;
 }
 
-.confirmation-wrapper.isActive {
+.confirmation-container.isActive {
   visibility: visible;
   opacity: 1;
   top: 90px;

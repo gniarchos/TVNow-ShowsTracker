@@ -229,14 +229,22 @@ export default function MainNavbar(props) {
               : "confirmation-wrapper"
           }
         >
-          <p className="confirm-msg">Are you sure you want to log out?</p>
-          <div className="confirmation-btns-container">
-            <button onClick={isUserWantToLogOut} className="confirmation-btn">
-              Confirm
-            </button>
-            <button onClick={cancelLoggingOut} className="confirmation-btn">
-              Cancel
-            </button>
+          <div
+            className={
+              showConfirmationLogOut
+                ? "confirmation-container isActive"
+                : "confirmation-container"
+            }
+          >
+            <p className="confirm-msg">Are you sure you want to log out?</p>
+            <div className="confirmation-btns-container">
+              <button onClick={isUserWantToLogOut} className="confirmation-btn">
+                Confirm
+              </button>
+              <button onClick={cancelLoggingOut} className="confirmation-btn">
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -369,14 +377,25 @@ export default function MainNavbar(props) {
                 : "confirmation-wrapper"
             }
           >
-            <p className="confirm-msg">Are you sure you want to log out?</p>
-            <div className="confirmation-btns-container">
-              <button onClick={isUserWantToLogOut} className="confirmation-btn">
-                Confirm
-              </button>
-              <button onClick={cancelLoggingOut} className="confirmation-btn">
-                Cancel
-              </button>
+            <div
+              className={
+                showConfirmationLogOut
+                  ? "confirmation-container isActive"
+                  : "confirmation-container"
+              }
+            >
+              <p className="confirm-msg">Are you sure you want to log out?</p>
+              <div className="confirmation-btns-container">
+                <button
+                  onClick={isUserWantToLogOut}
+                  className="confirmation-btn"
+                >
+                  Confirm
+                </button>
+                <button onClick={cancelLoggingOut} className="confirmation-btn">
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -58,3 +58,14 @@ body {
   justify-content: center;
   height: 100vh;
 }
+
+.loader-div-global p {
+  margin-top: -10px;
+}
+
+/* MOBILE */
+@media screen and (max-width: 499px) {
+  .loader-div-global {
+    height: 80vh;
+  }
+}

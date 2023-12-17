@@ -6,7 +6,8 @@ export default function Loader() {
   return (
     <div className="loader-div-global">
       <PuffLoader color={"white"} size={100} />
-      <h3>Reloading Data...</h3>
+      <h2>Just a moment... </h2>
+      <p>Popcorns on the way!</p>
     </div>
   )
 }
