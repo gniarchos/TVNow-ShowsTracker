@@ -43,52 +43,57 @@ export default function ShowDetailedGeneralInfo(props) {
   })
   return (
     <div className="all-details-div">
-      <div className="show-social">
-        {props.showData.external_ids?.facebook_id !== null && (
-          <a
-            className="socials-links"
-            href={`https://www.facebook.com/watch/${props.showData.external_ids?.facebook_id}`}
-          >
-            <Icon
-              className="social-img facebook"
-              icon="akar-icons:facebook-fill"
-              width={30}
-            />
-          </a>
-        )}
-        {props.showData.external_ids?.instagram_id !== null && (
-          <a
-            className="socials-links"
-            href={`https://www.instagram.com/${props.showData.external_ids?.instagram_id}`}
-          >
-            <Icon
-              className="social-img instagram"
-              icon="akar-icons:instagram-fill"
-              width={30}
-            />
-          </a>
-        )}
-        {props.showData.external_ids?.twitter_id !== null && (
-          <a
-            className="socials-links"
-            href={`https://twitter.com/${props.showData.external_ids?.twitter_id}`}
-          >
-            <Icon
-              className="social-img twitter"
-              icon="simple-icons:x"
-              width={30}
-            />
-          </a>
-        )}
-        {props.showData.external_ids?.imdb_id !== null && (
-          <a
-            className="socials-links"
-            href={`https://www.imdb.com/title/${props.showData.external_ids?.imdb_id}`}
-          >
-            <Icon className="social-img imdb" icon="cib:imdb" width={30} />
-          </a>
-        )}
-      </div>
+      {props.showData.external_ids?.facebook_id !== null ||
+        props.showData.external_ids?.instagram_id !== null ||
+        props.showData.external_ids?.twitter_id !== null ||
+        (props.showData.external_ids?.imdb_id !== null && (
+          <div className="show-social">
+            {props.showData.external_ids?.facebook_id !== null && (
+              <a
+                className="socials-links"
+                href={`https://www.facebook.com/watch/${props.showData.external_ids?.facebook_id}`}
+              >
+                <Icon
+                  className="social-img facebook"
+                  icon="akar-icons:facebook-fill"
+                  width={30}
+                />
+              </a>
+            )}
+            {props.showData.external_ids?.instagram_id !== null && (
+              <a
+                className="socials-links"
+                href={`https://www.instagram.com/${props.showData.external_ids?.instagram_id}`}
+              >
+                <Icon
+                  className="social-img instagram"
+                  icon="akar-icons:instagram-fill"
+                  width={30}
+                />
+              </a>
+            )}
+            {props.showData.external_ids?.twitter_id !== null && (
+              <a
+                className="socials-links"
+                href={`https://twitter.com/${props.showData.external_ids?.twitter_id}`}
+              >
+                <Icon
+                  className="social-img twitter"
+                  icon="simple-icons:x"
+                  width={30}
+                />
+              </a>
+            )}
+            {props.showData.external_ids?.imdb_id !== null && (
+              <a
+                className="socials-links"
+                href={`https://www.imdb.com/title/${props.showData.external_ids?.imdb_id}`}
+              >
+                <Icon className="social-img imdb" icon="cib:imdb" width={30} />
+              </a>
+            )}
+          </div>
+        ))}
 
       {props.showData.networks?.length > 0 && (
         <div>
