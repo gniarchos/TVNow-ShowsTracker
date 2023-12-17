@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.9.3] - 17-12-2023
+
+### Updated
+
+- Updated the log out confirmation message in the PWA app by adding an transparent background.
+- Rename the "Reloading data..." in Loader into "Just a moment... Popcorns on the way!".
+
+### Fixed
+
+- Fixed social media container to be visible even if there are no social media for the Show.
+
+---
+
 ## [1.9.2] - 16-12-2023
 
 ### Fixed
