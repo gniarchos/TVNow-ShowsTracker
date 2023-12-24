@@ -88,21 +88,29 @@ export default function DetailedShowsList() {
   useEffect(() => {
     window.scrollTo(0, 0)
 
-    // TODO: make promise all type of fetch
     if (fetchLink === undefined) {
       setLoading(true)
     } else {
       setLoading(true)
-      fetch(fetchLink)
-        .then((res) => res.json())
-        .then((data) => {
-          // console.log(data)
-          setTotalPages(data.total_pages)
-          setAllShows(data.results)
-          setTotalResults(data.total_results)
-        })
-        .finally(() => {
+
+      const fetchLinkData = async () => {
+        return await fetch(fetchLink)
+          .then((res) => res.json())
+          .then((data) => {
+            // console.log(data)
+            setTotalPages(data.total_pages)
+            setAllShows(data.results)
+            setTotalResults(data.total_results)
+          })
+      }
+
+      Promise.all([fetchLinkData()])
+        .then(() => {
+          // console.log("Both fetch calls finished.")
           setLoading(false)
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error)
         })
     }
   }, [fetchLink])
