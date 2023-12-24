@@ -46,7 +46,6 @@ export default function ShowBanner(props) {
         .get()
         .then((querySnapshot) => {
           if (!querySnapshot.empty) {
-            console.log("hey")
             setIsShowAddedInWatchList(true)
           }
         })
