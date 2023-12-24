@@ -29,9 +29,6 @@ export default function ShowOverview() {
 
   const [showData, setShowData] = useState()
   const [isLoading, setIsLoading] = useState(true)
-  const [imdbRating, setImdbRating] = useState(0.0)
-  const [rottenTomatoesRating, setRottenTomatoesRating] = useState(0)
-  const [traktRating, setTraktRating] = useState(0)
   const [streamServicesAvailable, setStreamServicesAvailable] = useState([])
   const [showUserStatus, setShowUserStatus] = useState()
   const [mobile, setMobile] = useState(window.innerWidth <= 499)
@@ -89,30 +86,6 @@ export default function ShowOverview() {
   useEffect(() => {
     const userCountry = localStorage.getItem("userCountry")
 
-    const fetchRatingsData = async () => {
-      return await fetch(
-        `https://mdblist.p.rapidapi.com/?i=${showData?.external_ids?.imdb_id}`,
-        {
-          method: "GET",
-          headers: {
-            "X-RapidAPI-Key": process.env.REACT_APP_MDBLIST_API,
-            "X-RapidAPI-Host": "mdblist.p.rapidapi.com",
-          },
-        }
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.response) {
-            setImdbRating(data.ratings[0]?.value)
-            setRottenTomatoesRating(data.ratings[4]?.value)
-            setTraktRating(data.ratings[3]?.value)
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching data from endpoint 2:", error)
-        })
-    }
-
     const fetchAvailabilityData = async () => {
       return await fetch(
         `https://streaming-availability.p.rapidapi.com/get?output_language=en&country=gr&imdb_id=${showData?.external_ids?.imdb_id}`,
@@ -135,7 +108,7 @@ export default function ShowOverview() {
         })
     }
 
-    Promise.all([fetchRatingsData(), fetchAvailabilityData()])
+    Promise.all([fetchAvailabilityData()])
       .then(() => {
         // console.log("Both API calls finished.")
       })
@@ -156,9 +129,6 @@ export default function ShowOverview() {
         <ScrollToTop />
         <ShowBanner
           showData={showData}
-          imdbRating={imdbRating}
-          rottenTomatoesRating={rottenTomatoesRating}
-          traktRating={traktRating}
           currentUser={currentUser.uid}
           show_name={param_show_name}
           show_id={param_show_id}
@@ -176,9 +146,6 @@ export default function ShowOverview() {
       <ScrollToTop />
       <ShowBanner
         showData={showData}
-        imdbRating={imdbRating}
-        rottenTomatoesRating={rottenTomatoesRating}
-        traktRating={traktRating}
         currentUser={currentUser.uid}
         show_name={param_show_name}
         show_id={param_show_id}
@@ -198,9 +165,6 @@ export default function ShowOverview() {
             isMobile={mobile}
             showUserStatus={showUserStatus}
             currentUser={currentUser.uid}
-            imdbRating={imdbRating}
-            rottenTomatoesRating={rottenTomatoesRating}
-            traktRating={traktRating}
           />
         </ShowOverviewContext.Provider>
         <ShowDetailedGeneralInfo showData={showData} />

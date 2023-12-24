@@ -10,16 +10,54 @@ export default function ShowBanner(props) {
   const divImgStyle = {
     backgroundImage: `url('https://image.tmdb.org/t/p/original/${props.showData.backdrop_path}')`,
   }
+  const [imdbRating, setImdbRating] = useState(0.0)
+  const [rottenTomatoesRating, setRottenTomatoesRating] = useState(0)
+  const [traktRating, setTraktRating] = useState(0)
 
   useEffect(() => {
-    db.collection(`watchlist-${props.currentUser}`)
-      .where("show_id", "==", parseInt(props.show_id))
-      .get()
-      .then((querySnapshot) => {
-        if (!querySnapshot.empty) {
-          console.log("hey")
-          setIsShowAddedInWatchList(true)
+    const fetchRatingsData = async () => {
+      return await fetch(
+        `https://mdblist.p.rapidapi.com/?i=${props.showData?.external_ids?.imdb_id}`,
+        {
+          method: "GET",
+          headers: {
+            "X-RapidAPI-Key": process.env.REACT_APP_MDBLIST_API,
+            "X-RapidAPI-Host": "mdblist.p.rapidapi.com",
+          },
         }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.response) {
+            setImdbRating(data.ratings[0]?.value)
+            setRottenTomatoesRating(data.ratings[4]?.value)
+            setTraktRating(data.ratings[3]?.value)
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching data from endpoint 2:", error)
+        })
+    }
+
+    const checkIfShowAddedInWatchList = async () => {
+      return await db
+        .collection(`watchlist-${props.currentUser}`)
+        .where("show_id", "==", parseInt(props.show_id))
+        .get()
+        .then((querySnapshot) => {
+          if (!querySnapshot.empty) {
+            console.log("hey")
+            setIsShowAddedInWatchList(true)
+          }
+        })
+    }
+
+    Promise.all([fetchRatingsData(), checkIfShowAddedInWatchList()])
+      .then(() => {
+        // console.log("Both API calls finished.")
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error)
       })
   }, [])
 
@@ -154,9 +192,7 @@ export default function ShowBanner(props) {
                 alt="IMDB Logo"
               />
               <p className="rating-num">
-                {props.imdbRating === null
-                  ? "-"
-                  : parseFloat(props.imdbRating).toFixed(1)}
+                {imdbRating === null ? "-" : parseFloat(imdbRating).toFixed(1)}
                 <Icon icon="eva:star-fill" color="#fed600" />
               </p>
             </div>
@@ -168,10 +204,7 @@ export default function ShowBanner(props) {
                 alt="Rotten Tomatoes"
               />
               <p className="rating-num">
-                {props.rottenTomatoesRating === null
-                  ? "-"
-                  : props.rottenTomatoesRating}{" "}
-                %
+                {rottenTomatoesRating === null ? "-" : rottenTomatoesRating} %
               </p>
             </div>
 
@@ -182,7 +215,7 @@ export default function ShowBanner(props) {
                 alt="trakt"
               />
               <p className="rating-num">
-                {props.traktRating === null ? "-" : props.traktRating} %
+                {traktRating === null ? "-" : traktRating} %
               </p>
             </div>
           </div>
