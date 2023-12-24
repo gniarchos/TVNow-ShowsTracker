@@ -48,7 +48,8 @@ export default function DetailedShowCast(props) {
             <div className="fullListCast-div">
               <button
                 onClick={showHideFullCast}
-                to={`/show/full-cast?show_name=${props.show_name}&show_id=${props.show_id}&imdbRating=${props.imdbRating}&rottenTomatoesRating=${props.rottenTomatoesRating}&traktRating=${props.traktRating}`}
+                to={`/show/full-cast?show_name=${props.show_name}&show_id=${props.show_id}`}
+                type="button"
                 className="all-cast-btn"
               >
                 Full List
