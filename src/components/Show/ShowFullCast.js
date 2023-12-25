@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import noFace from "../../images/no-face.png"
 import "./ShowFullCast.css"
@@ -8,9 +8,25 @@ import { ShowOverviewContext } from "./ShowOverview"
 export default function ShowFullCast(props) {
   const { showHideFullCast } = useContext(ShowOverviewContext)
 
+  const [onlyCastFilter, setOnlyCastFilter] = useState(false)
+  const [onlyCrewFilter, setOnlyCrewFilter] = useState(false)
+
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 430)
   }, [])
+
+  function changeFilter(type) {
+    if (type === "all") {
+      setOnlyCastFilter(false)
+      setOnlyCrewFilter(false)
+    } else if (type === "cast") {
+      setOnlyCastFilter(true)
+      setOnlyCrewFilter(false)
+    } else if (type === "crew") {
+      setOnlyCrewFilter(true)
+      setOnlyCastFilter(false)
+    }
+  }
 
   const fullCast = props.showData.aggregate_credits?.cast.map((person) => {
     return (
@@ -73,16 +89,69 @@ export default function ShowFullCast(props) {
           <Icon icon="bi:arrow-left" />
           Back to Show
         </button>
-        <div className="cast-crew-wrapper">
-          <div className="fullCast-div">
-            <h1>Full Cast</h1>
-            {fullCast}
-          </div>
-          <div className="fullCrew-div">
-            <h1>Full Crew</h1>
-            {fullCrew}
-          </div>
+        <div className="fullCast-fullCrew-container">
+          <button
+            onClick={() => changeFilter("all")}
+            className={
+              !onlyCastFilter && !onlyCrewFilter
+                ? "fullCast-fullCrew-btn active"
+                : "fullCast-fullCrew-btn"
+            }
+          >
+            All Cast & Crew
+          </button>
+          <button
+            onClick={() => changeFilter("cast")}
+            className={
+              onlyCastFilter && !onlyCrewFilter
+                ? "fullCast-fullCrew-btn active"
+                : "fullCast-fullCrew-btn"
+            }
+          >
+            Only Cast
+          </button>
+          <button
+            onClick={() => changeFilter("crew")}
+            className={
+              !onlyCastFilter && onlyCrewFilter
+                ? "fullCast-fullCrew-btn active"
+                : "fullCast-fullCrew-btn"
+            }
+          >
+            Only Crew
+          </button>
         </div>
+
+        {!onlyCastFilter && !onlyCrewFilter && (
+          <div className="cast-crew-wrapper">
+            <div className="fullCast-div">
+              <h1 className="fullCastCrew-title">Full Cast</h1>
+              {fullCast}
+            </div>
+            <div className="fullCrew-div">
+              <h1 className="fullCastCrew-title">Full Crew</h1>
+              {fullCrew}
+            </div>
+          </div>
+        )}
+
+        {onlyCastFilter && !onlyCrewFilter && (
+          <div className="cast-crew-wrapper">
+            <div className="fullCast-div active">
+              <h1 className="fullCastCrew-title">Full Cast</h1>
+              {fullCast}
+            </div>
+          </div>
+        )}
+
+        {!onlyCastFilter && onlyCrewFilter && (
+          <div className="cast-crew-wrapper">
+            <div className="fullCrew-div active">
+              <h1 className="fullCastCrew-title">Full Crew</h1>
+              {fullCrew}
+            </div>
+          </div>
+        )}
       </div>
     </>
   )
