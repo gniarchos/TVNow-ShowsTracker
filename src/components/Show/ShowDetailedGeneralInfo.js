@@ -26,7 +26,7 @@ export default function ShowDetailedGeneralInfo(props) {
   const [started_year, started_month, started_day] =
     props.showData?.first_air_date !== null &&
     props.showData?.first_air_date !== ""
-      ? props.showData.last_episode_to_air?.air_date.split("-")
+      ? props.showData?.first_air_date.split("-")
       : ["-", "-", "-"]
 
   const yearStarted =
