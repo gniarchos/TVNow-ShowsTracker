@@ -1,11 +1,31 @@
 # Changelog
 
+## [1.9.4] - 25-12-2023
+
+### Added
+
+- Added filters in Full Cast page to improve user experience.
+
+### Updated
+
+- Renamed the "Just a moment... Popcorns on the way!" in Loader into "Just a moment Popcorns on the way!".
+- Optimized code in DetailedShowsList component for handling better the fetching of data.
+- Cleared code.
+- Updated the UI in Full Cast page.
+
+### Fixed
+
+- Fixed ratings in Shows not displaying the correct rating sometimes.
+- Fixed toggling Full Cast button in Show to cause page load slow and removed unnecessary link parameters.
+
+---
+
 ## [1.9.3] - 17-12-2023
 
 ### Updated
 
 - Updated the log out confirmation message in the PWA app by adding an transparent background.
-- Rename the "Reloading data..." in Loader into "Just a moment... Popcorns on the way!".
+- Renamed the "Reloading data..." in Loader into "Just a moment... Popcorns on the way!".
 
 ### Fixed
 
