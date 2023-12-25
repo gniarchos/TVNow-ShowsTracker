@@ -17,6 +17,7 @@
 
 - Fixed ratings in Shows not displaying the correct rating sometimes.
 - Fixed toggling Full Cast button in Show to cause page load slow and removed unnecessary link parameters.
+- Fixed in Show the show's started date displaying incorrect date.
 
 ---
 
