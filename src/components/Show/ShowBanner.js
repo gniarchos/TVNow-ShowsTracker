@@ -13,6 +13,7 @@ export default function ShowBanner(props) {
   const [imdbRating, setImdbRating] = useState(0.0)
   const [rottenTomatoesRating, setRottenTomatoesRating] = useState(0)
   const [traktRating, setTraktRating] = useState(0)
+  const [isShowPreviouslyRemoved, setIsShowPreviouslyRemoved] = useState(false)
 
   useEffect(() => {
     const fetchRatingsData = async () => {
@@ -46,12 +47,24 @@ export default function ShowBanner(props) {
         .get()
         .then((querySnapshot) => {
           if (!querySnapshot.empty) {
-            setIsShowAddedInWatchList(true)
+            querySnapshot.forEach((doc) => {
+              // console.log("Document data:", doc.data())
+              if (doc.data().status !== "removed") {
+                setIsShowAddedInWatchList(true)
+                setIsShowPreviouslyRemoved(false)
+              } else {
+                setIsShowAddedInWatchList(false)
+                setIsShowPreviouslyRemoved(true)
+              }
+            })
           }
         })
     }
 
-    Promise.all([fetchRatingsData(), checkIfShowAddedInWatchList()])
+    Promise.all([
+      // fetchRatingsData(),
+      checkIfShowAddedInWatchList(),
+    ])
       .then(() => {
         // console.log("Both API calls finished.")
       })
@@ -62,14 +75,29 @@ export default function ShowBanner(props) {
 
   function addShowToWatchList() {
     const addShowToDatabase = async () => {
-      return await addDoc(collection(db, `watchlist-${props.currentUser}`), {
-        show_name: props.show_name,
-        show_id: parseInt(props.show_id),
-        season_number: 1,
-        episode_number: 0,
-        status: "not_started",
-        date_watched: serverTimestamp(),
-      })
+      if (isShowPreviouslyRemoved) {
+        return await db
+          .collection(`watchlist-${props.currentUser}`)
+          .where("show_id", "==", parseInt(props.show_id))
+          .get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              doc.ref.update({
+                status: "watching",
+                date_watched: serverTimestamp(),
+              })
+            })
+          })
+      } else {
+        return await addDoc(collection(db, `watchlist-${props.currentUser}`), {
+          show_name: props.show_name,
+          show_id: parseInt(props.show_id),
+          season_number: 1,
+          episode_number: 0,
+          status: "not_started",
+          date_watched: serverTimestamp(),
+        })
+      }
     }
 
     Promise.all([addShowToDatabase()])
@@ -85,31 +113,31 @@ export default function ShowBanner(props) {
   }
 
   function removeShowFromWatchList() {
-    // TODO: proper deletion of the show and user's data (see issue in notes)
-    // const removeShowFromDatabase = async () => {
-    //   return await db
-    //     .collection(`watchlist-${props.currentUser}`)
-    //     .where("show_name", "==", props.show_name)
-    //     .get()
-    //     .then((querySnapshot) => {
-    //       querySnapshot.docs[0].ref.delete()
-    //     })
-    // }
+    const removeShow = async () => {
+      return await db
+        .collection(`watchlist-${props.currentUser}`)
+        .where("show_id", "==", parseInt(props.show_id))
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            doc.ref.update({
+              status: "removed",
+              date_watched: serverTimestamp(),
+            })
+          })
+        })
+    }
 
-    // Promise.all([removeShowFromDatabase()])
-    //   .then(() => {
-    //     console.log("Show removed from user's watchlist")
-    //     // Handle any additional logic after both API calls are completed
-    //     setIsShowAddedInWatchList(false)
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error removing from database:", error)
-    //     // Handle errors if any of the promises reject
-    //   })
-
-    console.log(
-      "removeShowFromWatchList: Should delete the show and update user's data"
-    )
+    Promise.all([removeShow()])
+      .then(() => {
+        console.log("Show removed from user's watchlist")
+        // Handle any additional logic after both API calls are completed
+        setIsShowAddedInWatchList(false)
+      })
+      .catch((error) => {
+        console.error("Error removing from database:", error)
+        // Handle errors if any of the promises reject
+      })
   }
 
   function continueWatchingShow() {
