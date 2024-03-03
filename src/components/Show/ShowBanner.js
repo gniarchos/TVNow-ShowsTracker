@@ -61,10 +61,7 @@ export default function ShowBanner(props) {
         })
     }
 
-    Promise.all([
-      // fetchRatingsData(),
-      checkIfShowAddedInWatchList(),
-    ])
+    Promise.all([fetchRatingsData(), checkIfShowAddedInWatchList()])
       .then(() => {
         // console.log("Both API calls finished.")
       })
