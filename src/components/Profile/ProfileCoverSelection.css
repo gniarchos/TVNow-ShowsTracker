@@ -192,3 +192,17 @@
     color: black;
   }
 }
+
+@media all and (display-mode: standalone) {
+  .coverSelection_container {
+    top: 40px;
+  }
+
+  .coverSelector-wrapper {
+    top: 40px;
+  }
+
+  .closeButton_covers_div {
+    top: 30px;
+  }
+}
