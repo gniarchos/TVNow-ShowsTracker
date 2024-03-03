@@ -52,5 +52,12 @@
     padding: 10px;
     border-radius: 20px;
     font-size: 0.95rem;
+    white-space: nowrap;
+  }
+}
+
+@media all and (display-mode: standalone) {
+  .popup {
+    top: 40px;
   }
 }
