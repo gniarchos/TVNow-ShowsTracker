@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.9.5] - 3-3-2024
+
+### Added
+
+### Updated
+
+- Updated the spacing of episodes cards in Profile.
+- Updated the app's scrollbar size.
+- Updated the position of popup message when changing layout from grid to list in Profile.
+- Updated season number container size in mobile/desktop.
+- Re-enable the functionality to remove a show from watchlist. Now when a show is been removed and the re-add it, it will have all the previous watch history.
+
+### Fixed
+
+- Fixed popup message when changing layout from grid to list in Profile not wrapping.
+- Fixed cover selection container in Profile in PWA mode to be in wrong offset.
+
+### Removed
+
+- Removed Navbar old files.
+
+---
+
 ## [1.9.4] - 25-12-2023
 
 ### Added
