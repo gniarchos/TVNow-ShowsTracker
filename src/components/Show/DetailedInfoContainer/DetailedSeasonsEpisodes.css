@@ -47,7 +47,7 @@
   backdrop-filter: blur(30px);
   position: absolute;
   left: 10px;
-  bottom: -8px;
+  bottom: -9px;
   padding: 4px;
   border-radius: 5px;
 }
@@ -72,5 +72,18 @@
   .watchingNow-p {
     font-size: 0.8rem;
     bottom: -4px;
+  }
+
+  .season-div {
+    font-size: 1.3rem;
+  }
+
+  .watchingNow-p {
+    bottom: -7px;
+  }
+
+  .markSeason-check {
+    right: 15px;
+    bottom: 6px;
   }
 }
