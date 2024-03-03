@@ -38,7 +38,7 @@
 .details-container {
   display: flex;
   flex-direction: row;
-  gap: 30px;
+  gap: 25px;
   flex-wrap: wrap;
   padding-bottom: 50px;
   margin-right: 0;
