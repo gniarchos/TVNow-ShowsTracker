@@ -87,7 +87,13 @@ export default function Profile() {
       setLoading(true)
     }
 
-    databaseCaller(`watchlist-${currentUser.uid}`, "date_watched", "desc")
+    databaseCaller({
+      collectionName: `watchlist-${currentUser.uid}`,
+      orderByField: "date_watched",
+      orderByDirection: "desc",
+      limit: null,
+      calledFrom: "profileWatchlist",
+    })
       .then((allData) => {
         setUserAllShowsData(allData)
         const showInfoUrls = allData?.map(
