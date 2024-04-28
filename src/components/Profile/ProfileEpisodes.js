@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { collection, addDoc, serverTimestamp } from "firebase/firestore"
 import { db } from "../../services/firebase"
 import { Link, useNavigate } from "react-router-dom"
@@ -8,16 +8,20 @@ import "./ProfileEpisodes.css"
 import { ProfileContext } from "./Profile"
 
 export default function ProfileEpisodes(props) {
-  const { triggerFetchUserData, setTriggerFetchUserData } =
-    useContext(ProfileContext)
+  const {
+    triggerFetchUserData,
+    setTriggerFetchUserData,
+    playAnimation,
+    setPlayAnimation,
+  } = useContext(ProfileContext)
 
-  const navigate = useNavigate()
   const zeroPad = (num, places) => String(num).padStart(places, "0")
 
-  const [finished, setFinished] = React.useState(false)
-  const [userWatchingTime, setUserWatchingTime] = React.useState()
-  const [userTotalEpisodes, setUserTotalEpisodes] = React.useState()
-  const [playAnimation, setPlayAnimation] = React.useState(false)
+  const [finished, setFinished] = useState(false)
+  const [userWatchingTime, setUserWatchingTime] = useState()
+  const [userTotalEpisodes, setUserTotalEpisodes] = useState()
+  // const [playAnimation, setPlayAnimation] = React.useState(false)
+  const [clickedElement, setClickedElement] = useState()
 
   React.useEffect(() => {
     db.collection("users")
@@ -31,7 +35,11 @@ export default function ProfileEpisodes(props) {
   }, [finished])
 
   function episodeMarker() {
-    setPlayAnimation(true)
+    // setPlayAnimation(true)
+    console.log("play animation", props.show_id)
+    setClickedElement(
+      `${props.show_id}-${props.season_number}-${props.episode_number}`
+    )
 
     const addEpisodeToHistory = () => {
       return addDoc(collection(db, `history-${props.currentUserID}`), {
@@ -105,14 +113,8 @@ export default function ProfileEpisodes(props) {
       updateUserStatistics(),
     ])
       .then(() => {
-        // console.log("Both fetch calls finished.")
         setFinished(!finished)
         setTriggerFetchUserData(!triggerFetchUserData)
-      })
-      .then(() => {
-        setTimeout(() => {
-          setPlayAnimation(false)
-        }, 500)
       })
       .catch((error) => {
         console.error("Error fetching data:", error)
@@ -120,7 +122,6 @@ export default function ProfileEpisodes(props) {
   }
 
   function handleImageError(e) {
-    // console.log("Something went wrong with your image")
     e.currentTarget.src = noImg
   }
 
@@ -210,10 +211,14 @@ export default function ProfileEpisodes(props) {
           <div
             className={
               props.mobileLayout === "cards"
-                ? !playAnimation
+                ? !playAnimation ||
+                  clickedElement !==
+                    `${props.show_id}-${props.season_number}-${props.episode_number}`
                   ? "info-card"
                   : "info-card markedAnimation"
-                : !playAnimation
+                : !playAnimation ||
+                  clickedElement !==
+                    `${props.show_id}-${props.season_number}-${props.episode_number}`
                 ? "info-card-grid"
                 : "info-card-grid markedAnimation"
             }
@@ -302,7 +307,9 @@ export default function ProfileEpisodes(props) {
         {props.finishedShow !== true && (
           <div>
             {props.daysUntilCurrentEpisode <= 0 ? (
-              !playAnimation ? (
+              !playAnimation ||
+              clickedElement !==
+                `${props.show_id}-${props.season_number}-${props.episode_number}` ? (
                 <Icon
                   icon="icon-park-solid:check-one"
                   color="rgba(0, 0, 0, 0.3)"

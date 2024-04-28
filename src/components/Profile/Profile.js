@@ -72,12 +72,16 @@ export default function Profile() {
   const [cancelled_shows, setCancelled_shows] = useState(new Set())
   const [show_modal, setShow_modal] = useState(false)
 
+  const [playAnimation, setPlayAnimation] = useState(false)
+
   const contextValues = {
     triggerFetchUserData,
     setTriggerFetchUserData,
     cancelled_shows,
     setCancelled_shows,
     setShow_modal,
+    playAnimation,
+    setPlayAnimation,
   }
 
   useEffect(() => {
@@ -87,19 +91,19 @@ export default function Profile() {
       setLoading(true)
     }
 
+    setPlayAnimation(true)
     databaseCaller({
       collectionName: `watchlist-${currentUser.uid}`,
-      orderByField: "date_watched",
-      orderByDirection: "desc",
-      limit: null,
       calledFrom: "profileWatchlist",
     })
       .then((allData) => {
         setUserAllShowsData(allData)
-        const showInfoUrls = allData?.map(
-          (show) =>
-            `https://api.themoviedb.org/3/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
-        )
+        const showInfoUrls = allData
+          ?.sort((a, b) => b.date_watched - a.date_watched)
+          ?.map(
+            (show) =>
+              `https://api.themoviedb.org/3/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
+          )
 
         const showSeasonUrls = allData?.map(
           (show) =>
@@ -126,6 +130,10 @@ export default function Profile() {
               })
             })
             setLoading(false)
+            setTimeout(() => {
+              setPlayAnimation(false)
+            }, 3000)
+            // setPlayAnimation(false)
           })
           .catch((error) => {
             console.error("Error fetching data:", error)

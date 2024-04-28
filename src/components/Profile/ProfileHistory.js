@@ -20,8 +20,6 @@ export default function ProfileHistory(props) {
   useEffect(() => {
     databaseCaller({
       collectionName: `history-${props.currentUser}`,
-      orderByField: "date_watched",
-      orderByDirection: "desc",
       calledFrom: "profileHistory",
     }).then((data) => {
       console.log(data)

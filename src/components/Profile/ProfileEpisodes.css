@@ -64,10 +64,10 @@
   margin-top: 10px;
   margin-bottom: 10px;
   width: 100%;
-  opacity: 0;
-  animation: fadeIn 1s ease-in-out forwards;
+  opacity: 1;
+  /* animation: fadeIn 1s ease-in-out forwards; */
   display: block;
-  transition: all 1s ease-in-out;
+  /* transition: all 2s ease-in-out; */
 }
 
 .info-card.markedAnimation,
@@ -85,11 +85,26 @@
   }
 }
 
-@keyframes fadeOutAndIn {
+/* @keyframes fadeOutAndIn {
   0% {
     opacity: 1;
   }
   50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+} */
+
+@keyframes fadeOutAndIn {
+  0% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 0;
+  }
+  75% {
     opacity: 0;
   }
   100% {
