@@ -1,18 +1,16 @@
-import { useState, useEffect } from "react"
-import { collection, orderBy, getDocs } from "firebase/firestore" // Assuming Firebase v9 syntax
+import { collection, orderBy, getDocs } from "firebase/firestore"
 import { db } from "../services/firebase"
 
-export async function databaseCaller(
-  collectionName,
-  orderByField = null,
-  orderByDirection = "asc"
-) {
-  console.log("run", collectionName)
+export async function databaseCaller(params) {
   try {
     const snapshot = await getDocs(
-      collection(db, collectionName),
-      orderByField
-        ? orderBy(collectionName, orderByField, orderByDirection)
+      collection(db, params.collectionName),
+      params.orderByField
+        ? orderBy(
+            params.collectionName,
+            params.orderByField,
+            params.orderByDirection
+          )
         : []
     )
 
