@@ -3,16 +3,7 @@ import { db } from "../services/firebase"
 
 export async function databaseCaller(params) {
   try {
-    const snapshot = await getDocs(
-      collection(db, params.collectionName),
-      params.orderByField
-        ? orderBy(
-            params.collectionName,
-            params.orderByField,
-            params.orderByDirection
-          )
-        : []
-    )
+    const snapshot = await getDocs(collection(db, params.collectionName))
 
     const dataArray = snapshot.docs.map((doc) => doc.data())
     return dataArray
