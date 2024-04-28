@@ -19,5 +19,8 @@ export default async function apiCaller(urls, type) {
     return results
   } catch (err) {
     console.error("Error fetching data:", err)
+    throw new Error(
+      "Database Error: Something went wrong. Please check back later."
+    )
   }
 }

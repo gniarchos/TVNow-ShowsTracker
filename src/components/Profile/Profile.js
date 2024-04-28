@@ -92,11 +92,11 @@ export default function Profile() {
     }
 
     setPlayAnimation(true)
-    databaseCaller({
-      collectionName: `watchlist-${currentUser.uid}`,
-      calledFrom: "profileWatchlist",
-    })
-      .then((allData) => {
+    try {
+      databaseCaller({
+        collectionName: `watchlist-${currentUser.uid}`,
+        calledFrom: "profileWatchlist",
+      }).then((allData) => {
         setUserAllShowsData(allData)
         const showInfoUrls = allData
           ?.sort((a, b) => b.date_watched - a.date_watched)
@@ -136,12 +136,14 @@ export default function Profile() {
             // setPlayAnimation(false)
           })
           .catch((error) => {
-            console.error("Error fetching data:", error)
+            alert(error.message)
+            // console.error("Error fetching data:", error)
           })
       })
-      .catch((error) => {
-        console.error("Error fetching user shows:", error)
-      })
+    } catch (error) {
+      alert(error)
+      // console.error("Error fetching data:", error)
+    }
   }, [triggerFetchUserData, show_modal])
 
   function changeLayoutMobile() {
