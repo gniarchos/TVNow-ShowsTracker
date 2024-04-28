@@ -124,10 +124,6 @@ export default function ProfileEpisodes(props) {
     e.currentTarget.src = noImg
   }
 
-  if (props.showName === "Doctor Who") {
-    console.log(props.nextEpisodeDate)
-  }
-
   return (
     <div
       className={

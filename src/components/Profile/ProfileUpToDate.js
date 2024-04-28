@@ -9,6 +9,8 @@ export default function ProfileUpToDate(props) {
   const { cancelled_shows, setCancelled_shows, setShow_modal } =
     useContext(ProfileContext)
 
+  console.log(props.seasonData, "updatetodate-seasonData")
+
   const [upToDateSettings, setUpToDateSettings] = useState(false)
   let countShows = 0
   const upToDateShows = props.userShowAllData
@@ -21,7 +23,7 @@ export default function ProfileUpToDate(props) {
         .then((data) => {
           if (
             (data.status === "Canceled" || data.status === "Ended") &&
-            data.number_of_seasons < show.seasonNumber
+            data.number_of_seasons < show.season_number
           ) {
             setTimeout(() => {
               setShow_modal(true)
@@ -56,7 +58,7 @@ export default function ProfileUpToDate(props) {
           .map((season) => {
             return (
               season.episodes !== undefined &&
-              season.episodes[show.episodeNumber]?.air_date
+              season.episodes[show.episode_number]?.air_date
             )
           })
       )
@@ -66,7 +68,7 @@ export default function ProfileUpToDate(props) {
         .map((season) => {
           return (
             season.episodes !== undefined &&
-            season.episodes[show.episodeNumber]?.name
+            season.episodes[show.episode_number]?.name
           )
         })
 
@@ -80,7 +82,7 @@ export default function ProfileUpToDate(props) {
         .filter((season) => parseInt(season.show_id) === parseInt(show.show_id))
         .map((season) => {
           return season.episodes !== undefined
-            ? season.episodes[show.episodeNumber]?.runtime
+            ? season.episodes[show.episode_number]?.runtime
             : 0
         })
 
@@ -123,8 +125,8 @@ export default function ProfileUpToDate(props) {
               showName={show.show_name}
               episode_name={episode_name.join("")}
               currentUserID={props.currentUser}
-              episode_number={show.episodeNumber}
-              season_number={show.seasonNumber}
+              episode_number={show.episode_number}
+              season_number={show.season_number}
               mobileLayout={props.mobileLayout}
               daysUntilCurrentEpisode={daysUntilCurrentEpisode}
               show_all_seasons={show_all_seasons}
@@ -149,8 +151,8 @@ export default function ProfileUpToDate(props) {
               showName={show.show_name}
               episode_name={episode_name.join("")}
               currentUserID={props.currentUser}
-              episode_number={show.episodeNumber}
-              season_number={show.seasonNumber}
+              episode_number={show.episode_number}
+              season_number={show.season_number}
               mobileLayout={props.mobileLayout}
               daysUntilCurrentEpisode={daysUntilCurrentEpisode}
               show_all_seasons={show_all_seasons}
@@ -175,8 +177,8 @@ export default function ProfileUpToDate(props) {
               showName={show.show_name}
               episode_name={episode_name.join("")}
               currentUserID={props.currentUser}
-              episode_number={show.episodeNumber}
-              season_number={show.seasonNumber}
+              episode_number={show.episode_number}
+              season_number={show.season_number}
               mobileLayout={props.mobileLayout}
               daysUntilCurrentEpisode={daysUntilCurrentEpisode}
               show_all_seasons={show_all_seasons}
@@ -263,26 +265,20 @@ export default function ProfileUpToDate(props) {
       {upToDateShows.length > 0 && props.upToDateSection && (
         <div>
           {countShows === 0 && props.upToDateFilter === "soon" ? (
-            <div>
-              <p className="no-upcoming-msg withFilters">
-                <Icon icon="fluent-emoji:anguished-face" width={30} />
-                No Upcoming shows.
-              </p>
-            </div>
+            <p className="no-upcoming-msg withFilters">
+              <Icon icon="fluent-emoji:anguished-face" width={30} />
+              No Upcoming shows.
+            </p>
           ) : countShows === 0 && props.upToDateFilter === "all" ? (
-            <div>
-              <p className="no-upcoming-msg withFilters">
-                <Icon icon="fluent-emoji:flexed-biceps" width={30} />
-                All shows are up to date.
-              </p>
-            </div>
+            <p className="no-upcoming-msg withFilters">
+              <Icon icon="fluent-emoji:flexed-biceps" width={30} />
+              All shows are up to date.
+            </p>
           ) : countShows === 0 && props.upToDateFilter === "returning" ? (
-            <div>
-              <p className="no-upcoming-msg withFilters">
-                <Icon icon="fluent-emoji:anguished-face" width={30} />
-                No Returning shows.
-              </p>
-            </div>
+            <p className="no-upcoming-msg withFilters">
+              <Icon icon="fluent-emoji:anguished-face" width={30} />
+              No Returning shows.
+            </p>
           ) : (
             <div className="details-container">{upToDateShows}</div>
           )}

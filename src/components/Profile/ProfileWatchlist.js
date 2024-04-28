@@ -23,7 +23,7 @@ export default function ProfileWatchlist(props) {
           .map((season) => {
             return (
               season.episodes !== undefined &&
-              season.episodes[show.episodeNumber]?.air_date
+              season.episodes[show.episode_number]?.air_date
             )
           })
       )
@@ -39,7 +39,7 @@ export default function ProfileWatchlist(props) {
         .map((season) => {
           return (
             season.episodes !== undefined &&
-            season.episodes[show.episodeNumber]?.name
+            season.episodes[show.episode_number]?.name
           )
         })
 
@@ -55,7 +55,7 @@ export default function ProfileWatchlist(props) {
         .filter((season) => parseInt(season.show_id) === parseInt(show.show_id))
         .map((season) => {
           return season.episodes !== undefined
-            ? season.episodes[show.episodeNumber]?.runtime
+            ? season.episodes[show.episode_number]?.runtime
             : 0
         })
 
@@ -89,8 +89,8 @@ export default function ProfileWatchlist(props) {
           showName={show.show_name}
           episode_name={episode_name}
           currentUserID={props.currentUser}
-          episode_number={show.episodeNumber}
-          season_number={show.seasonNumber}
+          episode_number={show.episode_number}
+          season_number={show.season_number}
           daysUntilCurrentEpisode={daysUntilCurrentEpisode}
           show_all_seasons={show_all_seasons}
           curr_season_episodes={curr_season_episodes}

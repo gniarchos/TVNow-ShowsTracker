@@ -10,7 +10,7 @@ export default function ProfileWatchNext(props) {
     .filter((show) => show.status === "watching")
     .map((show) => {
       const show_banner = props.showsData
-        .filter((all_show) => parseInt(all_show.id) === parseInt(show.show_id))
+        ?.filter((all_show) => parseInt(all_show.id) === parseInt(show.show_id))
         .map((show) => {
           return show.backdrop_path
         })
@@ -34,7 +34,7 @@ export default function ProfileWatchNext(props) {
         .map((season) => {
           return (
             season.episodes !== undefined &&
-            season.episodes[show.episodeNumber]?.name
+            season.episodes[show.episode_number]?.name
           )
         })
 
@@ -42,7 +42,7 @@ export default function ProfileWatchNext(props) {
         .filter((season) => parseInt(season.show_id) === parseInt(show.show_id))
         .map((season) => {
           return season.episodes !== undefined
-            ? season.episodes[show.episodeNumber]?.runtime
+            ? season.episodes[show.episode_number]?.runtime
             : 0
         })
 
@@ -60,7 +60,7 @@ export default function ProfileWatchNext(props) {
           .map((season) => {
             return (
               season.episodes !== undefined &&
-              season.episodes[show.episodeNumber]?.air_date
+              season.episodes[show.episode_number]?.air_date
             )
           })
       )
@@ -78,8 +78,8 @@ export default function ProfileWatchNext(props) {
             showName={show.show_name}
             episode_name={episode_name}
             currentUserID={props.currentUser}
-            episode_number={show.episodeNumber}
-            season_number={show.seasonNumber}
+            episode_number={show.episode_number}
+            season_number={show.season_number}
             mobileLayout={props.mobileLayout}
             daysUntilCurrentEpisode={daysUntilCurrentEpisode}
             show_all_seasons={show_all_seasons}
@@ -106,21 +106,19 @@ export default function ProfileWatchNext(props) {
           {props.watchNextSection ? "Hide" : "Show"}
         </button>
       </div>
-      {watchNextShows.length > 0 && props.watchNextSection && (
-        <div>
-          {countShows === 0 ? (
-            <div>
-              <p className="no-upcoming-msg">
-                <Icon icon="fluent-emoji:party-popper" width={30} />
-                No episodes to watch.
-              </p>
-            </div>
-          ) : (
+      {props.watchNextSection &&
+        (countShows === 0 ? (
+          <p className="no-upcoming-msg">
+            <Icon icon="fluent-emoji:party-popper" width={30} />
+            No episodes to watch.
+          </p>
+        ) : (
+          <>
             <div className="details-container">{watchNextShows}</div>
-          )}
-          <div className="divider line glow"></div>
-        </div>
-      )}
+
+            <div className="divider line glow"></div>
+          </>
+        ))}
     </>
   )
 }

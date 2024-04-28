@@ -12,6 +12,9 @@ import ProfileUpToDate from "./ProfileUpToDate"
 import ProfileWatchList from "./ProfileWatchlist"
 import ProfileFinishedStopped from "./ProfileFinishedStopped"
 import ProfileHistory from "./ProfileHistory"
+import { databaseCaller } from "../../Api/DatabaseCaller"
+import useApiCaller from "../../Api/ApiCaller"
+import apiCaller from "../../Api/ApiCaller"
 
 export const ProfileContext = createContext()
 
@@ -21,7 +24,7 @@ export default function Profile() {
   const { currentUser } = useAuth()
   const [seasonData, setSeasonData] = useState([])
   const [showsData, setShowsData] = useState([])
-  const [userAllShows, setUserAllShows] = useState([])
+  const [userAllShowsData, setUserAllShowsData] = useState([])
   const [loading, setLoading] = useState(true)
   const [mobileLayout, setMobileLayout] = useState(
     localStorage.getItem("mobileLayoutSelection")
@@ -84,78 +87,47 @@ export default function Profile() {
       setLoading(true)
     }
 
-    const getUserAllShow = async () => {
-      try {
-        const snapshot = await db
-          .collection(`watchlist-${currentUser.uid}`)
-          .orderBy("date_watched", "desc")
-          .get()
-
-        const userShows = snapshot.docs.map((doc) => ({
-          show_id: doc.data().show_id,
-          show_name: doc.data().show_name,
-          seasonNumber: doc.data().season_number,
-          episodeNumber: doc.data().episode_number,
-          status: doc.data().status,
-          date_watched: doc.data().date_watched,
-        }))
-
-        setUserAllShows(userShows)
-        return userShows // Return the user shows array
-      } catch (error) {
-        console.error("Error fetching user shows:", error)
-        return [] // Return an empty array in case of an error
-      }
-    }
-
-    const fetchShowData = async () => {
-      try {
-        const userShows = await getUserAllShow()
-        const fetchUserShowData = userShows.map((show) =>
-          fetch(
-            `https://api.themoviedb.org/3/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&include_image_language=en,null&append_to_response=external_ids,videos,aggregate_credits,content_ratings,recommendations,similar,watch/providers,images`
-          ).then((res) => res.json())
+    databaseCaller(`watchlist-${currentUser.uid}`, "date_watched", "desc")
+      .then((allData) => {
+        setUserAllShowsData(allData)
+        const showInfoUrls = allData?.map(
+          (show) =>
+            `https://api.themoviedb.org/3/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
         )
 
-        const fetchedShowsData = await Promise.all(fetchUserShowData)
-        setShowsData(fetchedShowsData)
-      } catch (error) {
-        console.error("Error fetching data:", error)
-      }
-    }
+        const showSeasonUrls = allData?.map(
+          (show) =>
+            `https://api.themoviedb.org/3/tv/${show.show_id}/season/${show.season_number}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
+        )
 
-    const fetchSeasonData = async () => {
-      try {
-        const user_shows = await getUserAllShow()
-        const fetchSeasonsData = user_shows.map((show) =>
-          fetch(
-            `https://api.themoviedb.org/3/tv/${show.show_id}/season/${show.seasonNumber}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
-          )
-            .then((res) => res.json())
-            .then((data) => {
-              return {
-                episodes: data.episodes,
-                show_id: show.show_id,
-                seasonTotalEpisodes:
-                  data.episodes?.length !== null ||
-                  data.episodes?.length !== undefined
-                    ? data.episodes?.length
-                    : 0,
-              }
+        Promise.all([
+          apiCaller(showInfoUrls),
+          apiCaller(showSeasonUrls, "seasonData"),
+        ])
+          .then((data) => {
+            setShowsData(data[0])
+            setSeasonData((prevData) => {
+              return data[1].map((season, index) => {
+                return {
+                  episodes: season.episodes,
+                  show_id: allData[index].show_id,
+                  seasonTotalEpisodes:
+                    season.episodes?.length !== null ||
+                    season.episodes?.length !== undefined
+                      ? season.episodes?.length
+                      : 0,
+                }
+              })
             })
-        )
-
-        const fetchedSeasonsData = await Promise.all(fetchSeasonsData)
-        setSeasonData(fetchedSeasonsData)
-        setLoading(false)
-      } catch (error) {
-        console.error("Error fetching data:", error)
-        // setLoading(false)
-      }
-    }
-
-    fetchShowData()
-    fetchSeasonData()
+            setLoading(false)
+          })
+          .catch((error) => {
+            console.error("Error fetching data:", error)
+          })
+      })
+      .catch((error) => {
+        console.error("Error fetching user shows:", error)
+      })
   }, [triggerFetchUserData, show_modal])
 
   function changeLayoutMobile() {
@@ -233,7 +205,7 @@ export default function Profile() {
       />
 
       <ProfileCover
-        userShowAllData={userAllShows}
+        userShowAllData={userAllShowsData}
         currentUser={currentUser.uid}
         changeLayoutMobile={changeLayoutMobile}
       />
@@ -245,7 +217,7 @@ export default function Profile() {
           <ProfileWatchNext
             seasonData={seasonData}
             showsData={showsData}
-            userShowAllData={userAllShows}
+            userShowAllData={userAllShowsData}
             mobileLayout={mobileLayout}
             currentUser={currentUser.uid}
             watchNextSection={watchNextSection}
@@ -254,7 +226,7 @@ export default function Profile() {
           <ProfileUpToDate
             seasonData={seasonData}
             showsData={showsData}
-            userShowAllData={userAllShows}
+            userShowAllData={userAllShowsData}
             mobileLayout={mobileLayout}
             currentUser={currentUser.uid}
             upToDateSection={upToDateSection}
@@ -263,7 +235,7 @@ export default function Profile() {
             handleFilterUpToDate={handleFilterUpToDate}
           />
           <ProfileWatchList
-            userShowAllData={userAllShows}
+            userShowAllData={userAllShowsData}
             showsData={showsData}
             seasonData={seasonData}
             mobileLayout={mobileLayout}
@@ -273,7 +245,7 @@ export default function Profile() {
           />
           <ProfileFinishedStopped
             calledFrom="finished"
-            userShowAllData={userAllShows}
+            userShowAllData={userAllShowsData}
             mobileLayout={mobileLayout}
             showsData={showsData}
             currentUser={currentUser.uid}
@@ -283,7 +255,7 @@ export default function Profile() {
 
           <ProfileFinishedStopped
             calledFrom="stopped"
-            userShowAllData={userAllShows}
+            userShowAllData={userAllShowsData}
             mobileLayout={mobileLayout}
             showsData={showsData}
             currentUser={currentUser.uid}

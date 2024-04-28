@@ -20,9 +20,9 @@ export default function ProfileFinishedStopped(props) {
               .map((allData) => {
                 return allData.number_of_episodes
               })
-          : show.episodeNumber === 0
-          ? show.episodeNumber
-          : show.episodeNumber - 1
+          : show.episode_number === 0
+          ? show.episode_number
+          : show.episode_number - 1
 
       const season_number =
         props.calledFrom === "finished"
@@ -31,7 +31,7 @@ export default function ProfileFinishedStopped(props) {
               .map((allData) => {
                 return allData.number_of_seasons
               })
-          : show.seasonNumber
+          : show.season_number
 
       return (
         <ProfileEpisodes
