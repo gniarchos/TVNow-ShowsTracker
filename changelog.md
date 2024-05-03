@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.10.1] - 3-5-2024
+
+### Added
+
+- Added "Discover" button in PWA app leading to trending.
+
+### Updated
+
+- Updated animations and active page in PWA navigation bar.
+- Updated pagination style in discover.
+
+---
+
 ## [1.10.0] - 28-4-2024
 
 ### Added
