@@ -17,7 +17,7 @@ export default function MainNavbar(props) {
   const [showConfirmationLogOut, setShowConfirmationLogOut] = useState(false)
   const [searchSuggestionsList, setSearchSuggestionsList] = useState([])
   const [searchQuery, setSearchQuery] = useState("")
-  const [isLinkActive, setIsLinkActive] = useState([false, false, false, false])
+  const [isLinkActive, setIsLinkActive] = useState([false, false, false, true])
 
   function isUserWantToLogOut() {
     setShowConfirmationLogOut((prevValue) =>
@@ -210,7 +210,9 @@ export default function MainNavbar(props) {
                 return newState
               })
             }
-            className="icons-nav-btns"
+            className={
+              isLinkActive[0] ? "icons-nav-btns active" : "icons-nav-btns"
+            }
             to="/"
           >
             <Icon
@@ -222,7 +224,9 @@ export default function MainNavbar(props) {
           </NavLink>
 
           <NavLink
-            className="icons-nav-btns"
+            className={
+              isLinkActive[1] ? "icons-nav-btns active" : "icons-nav-btns"
+            }
             to="/discover?title=Trending%20Now&type=trending&page=1"
             onClick={() =>
               setIsLinkActive((prevState) => {
@@ -265,7 +269,9 @@ export default function MainNavbar(props) {
                 return newState
               })
             }
-            className="icons-nav-btns"
+            className={
+              isLinkActive[3] ? "icons-nav-btns active" : "icons-nav-btns"
+            }
             to="/profile"
           >
             <Icon
