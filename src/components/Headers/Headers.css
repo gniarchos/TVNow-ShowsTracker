@@ -442,7 +442,7 @@
   }
 
   .icons-nav-btns.active {
-    height: 85%;
+    height: 55px;
     font-size: 0.95rem;
     font-weight: 700;
   }
