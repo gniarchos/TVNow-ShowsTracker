@@ -68,7 +68,7 @@
 }
 
 .info-card.markedAnimation,
-.info-card-grid.markedAnimation {
+.info-card-list.markedAnimation {
   opacity: 0;
   animation: fadeOutAndIn 3s ease-in-out forwards;
 }
@@ -170,7 +170,7 @@
     height: 210px;
   }
 
-  .img-background.grid {
+  .img-background.list {
     width: fit-content;
     height: 100%;
   }
@@ -200,7 +200,7 @@
     bottom: auto;
   }
 
-  .premiering.grid {
+  .premiering.list {
     top: auto;
     bottom: 20px;
     font-size: 0.7rem;
@@ -212,7 +212,7 @@
     gap: 10px;
   }
 
-  .info-card-grid {
+  .info-card-list {
     overflow: hidden;
     width: 47vw;
     margin-top: 10px;
@@ -226,7 +226,7 @@
     width: 230px;
   }
 
-  .profile-episode-name.grid {
+  .profile-episode-name.list {
     margin-bottom: 5px;
     width: 190px;
     overflow: hidden;
@@ -234,7 +234,7 @@
     white-space: nowrap;
   }
 
-  .markIcon.grid {
+  .markIcon.list {
     right: 0px;
   }
 

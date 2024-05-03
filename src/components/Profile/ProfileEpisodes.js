@@ -145,7 +145,7 @@ export default function ProfileEpisodes(props) {
             className={
               props.mobileLayout === "cards"
                 ? "img-background"
-                : "img-background grid"
+                : "img-background list"
             }
           >
             <img
@@ -197,7 +197,7 @@ export default function ProfileEpisodes(props) {
           className={
             props.mobileLayout === "cards"
               ? "runtime-release premiering"
-              : "runtime-release premiering grid"
+              : "runtime-release premiering list"
           }
         >
           {props.is_premiering === "true" &&
@@ -219,8 +219,8 @@ export default function ProfileEpisodes(props) {
                 : !playAnimation ||
                   clickedElement !==
                     `${props.show_id}-${props.season_number}-${props.episode_number}`
-                ? "info-card-grid"
-                : "info-card-grid markedAnimation"
+                ? "info-card-list"
+                : "info-card-list markedAnimation"
             }
           >
             <Link
@@ -270,7 +270,7 @@ export default function ProfileEpisodes(props) {
               className={
                 props.mobileLayout === "cards"
                   ? "profile-episode-name"
-                  : "profile-episode-name grid"
+                  : "profile-episode-name list"
               }
             >
               {props.episode_name?.length > 0 &&
@@ -282,7 +282,7 @@ export default function ProfileEpisodes(props) {
         ) : (
           <div
             className={
-              props.mobileLayout === "cards" ? "info-card" : "info-card-grid"
+              props.mobileLayout === "cards" ? "info-card" : "info-card-list"
             }
           >
             <Link
@@ -318,7 +318,7 @@ export default function ProfileEpisodes(props) {
                   className={
                     props.mobileLayout === "cards"
                       ? "markIcon"
-                      : "markIcon grid"
+                      : "markIcon list"
                   }
                 />
               ) : (
@@ -328,7 +328,7 @@ export default function ProfileEpisodes(props) {
                   className={
                     props.mobileLayout === "cards"
                       ? "markIcon"
-                      : "markIcon grid"
+                      : "markIcon list"
                   }
                 />
               )

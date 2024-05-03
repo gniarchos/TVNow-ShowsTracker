@@ -7,13 +7,11 @@ import { useAuth } from "../../authentication/AuthContext"
 import ProfileStatistics from "./ProfileStatistics"
 import ProfileWatchNext from "./ProfileWatchNext"
 import "./Profile.css"
-import { db } from "../../services/firebase"
 import ProfileUpToDate from "./ProfileUpToDate"
 import ProfileWatchList from "./ProfileWatchlist"
 import ProfileFinishedStopped from "./ProfileFinishedStopped"
 import ProfileHistory from "./ProfileHistory"
 import { databaseCaller } from "../../Api/DatabaseCaller"
-import useApiCaller from "../../Api/ApiCaller"
 import apiCaller from "../../Api/ApiCaller"
 
 export const ProfileContext = createContext()
@@ -133,21 +131,18 @@ export default function Profile() {
             setTimeout(() => {
               setPlayAnimation(false)
             }, 3000)
-            // setPlayAnimation(false)
           })
           .catch((error) => {
             alert(error.message)
-            // console.error("Error fetching data:", error)
           })
       })
     } catch (error) {
       alert(error)
-      // console.error("Error fetching data:", error)
     }
   }, [triggerFetchUserData, show_modal])
 
   function changeLayoutMobile() {
-    setMobileLayout((prevValue) => (prevValue === "cards" ? "grid" : "cards"))
+    setMobileLayout((prevValue) => (prevValue === "cards" ? "list" : "cards"))
 
     setShowLayoutMessage((show) => !show)
     var x = 0
@@ -161,7 +156,7 @@ export default function Profile() {
 
     localStorage.setItem(
       "mobileLayoutSelection",
-      mobileLayout === "cards" ? "grid" : "cards"
+      mobileLayout === "cards" ? "list" : "cards"
     )
   }
 
