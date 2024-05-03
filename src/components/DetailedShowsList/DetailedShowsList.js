@@ -184,7 +184,7 @@ export default function DetailedShowsList() {
             breakLabel="..."
             nextLabel={<Icon icon="carbon:next-filled" />}
             onPageChange={(e) => goToNextPage(e)}
-            pageRangeDisplayed={2}
+            pageRangeDisplayed={5}
             marginPagesDisplayed={1}
             pageCount={totalPages >= 500 ? 500 : totalPages}
             previousLabel={<Icon icon="carbon:previous-filled" />}

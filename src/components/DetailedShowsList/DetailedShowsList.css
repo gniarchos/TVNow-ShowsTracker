@@ -103,6 +103,8 @@
   color: #212237;
   border-radius: 5px;
   cursor: pointer;
+  /* font-size: 1.4rem; */
+  font-weight: 600;
 }
 
 .page-buttons {
@@ -251,5 +253,9 @@
     height: 280px;
     transition: none;
     transform: none;
+  }
+
+  .pagination-container {
+    margin-top: -50px;
   }
 }
