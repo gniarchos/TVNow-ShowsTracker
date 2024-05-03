@@ -1,8 +1,29 @@
 # Changelog
 
-## [1.9.5] - 3-3-2024
+## [1.10.0] - 28-4-2024
 
 ### Added
+
+- Added new functions to handle api calls and database calls.
+- Added error messages alert in Profile.
+
+### Updated
+
+- Updated api calls in Profile.
+- Updated database calls in Profile.
+- Improved animations.
+
+### Fixed
+
+- Fixed loading time in Profile.
+
+### Removed
+
+- Removed old files.
+
+---
+
+## [1.9.5] - 3-3-2024
 
 ### Updated
 
