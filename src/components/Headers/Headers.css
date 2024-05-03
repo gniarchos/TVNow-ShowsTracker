@@ -441,6 +441,12 @@
     font-size: 0.8rem;
   }
 
+  .icons-nav-btns.active {
+    height: 85%;
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
   .icons-nav-btns.sign-out {
     position: absolute;
     right: 15px;

@@ -194,10 +194,23 @@ export default function MainNavbar(props) {
             )}
           </div>
         )}
+
+        {/* Standalone Bottom Navigation - mobile */}
         <div className="standalone-bottom-nav-wrapper">
           <NavLink className="icons-nav-btns" to="/">
             <Icon className="icons-nav-btns" icon="ci:home-fill" />
             Home
+          </NavLink>
+
+          <NavLink
+            className="icons-nav-btns"
+            to="/discover?title=Trending%20Now&type=trending&page=1"
+          >
+            <Icon
+              className="icons-nav-btns"
+              icon="streamline:trending-content"
+            />
+            Discover
           </NavLink>
 
           <p className="icons-nav-btns">
@@ -209,11 +222,7 @@ export default function MainNavbar(props) {
             Search
           </p>
 
-          <NavLink
-            className="icons-nav-btns"
-            aria-label="profile"
-            to="/profile"
-          >
+          <NavLink className="icons-nav-btns" to="/profile">
             <Icon
               className="icons-nav-btns"
               icon="healthicons:ui-user-profile"
