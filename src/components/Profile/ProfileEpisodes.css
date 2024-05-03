@@ -60,51 +60,27 @@
 }
 
 .info-card {
-  /* padding-top: 15px; */
   margin-top: 10px;
   margin-bottom: 10px;
   width: 100%;
   opacity: 1;
-  /* animation: fadeIn 1s ease-in-out forwards; */
   display: block;
-  /* transition: all 2s ease-in-out; */
 }
 
 .info-card.markedAnimation,
 .info-card-grid.markedAnimation {
   opacity: 0;
-  animation: fadeOutAndIn 2s ease-in-out forwards;
+  animation: fadeOutAndIn 3s ease-in-out forwards;
 }
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* @keyframes fadeOutAndIn {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-} */
 
 @keyframes fadeOutAndIn {
   0% {
     opacity: 1;
   }
-  25% {
+  10% {
     opacity: 0;
   }
-  75% {
+  90% {
     opacity: 0;
   }
   100% {
