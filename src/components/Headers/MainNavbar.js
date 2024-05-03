@@ -17,6 +17,7 @@ export default function MainNavbar(props) {
   const [showConfirmationLogOut, setShowConfirmationLogOut] = useState(false)
   const [searchSuggestionsList, setSearchSuggestionsList] = useState([])
   const [searchQuery, setSearchQuery] = useState("")
+  const [isLinkActive, setIsLinkActive] = useState([false, false, false, false])
 
   function isUserWantToLogOut() {
     setShowConfirmationLogOut((prevValue) =>
@@ -197,16 +198,46 @@ export default function MainNavbar(props) {
 
         {/* Standalone Bottom Navigation - mobile */}
         <div className="standalone-bottom-nav-wrapper">
-          <NavLink className="icons-nav-btns" to="/">
-            <Icon className="icons-nav-btns" icon="ci:home-fill" />
+          <NavLink
+            onClick={() =>
+              setIsLinkActive((prevState) => {
+                const newState = [...prevState]
+                newState[0] = true
+                newState[1] = false
+                newState[2] = false
+                newState[3] = false
+
+                return newState
+              })
+            }
+            className="icons-nav-btns"
+            to="/"
+          >
+            <Icon
+              style={{ color: isLinkActive[0] && "white" }}
+              className="icons-nav-btns"
+              icon="ci:home-fill"
+            />
             Home
           </NavLink>
 
           <NavLink
             className="icons-nav-btns"
             to="/discover?title=Trending%20Now&type=trending&page=1"
+            onClick={() =>
+              setIsLinkActive((prevState) => {
+                const newState = [...prevState]
+                newState[0] = false
+                newState[1] = true
+                newState[2] = false
+                newState[3] = false
+
+                return newState
+              })
+            }
           >
             <Icon
+              style={{ color: isLinkActive[1] && "white" }}
               className="icons-nav-btns"
               icon="streamline:trending-content"
             />
@@ -222,9 +253,24 @@ export default function MainNavbar(props) {
             Search
           </p>
 
-          <NavLink className="icons-nav-btns" to="/profile">
+          <NavLink
+            onClick={() =>
+              setIsLinkActive((prevState) => {
+                const newState = [...prevState]
+                newState[0] = false
+                newState[1] = false
+                newState[2] = false
+                newState[3] = true
+
+                return newState
+              })
+            }
+            className="icons-nav-btns"
+            to="/profile"
+          >
             <Icon
-              className="icons-nav-btns"
+              style={{ color: isLinkActive[3] && "white" }}
+              className={"icons-nav-btns"}
               icon="healthicons:ui-user-profile"
             />
             Profile
