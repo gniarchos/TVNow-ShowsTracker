@@ -11,6 +11,10 @@
 - Updated animations and active page in PWA navigation bar.
 - Updated pagination style in discover.
 
+### Fixed
+
+- Fixed issue in Discover when Show All filters resulting no data.
+
 ---
 
 ## [1.10.0] - 28-4-2024
