@@ -12,7 +12,7 @@ export default function DetailedShowsList() {
   document.title = "TVTime | TV Shows Tracker"
 
   let allGenres = [
-    { name: "Show All", id: null },
+    { name: "Show All", id: "" },
     { name: "Action & Adventure", id: 10759 },
     { name: "Animation", id: 16 },
     { name: "Comedy", id: 35 },
@@ -40,7 +40,7 @@ export default function DetailedShowsList() {
   const param_section_page = searchParams.get("page")
   let param_section_filter = searchParams.get("filter")
     ? searchParams.get("filter")
-    : "null"
+    : ""
   const param_search_query = searchParams.get("query")
   const [fetchLink, setFetchLink] = useState()
 
@@ -68,7 +68,7 @@ export default function DetailedShowsList() {
         `https://api.themoviedb.org/3/discover/tv?api_key=${
           process.env.REACT_APP_THEMOVIEDB_API
         }&language=en-US&page=${param_section_page}&with_genres=${
-          param_section_filter !== null ? param_section_filter : null
+          param_section_filter !== null ? param_section_filter : ""
         }`
       )
     } else if (
