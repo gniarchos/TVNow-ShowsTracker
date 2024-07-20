@@ -27,3 +27,5 @@ src/services/firebase.js
 .env
 .prettierignore
 .vscode
+
+.changelog.md
