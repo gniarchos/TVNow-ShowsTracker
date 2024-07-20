@@ -12,14 +12,15 @@
   align-items: center;
   justify-content: space-between;
   background-color: rgb(12, 13, 13);
-  padding-left: 5vw;
-  padding-right: 2vw;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .logo-link {
   cursor: pointer;
   width: 150px;
   display: flex;
+  margin-left: 20px;
 }
 
 .logo-img {
@@ -72,7 +73,7 @@
 }
 
 .search-input {
-  width: 30vw;
+  width: 100%;
   height: 35px;
   font-size: 1.1rem;
   padding-left: 10px;
@@ -84,10 +85,19 @@
 
 .search-div {
   position: relative;
+  width: 30vw;
 }
 
 .search-suggestions-wrapper {
   position: relative;
+}
+
+.search-div.smaller {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  width: calc(100vw - 30px);
 }
 
 .search-img {
@@ -113,8 +123,8 @@
 }
 
 .suggestionsSearchBox.mobile {
-  position: absolute;
-  left: 6.5vw;
+  margin-left: 30px;
+  width: calc(100vw - 60px);
 }
 
 .single-search-suggestion {
@@ -184,13 +194,16 @@
   cursor: pointer;
   text-decoration: none;
   color: white;
-  width: 32px;
-  height: 32px;
   transition: all 0.3s linear;
+  user-select: none;
 }
 
 .icons-nav-btns.hide {
   display: none;
+}
+
+.icons-nav-btns.search:hover {
+  color: #fff;
 }
 
 .icons-nav-btns:hover {
@@ -309,7 +322,9 @@
   }
 
   .icons-nav-btns {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .nav-btns {
@@ -336,14 +351,6 @@
   .login-btn:hover {
     color: white;
     border: 2px solid white;
-  }
-
-  .search-input {
-    width: 100vw;
-  }
-
-  .search-div {
-    margin-left: -3.5vw;
   }
 
   .icons-nav-btns {
@@ -374,13 +381,15 @@
   .navbar-wrapper {
     align-items: center;
     height: 40px;
-    padding-left: 0;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
   .logo-link {
     justify-content: flex-start;
     padding-left: 20px;
     align-items: center;
+    margin-left: -20px;
   }
 
   .logo-img {
@@ -405,29 +414,6 @@
     padding-left: 10vw;
     padding-right: 10vw;
     padding-bottom: 18px;
-  }
-
-  .backCloseSearchIcon {
-    margin-left: 28px;
-  }
-
-  .suggestionsSearchBox.mobile {
-    position: absolute;
-    left: 12vw;
-  }
-
-  .search-suggestions-wrapper {
-    margin-bottom: 5px;
-    width: 100%;
-    position: relative;
-  }
-
-  .search-div {
-    width: 100vw;
-  }
-
-  .search-img {
-    right: 2%;
   }
 
   .icons-nav-btns {
@@ -462,5 +448,15 @@
 
   .navbar-wrapper.landing {
     height: 50px;
+  }
+
+  .search-input {
+    height: 32px;
+  }
+
+  .search-img {
+    height: 25px;
+    width: 25px;
+    margin-bottom: 10px !important;
   }
 }

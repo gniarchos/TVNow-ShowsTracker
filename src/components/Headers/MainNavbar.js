@@ -5,19 +5,20 @@ import { useAuth } from "../../authentication/AuthContext"
 import { useNavigate, Link, NavLink } from "react-router-dom"
 import searchImg from "../../images/search.png"
 import { Icon } from "@iconify/react"
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded"
+import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded"
+import KeyboardBackspaceRoundedIcon from "@mui/icons-material/KeyboardBackspaceRounded"
+import PWABottomBar from "./PWABottomBar"
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded"
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded"
 
 export default function MainNavbar(props) {
-  // const [error, setError] = useState("")
-  const { currentUser, logout } = useAuth()
+  const { logout } = useAuth()
   const navigate = useNavigate()
   const [searchVisibility, setSearchVisibility] = useState(false)
-  const [windowWidth, setWindowWidth] = useState()
-  const [isSmaller, setIsSmaller] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
   const [showConfirmationLogOut, setShowConfirmationLogOut] = useState(false)
   const [searchSuggestionsList, setSearchSuggestionsList] = useState([])
   const [searchQuery, setSearchQuery] = useState("")
-  const [isLinkActive, setIsLinkActive] = useState([false, false, false, true])
 
   function isUserWantToLogOut() {
     setShowConfirmationLogOut((prevValue) =>
@@ -30,13 +31,10 @@ export default function MainNavbar(props) {
   }
 
   async function handleLogout() {
-    // setError("")
-
     try {
       await logout()
       navigate("/index")
     } catch {
-      // setError("Failed to log out.")
       console.log("Failed to log out.")
     }
   }
@@ -60,24 +58,6 @@ export default function MainNavbar(props) {
       setSearchQuery("")
     }
   }
-
-  window.onresize = function () {
-    setWindowWidth(window.innerWidth)
-  }
-
-  useEffect(() => {
-    if (window.innerWidth < 825 && window.innerWidth > 454) {
-      setIsSmaller(true)
-      setIsMobile(false)
-    } else if (window.innerWidth < 454) {
-      setIsMobile(true)
-      setIsSmaller(true)
-    } else {
-      setSearchVisibility(false)
-      setIsMobile(false)
-      setIsSmaller(false)
-    }
-  }, [window.innerWidth])
 
   function toggleSearchBox() {
     setSearchVisibility(!searchVisibility)
@@ -136,151 +116,136 @@ export default function MainNavbar(props) {
       }
     })
 
-  const smallerSearchStyle = {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: "10px",
-    marginRight: "40px",
-  }
-
   if (window.matchMedia("(display-mode: standalone)").matches)
     return (
+      <PWABottomBar
+        searchVisibility={searchVisibility}
+        toggleSearchBox={toggleSearchBox}
+        searchFunction={searchFunction}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        showConfirmationLogOut={showConfirmationLogOut}
+        isUserWantToLogOut={isUserWantToLogOut}
+        searchSuggestions={searchSuggestions}
+        cancelLoggingOut={cancelLoggingOut}
+      />
+    )
+
+  if (searchVisibility) {
+    return (
       <div className="navbar-wrapper">
-        {searchVisibility === false && (
-          <Link to="/" className="logo-link">
-            <img className="logo-img" src={logo} alt="logo" />
-          </Link>
-        )}
-        {searchVisibility === false && (
-          <Icon
-            className="icons-nav-btns sign-out"
-            icon="akar-icons:sign-out"
+        <div className="search-suggestions-wrapper">
+          <div
+            className={
+              searchVisibility === true ? "search-div smaller" : "search-div"
+            }
+          >
+            <KeyboardBackspaceRoundedIcon
+              style={{ cursor: "pointer" }}
+              fontSize="medium"
+              onClick={toggleSearchBox}
+            />
+
+            <input
+              onKeyDown={(e) => searchFunction(e)}
+              className="search-input"
+              type="text"
+              placeholder="Search"
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <img className="search-img" src={searchImg} alt="search" />
+          </div>
+          {searchQuery.length > 3 && (
+            <div
+              className={
+                searchVisibility === true
+                  ? "suggestionsSearchBox mobile"
+                  : "suggestionsSearchBox"
+              }
+            >
+              {searchSuggestions}
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="navbar-wrapper">
+      <Link to="/" className="logo-link">
+        <img className="logo-img" src={logo} alt="logo" />
+      </Link>
+
+      <div className="search-suggestions-wrapper">
+        <div className="search-div">
+          <input
+            onKeyDown={(e) => searchFunction(e)}
+            className="search-input"
+            type="text"
+            placeholder="Search"
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <img className="search-img" src={searchImg} alt="search" />
+        </div>
+      </div>
+
+      <div className="nav-links">
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? "nav-btns hide" : "nav-btns"
+          }
+          to="/"
+        >
+          Discover
+        </NavLink>
+
+        <NavLink
+          aria-label="profile"
+          className={({ isActive }) =>
+            isActive ? "nav-btns hide" : "nav-btns"
+          }
+          to="/profile"
+        >
+          Profile
+        </NavLink>
+
+        <button
+          className="nav-btns"
+          onClick={!showConfirmationLogOut && isUserWantToLogOut}
+        >
+          Logout
+        </button>
+
+        {/* FOR SMALLER WINDOWS SIZES & MOBILES */}
+        <div className="icons-nav-btns">
+          <SearchRoundedIcon onClick={toggleSearchBox} sx={{ fontSize: 25 }} />
+        </div>
+
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? "icons-nav-btns hide" : "icons-nav-btns"
+          }
+          to="/"
+        >
+          <HomeRoundedIcon sx={{ fontSize: 25 }} />
+        </NavLink>
+
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? "icons-nav-btns hide" : "icons-nav-btns"
+          }
+          aria-label="profile"
+          to="/profile"
+        >
+          <AccountCircleRoundedIcon sx={{ fontSize: 25 }} />
+        </NavLink>
+
+        <div className="icons-nav-btns">
+          <LogoutRoundedIcon
+            sx={{ fontSize: 25 }}
             onClick={!showConfirmationLogOut && isUserWantToLogOut}
           />
-        )}
-        {searchVisibility === true && (
-          <div className="search-suggestions-wrapper">
-            <div style={smallerSearchStyle} className="search-div">
-              <Icon
-                className="backCloseSearchIcon"
-                icon="bi:x"
-                width={35}
-                onClick={toggleSearchBox}
-              />
-              <input
-                onKeyDown={(e) => searchFunction(e)}
-                className="search-input"
-                type="text"
-                placeholder="Search here..."
-                style={{ width: isMobile ? "86vw" : "45vw" }}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                autoFocus
-              />
-              <Icon
-                className="search-img"
-                icon="material-symbols:search"
-                width={25}
-                color="black"
-              />
-            </div>
-
-            {searchQuery.length > 3 && (
-              <div
-                className="suggestionsSearchBox mobile"
-                style={{ width: isMobile ? "86vw" : "45vw" }}
-              >
-                {searchSuggestions}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Standalone Bottom Navigation - mobile */}
-        <div className="standalone-bottom-nav-wrapper">
-          <NavLink
-            onClick={() =>
-              setIsLinkActive((prevState) => {
-                const newState = [...prevState]
-                newState[0] = true
-                newState[1] = false
-                newState[2] = false
-                newState[3] = false
-
-                return newState
-              })
-            }
-            className={
-              isLinkActive[0] ? "icons-nav-btns active" : "icons-nav-btns"
-            }
-            to="/"
-          >
-            <Icon
-              style={{ color: isLinkActive[0] && "white" }}
-              className="icons-nav-btns"
-              icon="ci:home-fill"
-            />
-            Home
-          </NavLink>
-
-          <NavLink
-            className={
-              isLinkActive[1] ? "icons-nav-btns active" : "icons-nav-btns"
-            }
-            to="/discover?title=Trending%20Now&type=trending&page=1"
-            onClick={() =>
-              setIsLinkActive((prevState) => {
-                const newState = [...prevState]
-                newState[0] = false
-                newState[1] = true
-                newState[2] = false
-                newState[3] = false
-
-                return newState
-              })
-            }
-          >
-            <Icon
-              style={{ color: isLinkActive[1] && "white" }}
-              className="icons-nav-btns"
-              icon="streamline:trending-content"
-            />
-            Discover
-          </NavLink>
-
-          <p className="icons-nav-btns">
-            <Icon
-              onClick={toggleSearchBox}
-              className="icons-nav-btns"
-              icon="fluent:search-16-filled"
-            />
-            Search
-          </p>
-
-          <NavLink
-            onClick={() =>
-              setIsLinkActive((prevState) => {
-                const newState = [...prevState]
-                newState[0] = false
-                newState[1] = false
-                newState[2] = false
-                newState[3] = true
-
-                return newState
-              })
-            }
-            className={
-              isLinkActive[3] ? "icons-nav-btns active" : "icons-nav-btns"
-            }
-            to="/profile"
-          >
-            <Icon
-              style={{ color: isLinkActive[3] && "white" }}
-              className={"icons-nav-btns"}
-              icon="healthicons:ui-user-profile"
-            />
-            Profile
-          </NavLink>
         </div>
 
         <div
@@ -309,158 +274,6 @@ export default function MainNavbar(props) {
           </div>
         </div>
       </div>
-    )
-
-  return (
-    <div className="navbar-wrapper">
-      {searchVisibility === false && (
-        <Link to="/" className="logo-link">
-          <img className="logo-img" src={logo} alt="logo" />
-        </Link>
-      )}
-
-      {isSmaller === false && (
-        <div className="search-suggestions-wrapper">
-          <div className="search-div">
-            <input
-              onKeyDown={(e) => searchFunction(e)}
-              className="search-input"
-              type="text"
-              placeholder="Search"
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <img className="search-img" src={searchImg} alt="search" />
-          </div>
-          {searchQuery.length > 3 && (
-            <div className="suggestionsSearchBox">{searchSuggestions}</div>
-          )}
-        </div>
-      )}
-
-      {isSmaller === true && searchVisibility === true && (
-        <div className="search-suggestions-wrapper">
-          <div style={smallerSearchStyle} className="search-div">
-            <Icon
-              className="backCloseSearchIcon"
-              icon="bi:arrow-left"
-              width={32}
-              onClick={toggleSearchBox}
-            />
-            <input
-              onKeyDown={(e) => searchFunction(e)}
-              className="search-input"
-              type="text"
-              placeholder="Search here..."
-              style={{ width: isMobile ? "86vw" : "45vw" }}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              autoFocus
-            />
-            <img className="search-img" src={searchImg} alt="search" />
-          </div>
-          {searchQuery.length > 3 && (
-            <div
-              className="suggestionsSearchBox mobile"
-              style={{ width: isMobile ? "86vw" : "45vw" }}
-            >
-              {searchSuggestions}
-            </div>
-          )}
-        </div>
-      )}
-
-      {searchVisibility === false && (
-        <div className="nav-links">
-          <NavLink
-            className={({ isActive }) =>
-              isActive ? "nav-btns hide" : "nav-btns"
-            }
-            to="/"
-          >
-            Discover
-          </NavLink>
-
-          <NavLink
-            aria-label="profile"
-            className={({ isActive }) =>
-              isActive ? "nav-btns hide" : "nav-btns"
-            }
-            to="/profile"
-          >
-            Profile
-          </NavLink>
-
-          <button
-            className="nav-btns"
-            onClick={!showConfirmationLogOut && isUserWantToLogOut}
-          >
-            Log out
-          </button>
-
-          {/* SMALL WINDOWS BUTTONS - MOBILES */}
-          <Icon
-            onClick={toggleSearchBox}
-            className="icons-nav-btns"
-            icon="fluent:search-16-filled"
-          />
-
-          <NavLink
-            className={({ isActive }) =>
-              isActive ? "icons-nav-btns hide" : "icons-nav-btns"
-            }
-            to="/"
-          >
-            <Icon className="icons-nav-btns" icon="ci:home-fill" />
-          </NavLink>
-
-          <NavLink
-            className={({ isActive }) =>
-              isActive ? "icons-nav-btns hide" : "icons-nav-btns"
-            }
-            aria-label="profile"
-            to="/profile"
-          >
-            <Icon
-              className="icons-nav-btns"
-              icon="healthicons:ui-user-profile"
-            />
-          </NavLink>
-
-          <Icon
-            className="icons-nav-btns"
-            icon="akar-icons:sign-out"
-            onClick={!showConfirmationLogOut && isUserWantToLogOut}
-          />
-
-          <div
-            className={
-              showConfirmationLogOut
-                ? "confirmation-wrapper isActive"
-                : "confirmation-wrapper"
-            }
-          >
-            <div
-              className={
-                showConfirmationLogOut
-                  ? "confirmation-container isActive"
-                  : "confirmation-container"
-              }
-            >
-              <p className="confirm-msg">Are you sure you want to log out?</p>
-              <div className="confirmation-btns-container">
-                <button
-                  onClick={isUserWantToLogOut}
-                  className="confirmation-btn"
-                >
-                  Confirm
-                </button>
-                <button onClick={cancelLoggingOut} className="confirmation-btn">
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 }
