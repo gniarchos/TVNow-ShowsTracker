@@ -133,11 +133,13 @@ export default function Profile() {
             }, 3000)
           })
           .catch((error) => {
+            setLoading(false)
             alert(error.message)
           })
       })
     } catch (error) {
-      alert(error)
+      setLoading(false)
+      alert(error.message)
     }
   }, [triggerFetchUserData, show_modal])
 
