@@ -26,3 +26,4 @@ yarn-error.log*
 src/services/firebase.js
 .env
 .prettierignore
+.vscode
