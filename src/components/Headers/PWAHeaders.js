@@ -68,6 +68,32 @@ export default function PWAHeaders({
             )}
           </div>
         )}
+
+        <div
+          className={
+            showConfirmationLogOut
+              ? "confirmation-wrapper isActive"
+              : "confirmation-wrapper"
+          }
+        >
+          <div
+            className={
+              showConfirmationLogOut
+                ? "confirmation-container isActive"
+                : "confirmation-container"
+            }
+          >
+            <p className="confirm-msg">Are you sure you want to log out?</p>
+            <div className="confirmation-btns-container">
+              <button onClick={isUserWantToLogOut} className="confirmation-btn">
+                Confirm
+              </button>
+              <button onClick={cancelLoggingOut} className="confirmation-btn">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="standalone-bottom-nav-wrapper">
@@ -111,32 +137,6 @@ export default function PWAHeaders({
           <AccountCircleRoundedIcon sx={{ fontSize: 25 }} />
           Profile
         </NavLink>
-      </div>
-
-      <div
-        className={
-          showConfirmationLogOut
-            ? "confirmation-wrapper isActive"
-            : "confirmation-wrapper"
-        }
-      >
-        <div
-          className={
-            showConfirmationLogOut
-              ? "confirmation-container isActive"
-              : "confirmation-container"
-          }
-        >
-          <p className="confirm-msg">Are you sure you want to log out?</p>
-          <div className="confirmation-btns-container">
-            <button onClick={isUserWantToLogOut} className="confirmation-btn">
-              Confirm
-            </button>
-            <button onClick={cancelLoggingOut} className="confirmation-btn">
-              Cancel
-            </button>
-          </div>
-        </div>
       </div>
     </>
   )
