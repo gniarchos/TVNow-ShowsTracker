@@ -101,19 +101,23 @@
   text-decoration: none;
 }
 
+.show-name-profile.stopped-finished {
+  margin-bottom: 5px;
+}
+
 .episode-num-card {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 10px;
   padding: 0;
-  /* margin-top: -10px; */
   margin-bottom: -10px;
+  font-weight: 500;
 }
 
 .episodes-left {
   background: #ededed;
-  border-radius: 8px;
+  border-radius: 5px;
   padding-left: 5px;
   padding-right: 5px;
   padding-top: 2px;
@@ -144,6 +148,11 @@
   width: 50px;
   margin-right: 15px;
   font-size: 1.15rem;
+}
+
+.profile-total-seasons-episodes {
+  font-weight: 500;
+  color: rgb(160, 160, 169);
 }
 
 @media all and (max-width: 665px) {
@@ -182,7 +191,7 @@
   }
 
   .runtime-release {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     right: auto;
     left: 5px;
   }
@@ -219,11 +228,12 @@
   }
 
   .show-name-profile {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   .profile-episode-name {
     width: 230px;
+    font-size: 0.9rem;
   }
 
   .profile-episode-name.list {
@@ -239,7 +249,24 @@
   }
 
   .until-episode-profile {
-    font-size: 1rem;
-    padding-right: 10px;
+    font-size: 0.85rem;
+    padding-right: 15px;
+  }
+
+  .episodes-left {
+    font-size: 0.7rem;
+  }
+
+  .episode-num-card {
+    font-size: 0.9rem;
+  }
+
+  .profile-total-seasons-episodes {
+    font-size: 0.9rem;
+  }
+
+  .show-name-profile.stopped-finished {
+    margin-top: -5px;
+    margin-bottom: 5px;
   }
 }

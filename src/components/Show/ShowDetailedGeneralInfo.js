@@ -41,7 +41,7 @@ export default function ShowDetailedGeneralInfo(props) {
       </p>
     )
   })
-  console.log(props.showData)
+
   return (
     <div className="all-details-div">
       {props.showData.external_ids?.facebook_id !== null &&

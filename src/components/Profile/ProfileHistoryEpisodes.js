@@ -203,9 +203,9 @@ export default function HistoryEpisodes(props) {
               {zeroPad(props.history_episode_number + 1, 2)}
             </p>
           )}
-          <p className="profile-episode-name-history">
+          <span className="profile-episode-name-history">
             {props.history_episode_name}
-          </p>
+          </span>
         </div>
 
         <div>

@@ -184,7 +184,7 @@
   color: black;
   text-decoration: none;
   display: block;
-  padding-top: 20px;
+  /* padding-top: 20px; */
 }
 
 .episode-card-img {
@@ -197,6 +197,7 @@
   display: flex;
   flex-direction: column;
   padding: 0;
+  font-weight: 500;
 }
 
 .markIcon-history {
@@ -281,10 +282,6 @@
     white-space: nowrap;
     text-overflow: ellipsis;
   }
-
-  /* .history-card-wrapper {
-    width: 80%;
-  } */
 }
 
 /* MOBILE */
@@ -339,10 +336,14 @@
 
   .history-info-card {
     width: 48vw;
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
 
   .show-name-profile-history {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    /* padding-top: 10px; */
+    /* margin-bottom: -5px; */
   }
 
   .markIcon-history.grid {
@@ -360,5 +361,13 @@
 
   .history-card-img {
     width: 150px;
+  }
+
+  .episode-num-card-history {
+    font-size: 0.9rem;
+  }
+
+  .profile-episode-name-history {
+    font-size: 0.9rem;
   }
 }

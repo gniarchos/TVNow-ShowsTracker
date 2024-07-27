@@ -284,19 +284,28 @@ export default function ProfileEpisodes(props) {
           >
             <Link
               to={`/show?show_name=${props.showName}&show_id=${props.showID}`}
-              className="show-name-profile"
+              className="show-name-profile stopped-finished"
             >
               {props.showName}
             </Link>
             {!props.stoppedShows ? (
-              <p>Total Seasons: {props.season_number}</p>
+              <span className="profile-total-seasons-episodes">
+                Total Seasons: {props.season_number}
+              </span>
             ) : (
-              <p>Stopped Season: {props.season_number}</p>
+              <span className="profile-total-seasons-episodes">
+                Stopped Season: {props.season_number}
+              </span>
             )}
+            <br />
             {!props.stoppedShows ? (
-              <p>Total Episodes: {props.episode_number}</p>
+              <span className="profile-total-seasons-episodes">
+                Total Episodes: {props.episode_number}
+              </span>
             ) : (
-              <p>Stopped Episode: {props.episode_number + 1}</p>
+              <span className="profile-total-seasons-episodes">
+                Stopped Episode: {props.episode_number + 1}
+              </span>
             )}
           </div>
         )}

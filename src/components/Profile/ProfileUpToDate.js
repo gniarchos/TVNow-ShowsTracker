@@ -17,7 +17,6 @@ export default function ProfileUpToDate(props) {
       return b.date_watched - a.date_watched
     })
     .map((show) => {
-      console.log(show)
       fetch(
         `https://api.themoviedb.org/3/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
       )
@@ -208,8 +207,6 @@ export default function ProfileUpToDate(props) {
       }
     }
   }, [])
-
-  console.log(upToDateShows)
 
   return (
     <>
