@@ -82,6 +82,66 @@ export default function Profile() {
     setPlayAnimation,
   }
 
+  // useEffect(() => {
+  //   if (isFirstLoad) {
+  //     window.scrollTo(0, 0)
+  //     setIsFirstLoad(false)
+  //     setLoading(true)
+  //   }
+
+  //   setPlayAnimation(true)
+  //   try {
+  //     databaseCaller({
+  //       collectionName: `watchlist-${currentUser.uid}`,
+  //       calledFrom: "profileWatchlist",
+  //     }).then((allData) => {
+  //       setUserAllShowsData(allData)
+  //       const showInfoUrls = allData
+  //         ?.sort((a, b) => b.date_watched - a.date_watched)
+  //         ?.map(
+  //           (show) =>
+  //             `https://api.themoviedb.org/3/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
+  //         )
+
+  //       const showSeasonUrls = allData?.map(
+  //         (show) =>
+  //           `https://api.themoviedb.org/3/tv/${show.show_id}/season/${show.season_number}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
+  //       )
+
+  //       Promise.all([
+  //         apiCaller(showInfoUrls),
+  //         apiCaller(showSeasonUrls, "seasonData"),
+  //       ])
+  //         .then((data) => {
+  //           setShowsData(data[0])
+  //           setSeasonData((prevData) => {
+  //             return data[1].map((season, index) => {
+  //               return {
+  //                 episodes: season.episodes,
+  //                 show_id: allData[index].show_id,
+  //                 seasonTotalEpisodes:
+  //                   season.episodes?.length !== null ||
+  //                   season.episodes?.length !== undefined
+  //                     ? season.episodes?.length
+  //                     : 0,
+  //               }
+  //             })
+  //           })
+  //           setLoading(false)
+  //           setTimeout(() => {
+  //             setPlayAnimation(false)
+  //           }, 3000)
+  //         })
+  //         .catch((error) => {
+  //           setLoading(false)
+  //           alert(error.message)
+  //         })
+  //     })
+  //   } catch (error) {
+  //     setLoading(false)
+  //     alert(error.message)
+  //   }
+  // }, [triggerFetchUserData, show_modal])
   useEffect(() => {
     if (isFirstLoad) {
       window.scrollTo(0, 0)
@@ -90,12 +150,16 @@ export default function Profile() {
     }
 
     setPlayAnimation(true)
-    try {
-      databaseCaller({
-        collectionName: `watchlist-${currentUser.uid}`,
-        calledFrom: "profileWatchlist",
-      }).then((allData) => {
+
+    const fetchData = async () => {
+      try {
+        const allData = await databaseCaller({
+          collectionName: `watchlist-${currentUser.uid}`,
+          calledFrom: "profileWatchlist",
+        })
+
         setUserAllShowsData(allData)
+
         const showInfoUrls = allData
           ?.sort((a, b) => b.date_watched - a.date_watched)
           ?.map(
@@ -108,39 +172,31 @@ export default function Profile() {
             `https://api.themoviedb.org/3/tv/${show.show_id}/season/${show.season_number}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
         )
 
-        Promise.all([
+        const [showInfoData, seasonData] = await Promise.all([
           apiCaller(showInfoUrls),
           apiCaller(showSeasonUrls, "seasonData"),
         ])
-          .then((data) => {
-            setShowsData(data[0])
-            setSeasonData((prevData) => {
-              return data[1].map((season, index) => {
-                return {
-                  episodes: season.episodes,
-                  show_id: allData[index].show_id,
-                  seasonTotalEpisodes:
-                    season.episodes?.length !== null ||
-                    season.episodes?.length !== undefined
-                      ? season.episodes?.length
-                      : 0,
-                }
-              })
-            })
-            setLoading(false)
-            setTimeout(() => {
-              setPlayAnimation(false)
-            }, 3000)
-          })
-          .catch((error) => {
-            setLoading(false)
-            alert(error.message)
-          })
-      })
-    } catch (error) {
-      setLoading(false)
-      alert(error.message)
+
+        setShowsData(showInfoData)
+        setSeasonData(
+          seasonData.map((season, index) => ({
+            episodes: season.episodes,
+            show_id: allData[index].show_id,
+            seasonTotalEpisodes: season.episodes?.length || 0,
+          }))
+        )
+
+        setLoading(false)
+        setTimeout(() => {
+          setPlayAnimation(false)
+        }, 3000)
+      } catch (error) {
+        setLoading(false)
+        alert("DEBUGING MESSAGE: " + error.message + " ----- ", error)
+      }
     }
+
+    fetchData()
   }, [triggerFetchUserData, show_modal])
 
   function changeLayoutMobile() {
