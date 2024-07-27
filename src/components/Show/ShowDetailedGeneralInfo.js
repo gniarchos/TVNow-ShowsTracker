@@ -41,12 +41,13 @@ export default function ShowDetailedGeneralInfo(props) {
       </p>
     )
   })
+  console.log(props.showData)
   return (
     <div className="all-details-div">
-      {props.showData.external_ids?.facebook_id !== null ||
-        props.showData.external_ids?.instagram_id !== null ||
-        props.showData.external_ids?.twitter_id !== null ||
-        (props.showData.external_ids?.imdb_id !== null && (
+      {props.showData.external_ids?.facebook_id !== null &&
+        props.showData.external_ids?.instagram_id !== null &&
+        props.showData.external_ids?.twitter_id !== null &&
+        props.showData.external_ids?.imdb_id !== null && (
           <div className="show-social">
             {props.showData.external_ids?.facebook_id !== null && (
               <a
@@ -93,7 +94,7 @@ export default function ShowDetailedGeneralInfo(props) {
               </a>
             )}
           </div>
-        ))}
+        )}
 
       {props.showData.networks?.length > 0 && (
         <div>
