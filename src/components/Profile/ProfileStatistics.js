@@ -31,15 +31,9 @@ export default function ProfileStatistics(props) {
         })
     }
 
-    Promise.all([getUserWatchingTime()])
-      .then(() => {
-        // console.log(
-        //   "Got the user's current season and episode - info of selected season and season data"
-        // )
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error)
-      })
+    Promise.all([getUserWatchingTime()]).catch((error) => {
+      console.error("Error fetching data:", error)
+    })
   }, [triggerFetchUserData])
 
   useEffect(() => {

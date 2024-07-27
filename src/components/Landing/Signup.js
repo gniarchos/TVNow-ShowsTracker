@@ -43,7 +43,6 @@ export default function Signup() {
 
       console.log(errorCode)
       if (errorCode === "auth/email-already-in-use") {
-        // console.log("Email already exists")
         setError("The email address is already in use")
       } else {
         navigate("/")

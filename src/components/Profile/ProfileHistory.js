@@ -22,7 +22,6 @@ export default function ProfileHistory(props) {
       collectionName: `history-${props.currentUser}`,
       calledFrom: "profileHistory",
     }).then((data) => {
-      console.log(data)
       const newData = data.map((item) => {
         const date = new Date(
           item.date_watched.seconds * 1000 +

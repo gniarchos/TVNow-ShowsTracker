@@ -9,8 +9,6 @@ export default function ProfileUpToDate(props) {
   const { cancelled_shows, setCancelled_shows, setShow_modal } =
     useContext(ProfileContext)
 
-  console.log(props.seasonData, "updatetodate-seasonData")
-
   const [upToDateSettings, setUpToDateSettings] = useState(false)
   let countShows = 0
   const upToDateShows = props.userShowAllData

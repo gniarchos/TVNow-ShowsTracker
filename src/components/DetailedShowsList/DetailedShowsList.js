@@ -97,7 +97,6 @@ export default function DetailedShowsList() {
         return await fetch(fetchLink)
           .then((res) => res.json())
           .then((data) => {
-            // console.log(data)
             setTotalPages(data.total_pages)
             setAllShows(data.results)
             setTotalResults(data.total_results)
@@ -106,7 +105,6 @@ export default function DetailedShowsList() {
 
       Promise.all([fetchLinkData()])
         .then(() => {
-          // console.log("Both fetch calls finished.")
           setLoading(false)
         })
         .catch((error) => {

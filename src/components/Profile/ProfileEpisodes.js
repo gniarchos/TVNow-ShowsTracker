@@ -20,7 +20,6 @@ export default function ProfileEpisodes(props) {
   const [finished, setFinished] = useState(false)
   const [userWatchingTime, setUserWatchingTime] = useState()
   const [userTotalEpisodes, setUserTotalEpisodes] = useState()
-  // const [playAnimation, setPlayAnimation] = React.useState(false)
   const [clickedElement, setClickedElement] = useState()
 
   React.useEffect(() => {
@@ -35,8 +34,6 @@ export default function ProfileEpisodes(props) {
   }, [finished])
 
   function episodeMarker() {
-    // setPlayAnimation(true)
-    console.log("play animation", props.show_id)
     setClickedElement(
       `${props.show_id}-${props.season_number}-${props.episode_number}`
     )

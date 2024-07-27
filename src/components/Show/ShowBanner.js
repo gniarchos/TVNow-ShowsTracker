@@ -48,7 +48,6 @@ export default function ShowBanner(props) {
         .then((querySnapshot) => {
           if (!querySnapshot.empty) {
             querySnapshot.forEach((doc) => {
-              // console.log("Document data:", doc.data())
               if (doc.data().status !== "removed") {
                 setIsShowAddedInWatchList(true)
                 setIsShowPreviouslyRemoved(false)
@@ -61,13 +60,11 @@ export default function ShowBanner(props) {
         })
     }
 
-    Promise.all([fetchRatingsData(), checkIfShowAddedInWatchList()])
-      .then(() => {
-        // console.log("Both API calls finished.")
-      })
-      .catch((error) => {
+    Promise.all([fetchRatingsData(), checkIfShowAddedInWatchList()]).catch(
+      (error) => {
         console.error("Error fetching data:", error)
-      })
+      }
+    )
   }, [])
 
   function addShowToWatchList() {
@@ -99,13 +96,10 @@ export default function ShowBanner(props) {
 
     Promise.all([addShowToDatabase()])
       .then(() => {
-        console.log("Show added to user's watchlist")
-        // Handle any additional logic after both API calls are completed
         setIsShowAddedInWatchList(true)
       })
       .catch((error) => {
         console.error("Error adding to database:", error)
-        // Handle errors if any of the promises reject
       })
   }
 
@@ -127,13 +121,10 @@ export default function ShowBanner(props) {
 
     Promise.all([removeShow()])
       .then(() => {
-        console.log("Show removed from user's watchlist")
-        // Handle any additional logic after both API calls are completed
         setIsShowAddedInWatchList(false)
       })
       .catch((error) => {
         console.error("Error removing from database:", error)
-        // Handle errors if any of the promises reject
       })
   }
 
@@ -153,13 +144,9 @@ export default function ShowBanner(props) {
         })
     }
 
-    Promise.all([continueWatching()])
-      .then(() => {
-        // console.log("Show re-added watching list")
-      })
-      .catch((error) => {
-        console.error("Error adding to database:", error)
-      })
+    Promise.all([continueWatching()]).catch((error) => {
+      console.error("Error adding to database:", error)
+    })
   }
 
   function stopWatchingShow() {
@@ -178,13 +165,9 @@ export default function ShowBanner(props) {
         })
     }
 
-    Promise.all([stopWatching()])
-      .then(() => {
-        // console.log("Show removed from watching list")
-      })
-      .catch((error) => {
-        console.error("Error adding to database:", error)
-      })
+    Promise.all([stopWatching()]).catch((error) => {
+      console.error("Error adding to database:", error)
+    })
   }
 
   return (

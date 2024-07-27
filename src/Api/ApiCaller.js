@@ -1,6 +1,5 @@
 export default async function apiCaller(urls, type) {
   try {
-    console.log("apiCaller", urls)
     const results = await Promise.all(
       urls.map(async (url, index) => {
         const response = await fetch(url)

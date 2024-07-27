@@ -54,10 +54,7 @@ export default function People() {
     }
 
     Promise.all([fetchPersonDetails(), fetchPersonKnownFor()])
-      .then(() =>
-        // console.log("All data is fetched.")
-        setIsLoading(false)
-      )
+      .then(() => setIsLoading(false))
       .catch((error) => {
         console.log("Error fetching data:", error)
       })

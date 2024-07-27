@@ -69,13 +69,9 @@ export default function ShowOverview() {
         })
     }
 
-    Promise.all([fetchShowData(), fetchUserStatusOfShow()])
-      .then(() => {
-        // console.log("Both fetch calls finished.")
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error)
-      })
+    Promise.all([fetchShowData(), fetchUserStatusOfShow()]).catch((error) => {
+      console.error("Error fetching data:", error)
+    })
 
     window.addEventListener("resize", handleWindowSizeChange)
     return () => {
@@ -108,13 +104,9 @@ export default function ShowOverview() {
         })
     }
 
-    Promise.all([fetchAvailabilityData()])
-      .then(() => {
-        // console.log("Both API calls finished.")
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error)
-      })
+    Promise.all([fetchAvailabilityData()]).catch((error) => {
+      console.error("Error fetching data:", error)
+    })
   }, [showData])
 
   function showHideFullCast() {

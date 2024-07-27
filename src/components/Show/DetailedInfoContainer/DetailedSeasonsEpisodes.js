@@ -74,15 +74,9 @@ export default function DetailedSeasonsEpisodes(props) {
       getUsersSeasonsEpisode(),
       fetchSelectedSeasonInfo(),
       fetchSeasonData(),
-    ])
-      .then(() => {
-        // console.log(
-        //   "Got the user's current season and episode - info of selected season and season data"
-        // )
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error)
-      })
+    ]).catch((error) => {
+      console.error("Error fetching data:", error)
+    })
   }, [props.show_id, seasonNumber])
 
   useEffect(() => {
@@ -180,13 +174,9 @@ export default function DetailedSeasonsEpisodes(props) {
         updateUsersTimeEpisodes(),
         updateUserShowStatus(),
         addSeasonToHistory(),
-      ])
-        .then(() => {
-          // console.log("Both API calls finished.")
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error)
-        })
+      ]).catch((error) => {
+        console.error("Error fetching data:", error)
+      })
     }
   }, [seasonRuntimeData])
 
