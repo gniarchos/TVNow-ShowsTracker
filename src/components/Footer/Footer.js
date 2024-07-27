@@ -31,7 +31,7 @@ export default function Footer() {
         >
           Giannis Niarchos
         </a>
-        <p className="copyright"> © 2023 </p>
+        <p className="copyright"> © {new Date().getFullYear()} </p>
       </div>
 
       <div className="footer-api">
