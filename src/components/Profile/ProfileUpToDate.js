@@ -13,7 +13,11 @@ export default function ProfileUpToDate(props) {
   let countShows = 0
   const upToDateShows = props.userShowAllData
     .filter((show) => show.status === "watching")
+    .sort((a, b) => {
+      return b.date_watched - a.date_watched
+    })
     .map((show) => {
+      console.log(show)
       fetch(
         `https://api.themoviedb.org/3/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
       )
@@ -204,6 +208,8 @@ export default function ProfileUpToDate(props) {
       }
     }
   }, [])
+
+  console.log(upToDateShows)
 
   return (
     <>
