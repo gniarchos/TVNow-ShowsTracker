@@ -192,7 +192,7 @@ export default function Profile() {
         }, 3000)
       } catch (error) {
         setLoading(false)
-        alert("DEBUGING MESSAGE: " + error.message + " ----- ", error)
+        alert("Something went wrong. Please try again later.")
       }
     }
 
