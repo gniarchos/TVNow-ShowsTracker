@@ -9,7 +9,7 @@ import KeyboardBackspaceRoundedIcon from "@mui/icons-material/KeyboardBackspaceR
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded"
 import searchImg from "../../images/search.png"
 
-export default function PWABottomBar({
+export default function PWAHeaders({
   searchVisibility,
   toggleSearchBox,
   searchFunction,
@@ -22,51 +22,53 @@ export default function PWABottomBar({
 }) {
   const location = useLocation()
   return (
-    <div className="navbar-wrapper">
-      {searchVisibility === false && (
-        <Link to="/" className="logo-link">
-          <img className="logo-img" src={logo} alt="logo" />
-        </Link>
-      )}
-      {searchVisibility === false && (
-        <Icon
-          className="icons-nav-btns sign-out"
-          icon="akar-icons:sign-out"
-          onClick={!showConfirmationLogOut && isUserWantToLogOut}
-        />
-      )}
-      {searchVisibility === true && (
-        <div className="search-suggestions-wrapper">
-          <div
-            className={
-              searchVisibility === true ? "search-div smaller" : "search-div"
-            }
-          >
-            <KeyboardBackspaceRoundedIcon onClick={toggleSearchBox} />
-            <input
-              onKeyDown={(e) => searchFunction(e)}
-              className="search-input"
-              type="text"
-              placeholder="Search here..."
-              onChange={(e) => setSearchQuery(e.target.value)}
-              autoFocus
-            />
-            <img className="search-img" src={searchImg} alt="search" />
-          </div>
-
-          {searchQuery.length > 3 && (
+    <>
+      <div className="navbar-wrapper">
+        {searchVisibility === false && (
+          <Link to="/" className="logo-link">
+            <img className="logo-img" src={logo} alt="logo" />
+          </Link>
+        )}
+        {searchVisibility === false && (
+          <Icon
+            className="icons-nav-btns sign-out"
+            icon="akar-icons:sign-out"
+            onClick={!showConfirmationLogOut && isUserWantToLogOut}
+          />
+        )}
+        {searchVisibility === true && (
+          <div className="search-suggestions-wrapper">
             <div
               className={
-                searchVisibility === true
-                  ? "suggestionsSearchBox mobile"
-                  : "suggestionsSearchBox"
+                searchVisibility === true ? "search-div smaller" : "search-div"
               }
             >
-              {searchSuggestions}
+              <KeyboardBackspaceRoundedIcon onClick={toggleSearchBox} />
+              <input
+                onKeyDown={(e) => searchFunction(e)}
+                className="search-input"
+                type="text"
+                placeholder="Search here..."
+                onChange={(e) => setSearchQuery(e.target.value)}
+                autoFocus
+              />
+              <img className="search-img" src={searchImg} alt="search" />
             </div>
-          )}
-        </div>
-      )}
+
+            {searchQuery.length > 3 && (
+              <div
+                className={
+                  searchVisibility === true
+                    ? "suggestionsSearchBox mobile"
+                    : "suggestionsSearchBox"
+                }
+              >
+                {searchSuggestions}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
 
       <div className="standalone-bottom-nav-wrapper">
         <NavLink
@@ -136,6 +138,6 @@ export default function PWABottomBar({
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }

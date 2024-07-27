@@ -8,7 +8,7 @@ import { Icon } from "@iconify/react"
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded"
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded"
 import KeyboardBackspaceRoundedIcon from "@mui/icons-material/KeyboardBackspaceRounded"
-import PWABottomBar from "./PWABottomBar"
+import PWAHeaders from "./PWAHeaders"
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded"
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded"
 
@@ -118,7 +118,7 @@ export default function MainNavbar(props) {
 
   if (window.matchMedia("(display-mode: standalone)").matches)
     return (
-      <PWABottomBar
+      <PWAHeaders
         searchVisibility={searchVisibility}
         toggleSearchBox={toggleSearchBox}
         searchFunction={searchFunction}
