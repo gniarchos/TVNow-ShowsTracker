@@ -23,7 +23,21 @@ export default function ProfileHistory(props) {
       calledFrom: "profileHistory",
     }).then((data) => {
       console.log(data)
-      setHistoryData(data)
+      const newData = data.map((item) => {
+        const date = new Date(
+          item.date_watched.seconds * 1000 +
+            item.date_watched.nanoseconds / 1000000
+        )
+        return {
+          ...item,
+          date_watched: date.toISOString(),
+        }
+      })
+      setHistoryData(
+        newData.sort(
+          (a, b) => new Date(b.date_watched) - new Date(a.date_watched)
+        )
+      )
     })
   }, [])
 
