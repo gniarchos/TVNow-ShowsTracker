@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react"
-// import { auth, db } from "../services/firebase"
+import { auth, db } from "../services/firebase"
 import { serverTimestamp } from "firebase/firestore"
 
 const AuthContext = React.createContext()
