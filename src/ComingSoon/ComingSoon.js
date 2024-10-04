@@ -13,16 +13,16 @@ export default function ComingSoon() {
       }}
     >
       <h1>More Coming Soon!</h1>
-      <p>Stay tuned!</p>
+      <h2 style={{ marginTop: "0px" }}>Stay tuned!</h2>
 
       <p>
-        For now use{" "}
+        Visit active stable version:{" "}
         <a
           target="_blank"
           style={{ color: "white" }}
           href="https://tvtime-app-tracker.web.app/"
         >
-          Stable TVTime Shows Tracker
+          TVTime Shows Tracker
         </a>
       </p>
     </div>
