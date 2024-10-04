@@ -29,7 +29,7 @@ export default function ShowDetailedInfoContainer(props) {
       setShowVideos([])
       for (let i = 1; i <= props.showData.number_of_seasons; i++) {
         const response = await fetch(
-          `https://api.themoviedb.org/3/tv/${props.show_id}/season/${i}/videos?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
+          `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${props.show_id}/season/${i}/videos?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
         )
         const data = await response.json()
         setShowVideos((prevData) => [...prevData, data.results])

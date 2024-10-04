@@ -3,7 +3,7 @@ import "./ShowsList.css"
 import { Link } from "react-router-dom"
 
 export default function ShowsList(props) {
-  document.title = "TVTime | TV Shows Tracker"
+  document.title = "Watchee | Shows Tracker"
 
   const show_title = React.useRef("")
   const divRef = React.useRef("")

@@ -18,13 +18,20 @@
 
 .logo-link {
   cursor: pointer;
-  width: 150px;
+  /* width: 150px; */
+  /* height: 40px; */
   display: flex;
   margin-left: 20px;
+  font-family: "Righteous", cursive;
+  font-size: 2rem;
+  font-weight: 500;
+  color: white;
+  text-decoration: none;
 }
 
 .logo-img {
-  width: 150px;
+  /* width: 100px; */
+  /* width: 150px; */
 }
 
 .login-btn {
@@ -374,9 +381,9 @@
     gap: 15px;
   }
 
-  .logo-img {
+  /* .logo-img {
     width: 30vw;
-  }
+  } */
 
   .confirmation-container {
     width: 90vw;
@@ -403,9 +410,9 @@
     margin-left: -20px;
   }
 
-  .logo-img {
+  /* .logo-img {
     width: 25vw;
-  }
+  } */
 
   .standalone-bottom-nav-wrapper {
     height: 85px;

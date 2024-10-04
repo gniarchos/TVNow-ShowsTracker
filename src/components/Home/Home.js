@@ -35,19 +35,19 @@ export default function Home() {
     }
 
     const trendingPromise = fetchAndSetData(
-      `https://api.themoviedb.org/3/trending/tv/week?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&page=1`,
+      `${process.env.REACT_APP_THEMOVIEDB_URL}/trending/tv/week?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&page=1`,
       setAllTrending
     )
     const popularPromise = fetchAndSetData(
-      `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&page=1`,
+      `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/popular?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&page=1`,
       setAllPopular
     )
     const onTheAirPromise = fetchAndSetData(
-      `https://api.themoviedb.org/3/tv/on_the_air?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&page=1`,
+      `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/on_the_air?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&page=1`,
       setAllOnTheAir
     )
     const discoverPromise = fetchAndSetData(
-      `https://api.themoviedb.org/3/discover/tv?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&page=1`,
+      `${process.env.REACT_APP_THEMOVIEDB_URL}/discover/tv?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&page=1`,
       setAllDiscover
     )
 

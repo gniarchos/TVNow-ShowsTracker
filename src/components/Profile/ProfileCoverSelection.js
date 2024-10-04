@@ -24,7 +24,7 @@ export default function ProfileCoverSelection(props) {
     setIsFetching(true)
     const getShowsImages = async () => {
       return await fetch(
-        `https://api.themoviedb.org/3/tv/${show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&include_image_language=en,null&append_to_response=images`
+        `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&include_image_language=en,null&append_to_response=images`
       )
         .then((res) => res.json())
         .then((data) => {

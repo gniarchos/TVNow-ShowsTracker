@@ -39,7 +39,7 @@ export default function DetailedSeasonsEpisodes(props) {
 
     const fetchSelectedSeasonInfo = async () => {
       return await fetch(
-        `https://api.themoviedb.org/3/tv/${props.show_id}/season/${seasonNumber}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
+        `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${props.show_id}/season/${seasonNumber}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -62,7 +62,7 @@ export default function DetailedSeasonsEpisodes(props) {
 
     const fetchSeasonData = async () => {
       return await fetch(
-        `https://api.themoviedb.org/3/tv/${props.show_id}/season/${seasonNumber}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
+        `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${props.show_id}/season/${seasonNumber}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
       )
         .then((res) => res.json())
         .then((data) => {

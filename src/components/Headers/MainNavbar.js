@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import "./Headers.css"
-import logo from "../../images/TVTime-logo-white.svg"
+import logo from "../../images/logo.png"
 import { useAuth } from "../../authentication/AuthContext"
 import { useNavigate, Link, NavLink } from "react-router-dom"
 import searchImg from "../../images/search.png"
@@ -12,8 +12,8 @@ import PWAHeaders from "./PWAHeaders"
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded"
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded"
 
-export default function MainNavbar(props) {
-  const { logout } = useAuth()
+export default function MainNavbar() {
+  // const { logout } = useAuth()
   const navigate = useNavigate()
   const [searchVisibility, setSearchVisibility] = useState(false)
   const [showConfirmationLogOut, setShowConfirmationLogOut] = useState(false)
@@ -31,12 +31,13 @@ export default function MainNavbar(props) {
   }
 
   async function handleLogout() {
-    try {
-      await logout()
-      navigate("/index")
-    } catch {
-      console.log("Failed to log out.")
-    }
+    // TODO: Implement logout
+    // try {
+    //   await logout()
+    //   navigate("/index")
+    // } catch {
+    //   console.log("Failed to log out.")
+    // }
   }
 
   function cancelLoggingOut() {
@@ -65,7 +66,7 @@ export default function MainNavbar(props) {
 
   useEffect(() => {
     fetch(
-      `https://api.themoviedb.org/3/search/multi?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&query=${searchQuery}&include_adult=true&language=en-US&page=1`
+      `${process.env.REACT_APP_THEMOVIEDB_URL}/search/multi?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&query=${searchQuery}&include_adult=true&language=en-US&page=1`
     )
       .then((data) => data.json())
       .then((data) => {
@@ -174,7 +175,7 @@ export default function MainNavbar(props) {
   return (
     <div className="navbar-wrapper">
       <Link to="/" className="logo-link">
-        <img className="logo-img" src={logo} alt="logo" />
+        Watchee
       </Link>
 
       <div className="search-suggestions-wrapper">

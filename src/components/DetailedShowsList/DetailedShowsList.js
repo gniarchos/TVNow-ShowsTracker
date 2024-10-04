@@ -9,7 +9,7 @@ import Filters from "./Filters"
 import Loader from "../Other/Loader"
 
 export default function DetailedShowsList() {
-  document.title = "TVTime | TV Shows Tracker"
+  document.title = "Watchee | Shows Tracker"
 
   let allGenres = [
     { name: "Show All", id: "" },
@@ -61,11 +61,11 @@ export default function DetailedShowsList() {
   useEffect(() => {
     if (param_section_type === "trending") {
       setFetchLink(
-        `https://api.themoviedb.org/3/${param_section_type}/tv/week?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&page=${param_section_page}`
+        `${process.env.REACT_APP_THEMOVIEDB_URL}/${param_section_type}/tv/week?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&page=${param_section_page}`
       )
     } else if (param_section_type === "discover") {
       setFetchLink(
-        `https://api.themoviedb.org/3/discover/tv?api_key=${
+        `${process.env.REACT_APP_THEMOVIEDB_URL}/discover/tv?api_key=${
           process.env.REACT_APP_THEMOVIEDB_API
         }&language=en-US&page=${param_section_page}&with_genres=${
           param_section_filter !== null ? param_section_filter : ""
@@ -76,11 +76,11 @@ export default function DetailedShowsList() {
       param_section_type === "popular"
     ) {
       setFetchLink(
-        `https://api.themoviedb.org/3/tv/${param_section_type}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&page=${param_section_page}`
+        `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${param_section_type}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&page=${param_section_page}`
       )
     } else {
       setFetchLink(
-        `https://api.themoviedb.org/3/search/tv?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&query=${param_search_query}&include_adult=true&page=${param_section_page}`
+        `${process.env.REACT_APP_THEMOVIEDB_URL}/search/tv?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&query=${param_search_query}&include_adult=true&page=${param_section_page}`
       )
     }
   }, [param_section_page, param_search_query, param_section_filter])

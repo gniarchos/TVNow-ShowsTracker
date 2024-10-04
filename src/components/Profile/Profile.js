@@ -17,7 +17,7 @@ import apiCaller from "../../Api/ApiCaller"
 export const ProfileContext = createContext()
 
 export default function Profile() {
-  document.title = `TVTime | TV Shows Tracker`
+  document.title = `Watchee | Shows Tracker`
 
   const { currentUser } = useAuth()
   const [seasonData, setSeasonData] = useState([])
@@ -100,12 +100,12 @@ export default function Profile() {
   //         ?.sort((a, b) => b.date_watched - a.date_watched)
   //         ?.map(
   //           (show) =>
-  //             `https://api.themoviedb.org/3/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
+  //             `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
   //         )
 
   //       const showSeasonUrls = allData?.map(
   //         (show) =>
-  //           `https://api.themoviedb.org/3/tv/${show.show_id}/season/${show.season_number}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
+  //           `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${show.show_id}/season/${show.season_number}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
   //       )
 
   //       Promise.all([
@@ -164,12 +164,12 @@ export default function Profile() {
           ?.sort((a, b) => b.date_watched - a.date_watched)
           ?.map(
             (show) =>
-              `https://api.themoviedb.org/3/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
+              `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
           )
 
         const showSeasonUrls = allData?.map(
           (show) =>
-            `https://api.themoviedb.org/3/tv/${show.show_id}/season/${show.season_number}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
+            `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${show.show_id}/season/${show.season_number}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
         )
 
         const [showInfoData, seasonData] = await Promise.all([

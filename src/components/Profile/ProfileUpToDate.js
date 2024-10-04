@@ -18,7 +18,7 @@ export default function ProfileUpToDate(props) {
     })
     .map((show) => {
       fetch(
-        `https://api.themoviedb.org/3/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
+        `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
       )
         .then((res) => res.json())
         .then((data) => {

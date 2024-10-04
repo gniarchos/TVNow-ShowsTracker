@@ -35,7 +35,7 @@ export default function People() {
 
     const fetchPersonDetails = async () => {
       return await fetch(
-        `https://api.themoviedb.org/3/person/${param_person_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&append_to_response=videos,images`
+        `${process.env.REACT_APP_THEMOVIEDB_URL}/person/${param_person_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&append_to_response=videos,images`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -45,7 +45,7 @@ export default function People() {
 
     const fetchPersonKnownFor = async () => {
       return await fetch(
-        `https://api.themoviedb.org/3/person/${param_person_id}/combined_credits?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
+        `${process.env.REACT_APP_THEMOVIEDB_URL}/person/${param_person_id}/combined_credits?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`
       )
         .then((res) => res.json())
         .then((data) => {

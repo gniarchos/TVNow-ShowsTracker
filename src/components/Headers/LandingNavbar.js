@@ -1,6 +1,6 @@
 import React from "react"
 import "./Headers.css"
-import logo from "../../images/TVTime-logo-white.svg"
+import logo from "../../images/logo.png"
 import { Link } from "react-router-dom"
 
 export default function LandingNavbar(props) {
@@ -11,7 +11,8 @@ export default function LandingNavbar(props) {
   return (
     <div style={backgroundStyle} className="navbar-wrapper landing">
       <Link to="/" className="logo-link">
-        <img className="logo-img" src={logo} alt="logo" />
+        {/* <img className="logo-img" src={logo} alt="logo" /> */}
+        Watchee
       </Link>
 
       {!props.hideStarting && (
