@@ -1,5 +1,5 @@
 import { collection, orderBy, getDocs } from "firebase/firestore"
-import { db } from "../services/firebase"
+// import { db } from "../services/firebase"
 
 export async function databaseCaller(params) {
   try {

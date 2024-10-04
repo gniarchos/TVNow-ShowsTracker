@@ -23,7 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 .firebase
-src/services/firebase.js
+# src/services/firebase.js
 .env
 .prettierignore
 .vscode
