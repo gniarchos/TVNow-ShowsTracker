@@ -64,7 +64,8 @@
 }
 
 /* MOBILE */
-@media all and (max-width: 499px) {
+@media all and (max-width: 768px) {
+  /* mobile */
   .seasons-episodes-title {
     font-size: 1.6rem;
   }

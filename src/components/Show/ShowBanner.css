@@ -136,7 +136,8 @@
 }
 
 /* MOBILE */
-@media all and (max-width: 499px) {
+@media all and (max-width: 768px) {
+  /* mobile */
   .show-status {
     margin-bottom: 25px;
   }

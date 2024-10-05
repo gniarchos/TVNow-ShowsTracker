@@ -20,7 +20,8 @@
 }
 
 /* MOBILE */
-@media all and (max-width: 499px) {
+@media all and (max-width: 768px) {
+  /* mobile */
   .profile-main-content-wrapper {
     margin-left: 0;
     margin-right: 0;

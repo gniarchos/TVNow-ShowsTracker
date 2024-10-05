@@ -91,7 +91,8 @@
 }
 
 /* MOBILE */
-@media all and (max-width: 499px) {
+@media all and (max-width: 768px) {
+  /* mobile */
   .show-info-container {
     margin-top: 15px;
   }

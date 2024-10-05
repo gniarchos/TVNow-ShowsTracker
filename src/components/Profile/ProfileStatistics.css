@@ -67,7 +67,8 @@
 }
 
 /* MOBILE */
-@media all and (max-width: 499px) {
+@media all and (max-width: 768px) {
+  /* mobile */
   .statistics-info-container {
     padding-top: 0;
     gap: 5%;

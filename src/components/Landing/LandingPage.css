@@ -253,7 +253,8 @@
   }
 }
 
-@media all and (max-width: 499px) {
+@media all and (max-width: 768px) {
+  /* mobile */
   .landing-wrapper {
     background-image: url(../../images/landing-bg-mb-min.jpg);
   }

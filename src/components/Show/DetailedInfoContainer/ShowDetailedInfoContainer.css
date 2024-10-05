@@ -131,7 +131,8 @@
 }
 
 /* MOBILE */
-@media all and (max-width: 499px) {
+@media all and (max-width: 768px) {
+  /* mobile */
   .synopsis-text {
     font-size: 1.1rem;
   }

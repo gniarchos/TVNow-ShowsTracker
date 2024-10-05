@@ -285,7 +285,8 @@
 }
 
 /* MOBILE */
-@media all and (max-width: 499px) {
+@media all and (max-width: 768px) {
+  /* mobile */
   .title-button {
     margin-top: -10px;
   }

@@ -164,7 +164,8 @@
   }
 }
 
-@media all and (max-width: 499px) {
+@media all and (max-width: 768px) {
+  /* mobile */
   .cast-img {
     padding-right: 15px;
   }

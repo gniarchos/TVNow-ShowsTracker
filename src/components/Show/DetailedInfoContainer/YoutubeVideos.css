@@ -36,7 +36,8 @@
 }
 
 /* MOBILE */
-@media all and (max-width: 499px) {
+@media all and (max-width: 768px) {
+  /* mobile */
   .trans-video {
     width: 120px;
     height: 180px;

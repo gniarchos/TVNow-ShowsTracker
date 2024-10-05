@@ -211,7 +211,8 @@
   gap: 5px;
 }
 
-@media all and (max-width: 499px) {
+@media all and (max-width: 768px) {
+  /* mobile */
   .noSearchResults-div p {
     margin-top: 40px;
     font-size: 1rem;
