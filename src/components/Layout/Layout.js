@@ -1,32 +1,30 @@
-import React, { createContext } from "react"
+import React, { createContext, useState } from "react"
 import { Outlet } from "react-router-dom"
-import MainNavbar from "../Headers/MainNavbar"
 import Footer from "../Footer/Footer"
-import { useAuth } from "../../authentication/AuthContext"
 import "../../App.css"
 import Navbar from "../Headers/Navbar"
 import AutoScrollToTop from "../Other/AutoScrollToTop/AutoScrollToTop"
+import { Alert, Snackbar } from "@mui/material"
 
 export const LayoutContext = createContext()
 
 export default function Layout() {
   const isUserLoggedIn = localStorage.getItem("accessToken")
-  // const { currentUser } = useAuth()
 
-  // let isLoggedIn = false
-
-  // if (currentUser === null) {
-  //   isLoggedIn = false
-  // } else {
-  //   isLoggedIn = true
-  // }
+  const [openSnackbar, setOpenSnackbar] = useState(false)
+  const [snackbarMessage, setSnackbarMessage] = useState("")
+  const [snackbarSeverity, setSnackbarSeverity] = useState("")
 
   const layoutValues = {
     isUserLoggedIn: isUserLoggedIn,
+    setOpenSnackbar,
+    setSnackbarMessage,
+    setSnackbarSeverity,
   }
 
   return (
     <LayoutContext.Provider value={layoutValues}>
+      <AutoScrollToTop />
       <div
         className={
           !window.matchMedia("(display-mode: standalone)").matches
@@ -34,11 +32,25 @@ export default function Layout() {
             : "standalone-layout"
         }
       >
-        {/* {isLoggedIn && <MainNavbar />} */}
-        {/* <MainNavbar /> */}
         <Navbar />
         <Outlet />
-        <AutoScrollToTop />
+
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={3000}
+          onClose={() => setOpenSnackbar(false)}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        >
+          <Alert
+            onClose={() => setOpenSnackbar(false)}
+            severity={snackbarSeverity}
+            variant="filled"
+            sx={{ width: "100%" }}
+          >
+            {snackbarMessage}
+          </Alert>
+        </Snackbar>
+
         {!window.matchMedia("(display-mode: standalone)").matches && <Footer />}
       </div>
     </LayoutContext.Provider>
