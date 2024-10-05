@@ -4,7 +4,7 @@ import { useAuth } from "../../authentication/AuthContext"
 import { useSearchParams } from "react-router-dom"
 import { db } from "../../services/firebase"
 import PuffLoader from "react-spinners/PuffLoader"
-import Loader from "../Other/Loader"
+import Loader from "../Other/Loader/Loader"
 import ShowFullCast from "./ShowFullCast"
 import ShowBanner from "./ShowBanner"
 

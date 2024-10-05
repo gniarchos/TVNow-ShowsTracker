@@ -4,7 +4,7 @@ import "./People.css"
 import noImg from "../../images/no-image.png"
 import noFace from "../../images/no-face.png"
 import PuffLoader from "react-spinners/PuffLoader"
-import Loader from "../Other/Loader"
+import Loader from "../Other/Loader/Loader"
 
 export default function People() {
   const [personDetails, setPersonDetails] = React.useState([])

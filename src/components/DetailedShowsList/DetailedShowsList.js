@@ -6,7 +6,7 @@ import ReactPaginate from "react-paginate"
 import PuffLoader from "react-spinners/PuffLoader"
 import ShowCard from "./ShowCard"
 import Filters from "./Filters"
-import Loader from "../Other/Loader"
+import Loader from "../Other/Loader/Loader"
 
 export default function DetailedShowsList() {
   document.title = "Watchee | Shows Tracker"

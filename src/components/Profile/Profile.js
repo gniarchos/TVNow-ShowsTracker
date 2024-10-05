@@ -1,5 +1,5 @@
 import { useEffect, useState, createContext } from "react"
-import Loader from "../Other/Loader"
+import Loader from "../Other/Loader/Loader"
 import ScrollToTop from "../Other/ScrollToTop"
 import CancelledShows from "./CancelledShows"
 import ProfileCover from "./ProfileCover"
