@@ -1,6 +1,7 @@
 {
   "name": "Watchee",
   "short_name": "Watchee",
+  "start_url": "/profile",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -15,7 +16,7 @@
       "purpose": "maskable"
     }
   ],
-  "theme_color": "#ffffff",
+  "theme_color": "#0c0d0d",
   "background_color": "#3e3e3e",
   "display": "standalone"
 }
