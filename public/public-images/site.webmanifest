@@ -1,6 +1,6 @@
 {
-  "name": "My TVTime",
-  "short_name": "My TVTime",
+  "name": "Watchee",
+  "short_name": "Watchee",
   "start_url": "/profile",
   "icons": [
     {
