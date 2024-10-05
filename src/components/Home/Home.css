@@ -1,21 +1,16 @@
-.home-wrapper {
+.home-content {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin-left: 3%;
   margin-right: 3%;
   margin-top: 20px;
-  margin-bottom: 50px;
+  margin-bottom: 140px;
   gap: 20px;
-  z-index: 5;
 }
 
-.mySuggestions {
-  height: 700px;
-}
-
-@media all and (max-width: 816px) {
-  .mySuggestions {
-    height: 500px;
+@media all and (display-mode: standalone) {
+  .home-content {
+    margin-bottom: 0px;
   }
 }
