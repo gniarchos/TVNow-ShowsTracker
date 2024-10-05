@@ -5,6 +5,7 @@ import Footer from "../Footer/Footer"
 import { useAuth } from "../../authentication/AuthContext"
 import "../../App.css"
 import Navbar from "../Headers/Navbar"
+import AutoScrollToTop from "../Other/AutoScrollToTop/AutoScrollToTop"
 
 export const LayoutContext = createContext()
 
@@ -37,6 +38,7 @@ export default function Layout() {
         {/* <MainNavbar /> */}
         <Navbar />
         <Outlet />
+        <AutoScrollToTop />
         {!window.matchMedia("(display-mode: standalone)").matches && <Footer />}
       </div>
     </LayoutContext.Provider>
