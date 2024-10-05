@@ -43,6 +43,7 @@ export default function Navbar() {
       <Link to="/" className="navbar-logo-link">
         Watchee
       </Link>
+      <SearchRoundedIcon className="navbar-search-icon-mobile" />
 
       <Autocomplete
         size="small"
@@ -97,14 +98,17 @@ export default function Navbar() {
         // TODO: Add logout button AND profile button
         <></>
       ) : (
-        <Button
-          sx={{ width: "100px" }}
-          variant="contained"
-          color="primary"
-          onClick={() => alert("Coming soon!")}
-        >
-          Login
-        </Button>
+        <>
+          <Button
+            sx={{ width: "100px" }}
+            variant="contained"
+            color="primary"
+            onClick={() => alert("Coming soon!")}
+            className="navbar-login-btn"
+          >
+            Login
+          </Button>
+        </>
       )}
     </div>
   )

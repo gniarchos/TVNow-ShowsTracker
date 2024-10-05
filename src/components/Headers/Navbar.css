@@ -28,3 +28,34 @@
   border-radius: 5px;
   width: 500px;
 }
+
+.navbar-search-icon-mobile {
+  display: none !important;
+}
+
+@media screen and (max-width: 600px) {
+  .navbar-wrapper {
+    padding-left: 10px;
+    padding-right: 10px;
+    justify-content: space-between;
+    align-self: center;
+  }
+
+  .navbar-search {
+    display: none;
+  }
+
+  .navbar-logo-link {
+    font-size: 1.5rem;
+  }
+
+  .navbar-login-btn {
+    font-size: 0.8rem !important;
+    padding: 5px 10px !important;
+  }
+
+  .navbar-search-icon-mobile {
+    display: block !important;
+    margin-left: 130px;
+  }
+}
