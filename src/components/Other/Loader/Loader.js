@@ -1,6 +1,6 @@
 import React from "react"
 import PuffLoader from "react-spinners/PuffLoader"
-import "../../App.css"
+import "./Loader.css"
 import { Icon } from "@iconify/react/dist/iconify.js"
 
 export default function Loader() {
