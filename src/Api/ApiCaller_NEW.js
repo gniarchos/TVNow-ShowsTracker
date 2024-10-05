@@ -51,14 +51,14 @@ export default async function apiCaller(params) {
           case 401:
             throw new Error(jsonResponse.message)
           default:
-            throw new Error("Άγνωστο σφάλμα. Δοκιμάστε ξανά.")
+            throw new Error("Something went wrong. Please try again later.")
         }
       }
     }
   } catch (error) {
     console.error(`[${params.calledFrom}] Fetching error:`, error)
     if (error.message === "Failed to fetch") {
-      throw new Error("Αποτυχία σύνδεσης. Δοκιμάστε ξανά.")
+      throw new Error("Something went wrong. Please try again later.")
     } else {
       throw new Error(error.message)
     }
