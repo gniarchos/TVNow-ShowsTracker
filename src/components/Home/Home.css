@@ -9,6 +9,12 @@
   gap: 20px;
 }
 
+@media all and (max-width: 690px) {
+  .home-content {
+    margin-bottom: 220px;
+  }
+}
+
 @media all and (display-mode: standalone) {
   .home-content {
     margin-bottom: 0px;

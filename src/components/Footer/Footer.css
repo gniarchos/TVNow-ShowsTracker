@@ -1,6 +1,6 @@
 .footer-wrapper {
-  background: black;
-  height: 100px;
+  background: rgb(12, 13, 13);
+  height: 50px;
   padding: 50px;
   display: flex;
   flex-direction: row;
@@ -13,58 +13,64 @@
   width: 100%;
 }
 
-.footer-api {
+.footer-api-wrapper {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 5px;
   font-size: 1rem;
 }
 
-.footer-api p {
+.footer-api-wrapper span {
   font-size: 1.1rem;
   font-weight: 500;
 }
 
-.copyright-wrapper {
+.footer-copyright-wrapper {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 5px;
 }
 
-.copyright {
+.footer-copyright {
   font-size: 1rem;
   font-weight: 600;
 }
 
-.link-portfolio {
+.footer-link-portfolio {
   color: white;
   text-decoration: none;
   font-size: 1.1rem;
   font-weight: 600;
-  transition: all 250ms ease-in;
+  transition: all 200ms ease-in;
 }
 
-.link-portfolio:hover {
+.footer-link-portfolio:hover {
   color: rgb(243, 178, 57);
 }
 
-.socials {
+.footer-socials {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
-  align-items: flex-end;
+  align-items: center;
+  justify-content: center;
   gap: 10px;
 }
 
 .social-icon {
   color: #f1f7ee;
   cursor: pointer;
-  transition: all 250ms ease-in;
-  width: 35px;
-  height: 35px;
+  transition: all 200ms ease-in;
+}
+
+.social-icon.linkedin {
+  font-size: 1.8rem !important;
+}
+
+.social-icon.github {
+  font-size: 1.6rem !important;
 }
 
 .social-icon:hover {
@@ -72,27 +78,42 @@
   transition: all 250ms ease-in;
 }
 
-@media all and (max-width: 896px) {
+.footer-api-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  /* margin-top: -10px; */
+}
+
+.api-images {
+  width: 30px;
+  height: 30px;
+}
+
+/* @media all and (max-width: 896px) {
   .footer-wrapper {
     flex-direction: column;
     height: fit-content;
     padding: 20px;
   }
-}
+} */
 
 /* MOBILE */
-@media all and (max-width: 454px) {
-  .api-images {
-    width: 30px;
-    height: 30px;
+@media all and (max-width: 690px) {
+  .footer-wrapper {
+    flex-direction: column;
+    height: fit-content;
+    padding: 15px;
   }
 
-  .copyright {
+  .footer-copyright {
     font-size: 0.95rem;
   }
 
-  .social-icon {
-    width: 30px;
-    height: 30px;
+  .footer-api-wrapper span {
+    font-size: 0.9rem;
+    font-weight: 500;
   }
 }
