@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from "react"
 import "./Home.css"
 import MySuggestions from "./MySuggestions/MySuggestions"
-import ShowsList from "./ShowsList"
 import Loader from "../Other/Loader/Loader"
 import apiCaller from "../../Api/ApiCaller_NEW"
 import { LayoutContext } from "../Layout/Layout"
+import HomeShowsLists from "./HomeShowsLists/HomeShowsLists"
 
 export default function Home() {
   const [allTrending, setAllTrending] = useState([])
@@ -68,13 +68,13 @@ export default function Home() {
       <MySuggestions />
 
       <div className="home-content">
-        <ShowsList
+        <HomeShowsLists
           listOfShows={allTrending}
           section="Trending Now"
           type="trending"
         />
 
-        <ShowsList
+        <HomeShowsLists
           listOfShows={allDiscover}
           section="Discover"
           type="discover"

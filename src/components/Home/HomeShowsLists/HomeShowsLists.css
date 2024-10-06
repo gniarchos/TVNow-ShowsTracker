@@ -1,0 +1,133 @@
+.home-shows-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-left: 20px;
+  padding-right: 20px;
+  gap: 20px;
+}
+
+.home-shows-list-title-link {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.home-shows-list-section-title {
+  border: 10px solid;
+  border-image-slice: 0 0 0 1;
+  border-width: 8px;
+  border-image-source: linear-gradient(to bottom, #743ad5, #d53a9d);
+  padding-left: 10px;
+}
+
+.home-shows-list-cards {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.home-shows-list-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(12, 13, 13, 0.5);
+  text-decoration: none;
+  border-radius: 10px;
+  color: white;
+  position: relative;
+}
+
+.home-shows-list-card-num {
+  position: absolute;
+  left: 5px;
+  top: -8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: whitesmoke;
+  height: 30px;
+  width: 30px;
+  border-radius: 30px;
+  color: #141522;
+  z-index: 2;
+}
+
+.home-shows-list-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-shows-list-card-img-wrapper {
+  box-shadow: 0px 60px 54px -40px rgba(0, 0, 0, 0.75) inset;
+  cursor: pointer;
+  background-color: transparent;
+  margin: auto;
+  overflow: hidden;
+  width: fit-content;
+  width: 260px;
+  height: 360px;
+}
+
+.home-shows-list-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  transition: all 0.3s;
+  transform: scale(1);
+}
+
+.home-shows-list-card-img-wrapper:hover .home-shows-list-card-img {
+  transform: scale(1.1);
+}
+
+.home-shows-list-card-title {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 215px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  color: #e7e7e7;
+}
+
+@media all and (max-width: 768px) {
+  /* mobile */
+  .home-shows-list-wrapper {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+  .home-shows-list-section-title {
+    font-size: 1.4rem;
+  }
+
+  .home-shows-list-cards {
+    margin-top: -10px;
+    flex-wrap: nowrap;
+    gap: 10px;
+    overflow: auto;
+  }
+
+  .home-shows-list-card-img-wrapper {
+    width: 190px;
+    height: 250px;
+  }
+
+  .home-shows-list-card-title {
+    font-size: 0.9rem;
+    width: 95%;
+  }
+}
