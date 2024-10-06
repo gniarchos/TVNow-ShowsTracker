@@ -130,4 +130,8 @@
     font-size: 0.9rem;
     width: 95%;
   }
+
+  .home-shows-list-card-img-wrapper:hover .home-shows-list-card-img {
+    transform: scale(1);
+  }
 }
