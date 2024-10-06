@@ -13,6 +13,7 @@ import SearchRoundedIcon from "@mui/icons-material/SearchRounded"
 import apiCaller from "../../Api/ApiCaller_NEW"
 import LiveTvRoundedIcon from "@mui/icons-material/LiveTvRounded"
 import TheaterComedyRoundedIcon from "@mui/icons-material/TheaterComedyRounded"
+import PWABottomBar from "./PWAHeaders/PWABottomBar"
 
 export default function Navbar() {
   const { isUserLoggedIn } = useContext(LayoutContext)
@@ -37,6 +38,16 @@ export default function Navbar() {
         // TODO: handle error here
       })
   }, [searchValue])
+
+  // if (window.matchMedia("(display-mode: standalone)").matches) {
+  //   // PWA
+  //   return (
+  //     <>
+  //       <PWANavbar isUserLoggedIn={isUserLoggedIn} />
+  //       <PWABottomBar />
+  //     </>
+  //   )
+  // }
 
   return (
     <div className="navbar-wrapper">
@@ -109,6 +120,10 @@ export default function Navbar() {
             Login
           </Button>
         </>
+      )}
+
+      {window.matchMedia("(display-mode: standalone)").matches && (
+        <PWABottomBar />
       )}
     </div>
   )
