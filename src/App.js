@@ -21,6 +21,7 @@ import PageNotFound from "./components/Other/PageNotFound"
 import { createTheme } from "@mui/material"
 import { ThemeProvider } from "@emotion/react"
 import ComingSoon from "./ComingSoon/ComingSoon"
+import DetailedShowsList from "./components/DetailedShowsList/DetailedShowsList"
 
 export default function App() {
   const theme = createTheme({
@@ -103,33 +104,37 @@ export default function App() {
           },
         },
       },
+      MuiPaginationItem: {
+        styleOverrides: {
+          root: {
+            color: "white", // Default color for the number buttons
+            fontSize: "1.2rem",
+            "&:hover": {
+              backgroundColor: "rgba(25, 118, 210, 0.3)", // Hover color for the number buttons
+            },
+          },
+          // selected: {
+          //   backgroundColor: "#1976d2", // Color for the selected button
+          //   color: "#fff", // Text color for the selected button
+          //   "&:hover": {
+          //     backgroundColor: "#1565c0", // Hover color for the selected button
+          //   },
+          // },
+          outlined: {
+            borderColor: "#1976d2", // Border color for outlined buttons
+          },
+        },
+      },
     },
   })
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        {/* <Route path="/login" element={<Login />} />
-
-        <Route path="/" element={<PrivateRoute />}>
-          <Route path="/lab-selection" element={<LabSelector />} />
-          <Route element={<Layout />}>
-            <Route path="*" element={<PageNotFound />} />
-            <Route path="/" element={<Patients />} />
-            <Route path="/orders" element={<Orders />}>
-              <Route path=":patientID" element={<Orders />} />
-            </Route>
-            <Route path="/results" element={<Results />}>
-              <Route path=":patientID" element={<Results />} />
-            </Route>
-            <Route path="/tests-results" element={<ResultsTests />} />
-            <Route path="/daily-results" element={<ResultsDaily />} />
-          </Route>
-        </Route> */}
-
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="*" element={<ComingSoon />} />
+          <Route path="/discover" element={<DetailedShowsList />} />
         </Route>
       </>
     )
