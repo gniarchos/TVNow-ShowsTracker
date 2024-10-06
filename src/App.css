@@ -15,3 +15,13 @@
   justify-content: space-between;
   padding-bottom: 80px;
 }
+
+.layout-outlet {
+  margin-bottom: 100px;
+}
+
+@media all and (display-mode: standalone) {
+  .layout-outlet {
+    margin-bottom: 0px;
+  }
+}

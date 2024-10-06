@@ -33,7 +33,9 @@ export default function Layout() {
         }
       >
         <Navbar />
-        <Outlet />
+        <div className="layout-outlet">
+          <Outlet />
+        </div>
 
         <Snackbar
           open={openSnackbar}
