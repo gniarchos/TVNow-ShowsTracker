@@ -119,9 +119,13 @@ export default function MySuggestions() {
             {suggest.genres.map((gen, index) => (
               <div key={index} className="suggestion-genres">
                 <Chip
-                  className="suggestion-single-genre"
                   label={gen.name}
                   color="third"
+                  sx={{
+                    fontWeight: "500",
+                    fontSize: { xs: "0.6rem", sm: "1rem" }, // Smaller font size on mobile
+                    padding: { xs: "6px 2px", sm: "4px, 8px" }, // Adjust padding for mobile
+                  }}
                 />
               </div>
             ))}

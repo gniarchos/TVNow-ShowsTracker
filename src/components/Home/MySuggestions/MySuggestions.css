@@ -45,18 +45,8 @@
   text-align: center;
 }
 
-.suggestion-single-genre {
-  font-size: 1rem !important;
-  font-weight: 500 !important;
-}
-
 @media all and (max-width: 740px) {
   .suggestion-title {
     font-size: 1.4rem;
-  }
-
-  .suggestion-single-genre {
-    font-size: 0.7rem !important;
-    font-weight: 500 !important;
   }
 }
