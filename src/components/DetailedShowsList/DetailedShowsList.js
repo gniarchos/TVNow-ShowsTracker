@@ -1,35 +1,15 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import "./DetailedShowsList.css"
 import { Icon } from "@iconify/react"
 import { useSearchParams, useNavigate } from "react-router-dom"
-import ReactPaginate from "react-paginate"
-import PuffLoader from "react-spinners/PuffLoader"
-import ShowCard from "./ShowCard"
-import Filters from "./Filters"
+import DetailedShowCard from "./DetailedShowCard"
 import Loader from "../Other/Loader/Loader"
+import apiCaller from "../../Api/ApiCaller_NEW"
+import { LayoutContext } from "../Layout/Layout"
+import { Chip, Pagination, useMediaQuery } from "@mui/material"
+import { useTheme } from "@emotion/react"
 
 export default function DetailedShowsList() {
-  document.title = "Watchee | Shows Tracker"
-
-  let allGenres = [
-    { name: "Show All", id: "" },
-    { name: "Action & Adventure", id: 10759 },
-    { name: "Animation", id: 16 },
-    { name: "Comedy", id: 35 },
-    { name: "Crime", id: 80 },
-    { name: "Documentary", id: 99 },
-    { name: "Drama", id: 18 },
-    { name: "Family", id: 10751 },
-    { name: "Kids", id: 10762 },
-    { name: "Mystery", id: 9648 },
-    { name: "News", id: 10763 },
-    { name: "Reality", id: 10764 },
-    { name: "Soap", id: 10766 },
-    { name: "Talk", id: 10767 },
-    { name: "War & Politics", id: 10768 },
-    { name: "Western", id: 37 },
-  ]
-
   const [allShows, setAllShows] = useState([])
   const [totalPages, setTotalPages] = useState(0)
   const [totalResults, setTotalResults] = useState(0)
@@ -38,11 +18,13 @@ export default function DetailedShowsList() {
   const param_section_title = searchParams.get("title")
   const param_section_type = searchParams.get("type")
   const param_section_page = searchParams.get("page")
-  let param_section_filter = searchParams.get("filter")
-    ? searchParams.get("filter")
-    : ""
   const param_search_query = searchParams.get("query")
-  const [fetchLink, setFetchLink] = useState()
+
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
+
+  const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
+    useContext(LayoutContext)
 
   const navigate = useNavigate()
   if (
@@ -59,86 +41,79 @@ export default function DetailedShowsList() {
   }
 
   useEffect(() => {
+    setLoading(true)
     if (param_section_type === "trending") {
-      setFetchLink(
-        `${process.env.REACT_APP_THEMOVIEDB_URL}/${param_section_type}/tv/week?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&page=${param_section_page}`
-      )
-    } else if (param_section_type === "discover") {
-      setFetchLink(
-        `${process.env.REACT_APP_THEMOVIEDB_URL}/discover/tv?api_key=${
-          process.env.REACT_APP_THEMOVIEDB_API
-        }&language=en-US&page=${param_section_page}&with_genres=${
-          param_section_filter !== null ? param_section_filter : ""
-        }`
-      )
-    } else if (
-      param_section_type === "on_the_air" ||
-      param_section_type === "popular"
-    ) {
-      setFetchLink(
-        `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${param_section_type}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&page=${param_section_page}`
-      )
-    } else {
-      setFetchLink(
-        `${process.env.REACT_APP_THEMOVIEDB_URL}/search/tv?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&query=${param_search_query}&include_adult=true&page=${param_section_page}`
-      )
-    }
-  }, [param_section_page, param_search_query, param_section_filter])
-
-  useEffect(() => {
-    window.scrollTo(0, 0)
-
-    if (fetchLink === undefined) {
-      setLoading(true)
-    } else {
-      setLoading(true)
-
-      const fetchLinkData = async () => {
-        return await fetch(fetchLink)
-          .then((res) => res.json())
-          .then((data) => {
-            setTotalPages(data.total_pages)
-            setAllShows(data.results)
-            setTotalResults(data.total_results)
-          })
-      }
-
-      Promise.all([fetchLinkData()])
-        .then(() => {
+      apiCaller({
+        url: `${process.env.REACT_APP_THEMOVIEDB_URL}/${param_section_type}/tv/week?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&page=${param_section_page}`,
+        method: "GET",
+        contentType: "application/json",
+        body: null,
+        calledFrom: "trendingList",
+        isResponseJSON: true,
+        extras: null,
+      })
+        .then((data) => {
+          setAllShows(data.results)
+          setTotalPages(data.total_pages)
+          setTotalResults(data.total_results)
           setLoading(false)
         })
         .catch((error) => {
-          console.error("Error fetching data:", error)
+          setSnackbarSeverity("error")
+          setSnackbarMessage(error.message)
+          setOpenSnackbar(true)
+        })
+    } else if (param_section_type === "discover") {
+      apiCaller({
+        url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/top_rated?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&page=${param_section_page}`,
+        method: "GET",
+        contentType: "application/json",
+        body: null,
+        calledFrom: "trendingList",
+        isResponseJSON: true,
+        extras: null,
+      })
+        .then((data) => {
+          setAllShows(data.results)
+          setTotalPages(data.total_pages)
+          setTotalResults(data.total_results)
+          setLoading(false)
+        })
+        .catch((error) => {
+          setSnackbarSeverity("error")
+          setSnackbarMessage(error.message)
+          setOpenSnackbar(true)
+        })
+    } else {
+      apiCaller({
+        url: `${process.env.REACT_APP_THEMOVIEDB_URL}/search/tv?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&query=${param_search_query}&include_adult=true&page=${param_section_page}`,
+        method: "GET",
+        contentType: "application/json",
+        body: null,
+        calledFrom: "trendingList",
+        isResponseJSON: true,
+        extras: null,
+      })
+        .then((data) => {
+          setAllShows(data.results)
+          setTotalPages(data.total_pages)
+          setTotalResults(data.total_results)
+          setLoading(false)
+        })
+        .catch((error) => {
+          setSnackbarSeverity("error")
+          setSnackbarMessage(error.message)
+          setOpenSnackbar(true)
         })
     }
-  }, [fetchLink])
+  }, [param_section_page, param_search_query])
 
-  function goToNextPage(event) {
-    window.scrollTo(0, 0)
-
+  function handlePageChange(event, value) {
     setSearchParams((prevParams) => {
       const updatedSearchParams = new URLSearchParams(prevParams)
-      updatedSearchParams.set("page", event.selected + 1)
+      updatedSearchParams.set("page", value)
       return updatedSearchParams
     })
-  }
-
-  function handleFilters(event) {
-    const { id } = event.target
-
-    if (id === "") {
-      searchParams.delete("filter")
-      setSearchParams(searchParams)
-    } else {
-      setSearchParams((prevParams) => {
-        const updatedSearchParams = new URLSearchParams(prevParams)
-        updatedSearchParams.set("filter", id)
-        updatedSearchParams.set("page", 1)
-        return updatedSearchParams
-      })
-    }
-
-    param_section_filter = id
   }
 
   if (loading) {
@@ -146,25 +121,32 @@ export default function DetailedShowsList() {
   }
 
   return (
-    <div className="detailedSlider-wrapper">
-      <div className="title-link-detailed">
-        <h1 className="search-title">{param_section_title}</h1>
-        <div className="search-info">
-          <p>Found {totalResults} Results</p>
-          <p>&#8226;</p>
-          <p>Page {param_section_page}</p>
+    <div className="detailed-shows-list-wrapper">
+      <div className="detailed-shows-list-header">
+        <h1 className="detailed-shows-list-title">{param_section_title}</h1>
+        <div className="detailed-shows-list-search-info">
+          <Chip
+            size="small"
+            color="secondary"
+            label={
+              <span>
+                Found <b>{totalResults}</b> Results
+              </span>
+            }
+          />
+          <Chip
+            size="small"
+            color="secondary"
+            label={
+              <span>
+                Page <b>{param_section_page}</b>
+              </span>
+            }
+          />
         </div>
       </div>
 
-      {param_section_type === "discover" &&
-        param_section_title !== "Search Results" && (
-          <Filters
-            allGenres={allGenres}
-            handleFilters={handleFilters}
-            param_section_filter={param_section_filter}
-          />
-        )}
-
+      {/* TODO: CHECK LATER */}
       {allShows.length <= 0 && (
         <div className="noSearchResults-div">
           <p>
@@ -174,25 +156,18 @@ export default function DetailedShowsList() {
         </div>
       )}
 
-      <ShowCard allShows={allShows} />
+      <DetailedShowCard allShows={allShows} />
 
       {allShows.length > 0 && totalPages > 2 && (
-        <div className="pagination-container">
-          <ReactPaginate
-            breakLabel="..."
-            nextLabel={<Icon icon="carbon:next-filled" />}
-            onPageChange={(e) => goToNextPage(e)}
-            pageRangeDisplayed={5}
-            marginPagesDisplayed={1}
-            pageCount={totalPages >= 500 ? 500 : totalPages}
-            previousLabel={<Icon icon="carbon:previous-filled" />}
-            renderOnZeroPageCount={null}
-            containerClassName="pagination"
-            pageLinkClassName="page-num"
-            previousLinkClassName="page-buttons"
-            nextLinkClassName="page-buttons"
-            activeLinkClassName="active"
-            forcePage={param_section_page - 1}
+        <div className="detailed-shows-list-pagination">
+          <Pagination
+            size={isMobile ? "small" : "large"}
+            page={parseInt(param_section_page)}
+            onChange={handlePageChange}
+            count={totalPages}
+            color="secondary"
+            boundaryCount={isMobile ? 2 : 5}
+            siblingCount={isMobile ? 1 : 1}
           />
         </div>
       )}
