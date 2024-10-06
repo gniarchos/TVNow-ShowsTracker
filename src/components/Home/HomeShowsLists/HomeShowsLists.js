@@ -41,7 +41,7 @@ export default function HomeShowsLists({ listOfShows, section, type }) {
           variant="contained"
           sx={{
             fontSize: { xs: "0.75rem", sm: "1rem" }, // Smaller font size on mobile
-            padding: { xs: "6px 12px", sm: "4px, 8px" }, // Adjust padding for mobile
+            padding: { xs: "6px 12px", sm: "4px, " }, // Adjust padding for mobile
           }}
         >
           View More
