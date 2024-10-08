@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react"
 import "./Navbar.css"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { LayoutContext } from "../Layout/Layout"
 import {
   Autocomplete,
@@ -19,6 +19,7 @@ export default function Navbar() {
   const { isUserLoggedIn } = useContext(LayoutContext)
   const [searchSuggestionsList, setSearchSuggestionsList] = useState([])
   const [searchValue, setSearchValue] = useState("")
+  const navigate = useNavigate()
 
   const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
     useContext(LayoutContext)
@@ -43,6 +44,16 @@ export default function Navbar() {
       })
   }, [searchValue])
 
+  function navigateToSearchResults() {
+    const fixed_searchValue = searchValue.replace(/ /g, "%20")
+
+    navigate(
+      `/discover?title=Search+Results&type=search&query=${fixed_searchValue}&page=1`
+    )
+
+    setSearchValue("")
+  }
+
   return (
     <>
       <div className="navbar-wrapper">
@@ -61,7 +72,7 @@ export default function Navbar() {
             (option) =>
               option?.media_type === "tv" || option?.media_type === "person"
           )}
-          getOptionLabel={(option) => option?.name}
+          getOptionLabel={(option) => option?.name || ""}
           renderOption={(props, option) => {
             const { key, ...otherProps } = props
             return (
@@ -75,6 +86,7 @@ export default function Navbar() {
               </li>
             )
           }}
+          onChange={() => navigateToSearchResults()}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -87,7 +99,7 @@ export default function Navbar() {
                     {params.InputProps.endAdornment}
                     <InputAdornment position="end">
                       <IconButton
-                        onClick={() => alert("Coming soon!")}
+                        onClick={() => navigateToSearchResults()}
                         edge="end"
                       >
                         <SearchRoundedIcon />
