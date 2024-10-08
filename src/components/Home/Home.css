@@ -5,20 +5,20 @@
   margin-left: 60px;
   margin-right: 60px;
   margin-top: 20px;
-  margin-bottom: 100px;
+  margin-bottom: 80px;
   gap: 20px;
 }
 
 @media all and (max-width: 690px) {
   .home-content {
-    margin-bottom: 220px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 140px;
   }
 }
 
 @media all and (display-mode: standalone) {
   .home-content {
-    margin-left: 10px;
-    margin-right: 10px;
     margin-bottom: 0px;
   }
 }

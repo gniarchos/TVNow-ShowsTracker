@@ -59,3 +59,9 @@
     margin-left: 130px;
   }
 }
+
+@media all and (display-mode: standalone) {
+  .navbar-wrapper {
+    height: 50px !important;
+  }
+}
