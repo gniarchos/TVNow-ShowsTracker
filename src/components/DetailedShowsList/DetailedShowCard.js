@@ -4,6 +4,9 @@ import { Link } from "react-router-dom"
 import noImg from "../../images/no-image.png"
 
 export default function ShowCard({ allShows }) {
+  const [imageLoaded, setImageLoaded] = React.useState(false)
+  const [imageError, setImageError] = React.useState(false)
+
   const list = allShows.map((list) => {
     return (
       <Link
@@ -14,11 +17,26 @@ export default function ShowCard({ allShows }) {
         <div className="detailed-shows-card-content">
           <div className="detailed-shows-card-img-wrapper">
             {list.poster_path !== null ? (
-              <img
-                className="detailed-shows-card-img"
-                src={`https://image.tmdb.org/t/p/w500/${list.poster_path}`}
-                alt="show"
-              />
+              <>
+                {!imageLoaded && !imageError && (
+                  <img
+                    className="detailed-shows-card-img"
+                    src={noImg}
+                    alt="not-found"
+                  />
+                )}
+
+                <img
+                  className="detailed-shows-card-img"
+                  style={{
+                    display: imageLoaded && !imageError ? "block" : "none",
+                  }}
+                  src={`https://image.tmdb.org/t/p/w500/${list.poster_path}`}
+                  alt="showPoster"
+                  onLoad={() => setImageLoaded(true)}
+                  onError={() => setImageError(true)}
+                />
+              </>
             ) : (
               <img
                 className="detailed-shows-card-no-img"

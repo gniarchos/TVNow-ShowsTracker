@@ -62,8 +62,10 @@
 }
 
 .detailed-shows-card-no-img {
-  width: 100%;
-  height: 100%;
+  /* width: 100%; */
+  /* height: 100%; */
+  width: 260px;
+  height: 400px;
   object-fit: cover;
 }
 
@@ -89,5 +91,11 @@
     width: 160px;
     padding-left: 10px;
     padding-right: 10px;
+  }
+
+  .detailed-shows-card-no-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 }
