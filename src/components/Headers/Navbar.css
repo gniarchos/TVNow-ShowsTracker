@@ -45,6 +45,20 @@
     display: none;
   }
 
+  .navbar-search-bar-mobile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+  }
+
+  .navbar-search-mobile {
+    background-color: white;
+    border-radius: 5px;
+    width: 95vw;
+  }
+
   .navbar-logo-link {
     font-size: 1.5rem;
   }

@@ -14,12 +14,14 @@ import apiCaller from "../../Api/ApiCaller_NEW"
 import LiveTvRoundedIcon from "@mui/icons-material/LiveTvRounded"
 import TheaterComedyRoundedIcon from "@mui/icons-material/TheaterComedyRounded"
 import PWABottomBar from "./PWAHeaders/PWABottomBar"
+import SearchBarMobile from "./SearchBarMobile/SearchBarMobile"
 
 export default function Navbar() {
   const { isUserLoggedIn } = useContext(LayoutContext)
   const [searchSuggestionsList, setSearchSuggestionsList] = useState([])
   const [searchValue, setSearchValue] = useState("")
   const navigate = useNavigate()
+  const [showSearchBarMobile, setShowSearchBarMobile] = useState(false)
 
   const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
     useContext(LayoutContext)
@@ -52,6 +54,8 @@ export default function Navbar() {
     )
 
     setSearchValue("")
+    setShowSearchBarMobile(false)
+    window.scrollTo(0, 0)
   }
 
   return (
@@ -60,7 +64,10 @@ export default function Navbar() {
         <Link to="/" className="navbar-logo-link">
           Watchee
         </Link>
-        <SearchRoundedIcon className="navbar-search-icon-mobile" />
+        <SearchRoundedIcon
+          onClick={() => setShowSearchBarMobile(true)}
+          className="navbar-search-icon-mobile"
+        />
 
         <Autocomplete
           size="small"
@@ -133,6 +140,14 @@ export default function Navbar() {
       {window.matchMedia("(display-mode: standalone)").matches && (
         <PWABottomBar />
       )}
+
+      <SearchBarMobile
+        showSearchBarMobile={showSearchBarMobile}
+        setShowSearchBarMobile={setShowSearchBarMobile}
+        navigateToSearchResults={navigateToSearchResults}
+        searchSuggestionsList={searchSuggestionsList}
+        setSearchValue={setSearchValue}
+      />
     </>
   )
 }
