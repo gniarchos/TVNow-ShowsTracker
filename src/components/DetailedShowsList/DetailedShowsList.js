@@ -164,7 +164,7 @@ export default function DetailedShowsList() {
             size={isMobile ? "small" : "large"}
             page={parseInt(param_section_page)}
             onChange={handlePageChange}
-            count={totalPages}
+            count={totalPages < 500 ? totalPages : 500}
             color="secondary"
             boundaryCount={isMobile ? 2 : 5}
             siblingCount={isMobile ? 1 : 1}
