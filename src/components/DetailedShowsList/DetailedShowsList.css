@@ -13,6 +13,7 @@
   border-image-slice: 0 0 0 1;
   border-width: 8px;
   border-image-source: linear-gradient(to bottom, #743ad5, #d53a9d);
+  margin-bottom: 10px;
 }
 
 .detailed-shows-list-title {
@@ -54,6 +55,7 @@
   .detailed-shows-list-wrapper {
     margin-left: 10px;
     margin-right: 10px;
+    margin-top: 10px;
   }
 
   .detailed-shows-list-title {
