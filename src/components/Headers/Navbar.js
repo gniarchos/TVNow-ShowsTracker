@@ -14,11 +14,15 @@ import apiCaller from "../../Api/ApiCaller_NEW"
 import LiveTvRoundedIcon from "@mui/icons-material/LiveTvRounded"
 import TheaterComedyRoundedIcon from "@mui/icons-material/TheaterComedyRounded"
 import PWABottomBar from "./PWAHeaders/PWABottomBar"
+import { LayoutContext } from "../Layout/Layout"
 
 export default function Navbar() {
   const { isUserLoggedIn } = useContext(LayoutContext)
   const [searchSuggestionsList, setSearchSuggestionsList] = useState([])
   const [searchValue, setSearchValue] = useState("")
+
+  const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
+    useContext(LayoutContext)
 
   useEffect(() => {
     apiCaller({
@@ -34,97 +38,90 @@ export default function Navbar() {
         return setSearchSuggestionsList(data.results)
       })
       .catch((error) => {
-        console.log("Error fetching image data:", error)
-        // TODO: handle error here
+        setOpenSnackbar(true)
+        setSnackbarSeverity("error")
+        setSnackbarMessage(error.message)
       })
   }, [searchValue])
 
-  // if (window.matchMedia("(display-mode: standalone)").matches) {
-  //   // PWA
-  //   return (
-  //     <>
-  //       <PWANavbar isUserLoggedIn={isUserLoggedIn} />
-  //       <PWABottomBar />
-  //     </>
-  //   )
-  // }
-
   return (
-    <div className="navbar-wrapper">
-      <Link to="/" className="navbar-logo-link">
-        Watchee
-      </Link>
-      <SearchRoundedIcon className="navbar-search-icon-mobile" />
+    <>
+      <div className="navbar-wrapper">
+        <Link to="/" className="navbar-logo-link">
+          Watchee
+        </Link>
+        <SearchRoundedIcon className="navbar-search-icon-mobile" />
 
-      <Autocomplete
-        size="small"
-        freeSolo
-        className="navbar-search"
-        noOptionsText="No results"
-        disableClearable={true}
-        options={searchSuggestionsList.filter(
-          (option) =>
-            option?.media_type === "tv" || option?.media_type === "person"
-        )}
-        getOptionLabel={(option) => option?.name}
-        renderOption={(props, option) => {
-          const { key, ...otherProps } = props
-          return (
-            <li key={option.id} {...otherProps}>
-              {option?.media_type === "tv" ? (
-                <LiveTvRoundedIcon style={{ marginRight: 8 }} />
-              ) : (
-                <TheaterComedyRoundedIcon style={{ marginRight: 8 }} />
-              )}{" "}
-              {option?.name}
-            </li>
-          )
-        }}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            placeholder="Search..."
-            onChange={(e) => setSearchValue(e.target.value)}
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <>
-                  {params.InputProps.endAdornment}
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => alert("Coming soon!")}
-                      edge="end"
-                    >
-                      <SearchRoundedIcon />
-                    </IconButton>
-                  </InputAdornment>
-                </>
-              ),
-            }}
-          />
-        )}
-      />
+        <Autocomplete
+          size="small"
+          freeSolo
+          className="navbar-search"
+          noOptionsText="No results"
+          disableClearable={true}
+          options={searchSuggestionsList.filter(
+            (option) =>
+              option?.media_type === "tv" || option?.media_type === "person"
+          )}
+          getOptionLabel={(option) => option?.name}
+          renderOption={(props, option) => {
+            const { key, ...otherProps } = props
+            return (
+              <li key={option.id} {...otherProps}>
+                {option?.media_type === "tv" ? (
+                  <LiveTvRoundedIcon style={{ marginRight: 8 }} />
+                ) : (
+                  <TheaterComedyRoundedIcon style={{ marginRight: 8 }} />
+                )}{" "}
+                {option?.name}
+              </li>
+            )
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              placeholder="Search..."
+              onChange={(e) => setSearchValue(e.target.value)}
+              InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <>
+                    {params.InputProps.endAdornment}
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => alert("Coming soon!")}
+                        edge="end"
+                      >
+                        <SearchRoundedIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  </>
+                ),
+              }}
+            />
+          )}
+        />
 
-      {isUserLoggedIn ? (
-        // TODO: Add logout button AND profile button
-        <></>
-      ) : (
-        <>
-          <Button
-            sx={{ width: "100px" }}
-            variant="contained"
-            color="primary"
-            onClick={() => alert("Coming soon!")}
-            className="navbar-login-btn"
-          >
-            Login
-          </Button>
-        </>
-      )}
+        {isUserLoggedIn ? (
+          // TODO: Add logout button AND profile button
+          <></>
+        ) : (
+          <>
+            <Button
+              sx={{ width: "100px" }}
+              variant="contained"
+              color="primary"
+              onClick={() => alert("Coming soon!")}
+              className="navbar-login-btn"
+            >
+              Login
+            </Button>
+          </>
+        )}
+      </div>
 
       {window.matchMedia("(display-mode: standalone)").matches && (
         <PWABottomBar />
       )}
-    </div>
+    </>
   )
 }
