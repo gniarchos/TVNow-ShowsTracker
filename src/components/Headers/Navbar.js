@@ -14,7 +14,6 @@ import apiCaller from "../../Api/ApiCaller_NEW"
 import LiveTvRoundedIcon from "@mui/icons-material/LiveTvRounded"
 import TheaterComedyRoundedIcon from "@mui/icons-material/TheaterComedyRounded"
 import PWABottomBar from "./PWAHeaders/PWABottomBar"
-import { LayoutContext } from "../Layout/Layout"
 
 export default function Navbar() {
   const { isUserLoggedIn } = useContext(LayoutContext)
