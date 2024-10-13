@@ -14,14 +14,29 @@ export default async function apiCaller(params) {
   try {
     const accessToken = localStorage.getItem("userToken")
 
-    const headers = {
-      Authorization: `Bearer ${accessToken}`,
-      accept: "application/json",
-    }
+    const headers = (() => {
+      switch (params.calledFrom) {
+        case "streamingAvailability":
+          return {
+            "X-RapidAPI-Key": `${process.env.REACT_APP_STREAMING_AVAILABILITY_API}`,
+            "X-RapidAPI-Host": "streaming-availability.p.rapidapi.com",
+          }
+        case "mdblist":
+          return {
+            "X-RapidAPI-Key": `${process.env.REACT_APP_MDBLIST_API}`,
+            "X-RapidAPI-Host": "mdblist.p.rapidapi.com",
+          }
+        default:
+          return {
+            Authorization: `Bearer ${accessToken}`,
+            accept: "application/json",
+          }
+      }
+    })()
 
     const response = await fetch(params.url, {
       method: params.method,
-      headers,
+      headers: headers,
       body:
         params.method === "GET" && params.body === null ? null : params.body,
     })
