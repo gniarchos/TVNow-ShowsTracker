@@ -3,6 +3,7 @@ import "./ShowDetails.css"
 import ReactPlayer from "react-player"
 import dayjs from "dayjs"
 import ShowSeasonsEpisodes from "./ShowSeasonsEpisodes/ShowSeasonsEpisodes"
+import ShowCastCrew from "./ShowCastCrew/ShowCastCrew"
 
 export default function ShowDetails({
   showData,
@@ -42,6 +43,8 @@ export default function ShowDetails({
         setSeasonNumber={setSeasonNumber}
         seasonInfo={seasonInfo}
       />
+
+      <ShowCastCrew showData={showData} />
     </div>
   )
 }
