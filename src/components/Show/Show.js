@@ -84,7 +84,7 @@ export default function Show() {
         .then((data) => {
           // setShowData(data[0])
           // setStreamServicesAvailable(data[1].result?.streamingInfo[userCountry])
-          setLoading(false)
+          // setLoading(false)
           setImdbRating(data[0].ratings[0]?.value)
           setRottenTomatoesRating(data[0].ratings[4]?.value)
           setTraktRating(data[0].ratings[3]?.value)

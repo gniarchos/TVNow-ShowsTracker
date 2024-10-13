@@ -96,6 +96,9 @@ export default function ShowBanner({
             color="primary"
             size="small"
             sx={{ width: { xs: "40%", sm: "20%" }, whiteSpace: "nowrap" }}
+            onClick={() => {
+              alert("Coming Soon!")
+            }}
           >
             Add Show
           </Button>

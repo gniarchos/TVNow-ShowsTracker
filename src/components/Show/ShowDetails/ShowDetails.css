@@ -78,6 +78,7 @@
 .show-details-recommending-name {
   font-size: 1.2rem;
   font-weight: 600;
+  text-align: center;
 }
 
 @media all and (max-width: 768px) {
@@ -101,5 +102,10 @@
   .show-details-recommending-img-wrapper {
     width: 300px;
     height: 150px;
+  }
+
+  .show-details-recommending-name {
+    font-size: 1rem;
+    margin-bottom: 0;
   }
 }
