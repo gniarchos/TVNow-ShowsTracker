@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react"
 import "./Show.css"
-import { useSearchParams } from "react-router-dom"
+import { useLocation, useSearchParams } from "react-router-dom"
 import { LayoutContext } from "../Layout/Layout"
 import apiCaller from "../../Api/ApiCaller_NEW"
 import ScrollToTop from "../Other/ScrollToTop"
@@ -22,6 +22,7 @@ export default function Show() {
   const [traktRating, setTraktRating] = useState(0)
   const [seasonNumber, setSeasonNumber] = useState(1)
   const [seasonInfo, setSeasonInfo] = useState(null)
+  const location = useLocation()
 
   const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
     useContext(LayoutContext)
@@ -56,7 +57,7 @@ export default function Show() {
         setSnackbarMessage(error.message)
         setSnackbarSeverity("error")
       })
-  }, [seasonNumber])
+  }, [seasonNumber, location])
 
   useEffect(() => {
     if (showData !== null) {

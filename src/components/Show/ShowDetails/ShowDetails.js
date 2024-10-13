@@ -4,6 +4,8 @@ import ReactPlayer from "react-player"
 import dayjs from "dayjs"
 import ShowSeasonsEpisodes from "./ShowSeasonsEpisodes/ShowSeasonsEpisodes"
 import ShowCastCrew from "./ShowCastCrew/ShowCastCrew"
+import { Link } from "react-router-dom"
+import noImg from "../../../images/no-image.png"
 
 export default function ShowDetails({
   showData,
@@ -11,6 +13,36 @@ export default function ShowDetails({
   setSeasonNumber,
   seasonInfo,
 }) {
+  const recommending = showData.recommendations?.results
+    .slice(0, 10)
+    .map((recommend) => {
+      return (
+        <Link
+          onClick={() => window.scrollTo(0, 0)}
+          key={recommend.id}
+          to={`/show?show_name=${recommend.name}&show_id=${recommend.id}`}
+          className="show-details-recommending-show"
+        >
+          <div className="show-details-recommending-img-wrapper">
+            {recommend.backdrop_path !== null ? (
+              <img
+                className="show-details-recommending-img"
+                src={`https://image.tmdb.org/t/p/w500/${recommend.backdrop_path}`}
+                alt="show-recommendation"
+              />
+            ) : (
+              <img
+                className="show-details-recommending-img"
+                src={noImg}
+                alt="not-found"
+              />
+            )}
+          </div>
+          <h3 className="show-details-recommending-name">{recommend.name}</h3>
+        </Link>
+      )
+    })
+
   return (
     <div className="show-details-wrapper">
       <div className="show-details-synopsis">
@@ -45,6 +77,15 @@ export default function ShowDetails({
       />
 
       <ShowCastCrew showData={showData} />
+
+      {recommending.length > 0 && (
+        <div className="show-details-recommendations-wrapper">
+          <h1 className="show-details-titles">More like this</h1>
+          <div className="show-details-recommendations-container">
+            {recommending}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
