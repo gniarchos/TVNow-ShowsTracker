@@ -12,7 +12,7 @@ import {
 import { AuthProvider } from "./authentication/AuthContext"
 import PrivateRoute from "./components/Other/PrivateRoute"
 import Home from "./components/Home/Home"
-import ShowOverview from "./components/Show/ShowOverview"
+// import ShowOverview from "./components/Show/ShowOverview"
 import DetailedSliders from "./components/DetailedShowsList/DetailedShowsList"
 import Profile from "./components/Profile/Profile"
 import People from "./components/People/People"
@@ -22,6 +22,7 @@ import { createTheme } from "@mui/material"
 import { ThemeProvider } from "@emotion/react"
 import ComingSoon from "./ComingSoon/ComingSoon"
 import DetailedShowsList from "./components/DetailedShowsList/DetailedShowsList"
+import Show from "./components/Show/Show"
 
 export default function App() {
   const theme = createTheme({
@@ -135,6 +136,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="*" element={<ComingSoon />} />
           <Route path="/discover" element={<DetailedShowsList />} />
+          <Route path="/show" element={<Show />} />
         </Route>
       </>
     )
