@@ -1,0 +1,21 @@
+.show-wrapper {
+  margin-bottom: 80px;
+}
+
+.show-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+  padding: 30px;
+}
+
+@media all and (max-width: 768px) {
+  /* mobile */
+  .show-container {
+    flex-direction: column;
+    padding: 15px;
+  }
+}
