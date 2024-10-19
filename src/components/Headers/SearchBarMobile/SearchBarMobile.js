@@ -16,6 +16,8 @@ export default function SearchBarMobile({
   navigateToSearchResults,
   searchSuggestionsList,
   setSearchValue,
+  navigateToSelectedOption,
+  navigateOnEnter,
 }) {
   return (
     <Backdrop
@@ -55,13 +57,16 @@ export default function SearchBarMobile({
               </li>
             )
           }}
-          onChange={() => navigateToSearchResults()}
+          onChange={(e, selectedOption) => {
+            navigateToSelectedOption(e, selectedOption)
+          }}
           renderInput={(params) => (
             <TextField
               autoFocus
               {...params}
               placeholder="Search..."
               onChange={(e) => setSearchValue(e.target.value)}
+              onKeyDown={(e) => navigateOnEnter(e)}
               InputProps={{
                 ...params.InputProps,
                 endAdornment: (

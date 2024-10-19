@@ -72,6 +72,7 @@ export default function Navbar() {
     }
 
     setSearchValue("")
+    setShowSearchBarMobile(false)
   }
 
   return (
@@ -163,6 +164,8 @@ export default function Navbar() {
         navigateToSearchResults={navigateToSearchResults}
         searchSuggestionsList={searchSuggestionsList}
         setSearchValue={setSearchValue}
+        navigateToSelectedOption={navigateToSelectedOption}
+        navigateOnEnter={navigateOnEnter}
       />
     </>
   )
