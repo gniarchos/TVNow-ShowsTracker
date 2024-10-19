@@ -4,7 +4,6 @@ import dayjs from "dayjs"
 import { Divider } from "@mui/material"
 
 export default function ShowTrackingInfo({ showData }) {
-  console.log(showData)
   function showNextEpisodeDate() {
     if (showData.status === "Ended") {
       return "Ended Series"
@@ -85,7 +84,10 @@ export default function ShowTrackingInfo({ showData }) {
                   dayjs(showData.next_episode_to_air?.air_date).diff(
                     dayjs(),
                     "day"
-                  ) === 0
+                  ) === 0 ||
+                  dayjs(showData.next_episode_to_air?.air_date).format(
+                    "DD-MM-YYYY"
+                  ) === dayjs().format("DD-MM-YYYY")
                     ? "show-info-values rainbow rainbow_text_animated"
                     : "show-info-values"
                 }
