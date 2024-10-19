@@ -68,7 +68,7 @@ export default function Navbar() {
     if (option?.media_type === "tv") {
       navigate(`/show?show_name=${option.name}&show_id=${option.id}`)
     } else if (option?.media_type === "person") {
-      navigate(`/person?person_name=${option.name}&person_id=${option.id}`)
+      navigate(`/person?person_id=${option.id}`)
     }
 
     setSearchValue("")
