@@ -30,9 +30,6 @@ export default function ShowBanner({
 
         <div className="show-banner-genres">
           {showData.genres?.map((gen) => (
-            // <p key={gen.id} className="show-genres">
-            //   {gen.name}
-            // </p>
             <Chip
               key={gen.id}
               label={gen.name}
