@@ -23,6 +23,7 @@ import { ThemeProvider } from "@emotion/react"
 import ComingSoon from "./ComingSoon/ComingSoon"
 import DetailedShowsList from "./components/DetailedShowsList/DetailedShowsList"
 import Show from "./components/Show/Show"
+import Person from "./components/Person/Person"
 
 export default function App() {
   const theme = createTheme({
@@ -137,6 +138,7 @@ export default function App() {
           <Route path="*" element={<ComingSoon />} />
           <Route path="/discover" element={<DetailedShowsList />} />
           <Route path="/show" element={<Show />} />
+          <Route path="/person" element={<Person />} />
         </Route>
       </>
     )
