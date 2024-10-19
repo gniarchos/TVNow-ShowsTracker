@@ -46,7 +46,13 @@ export default function Navbar() {
       })
   }, [searchValue])
 
-  function navigateToSearchResults() {
+  function navigateOnEnter(e) {
+    if (e.key === "Enter") {
+      navigateToSearchResults(e)
+    }
+  }
+
+  function navigateToSearchResults(e) {
     const fixed_searchValue = searchValue.replace(/ /g, "%20")
 
     navigate(
@@ -56,6 +62,16 @@ export default function Navbar() {
     setSearchValue("")
     setShowSearchBarMobile(false)
     window.scrollTo(0, 0)
+  }
+
+  function navigateToSelectedOption(e, option) {
+    if (option?.media_type === "tv") {
+      navigate(`/show?show_name=${option.name}&show_id=${option.id}`)
+    } else if (option?.media_type === "person") {
+      navigate(`/person?person_name=${option.name}&person_id=${option.id}`)
+    }
+
+    setSearchValue("")
   }
 
   return (
@@ -93,22 +109,22 @@ export default function Navbar() {
               </li>
             )
           }}
-          onChange={() => navigateToSearchResults()}
+          onChange={(e, selectedOption) => {
+            navigateToSelectedOption(e, selectedOption)
+          }}
           renderInput={(params) => (
             <TextField
               {...params}
               placeholder="Search..."
               onChange={(e) => setSearchValue(e.target.value)}
+              onKeyDown={(e) => navigateOnEnter(e)}
               InputProps={{
                 ...params.InputProps,
                 endAdornment: (
                   <>
                     {params.InputProps.endAdornment}
                     <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => navigateToSearchResults()}
-                        edge="end"
-                      >
+                      <IconButton onClick={navigateToSearchResults} edge="end">
                         <SearchRoundedIcon />
                       </IconButton>
                     </InputAdornment>
