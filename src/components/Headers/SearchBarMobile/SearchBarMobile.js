@@ -69,6 +69,7 @@ export default function SearchBarMobile({
               onKeyDown={(e) => navigateOnEnter(e)}
               InputProps={{
                 ...params.InputProps,
+                sx: { height: "60px !important" },
                 endAdornment: (
                   <>
                     {params.InputProps.endAdornment}
