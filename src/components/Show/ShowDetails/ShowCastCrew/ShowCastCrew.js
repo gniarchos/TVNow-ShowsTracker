@@ -3,9 +3,11 @@ import React, { useState } from "react"
 import "./ShowCastCrew.css"
 import noFace from "../../../../images/no-face.png"
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded"
+import { useNavigate } from "react-router-dom"
 
 export default function ShowCastCrew({ showData }) {
   const [categoryToShow, setCategoryToShow] = useState("cast")
+  const navigate = useNavigate()
   return (
     <div className="show-cast-crew-wrapper">
       <div className="show-cast-crew-header">
@@ -51,7 +53,17 @@ export default function ShowCastCrew({ showData }) {
         <div className="show-cast-crew-card-container">
           {showData.aggregate_credits?.cast?.slice(0, 10).map((person) => {
             return (
-              <Card sx={{ maxWidth: { sm: 400, xs: 200 }, flexShrink: 0 }}>
+              <Card
+                key={person.id}
+                onClick={() => {
+                  navigate(`/person?person_id=${person.id}`)
+                }}
+                sx={{
+                  maxWidth: { sm: 400, xs: 200 },
+                  flexShrink: 0,
+                  cursor: "pointer",
+                }}
+              >
                 <CardMedia
                   component="img"
                   alt="image"
