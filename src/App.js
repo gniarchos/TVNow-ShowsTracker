@@ -27,6 +27,10 @@ import Person from "./components/Person/Person"
 export default function App() {
   const theme = createTheme({
     palette: {
+      action: {
+        disabledBackground: "#3a3a3abe",
+        disabled: "#4D5760",
+      },
       primary: {
         main: "#dd840c",
         dark: "#b35e0a",
