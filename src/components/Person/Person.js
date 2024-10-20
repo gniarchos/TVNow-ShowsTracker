@@ -3,7 +3,7 @@ import apiCaller from "../../Api/ApiCaller_NEW"
 import { LayoutContext } from "../Layout/Layout"
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import "./Person.css"
-import { Button, Divider } from "@mui/material"
+import { Button, Chip, Divider } from "@mui/material"
 import Loader from "../Other/Loader/Loader"
 import noFace from "../../images/no-face.png"
 import dayjs from "dayjs"
@@ -105,6 +105,29 @@ export default function Person() {
       return <ShowMovieCard info={cast} series={false} crew={true} />
     })
 
+  useEffect(() => {
+    if (in_cast_series?.length + in_crew_series?.length === 0) {
+      setActiveTab(1)
+      return
+    }
+
+    if (in_cast_movies?.length + in_crew_movies?.length === 0) {
+      setActiveTab(0)
+      return
+    }
+
+    if (
+      in_cast_series?.length +
+        in_crew_series?.length +
+        in_cast_movies?.length +
+        in_crew_movies?.length ===
+      0
+    ) {
+      setActiveTab(2)
+      return
+    }
+  }, [in_cast_series, in_crew_series, in_cast_movies, in_crew_movies])
+
   console.log(personKnownFor)
 
   if (loading) {
@@ -176,74 +199,93 @@ export default function Person() {
       <Divider color="white" flexItem orientation="vertical" />
       <div className="person-detailed-info">
         {personInfo.biography !== "" && (
-          <>
+          <div>
             <h1 className="person-section-title">Biography</h1>
             <span>{personInfo.biography}</span>
-          </>
+          </div>
         )}
 
-        <h1 className="person-section-title">Known for</h1>
-        <div className="person-known-for-wrapper">
-          <div className="person-known-for-buttons">
-            <Button
-              variant="contained"
-              //   size="small"
-              onClick={() => setActiveTab(0)}
-              color={activeTab === 0 ? "primary" : "primaryFaded"}
-            >
-              TV Shows ({in_cast_series?.length + in_crew_series?.length})
-            </Button>
-            <Button
-              variant="contained"
-              //   size="small"
-              onClick={() => setActiveTab(1)}
-              color={activeTab === 1 ? "primary" : "primaryFaded"}
-            >
-              Movies ({in_cast_movies?.length + in_crew_movies?.length})
-            </Button>
+        <div>
+          <h1 className="person-section-title">Known for</h1>
+          <div className="person-known-for-wrapper">
+            <div className="person-known-for-buttons">
+              <Button
+                variant="contained"
+                onClick={() => setActiveTab(0)}
+                color={activeTab === 0 ? "primary" : "primaryFaded"}
+                disabled={
+                  in_cast_series?.length === 0 && in_crew_series?.length === 0
+                }
+              >
+                TV Shows ({in_cast_series?.length + in_crew_series?.length})
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => setActiveTab(1)}
+                color={activeTab === 1 ? "primary" : "primaryFaded"}
+              >
+                Movies ({in_cast_movies?.length + in_crew_movies?.length})
+              </Button>
+            </div>
+
+            {activeTab === 0 ? (
+              <div className="person-known-for-wrapper">
+                {in_cast_series?.length > 0 && (
+                  <>
+                    <Chip
+                      sx={{ width: "200px" }}
+                      color="primaryFaded"
+                      label={`Series Cast (${in_cast_series?.length})`}
+                    />
+                    <div className="person-known-for-content">
+                      {in_cast_series}
+                    </div>
+                  </>
+                )}
+
+                {in_crew_series?.length > 0 && (
+                  <>
+                    <Chip
+                      sx={{ width: "200px" }}
+                      color="primaryFaded"
+                      label={`Series Crew (${in_crew_series?.length})`}
+                    />
+                    <div className="person-known-for-content">
+                      {in_crew_series}
+                    </div>
+                  </>
+                )}
+              </div>
+            ) : (
+              <div className="person-known-for-wrapper">
+                {in_cast_movies?.length > 0 && (
+                  <>
+                    <Chip
+                      sx={{ width: "200px" }}
+                      color="primaryFaded"
+                      label={`Movies Cast (${in_cast_movies?.length})`}
+                    />
+                    <div className="person-known-for-content">
+                      {in_cast_movies}
+                    </div>
+                  </>
+                )}
+
+                {in_crew_movies?.length > 0 && (
+                  <>
+                    <Chip
+                      sx={{ width: "200px" }}
+                      color="primaryFaded"
+                      label={`Movies Crew (${in_crew_movies?.length})`}
+                    />
+                    <div className="person-known-for-content">
+                      {in_crew_movies}
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
           </div>
-
-          {activeTab === 0 ? (
-            <div className="person-known-for-wrapper">
-              {in_cast_series?.length > 0 && (
-                <>
-                  <span>Series Cast ({in_cast_series?.length})</span>
-                  <div className="person-known-for-content">
-                    {in_cast_series}
-                  </div>
-                </>
-              )}
-
-              {in_crew_series?.length > 0 && (
-                <>
-                  <span>Series Crew ({in_crew_series?.length})</span>
-                  <div className="person-known-for-content">
-                    {in_crew_series}
-                  </div>
-                </>
-              )}
-            </div>
-          ) : (
-            <div className="person-known-for-wrapper">
-              {in_cast_movies?.length > 0 && (
-                <>
-                  <span>Movies Cast ({in_cast_movies?.length})</span>
-                  <div className="person-known-for-content">
-                    {in_cast_movies}
-                  </div>
-                </>
-              )}
-
-              {in_crew_movies?.length > 0 && (
-                <>
-                  <span>Movies Crew ({in_crew_movies?.length})</span>
-                  <div className="person-known-for-content">
-                    {in_crew_movies}
-                  </div>
-                </>
-              )}
-            </div>
-          )}
         </div>
       </div>
     </div>

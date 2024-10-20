@@ -19,6 +19,7 @@
   width: 80%;
   display: flex;
   flex-direction: column;
+  gap: 20px;
 }
 
 .person-details-content {
@@ -97,6 +98,7 @@
   border-width: 8px;
   border-image-source: linear-gradient(to bottom, #743ad5, #d53a9d);
   padding-left: 10px;
+  margin-top: 0;
 }
 
 .person-known-for-buttons {
