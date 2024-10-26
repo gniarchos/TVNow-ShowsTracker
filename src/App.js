@@ -1,5 +1,4 @@
 import React from "react"
-import LandingPage from "./components/Landing/LandingPage"
 import "./App.css"
 import {
   BrowserRouter,
@@ -9,12 +8,7 @@ import {
   createRoutesFromElements,
   RouterProvider,
 } from "react-router-dom"
-import { AuthProvider } from "./authentication/AuthContext"
-import PrivateRoute from "./components/Other/PrivateRoute"
 import Home from "./components/Home/Home"
-// import ShowOverview from "./components/Show/ShowOverview"
-import DetailedSliders from "./components/DetailedShowsList/DetailedShowsList"
-import Profile from "./components/Profile/Profile"
 import Layout from "./components/Layout/Layout"
 import PageNotFound from "./components/Other/PageNotFound"
 import { createTheme } from "@mui/material"
@@ -23,6 +17,7 @@ import ComingSoon from "./ComingSoon/ComingSoon"
 import DetailedShowsList from "./components/DetailedShowsList/DetailedShowsList"
 import Show from "./components/Show/Show"
 import Person from "./components/Person/Person"
+import Profile from "./components/Profile/Profile"
 
 export default function App() {
   const theme = createTheme({
@@ -142,6 +137,7 @@ export default function App() {
           <Route path="/discover" element={<DetailedShowsList />} />
           <Route path="/show" element={<Show />} />
           <Route path="/person" element={<Person />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
       </>
     )
