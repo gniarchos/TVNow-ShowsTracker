@@ -5,7 +5,7 @@ import {
   InputAdornment,
   TextField,
 } from "@mui/material"
-import React from "react"
+import React, { useEffect, useRef } from "react"
 import LiveTvRoundedIcon from "@mui/icons-material/LiveTvRounded"
 import TheaterComedyRoundedIcon from "@mui/icons-material/TheaterComedyRounded"
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded"
@@ -18,6 +18,7 @@ export default function SearchBarMobile({
   setSearchValue,
   navigateToSelectedOption,
   navigateOnEnter,
+  searchValue,
 }) {
   return (
     <Backdrop
@@ -40,6 +41,7 @@ export default function SearchBarMobile({
         className="navbar-search-bar-mobile-container"
       >
         <Autocomplete
+          inputValue={searchValue}
           size="small"
           freeSolo
           className="navbar-search-mobile"
@@ -68,7 +70,6 @@ export default function SearchBarMobile({
           }}
           renderInput={(params) => (
             <TextField
-              autoFocus
               {...params}
               placeholder="Search..."
               onChange={(e) => setSearchValue(e.target.value)}

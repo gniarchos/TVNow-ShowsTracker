@@ -119,7 +119,10 @@ export default function Navbar() {
             <IconButton
               size="small"
               color="warning"
-              onClick={() => setShowSearchBarMobile(true)}
+              onClick={() => {
+                setSearchValue("")
+                setShowSearchBarMobile(true)
+              }}
             >
               <SearchRoundedIcon />
             </IconButton>
@@ -128,6 +131,8 @@ export default function Navbar() {
 
         {!isSmallScreen && (
           <Autocomplete
+            onClick={() => setSearchValue("")}
+            inputValue={searchValue}
             size="small"
             freeSolo
             className="navbar-search"
@@ -182,13 +187,11 @@ export default function Navbar() {
         )}
 
         {isUserLoggedIn ? (
-          // TODO: Add logout button AND profile button
           <div className="navbar-logged-in-buttons">
             {isSmallScreen && !isMobile && (
               <>
                 <IconButton
                   size="small"
-                  // sx={{ border: "1px solid white" }}
                   color="white"
                   onClick={() => navigate("/profile")}
                 >
@@ -198,12 +201,7 @@ export default function Navbar() {
             )}
 
             {isSmallScreen && (
-              <IconButton
-                size="small"
-                // sx={{ border: "1px solid white" }}
-                color="white"
-                onClick={handleLogout}
-              >
+              <IconButton size="small" color="white" onClick={handleLogout}>
                 <LogoutRoundedIcon />
               </IconButton>
             )}
@@ -257,6 +255,7 @@ export default function Navbar() {
         setSearchValue={setSearchValue}
         navigateToSelectedOption={navigateToSelectedOption}
         navigateOnEnter={navigateOnEnter}
+        searchValue={searchValue}
       />
 
       <Authentication openAuth={openAuth} handleCloseAuth={handleCloseAuth} />
