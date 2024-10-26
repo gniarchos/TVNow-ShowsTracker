@@ -44,6 +44,9 @@
     height: 50px;
     font-size: 0.8rem;
     color: rgba(212, 212, 212, 0.3);
+    text-decoration: none;
+    transition: all 0.3s linear;
+    user-select: none;
   }
 
   .icons-nav-btns.active {
