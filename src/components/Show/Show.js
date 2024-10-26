@@ -60,40 +60,30 @@ export default function Show() {
   }, [seasonNumber, location])
 
   useEffect(() => {
-    if (showData !== null) {
-      Promise.all([
-        apiCaller({
-          url: `https://mdblist.p.rapidapi.com/?i=${showData?.external_ids?.imdb_id}`,
-          method: "GET",
-          contentType: "application/json",
-          body: null,
-          calledFrom: "mdblist",
-          isResponseJSON: true,
-          extras: null,
-        }),
-        // apiCaller({
-        //   url: `https://streaming-availability.p.rapidapi.com/get/basic?country=us&imdb_id=${showData?.external_ids?.imdb_id}`,
-        //   method: "GET",
-        //   contentType: "application/json",
-        //   body: null,
-        //   calledFrom: "streamingAvailability",
-        //   isResponseJSON: true,
-        //   extras: null,
-        // }),
-      ])
+    if (showData !== null && showData?.external_ids?.imdb_id !== null) {
+      apiCaller({
+        url: `https://mdblist.p.rapidapi.com/?i=${showData?.external_ids?.imdb_id}`,
+        method: "GET",
+        contentType: "application/json",
+        body: null,
+        calledFrom: "mdblist",
+        isResponseJSON: true,
+        extras: null,
+      })
         .then((data) => {
-          // setShowData(data[0])
-          // setStreamServicesAvailable(data[1].result?.streamingInfo[userCountry])
-          // setLoading(false)
-          setImdbRating(data[0].ratings[0]?.value)
-          setRottenTomatoesRating(data[0].ratings[4]?.value)
-          setTraktRating(data[0].ratings[3]?.value)
+          setImdbRating(data.ratings[0]?.value)
+          setRottenTomatoesRating(data.ratings[4]?.value)
+          setTraktRating(data.ratings[3]?.value)
         })
         .catch((error) => {
           setOpenSnackbar(true)
           setSnackbarMessage(error.message)
           setSnackbarSeverity("error")
         })
+    } else {
+      setImdbRating(0.0)
+      setRottenTomatoesRating(0)
+      setTraktRating(0)
     }
   }, [showData])
 
