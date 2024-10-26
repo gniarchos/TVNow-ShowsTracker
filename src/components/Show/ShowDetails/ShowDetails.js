@@ -13,6 +13,17 @@ export default function ShowDetails({
   setSeasonNumber,
   seasonInfo,
 }) {
+  function findTrailerKey() {
+    const key = showData.videos.results
+      .sort((a, b) => dayjs(a.published_at) - dayjs(b.published_at))
+      .filter((vid) => vid.type.includes("Trailer"))
+
+    if (key.length === 0) {
+      return null
+    } else {
+      return key[0].key
+    }
+  }
   const recommending = showData.recommendations?.results
     .slice(0, 10)
     .map((recommend) => {
@@ -55,16 +66,12 @@ export default function ShowDetails({
       </div>
 
       {/* TODO: if user has started watching the show show trailer based on latest season */}
-      {showData.videos?.results?.length > 0 && (
+      {showData.videos?.results?.length > 0 && findTrailerKey() !== null && (
         <div className="show-details-trailers">
           <ReactPlayer
             width={"100%"}
             height={"100%"}
-            url={`https://www.youtube.com/watch?v=${
-              showData.videos.results
-                .sort((a, b) => dayjs(a.published_at) - dayjs(b.published_at))
-                .filter((vid) => vid.type.includes("Trailer"))[0].key
-            }`}
+            url={`https://www.youtube.com/watch?v=${findTrailerKey()}`}
           />
         </div>
       )}
