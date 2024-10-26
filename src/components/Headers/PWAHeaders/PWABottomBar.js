@@ -1,15 +1,14 @@
-import React from "react"
+import React, { useContext } from "react"
 import { NavLink, useLocation } from "react-router-dom"
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded"
 import WhatshotRoundedIcon from "@mui/icons-material/WhatshotRounded"
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded"
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded"
-import KeyboardBackspaceRoundedIcon from "@mui/icons-material/KeyboardBackspaceRounded"
-// import "./Headers.css"
 import "./PWABottomBar.css"
+import { LayoutContext } from "../../Layout/Layout"
 
 export default function PWABottomBar() {
   const location = useLocation()
+  const { isUserLoggedIn } = useContext(LayoutContext)
   return (
     <div className="standalone-bottom-nav-wrapper">
       <NavLink
@@ -37,17 +36,20 @@ export default function PWABottomBar() {
         <WhatshotRoundedIcon sx={{ fontSize: 25 }} /> Discover
       </NavLink>
 
-      {/* <p className="icons-nav-btns search">
-        <SearchRoundedIcon sx={{ fontSize: 25 }} onClick={toggleSearchBox} />
-        Search
-      </p> */}
-
       <NavLink
         style={({ isActive }) => ({
           color: isActive && "white",
         })}
         className="icons-nav-btns"
         to="/profile"
+        onClick={(e) => {
+          if (!isUserLoggedIn) {
+            e.preventDefault()
+            alert(
+              "You don't have access to this page.\nLogin to view your profile!"
+            )
+          }
+        }}
       >
         <AccountCircleRoundedIcon sx={{ fontSize: 25 }} />
         Profile
