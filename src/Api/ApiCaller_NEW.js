@@ -30,6 +30,7 @@ export default async function apiCaller(params) {
           return {
             Authorization: `Bearer ${accessToken}`,
             accept: "application/json",
+            "Content-Type": params.contentType,
           }
       }
     })()
@@ -42,7 +43,7 @@ export default async function apiCaller(params) {
     })
 
     if (response.ok) {
-      if (params.calledFrom === "login") {
+      if (params.calledFrom === "login" || params.calledFrom === "register") {
         const jsonResponse = await response.json()
         localStorage.setItem("userToken", jsonResponse.access_token)
       } else {
@@ -50,15 +51,17 @@ export default async function apiCaller(params) {
         return jsonResponse
       }
     } else {
-      if (params.calledFrom === "login") {
-        // const jsonResponse = await response.json()
-        // const status = response.status
-        // switch (status) {
-        //   case 401:
-        //     throw new Error(jsonResponse.message)
-        //   default:
-        //     throw new Error("Άγνωστο σφάλμα. Δοκιμάστε ξανά.")
-        // }
+      if (params.calledFrom === "login" || params.calledFrom === "register") {
+        const jsonResponse = await response.json()
+        const status = response.status
+        switch (status) {
+          case 401:
+            throw new Error(jsonResponse.detail)
+          case 400:
+            throw new Error(jsonResponse.detail)
+          default:
+            throw new Error("Something went wrong. Please try again later.")
+        }
       } else {
         const jsonResponse = await response.json()
         const status = response.status
