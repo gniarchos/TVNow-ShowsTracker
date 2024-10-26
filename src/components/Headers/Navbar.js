@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react"
 import "./Navbar.css"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { LayoutContext } from "../Layout/Layout"
 import {
   Autocomplete,
@@ -15,16 +15,22 @@ import LiveTvRoundedIcon from "@mui/icons-material/LiveTvRounded"
 import TheaterComedyRoundedIcon from "@mui/icons-material/TheaterComedyRounded"
 import PWABottomBar from "./PWAHeaders/PWABottomBar"
 import SearchBarMobile from "./SearchBarMobile/SearchBarMobile"
+import Authentication from "../../Authentication/Authentication"
 
 export default function Navbar() {
-  const { isUserLoggedIn } = useContext(LayoutContext)
   const [searchSuggestionsList, setSearchSuggestionsList] = useState([])
   const [searchValue, setSearchValue] = useState("")
   const navigate = useNavigate()
   const [showSearchBarMobile, setShowSearchBarMobile] = useState(false)
+  const [openAuth, setOpenAuth] = useState(false)
+  const location = useLocation()
 
-  const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
-    useContext(LayoutContext)
+  const {
+    setOpenSnackbar,
+    setSnackbarMessage,
+    setSnackbarSeverity,
+    isUserLoggedIn,
+  } = useContext(LayoutContext)
 
   useEffect(() => {
     apiCaller({
@@ -45,6 +51,25 @@ export default function Navbar() {
         setSnackbarMessage(error.message)
       })
   }, [searchValue])
+
+  function handleCloseAuth() {
+    setOpenAuth(false)
+  }
+
+  function handleLogout() {
+    localStorage.removeItem("username")
+    localStorage.removeItem("userToken")
+
+    setOpenSnackbar(true)
+    setSnackbarSeverity("success")
+    setSnackbarMessage("Logged out successfully!")
+
+    if (location.pathname === "/profile") {
+      navigate("/")
+    }
+
+    window.location.reload()
+  }
 
   function navigateOnEnter(e) {
     if (e.key === "Enter") {
@@ -137,15 +162,34 @@ export default function Navbar() {
         />
 
         {isUserLoggedIn ? (
-          // TODO: Add logout button AND profile button
-          <></>
+          <div className="navbar-logged-in-buttons">
+            <Button
+              sx={{ width: "100px" }}
+              variant="outlined"
+              color="primary"
+              onClick={() => navigate("/profile")}
+              className="navbar-profile-btn"
+            >
+              Profile
+            </Button>
+
+            <Button
+              sx={{ width: "100px" }}
+              variant="outlined"
+              color="primary"
+              onClick={handleLogout} // TODO: Add logout confirmation alert
+              className="navbar-logout-btn"
+            >
+              Logout
+            </Button>
+          </div>
         ) : (
           <>
             <Button
               sx={{ width: "100px" }}
               variant="contained"
               color="primary"
-              onClick={() => alert("Coming soon!")}
+              onClick={() => setOpenAuth(true)}
               className="navbar-login-btn"
             >
               Login
@@ -167,6 +211,8 @@ export default function Navbar() {
         navigateToSelectedOption={navigateToSelectedOption}
         navigateOnEnter={navigateOnEnter}
       />
+
+      <Authentication openAuth={openAuth} handleCloseAuth={handleCloseAuth} />
     </>
   )
 }

@@ -33,6 +33,13 @@
   display: none !important;
 }
 
+.navbar-logged-in-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
 @media screen and (max-width: 600px) {
   .navbar-wrapper {
     padding-left: 10px;
