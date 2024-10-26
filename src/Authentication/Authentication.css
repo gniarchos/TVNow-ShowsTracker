@@ -1,0 +1,46 @@
+.auth-dialog-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  /* padding: 50px !important; */
+}
+
+.auth-dialog-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.auth-dialog-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+
+.auth-dialog-text {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 0px;
+}
+
+.auth-dialog-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+}
+
+@media all and (max-width: 768px) {
+  /* mobile */
+
+  .auth-dialog-title {
+    font-size: 1.2rem;
+  }
+
+  .auth-dialog-text {
+    font-size: 0.9rem;
+  }
+}
