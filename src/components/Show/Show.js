@@ -8,8 +8,9 @@ import ShowBanner from "./ShowBanner/ShowBanner"
 import Loader from "../Other/Loader/Loader"
 import ShowTrackingInfo from "./ShowTrackingInfo/ShowTrackingInfo"
 import ShowDetails from "./ShowDetails/ShowDetails"
-import { Divider } from "@mui/material"
+import { Divider, useMediaQuery } from "@mui/material"
 import ShowGeneralInfo from "./ShowGeneralInfo/ShowGeneralInfo"
+import { useTheme } from "@emotion/react"
 
 export default function Show() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -23,6 +24,8 @@ export default function Show() {
   const [seasonNumber, setSeasonNumber] = useState(1)
   const [seasonInfo, setSeasonInfo] = useState(null)
   const location = useLocation()
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
   const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
     useContext(LayoutContext)
@@ -120,7 +123,7 @@ export default function Show() {
 
         <Divider
           color="white"
-          orientation={{ xs: "horizontal", sm: "vertical" }}
+          orientation={isMobile ? "horizontal" : "vertical"}
           flexItem
         />
 
