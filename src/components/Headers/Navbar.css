@@ -14,6 +14,14 @@
   padding-right: 30px;
 }
 
+.navbar-logo-seatch-icon-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
 .navbar-logo-link {
   cursor: pointer;
   font-family: "Righteous", cursive;
@@ -27,10 +35,6 @@
   background-color: white;
   border-radius: 5px;
   width: 500px;
-}
-
-.navbar-search-icon-mobile {
-  display: none !important;
 }
 
 .navbar-logged-in-buttons {
@@ -56,7 +60,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start !important;
+    /* justify-content: center; */
     width: 100vw;
   }
 
@@ -73,11 +78,6 @@
   .navbar-login-btn {
     font-size: 0.8rem !important;
     padding: 5px 10px !important;
-  }
-
-  .navbar-search-icon-mobile {
-    display: block !important;
-    margin-left: 130px;
   }
 }
 

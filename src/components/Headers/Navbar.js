@@ -8,6 +8,7 @@ import {
   IconButton,
   InputAdornment,
   TextField,
+  useMediaQuery,
 } from "@mui/material"
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded"
 import apiCaller from "../../Api/ApiCaller_NEW"
@@ -16,6 +17,9 @@ import TheaterComedyRoundedIcon from "@mui/icons-material/TheaterComedyRounded"
 import PWABottomBar from "./PWAHeaders/PWABottomBar"
 import SearchBarMobile from "./SearchBarMobile/SearchBarMobile"
 import Authentication from "../../Authentication/Authentication"
+import { useTheme } from "@emotion/react"
+import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded"
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded"
 
 export default function Navbar() {
   const [searchSuggestionsList, setSearchSuggestionsList] = useState([])
@@ -31,6 +35,10 @@ export default function Navbar() {
     setSnackbarSeverity,
     isUserLoggedIn,
   } = useContext(LayoutContext)
+
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"))
 
   useEffect(() => {
     apiCaller({
@@ -103,85 +111,124 @@ export default function Navbar() {
   return (
     <>
       <div className="navbar-wrapper">
-        <Link to="/" className="navbar-logo-link">
-          Watchee
-        </Link>
-        <SearchRoundedIcon
-          onClick={() => setShowSearchBarMobile(true)}
-          className="navbar-search-icon-mobile"
-        />
+        <div className="navbar-logo-seatch-icon-container">
+          <Link to="/" className="navbar-logo-link">
+            Watchee
+          </Link>
+          {isSmallScreen && (
+            <IconButton
+              size="small"
+              color="warning"
+              onClick={() => setShowSearchBarMobile(true)}
+            >
+              <SearchRoundedIcon />
+            </IconButton>
+          )}
+        </div>
 
-        <Autocomplete
-          size="small"
-          freeSolo
-          className="navbar-search"
-          noOptionsText="No results"
-          disableClearable={true}
-          options={searchSuggestionsList.filter(
-            (option) =>
-              option?.media_type === "tv" || option?.media_type === "person"
-          )}
-          getOptionLabel={(option) => option?.name || ""}
-          renderOption={(props, option) => {
-            const { key, ...otherProps } = props
-            return (
-              <li key={option.id} {...otherProps}>
-                {option?.media_type === "tv" ? (
-                  <LiveTvRoundedIcon style={{ marginRight: 8 }} />
-                ) : (
-                  <TheaterComedyRoundedIcon style={{ marginRight: 8 }} />
-                )}{" "}
-                {option?.name}
-              </li>
-            )
-          }}
-          onChange={(e, selectedOption) => {
-            navigateToSelectedOption(e, selectedOption)
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              placeholder="Search..."
-              onChange={(e) => setSearchValue(e.target.value)}
-              onKeyDown={(e) => navigateOnEnter(e)}
-              InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <>
-                    {params.InputProps.endAdornment}
-                    <InputAdornment position="end">
-                      <IconButton onClick={navigateToSearchResults} edge="end">
-                        <SearchRoundedIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  </>
-                ),
-              }}
-            />
-          )}
-        />
+        {!isSmallScreen && (
+          <Autocomplete
+            size="small"
+            freeSolo
+            className="navbar-search"
+            noOptionsText="No results"
+            disableClearable={true}
+            options={searchSuggestionsList.filter(
+              (option) =>
+                option?.media_type === "tv" || option?.media_type === "person"
+            )}
+            getOptionLabel={(option) => option?.name || ""}
+            renderOption={(props, option) => {
+              const { key, ...otherProps } = props
+              return (
+                <li key={option.id} {...otherProps}>
+                  {option?.media_type === "tv" ? (
+                    <LiveTvRoundedIcon style={{ marginRight: 8 }} />
+                  ) : (
+                    <TheaterComedyRoundedIcon style={{ marginRight: 8 }} />
+                  )}{" "}
+                  {option?.name}
+                </li>
+              )
+            }}
+            onChange={(e, selectedOption) => {
+              navigateToSelectedOption(e, selectedOption)
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                placeholder="Search..."
+                onChange={(e) => setSearchValue(e.target.value)}
+                onKeyDown={(e) => navigateOnEnter(e)}
+                InputProps={{
+                  ...params.InputProps,
+                  endAdornment: (
+                    <>
+                      {params.InputProps.endAdornment}
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={navigateToSearchResults}
+                          edge="end"
+                        >
+                          <SearchRoundedIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    </>
+                  ),
+                }}
+              />
+            )}
+          />
+        )}
 
         {isUserLoggedIn ? (
+          // TODO: Add logout button AND profile button
           <div className="navbar-logged-in-buttons">
-            <Button
-              sx={{ width: "100px" }}
-              variant="outlined"
-              color="primary"
-              onClick={() => navigate("/profile")}
-              className="navbar-profile-btn"
-            >
-              Profile
-            </Button>
+            {isSmallScreen && !isMobile && (
+              <>
+                <IconButton
+                  size="small"
+                  // sx={{ border: "1px solid white" }}
+                  color="white"
+                  onClick={() => navigate("/profile")}
+                >
+                  <AccountCircleRoundedIcon />
+                </IconButton>
+              </>
+            )}
 
-            <Button
-              sx={{ width: "100px" }}
-              variant="outlined"
-              color="primary"
-              onClick={handleLogout} // TODO: Add logout confirmation alert
-              className="navbar-logout-btn"
-            >
-              Logout
-            </Button>
+            {isSmallScreen && (
+              <IconButton
+                size="small"
+                // sx={{ border: "1px solid white" }}
+                color="white"
+                onClick={handleLogout}
+              >
+                <LogoutRoundedIcon />
+              </IconButton>
+            )}
+
+            {!isMobile && !isSmallScreen && (
+              <Button
+                sx={{ width: "100px" }}
+                variant="outlined"
+                color="primary"
+                onClick={() => navigate("/profile")}
+              >
+                Profile
+              </Button>
+            )}
+
+            {!isSmallScreen && (
+              <Button
+                sx={{ width: "100px" }}
+                variant="outlined"
+                color="primary"
+                onClick={handleLogout} // TODO: Add logout confirmation alert
+              >
+                Logout
+              </Button>
+            )}
           </div>
         ) : (
           <>
