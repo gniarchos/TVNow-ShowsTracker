@@ -9,7 +9,7 @@ import { Alert, Snackbar } from "@mui/material"
 export const LayoutContext = createContext()
 
 export default function Layout() {
-  const isUserLoggedIn = localStorage.getItem("accessToken")
+  const isUserLoggedIn = localStorage.getItem("userToken") ? true : false
 
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const [snackbarMessage, setSnackbarMessage] = useState("")
