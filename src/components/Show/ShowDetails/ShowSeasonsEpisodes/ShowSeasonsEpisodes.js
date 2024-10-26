@@ -4,6 +4,7 @@ import noImg from "../../../../images/no-image.png"
 import TodayRoundedIcon from "@mui/icons-material/TodayRounded"
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded"
 import dayjs from "dayjs"
+import { Alert } from "@mui/material"
 
 export default function ShowSeasonsEpisodes({
   showData,
@@ -67,76 +68,80 @@ export default function ShowSeasonsEpisodes({
         </div>
 
         <div className="show-episodes-container">
-          {seasonInfo.episodes.map((episode) => (
-            <div
-              key={episode.id}
-              className="show-episode"
-              onClick={() => setSeasonNumber(episode.season_number)}
-            >
-              <div className="show-episode-image-container">
-                {episode.still_path !== null ? (
-                  <img
-                    className="show-episode-img"
-                    src={`https://image.tmdb.org/t/p/w500/${episode.still_path}`}
-                    alt="episode-img"
-                  />
-                ) : (
-                  <img
-                    className="show-episode-img"
-                    src={noImg}
-                    alt="no-img-found"
-                  />
-                )}
-              </div>
+          {seasonInfo.episodes.length > 0 ? (
+            seasonInfo.episodes.map((episode) => (
+              <div
+                key={episode.id}
+                className="show-episode"
+                onClick={() => setSeasonNumber(episode.season_number)}
+              >
+                <div className="show-episode-image-container">
+                  {episode.still_path !== null ? (
+                    <img
+                      className="show-episode-img"
+                      src={`https://image.tmdb.org/t/p/w500/${episode.still_path}`}
+                      alt="episode-img"
+                    />
+                  ) : (
+                    <img
+                      className="show-episode-img"
+                      src={noImg}
+                      alt="no-img-found"
+                    />
+                  )}
+                </div>
 
-              <div className="show-episode-info-wrapper">
-                <div className="show-episode-info-container">
-                  <span className="show-episode-num ">
-                    S{zeroPad(episode.season_number, 2)} | E
-                    {zeroPad(episode.episode_number, 2)}
-                  </span>
-
-                  <div className="show-episode-more-info">
-                    <span className="show-episode-info">
-                      <TodayRoundedIcon
-                        sx={{ fontSize: { xs: "0.9rem", sm: "1rem" } }}
-                      />
-                      {episode.air_date !== null
-                        ? dayjs(episode.air_date).format("DD-MM-YYYY")
-                        : "Coming Soon"}
+                <div className="show-episode-info-wrapper">
+                  <div className="show-episode-info-container">
+                    <span className="show-episode-num ">
+                      S{zeroPad(episode.season_number, 2)} | E
+                      {zeroPad(episode.episode_number, 2)}
                     </span>
-                    {episode.runtime !== null && (
-                      <span className="episode-more-info">•</span>
-                    )}
-                    {episode.runtime !== null && (
+
+                    <div className="show-episode-more-info">
                       <span className="show-episode-info">
-                        <AccessTimeRoundedIcon
+                        <TodayRoundedIcon
                           sx={{ fontSize: { xs: "0.9rem", sm: "1rem" } }}
                         />
-                        {episode.runtime}'
+                        {episode.air_date !== null
+                          ? dayjs(episode.air_date).format("DD-MM-YYYY")
+                          : "Coming Soon"}
                       </span>
-                    )}
+                      {episode.runtime !== null && (
+                        <span className="episode-more-info">•</span>
+                      )}
+                      {episode.runtime !== null && (
+                        <span className="show-episode-info">
+                          <AccessTimeRoundedIcon
+                            sx={{ fontSize: { xs: "0.9rem", sm: "1rem" } }}
+                          />
+                          {episode.runtime}'
+                        </span>
+                      )}
+                    </div>
+
+                    <h3 className="show-episode-name">{episode.name}</h3>
+
+                    {/* <p>{episode.overview}</p> */}
                   </div>
-
-                  <h3 className="show-episode-name">{episode.name}</h3>
-
-                  {/* <p>{episode.overview}</p> */}
-                </div>
-                <div className="show-episode-marker">
-                  {/* TODO: if user is logged in and is watching this show, show a marker */}
-                  <span
-                    className={
-                      dayjs(episode.air_date).diff(dayjs(), "day") === 0
-                        ? "show-episode-daysUntil rainbow rainbow_text_animated"
-                        : "show-episode-daysUntil"
-                    }
-                  >
-                    {defineDaysUntil(episode.air_date)}
-                  </span>
+                  <div className="show-episode-marker">
+                    {/* TODO: if user is logged in and is watching this show, show a marker */}
+                    <span
+                      className={
+                        dayjs(episode.air_date).diff(dayjs(), "day") === 0
+                          ? "show-episode-daysUntil rainbow rainbow_text_animated"
+                          : "show-episode-daysUntil"
+                      }
+                    >
+                      {defineDaysUntil(episode.air_date)}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <Alert severity="info">More episodes coming soon!</Alert>
+          )}
         </div>
       </div>
     </div>
