@@ -21,7 +21,14 @@ export default function SearchBarMobile({
 }) {
   return (
     <Backdrop
-      sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
+      sx={(theme) => ({
+        color: "#fff",
+        zIndex: theme.zIndex.drawer + 1,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        marginTop: "50px",
+      })}
       open={showSearchBarMobile}
       onClick={() => {
         setShowSearchBarMobile(false)
@@ -31,7 +38,6 @@ export default function SearchBarMobile({
       <div
         onClick={(e) => e.stopPropagation()}
         className="navbar-search-bar-mobile-container"
-        style={{ width: "100%" }}
       >
         <Autocomplete
           size="small"
