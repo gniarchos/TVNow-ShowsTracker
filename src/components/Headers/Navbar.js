@@ -211,6 +211,7 @@ export default function Navbar() {
                 sx={{ width: "100px" }}
                 variant="outlined"
                 color="primary"
+                startIcon={<AccountCircleRoundedIcon />}
                 onClick={() => navigate("/profile")}
               >
                 Profile
@@ -222,6 +223,7 @@ export default function Navbar() {
                 sx={{ width: "100px" }}
                 variant="outlined"
                 color="primary"
+                startIcon={<LogoutRoundedIcon />}
                 onClick={handleLogout} // TODO: Add logout confirmation alert
               >
                 Logout
