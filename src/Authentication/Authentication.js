@@ -22,6 +22,7 @@ import LockOpenRoundedIcon from "@mui/icons-material/LockOpenRounded"
 import { useTheme } from "@emotion/react"
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded"
 import AppRegistrationRoundedIcon from "@mui/icons-material/AppRegistrationRounded"
+import { ThreeDots } from "react-loader-spinner"
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />
@@ -42,6 +43,7 @@ export default function Authentication({ openAuth, handleCloseAuth }) {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
   const [authMode, setAuthMode] = useState("login")
+  const [loading, setLoading] = useState(false)
 
   const handleClickShowPassword = () => setShowPassword((show) => !show)
 
@@ -61,6 +63,7 @@ export default function Authentication({ openAuth, handleCloseAuth }) {
   }, [openAuth])
 
   function handleLoginUser(e) {
+    setLoading(true)
     e.preventDefault()
     const data_to_post = {
       username: loginInputs.username,
@@ -77,12 +80,14 @@ export default function Authentication({ openAuth, handleCloseAuth }) {
       extras: null,
     })
       .then((data) => {
+        setLoading(false)
         handleCloseAuth()
         setOpenSnackbar(true)
         setSnackbarSeverity("success")
         setSnackbarMessage(`Welcome back ${loginInputs.username}!`)
       })
       .catch((error) => {
+        setLoading(false)
         setOpenSnackbar(true)
         setSnackbarSeverity("error")
         setSnackbarMessage(error.message)
@@ -417,11 +422,26 @@ export default function Authentication({ openAuth, handleCloseAuth }) {
             <Button
               sx={{ width: "90%" }}
               size={isMobile ? "small" : "medium"}
+              type="submit"
+              disabled={loading}
               color="primary"
               variant="contained"
               onClick={handleLoginUser}
             >
-              Login
+              {loading ? (
+                <ThreeDots
+                  visible={true}
+                  height="25"
+                  width="25"
+                  color="white"
+                  radius="9"
+                  ariaLabel="three-dots-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
+              ) : (
+                "Login"
+              )}
             </Button>
           ) : (
             <Button
