@@ -95,6 +95,7 @@ export default function Authentication({ openAuth, handleCloseAuth }) {
   }
 
   function handleRegisterUser(e) {
+    setLoading(true)
     e.preventDefault()
     if (signupInputs.password !== signupInputs.confirmPassword) {
       setOpenSnackbar(true)
@@ -119,13 +120,14 @@ export default function Authentication({ openAuth, handleCloseAuth }) {
       extras: null,
     })
       .then((data) => {
+        setLoading(false)
         handleCloseAuth()
         setOpenSnackbar(true)
         setSnackbarSeverity("success")
         setSnackbarMessage(`Welcome to Watchee ${signupInputs.username}!`)
       })
       .catch((error) => {
-        console.log(error.code)
+        setLoading(false)
         setOpenSnackbar(true)
         setSnackbarSeverity("error")
         setSnackbarMessage(error.message)
@@ -448,11 +450,25 @@ export default function Authentication({ openAuth, handleCloseAuth }) {
               sx={{ width: "90%" }}
               size={isMobile ? "small" : "medium"}
               color="primary"
+              disabled={loading}
               variant="contained"
               type="submit"
               // onClick={handleRegisterUser}
             >
-              Sign Up
+              {loading ? (
+                <ThreeDots
+                  visible={true}
+                  height="25"
+                  width="25"
+                  color="white"
+                  radius="9"
+                  ariaLabel="three-dots-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
+              ) : (
+                "Sign Up"
+              )}
             </Button>
           )}
         </DialogActions>
