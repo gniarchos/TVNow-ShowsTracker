@@ -65,16 +65,16 @@ export default function Authentication({ openAuth, handleCloseAuth }) {
   function handleLoginUser(e) {
     setLoading(true)
     e.preventDefault()
-    const data_to_post = {
+    const data_to_post = new URLSearchParams({
       username: loginInputs.username,
       password: loginInputs.password,
-    }
+    })
 
     apiCaller({
-      url: `${process.env.REACT_APP_BACKEND_API_URL}/token`,
+      url: `${process.env.REACT_APP_BACKEND_API_URL}/user/login`,
       method: "POST",
-      contentType: "application/json",
-      body: JSON.stringify(data_to_post),
+      contentType: "application/x-www-form-urlencoded",
+      body: data_to_post,
       calledFrom: "login",
       isResponseJSON: true,
       extras: null,
@@ -111,7 +111,7 @@ export default function Authentication({ openAuth, handleCloseAuth }) {
     }
 
     apiCaller({
-      url: `${process.env.REACT_APP_BACKEND_API_URL}/register`,
+      url: `${process.env.REACT_APP_BACKEND_API_URL}/user/register`,
       method: "POST",
       contentType: "application/json",
       body: JSON.stringify(data_to_post),
