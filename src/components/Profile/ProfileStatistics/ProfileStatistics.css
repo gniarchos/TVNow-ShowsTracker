@@ -1,0 +1,149 @@
+.profile-stats-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* gap: 20px; */
+}
+
+.profile-stats-shows-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  background-color: #0c0d0d;
+  padding: 10px;
+  width: 100%;
+}
+
+.profile-stats-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background-color: rgb(58, 52, 52);
+  border-radius: 5px;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.profile-stats-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  white-space: nowrap;
+}
+
+.profile-stats-num {
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.profile-single-statistics {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-grow: 1;
+  gap: 40px;
+  width: 100%;
+  overflow-x: auto;
+  padding: 20px;
+}
+
+.profile-single-statistic-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: black;
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+
+.profile-single-statistic-title {
+  font-size: 1.4rem;
+  white-space: nowrap;
+  font-weight: 500;
+  padding-left: 60px;
+  padding-right: 60px;
+}
+
+.profile-single-statistic-content {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding: 60px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.profile-single-statistic-number {
+  font-size: 1.8rem;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: -10px;
+  font-weight: 600;
+  padding: 0;
+}
+
+.profile-single-statistic-subtitle {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.profile-episodes-watched {
+  font-size: 1.8rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+@media screen and (max-width: 768px) {
+  /* mobile */
+  .profile-stats-shows-info {
+    overflow-y: auto;
+    justify-content: flex-start;
+    gap: 8px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  .profile-stats-title {
+    font-size: 0.9rem;
+  }
+
+  .profile-stats-num {
+    font-size: 0.9rem;
+  }
+
+  .profile-stats-container {
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .profile-single-statistics {
+    padding-left: 10px;
+    padding-right: 10px;
+    justify-content: flex-start;
+    gap: 20px;
+  }
+
+  .profile-single-statistic-title {
+    font-size: 1.2rem;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .profile-single-statistic-number {
+    font-size: 1.5rem;
+  }
+
+  .profile-single-statistic-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .profile-episodes-watched {
+    font-size: 1.5rem;
+  }
+}

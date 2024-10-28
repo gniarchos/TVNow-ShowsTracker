@@ -5,8 +5,10 @@ import "./ProfileBanner.css"
 
 export default function ProfileBanner() {
   const [selectedCoverImage, setSelectedCoverImage] = useState(def_cover)
+  const username = localStorage.getItem("username")
   return (
-    <div className="profile-banner-wrapper ">
+    <div className="profile-banner-wrapper">
+      <div class="profile-banner-color-overlay"></div>
       <img className="profile-banner-img" src={selectedCoverImage} />
 
       <div className="profile-banner-container">
@@ -18,7 +20,7 @@ export default function ProfileBanner() {
           />
         </div>
 
-        <h1>@username</h1>
+        <span className="profile-banner-username">{username}</span>
       </div>
     </div>
   )
