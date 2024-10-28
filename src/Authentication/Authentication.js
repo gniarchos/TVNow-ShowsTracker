@@ -79,12 +79,26 @@ export default function Authentication({ openAuth, handleCloseAuth }) {
       isResponseJSON: true,
       extras: null,
     })
-      .then((data) => {
-        setLoading(false)
-        handleCloseAuth()
-        setOpenSnackbar(true)
-        setSnackbarSeverity("success")
-        setSnackbarMessage(`Welcome back ${loginInputs.username}!`)
+      .then(() => {
+        apiCaller({
+          url: `${process.env.REACT_APP_BACKEND_API_URL}/user/me`,
+          method: "GET",
+          contentType: "application/json",
+          body: null,
+          calledFrom: "me",
+          isResponseJSON: true,
+          extras: null,
+        })
+          .then(() => {
+            setLoading(false)
+            handleCloseAuth()
+            setOpenSnackbar(true)
+            setSnackbarSeverity("success")
+            setSnackbarMessage(`Welcome back ${loginInputs.username}!`)
+          })
+          .catch((error) => {
+            throw new Error(error.message)
+          })
       })
       .catch((error) => {
         setLoading(false)
@@ -121,10 +135,11 @@ export default function Authentication({ openAuth, handleCloseAuth }) {
     })
       .then((data) => {
         setLoading(false)
-        handleCloseAuth()
+        // handleCloseAuth()
+        setAuthMode("login")
         setOpenSnackbar(true)
         setSnackbarSeverity("success")
-        setSnackbarMessage(`Welcome to Watchee ${signupInputs.username}!`)
+        setSnackbarMessage(`Registered successfully!`)
       })
       .catch((error) => {
         setLoading(false)
