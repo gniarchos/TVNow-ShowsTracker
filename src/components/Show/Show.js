@@ -13,6 +13,7 @@ import ShowGeneralInfo from "./ShowGeneralInfo/ShowGeneralInfo"
 import { useTheme } from "@emotion/react"
 
 export default function Show() {
+  const user_id = localStorage.getItem("user_id")
   const [searchParams, setSearchParams] = useSearchParams()
   const param_show_name = searchParams.get("show_name")
   const param_show_id = searchParams.get("show_id")
@@ -26,6 +27,7 @@ export default function Show() {
   const location = useLocation()
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
+  const [allUserShows, setAllUserShows] = useState([])
 
   const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
     useContext(LayoutContext)
@@ -50,10 +52,20 @@ export default function Show() {
         isResponseJSON: true,
         extras: null,
       }),
+      apiCaller({
+        url: `${process.env.REACT_APP_BACKEND_API_URL}/user/${user_id}/all-shows`,
+        method: "GET",
+        contentType: "application/json",
+        body: null,
+        calledFrom: "allUserShows",
+        isResponseJSON: true,
+        extras: null,
+      }),
     ])
       .then((data) => {
         setShowData(data[0])
         setSeasonInfo(data[1])
+        setAllUserShows(data[2])
       })
       .catch((error) => {
         setOpenSnackbar(true)
@@ -109,6 +121,7 @@ export default function Show() {
         imdbRating={imdbRating}
         rottenTomatoesRating={rottenTomatoesRating}
         traktRating={traktRating}
+        allUserShows={allUserShows}
       />
 
       <ShowTrackingInfo showData={showData} />

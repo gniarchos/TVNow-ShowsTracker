@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { Icon } from "@iconify/react"
 import trakt_logo from "../../../images/trakt-icon-red-white.png"
 import "./ShowBanner.css"
@@ -6,15 +6,100 @@ import { Button, Chip, Divider } from "@mui/material"
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded"
 import RemoveCircleRoundedIcon from "@mui/icons-material/RemoveCircleRounded"
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded"
+import apiCaller from "../../../Api/ApiCaller_NEW"
+import { LayoutContext } from "../../../components/Layout/Layout"
+import { ThreeDots } from "react-loader-spinner"
 
 export default function ShowBanner({
   showData,
   imdbRating,
   rottenTomatoesRating,
   traktRating,
+  allUserShows,
 }) {
   const divImgStyle = {
     backgroundImage: `url('https://image.tmdb.org/t/p/original/${showData.backdrop_path}')`,
+  }
+
+  const user_id = localStorage.getItem("user_id")
+  const [loading, setLoading] = useState(false)
+  const [showInUserList, setShowInUserList] = useState(false)
+
+  const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
+    useContext(LayoutContext)
+
+  useEffect(() => {
+    allUserShows.forEach((show) => {
+      if (show.show_id === showData.id) {
+        setShowInUserList(true)
+      }
+    })
+  }, [])
+
+  function addShowToShowsList() {
+    if (user_id === null) {
+      setOpenSnackbar(true)
+      setSnackbarSeverity("error")
+      setSnackbarMessage(
+        "You need to be logged in to add shows to your watchlist"
+      )
+      return
+    }
+    const data_to_post = {
+      show_id: showData.id,
+      title: showData.name,
+      genres: showData.genres.map((gen) => gen.id).join(","),
+    }
+
+    setLoading(true)
+    apiCaller({
+      url: `${process.env.REACT_APP_BACKEND_API_URL}/show/add-show/${user_id}`,
+      method: "POST",
+      contentType: "application/json",
+      body: JSON.stringify(data_to_post),
+      calledFrom: "addShow",
+      isResponseJSON: true,
+      extras: null,
+    })
+      .then((data) => {
+        setLoading(false)
+        setOpenSnackbar(true)
+        setSnackbarSeverity("success")
+        setSnackbarMessage(`Show added to watchlist!`)
+        setShowInUserList(true)
+      })
+      .catch((error) => {
+        setLoading(false)
+        setOpenSnackbar(true)
+        setSnackbarSeverity("error")
+        setSnackbarMessage(error.message)
+      })
+  }
+
+  function removeShowFromShowsList() {
+    setLoading(true)
+    apiCaller({
+      url: `${process.env.REACT_APP_BACKEND_API_URL}/show/remove-show/${user_id}/${showData.id}`,
+      method: "DELETE",
+      contentType: "application/json",
+      body: null,
+      calledFrom: "removeShow",
+      isResponseJSON: true,
+      extras: null,
+    })
+      .then((data) => {
+        setLoading(false)
+        setOpenSnackbar(true)
+        setSnackbarSeverity("success")
+        setSnackbarMessage(`Show removed from watchlist!`)
+        setShowInUserList(false)
+      })
+      .catch((error) => {
+        setLoading(false)
+        setOpenSnackbar(true)
+        setSnackbarSeverity("error")
+        setSnackbarMessage(error.message)
+      })
   }
 
   return (
@@ -87,18 +172,58 @@ export default function ShowBanner({
           </span>
           <span>&#8226;</span>
 
-          <Button
-            startIcon={<AddCircleRoundedIcon />}
-            variant="contained"
-            color="primary"
-            size="small"
-            sx={{ width: { xs: "40%", sm: "20%" }, whiteSpace: "nowrap" }}
-            onClick={() => {
-              alert("Coming Soon!")
-            }}
-          >
-            Add Show
-          </Button>
+          {!showInUserList ? (
+            <Button
+              startIcon={!loading ? <AddCircleRoundedIcon /> : null}
+              variant="contained"
+              color="primary"
+              size="small"
+              disabled={loading}
+              sx={{ width: { xs: "40%", sm: "20%" }, whiteSpace: "nowrap" }}
+              onClick={addShowToShowsList}
+            >
+              {loading ? (
+                <ThreeDots
+                  visible={true}
+                  height="25"
+                  width="25"
+                  color="white"
+                  radius="9"
+                  ariaLabel="three-dots-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
+              ) : (
+                "Add Show"
+              )}
+            </Button>
+          ) : (
+            <Button
+              startIcon={!loading ? <RemoveCircleRoundedIcon /> : null}
+              variant="contained"
+              color="third"
+              size="small"
+              disabled={loading}
+              sx={{ width: { xs: "40%", sm: "20%" }, whiteSpace: "nowrap" }}
+              // onClick={addShowToShowsList}
+              onClick={removeShowFromShowsList}
+            >
+              {loading ? (
+                <ThreeDots
+                  visible={true}
+                  height="25"
+                  width="25"
+                  color="white"
+                  radius="9"
+                  ariaLabel="three-dots-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
+              ) : (
+                "Remove Show"
+              )}
+            </Button>
+          )}
 
           {/* TODO: Add buttons for logged in user */}
           {/* <Button
