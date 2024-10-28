@@ -73,9 +73,7 @@ export default function Navbar() {
     setSnackbarSeverity("success")
     setSnackbarMessage("Logged out successfully!")
 
-    if (location.pathname === "/profile") {
-      navigate("/")
-    }
+    navigate("/")
 
     window.location.reload()
   }
