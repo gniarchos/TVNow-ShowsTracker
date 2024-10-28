@@ -57,15 +57,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
   text-decoration: none !important;
   color: white;
-  background-color: #0c0d0d;
+  background-color: rgb(12, 13, 13);
+  border-radius: 10px;
 }
 
 .show-details-recommending-img-wrapper {
   width: 450px;
   height: 250px;
+  overflow: hidden;
 }
 
 .show-details-recommending-img {
@@ -73,6 +74,13 @@
   height: 100%;
   object-fit: cover;
   border-radius: 5px;
+  z-index: -1;
+  transition: all 0.3s;
+  transform: scale(1);
+}
+
+.show-details-recommending-img-wrapper:hover .show-details-recommending-img {
+  transform: scale(1.1);
 }
 
 .show-details-recommending-name {
@@ -106,6 +114,9 @@
 
   .show-details-recommending-name {
     font-size: 1rem;
-    margin-bottom: 0;
+  }
+
+  .show-details-recommending-img-wrapper:hover .show-details-recommending-img {
+    transform: scale(1);
   }
 }
