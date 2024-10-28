@@ -43,9 +43,13 @@ export default async function apiCaller(params) {
     })
 
     if (response.ok) {
-      if (params.calledFrom === "login" || params.calledFrom === "register") {
+      if (params.calledFrom === "login") {
         const jsonResponse = await response.json()
         localStorage.setItem("userToken", jsonResponse.access_token)
+      } else if (params.calledFrom === "me") {
+        const jsonResponse = await response.json()
+        localStorage.setItem("username", jsonResponse.username)
+        localStorage.setItem("user_id", jsonResponse.id)
       } else {
         const jsonResponse = await response.json()
         return jsonResponse
