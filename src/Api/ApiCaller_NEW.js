@@ -70,6 +70,8 @@ export default async function apiCaller(params) {
         const jsonResponse = await response.json()
         const status = response.status
         switch (status) {
+          case 400:
+            throw new Error(jsonResponse.detail)
           case 401:
             throw new Error(jsonResponse.message)
           default:
