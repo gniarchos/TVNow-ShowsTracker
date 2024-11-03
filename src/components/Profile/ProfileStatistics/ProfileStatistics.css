@@ -12,18 +12,20 @@
   justify-content: center;
   align-items: center;
   gap: 20px;
-  background-color: #0c0d0d;
+  /* background-color: #0c0d0d; */
+  background-color: white;
   padding: 10px;
   width: 100%;
 }
 
 .profile-stats-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  background-color: rgb(58, 52, 52);
+  gap: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
   padding: 10px;
   padding-left: 20px;
@@ -31,13 +33,13 @@
 }
 
 .profile-stats-title {
-  font-weight: 600;
+  font-weight: 500;
   font-size: 1.1rem;
   white-space: nowrap;
 }
 
 .profile-stats-num {
-  font-weight: 500;
+  font-weight: 700;
   font-size: 1.1rem;
 }
 
@@ -98,8 +100,16 @@
   font-weight: 600;
 }
 
-@media screen and (max-width: 768px) {
-  /* mobile */
+@media screen and (max-width: 1360px) {
+  .profile-single-statistics {
+    padding-left: 10px;
+    padding-right: 10px;
+    justify-content: flex-start;
+    gap: 20px;
+  }
+}
+
+@media screen and (max-width: 1130px) {
   .profile-stats-shows-info {
     overflow-y: auto;
     justify-content: flex-start;
@@ -107,7 +117,10 @@
     padding-left: 5px;
     padding-right: 5px;
   }
+}
 
+@media screen and (max-width: 768px) {
+  /* mobile */
   .profile-stats-title {
     font-size: 0.9rem;
   }
@@ -120,13 +133,6 @@
     padding: 5px;
     padding-left: 10px;
     padding-right: 10px;
-  }
-
-  .profile-single-statistics {
-    padding-left: 10px;
-    padding-right: 10px;
-    justify-content: flex-start;
-    gap: 20px;
   }
 
   .profile-single-statistic-title {
