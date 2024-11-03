@@ -1,0 +1,86 @@
+.profile-episode-wrapper {
+  background-color: white;
+  color: black;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-episode-img-container {
+  width: 500px;
+  height: 281px;
+  background-color: #3a3a3c;
+  overflow: hidden;
+}
+
+.profile-episode-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-episode-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+
+  /* border: 1px solid green; */
+}
+
+.profile-episode-info {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile-show-name {
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  width: 100%;
+  color: black;
+  text-decoration: none;
+}
+
+.profile-season-episode-number {
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgb(127, 127, 131);
+}
+
+@media all and (max-width: 768px) {
+  /* mobile */
+
+  .profile-episode-wrapper {
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .profile-episode-img-container {
+    width: 50%;
+    height: 120px;
+    background-color: #3a3a3c;
+    overflow: hidden;
+  }
+
+  .profile-episode-container {
+    width: 100%;
+  }
+
+  .profile-show-name {
+    font-size: 1rem;
+  }
+
+  .profile-episode-name {
+    width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
