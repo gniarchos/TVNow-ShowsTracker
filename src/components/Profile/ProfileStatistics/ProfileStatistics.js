@@ -40,7 +40,7 @@ export default function ProfileStatistics({ allUserShows }) {
       <div className="profile-single-statistics">
         <div className="profile-single-statistic-container">
           <h1 className="profile-single-statistic-title">Your TV Time</h1>
-          <Divider fullWidth flexItem />
+          <Divider flexItem />
           <div className="profile-single-statistic-content">
             <div>
               <p className="profile-single-statistic-number">0</p>
@@ -68,7 +68,7 @@ export default function ProfileStatistics({ allUserShows }) {
 
         <div className="profile-single-statistic-container">
           <h1 className="profile-single-statistic-title">Episodes Watched</h1>
-          <Divider fullWidth flexItem />
+          <Divider flexItem />
           <p className="profile-episodes-watched">0</p>
         </div>
 
@@ -84,7 +84,7 @@ export default function ProfileStatistics({ allUserShows }) {
             label="Coming Soon"
           />
           <h1 className="profile-single-statistic-title">Current Streak</h1>
-          <Divider fullWidth flexItem />
+          <Divider flexItem />
           <p className="profile-episodes-watched">-</p>
         </div>
 
@@ -100,7 +100,7 @@ export default function ProfileStatistics({ allUserShows }) {
             label="Coming Soon"
           />
           <h1 className="profile-single-statistic-title">Favorite Genre</h1>
-          <Divider fullWidth flexItem />
+          <Divider flexItem />
           <p className="profile-episodes-watched">-</p>
         </div>
       </div>

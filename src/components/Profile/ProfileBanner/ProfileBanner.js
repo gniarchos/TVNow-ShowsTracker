@@ -8,7 +8,7 @@ export default function ProfileBanner() {
   const username = localStorage.getItem("username")
   return (
     <div className="profile-banner-wrapper">
-      <div class="profile-banner-color-overlay"></div>
+      <div className="profile-banner-color-overlay"></div>
       <img className="profile-banner-img" src={selectedCoverImage} />
 
       <div className="profile-banner-container">
