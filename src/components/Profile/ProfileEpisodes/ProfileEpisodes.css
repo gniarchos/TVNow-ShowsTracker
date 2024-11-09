@@ -60,11 +60,12 @@
   .profile-episode-wrapper {
     flex-direction: row;
     width: 100%;
+    height: 110px;
   }
 
   .profile-episode-img-container {
     width: 50%;
-    height: 120px;
+    height: 110px;
     background-color: #3a3a3c;
     overflow: hidden;
   }
@@ -74,7 +75,15 @@
   }
 
   .profile-show-name {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    width: 160px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .profile-season-episode-number {
+    font-size: 0.9rem;
   }
 
   .profile-episode-name {
@@ -82,5 +91,6 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 0.9rem;
   }
 }
