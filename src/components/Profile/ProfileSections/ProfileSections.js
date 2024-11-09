@@ -98,7 +98,7 @@ export default function ProfileSections({
 
   function watchlistSetup() {
     apiCaller({
-      url: `${process.env.REACT_APP_BACKEND_API_URL}/show/${user_id}/all-shows/not-started`,
+      url: `${process.env.REACT_APP_BACKEND_API_URL}/show/all-shows/not-started/${user_id}`,
       method: "GET",
       contentType: "application/json",
       body: null,
