@@ -71,7 +71,7 @@ export default function Authentication({ openAuth, handleCloseAuth }) {
     })
 
     apiCaller({
-      url: `${process.env.REACT_APP_BACKEND_API_URL}/user/login`,
+      url: `${process.env.REACT_APP_BACKEND_API_URL}/users/login`,
       method: "POST",
       contentType: "application/x-www-form-urlencoded",
       body: data_to_post,
@@ -81,7 +81,7 @@ export default function Authentication({ openAuth, handleCloseAuth }) {
     })
       .then(() => {
         apiCaller({
-          url: `${process.env.REACT_APP_BACKEND_API_URL}/user/me`,
+          url: `${process.env.REACT_APP_BACKEND_API_URL}/users/me`,
           method: "GET",
           contentType: "application/json",
           body: null,
@@ -125,7 +125,7 @@ export default function Authentication({ openAuth, handleCloseAuth }) {
     }
 
     apiCaller({
-      url: `${process.env.REACT_APP_BACKEND_API_URL}/user/register`,
+      url: `${process.env.REACT_APP_BACKEND_API_URL}/users/register`,
       method: "POST",
       contentType: "application/json",
       body: JSON.stringify(data_to_post),
