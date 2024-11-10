@@ -5,12 +5,12 @@ import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded"
 import { IconButton } from "@mui/material"
 
 export default function ProfileEpisodes({
-  sectionType,
-  mobileLayout,
   showInfo,
   seasonInfo,
   seasonNumber,
   episodeNumber,
+  handleMarkAsWatched,
+  index,
 }) {
   const zeroPad = (num, places) => String(num).padStart(places, "0")
 
@@ -34,18 +34,23 @@ export default function ProfileEpisodes({
           </Link>
 
           <span className="profile-season-episode-number">
-            S{zeroPad(seasonNumber, 2)} | E{zeroPad(episodeNumber, 2)}
+            S{zeroPad(seasonNumber + 1, 2)} | E{zeroPad(episodeNumber + 1, 2)}
           </span>
 
           <span className="profile-episode-name">
-            {seasonInfo.episodes[episodeNumber - 1].name}
+            {seasonInfo.episodes[episodeNumber + 1].name}
           </span>
         </div>
 
         <div className="profile-episode-action">
           <IconButton
             onClick={() => {
-              alert("Coming Soon")
+              handleMarkAsWatched(
+                showInfo.id,
+                seasonNumber,
+                episodeNumber,
+                index
+              )
             }}
           >
             <CheckCircleRoundedIcon sx={{ fontSize: 30 }} />

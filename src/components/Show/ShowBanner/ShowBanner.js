@@ -53,7 +53,7 @@ export default function ShowBanner({
 
     setLoading(true)
     apiCaller({
-      url: `${process.env.REACT_APP_BACKEND_API_URL}/show/add-show/${user_id}`,
+      url: `${process.env.REACT_APP_BACKEND_API_URL}/shows/add-show/${user_id}`,
       method: "POST",
       contentType: "application/json",
       body: JSON.stringify(data_to_post),
@@ -79,7 +79,7 @@ export default function ShowBanner({
   function removeShowFromShowsList() {
     setLoading(true)
     apiCaller({
-      url: `${process.env.REACT_APP_BACKEND_API_URL}/show/remove-show/${user_id}/${showData.id}`,
+      url: `${process.env.REACT_APP_BACKEND_API_URL}/shows/remove-show/${user_id}/${showData.id}`,
       method: "DELETE",
       contentType: "application/json",
       body: null,

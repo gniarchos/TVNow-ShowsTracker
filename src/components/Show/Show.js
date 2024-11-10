@@ -53,7 +53,7 @@ export default function Show() {
         extras: null,
       }),
       apiCaller({
-        url: `${process.env.REACT_APP_BACKEND_API_URL}/user/${user_id}/all-shows`,
+        url: `${process.env.REACT_APP_BACKEND_API_URL}/users/${user_id}/all-shows`,
         method: "GET",
         contentType: "application/json",
         body: null,

@@ -5,30 +5,21 @@ import { Navigate } from "react-router-dom"
 import ProfileStatistics from "./ProfileStatistics/ProfileStatistics"
 import apiCaller from "../../Api/ApiCaller_NEW"
 import Loader from "../Other/Loader/Loader"
-import ProfileEpisodes from "./ProfileEpisodes/ProfileEpisodes"
-import ProfileSections from "./ProfileSections/ProfileSections"
+import ProfileSectionsContainer from "./ProfileSections/ProfileSectionsContainer"
 
 export default function Profile() {
   const { isUserLoggedIn } = useContext(LayoutContext)
   const user_id = localStorage.getItem("user_id")
   const [allUserShows, setAllUserShows] = useState([])
   const [loading, setLoading] = useState(true)
+  const [triggerRefresh, setTriggerRefresh] = useState(false)
 
-  const [watchNextSection, setWatchNextSection] = useState(
-    localStorage.getItem("watchNextSection")
-      ? JSON.parse(localStorage.getItem("watchNextSection"))
-      : true
-  )
   const [upToDateSection, setUpToDateSection] = useState(
     localStorage.getItem("upToDateSection")
       ? JSON.parse(localStorage.getItem("upToDateSection"))
       : true
   )
-  const [watchlistSection, setWatchlistSection] = useState(
-    localStorage.getItem("watchlistSection")
-      ? JSON.parse(localStorage.getItem("watchlistSection"))
-      : true
-  )
+
   const [finishedSection, setFinishedSection] = useState(
     localStorage.getItem("finishedSection")
       ? JSON.parse(localStorage.getItem("finishedSection"))
@@ -57,7 +48,7 @@ export default function Profile() {
   useEffect(() => {
     setLoading(true)
     apiCaller({
-      url: `${process.env.REACT_APP_BACKEND_API_URL}/user/${user_id}/all-shows`,
+      url: `${process.env.REACT_APP_BACKEND_API_URL}/users/${user_id}/all-shows`,
       method: "GET",
       contentType: "application/json",
       body: null,
@@ -76,36 +67,36 @@ export default function Profile() {
       })
   }, [])
 
-  function toggleSections(calledFrom) {
-    switch (calledFrom) {
-      case "watchNext":
-        setWatchNextSection((prev) => !prev)
-        localStorage.setItem("watchNextSection", !watchNextSection)
-        break
-      case "upToDate":
-        setUpToDateSection((prev) => !prev)
-        localStorage.setItem("upToDateSection", !upToDateSection)
-        break
-      case "watchlist":
-        setWatchlistSection(!watchlistSection)
-        localStorage.setItem("watchlistSection", !watchlistSection)
-        break
-      case "finished":
-        setFinishedSection((prev) => !prev)
-        localStorage.setItem("finishedSection", !finishedSection)
-        break
-      case "stopped":
-        setStoppedSection((prev) => !prev)
-        localStorage.setItem("stoppedSection", !stoppedSection)
-        break
-      case "history":
-        setHistorySection((prev) => !prev)
-        localStorage.setItem("historySection", !historySection)
-        break
-      default:
-        break
-    }
-  }
+  // function toggleSections(calledFrom) {
+  //   switch (calledFrom) {
+  //     case "watchNext":
+  //       setWatchNextSection((prev) => !prev)
+  //       localStorage.setItem("watchNextSection", !watchNextSection)
+  //       break
+  //     case "upToDate":
+  //       setUpToDateSection((prev) => !prev)
+  //       localStorage.setItem("upToDateSection", !upToDateSection)
+  //       break
+  //     case "watchlist":
+  //       setWatchlistSection(!watchlistSection)
+  //       localStorage.setItem("watchlistSection", !watchlistSection)
+  //       break
+  //     case "finished":
+  //       setFinishedSection((prev) => !prev)
+  //       localStorage.setItem("finishedSection", !finishedSection)
+  //       break
+  //     case "stopped":
+  //       setStoppedSection((prev) => !prev)
+  //       localStorage.setItem("stoppedSection", !stoppedSection)
+  //       break
+  //     case "history":
+  //       setHistorySection((prev) => !prev)
+  //       localStorage.setItem("historySection", !historySection)
+  //       break
+  //     default:
+  //       break
+  //   }
+  // }
 
   if (!isUserLoggedIn) {
     return <Navigate to="/" replace />
@@ -119,13 +110,15 @@ export default function Profile() {
     <div>
       <ProfileBanner />
 
-      <ProfileStatistics allUserShows={allUserShows} />
+      <ProfileStatistics
+        allUserShows={allUserShows}
+        triggerRefresh={triggerRefresh}
+      />
 
-      <ProfileSections
-        sectionType={"WatchList"}
-        toggleSection={watchlistSection}
-        toggleSections={toggleSections}
+      <ProfileSectionsContainer
         mobileLayout={mobileLayout}
+        triggerRefresh={triggerRefresh}
+        setTriggerRefresh={setTriggerRefresh}
       />
     </div>
   )
