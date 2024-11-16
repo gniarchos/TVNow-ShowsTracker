@@ -73,7 +73,7 @@ export default async function apiCaller(params) {
           case 400:
             throw new Error(jsonResponse.detail)
           case 401:
-            throw new Error(jsonResponse.message)
+            throw new Error(jsonResponse.detail)
           default:
             throw new Error("Something went wrong. Please try again later.")
         }
