@@ -16,22 +16,22 @@ export default function SectionsLoader({ sectionType }) {
           <Skeleton
             sx={{ bgcolor: "grey.800" }}
             variant="rectangular"
-            width={isMobile ? "calc(100vw - 20px)" : 500}
-            height={isMobile ? 100 : 281}
+            width={isSmallScreen ? "calc(100vw - 20px)" : 500}
+            height={isSmallScreen ? 100 : 281}
           />
 
           <Skeleton
             sx={{ bgcolor: "grey.800" }}
             variant="rectangular"
-            width={isMobile ? "calc(100vw - 20px)" : 500}
-            height={isMobile ? 100 : 281}
+            width={isSmallScreen ? "calc(100vw - 20px)" : 500}
+            height={isSmallScreen ? 100 : 281}
           />
 
           <Skeleton
             sx={{ bgcolor: "grey.800" }}
             variant="rectangular"
-            width={isMobile ? "calc(100vw - 20px)" : 500}
-            height={isMobile ? 100 : 281}
+            width={isSmallScreen ? "calc(100vw - 20px)" : 500}
+            height={isSmallScreen ? 100 : 281}
           />
         </div>
       </div>
