@@ -46,25 +46,27 @@ export default function Profile() {
     useContext(LayoutContext)
 
   useEffect(() => {
-    setLoading(true)
-    apiCaller({
-      url: `${process.env.REACT_APP_BACKEND_API_URL}/users/${user_id}/all-shows`,
-      method: "GET",
-      contentType: "application/json",
-      body: null,
-      calledFrom: "allUserShows",
-      isResponseJSON: true,
-      extras: null,
-    })
-      .then((data) => {
-        setAllUserShows(data)
-        setLoading(false)
+    if (isUserLoggedIn) {
+      setLoading(true)
+      apiCaller({
+        url: `${process.env.REACT_APP_BACKEND_API_URL}/users/${user_id}/all-shows`,
+        method: "GET",
+        contentType: "application/json",
+        body: null,
+        calledFrom: "allUserShows",
+        isResponseJSON: true,
+        extras: null,
       })
-      .catch((error) => {
-        setSnackbarSeverity("error")
-        setSnackbarMessage(error.message)
-        setOpenSnackbar(true)
-      })
+        .then((data) => {
+          setAllUserShows(data)
+          setLoading(false)
+        })
+        .catch((error) => {
+          setSnackbarSeverity("error")
+          setSnackbarMessage(error.message)
+          setOpenSnackbar(true)
+        })
+    }
   }, [])
 
   // function toggleSections(calledFrom) {
