@@ -15,22 +15,34 @@ export default function ProfileEpisodes({
   const zeroPad = (num, places) => String(num).padStart(places, "0")
 
   function defineEpisodesInfo() {
+    // PREMIERE
     if (seasonNumber === 0 && episodeNumber === 0) return false
 
-    if (seasonNumber === parseInt(showInfo.number_of_seasons) - 1) return false
+    // SERIES FINALE
+    if (
+      seasonNumber === parseInt(showInfo.number_of_seasons) - 1 &&
+      episodeNumber === seasonInfo.episodes.length - 1
+    )
+      return false
 
+    // SEASON FINALE
     if (seasonInfo.episodes.length - (episodeNumber + 1) === 0) return false
 
+    // OTHER
     return true
   }
 
   function definePremiereOrFinale() {
     if (seasonNumber === 0 && episodeNumber === 0) return "PREMIERE"
 
-    if (seasonNumber === parseInt(showInfo.number_of_seasons) - 1)
+    if (
+      seasonNumber === parseInt(showInfo.number_of_seasons) - 1 &&
+      episodeNumber === seasonInfo.episodes.length - 1
+    )
       return "SERIES FINALE"
 
-    return "Season Finale"
+    if (seasonInfo.episodes.length - (episodeNumber + 1) === 0)
+      return "Season Finale"
   }
 
   return (
