@@ -38,7 +38,7 @@ export default function ProfileEpisodes({
           </span>
 
           <span className="profile-episode-name">
-            {seasonInfo.episodes[episodeNumber + 1].name}
+            {seasonInfo.episodes[episodeNumber + 1]?.name}
           </span>
         </div>
 
