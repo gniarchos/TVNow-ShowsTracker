@@ -41,7 +41,6 @@ export default function ProfileSectionsContainer({
       }),
     ])
       .then((data) => {
-        // setShowsWithSectionType(data)
         setWatchNextShows(data[0])
         localStorage.setItem("watchNextShowsCount", data[0].length)
 

@@ -38,38 +38,40 @@ export default function WatchNext({
     setLoading(true)
     setShowsInfo([])
     setSeasonInfo([])
-    watchNextShows.forEach((show) => {
-      Promise.all([
-        apiCaller({
-          url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`,
-          method: "GET",
-          contentType: "application/json",
-          body: null,
-          calledFrom: "showInfo",
-          isResponseJSON: true,
-          extras: null,
-        }),
-        apiCaller({
-          url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${show.show_id}/season/1?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`,
-          method: "GET",
-          contentType: "application/json",
-          body: null,
-          calledFrom: "seasonInfo",
-          isResponseJSON: true,
-          extras: null,
-        }),
-      ])
-        .then((data) => {
-          setLoading(false)
-          setShowsInfo((prevData) => [...prevData, data[0]])
-          setSeasonInfo((prevData) => [...prevData, data[1]])
-        })
-        .catch((error) => {
-          setOpenSnackbar(true)
-          setSnackbarSeverity("error")
-          setSnackbarMessage(error.message)
-        })
-    })
+    watchNextShows
+      .sort((a, b) => new Date(b.last_updated) - new Date(a.last_updated))
+      .forEach((show) => {
+        Promise.all([
+          apiCaller({
+            url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`,
+            method: "GET",
+            contentType: "application/json",
+            body: null,
+            calledFrom: "showInfo",
+            isResponseJSON: true,
+            extras: null,
+          }),
+          apiCaller({
+            url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${show.show_id}/season/1?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`,
+            method: "GET",
+            contentType: "application/json",
+            body: null,
+            calledFrom: "seasonInfo",
+            isResponseJSON: true,
+            extras: null,
+          }),
+        ])
+          .then((data) => {
+            setLoading(false)
+            setShowsInfo((prevData) => [...prevData, data[0]])
+            setSeasonInfo((prevData) => [...prevData, data[1]])
+          })
+          .catch((error) => {
+            setOpenSnackbar(true)
+            setSnackbarSeverity("error")
+            setSnackbarMessage(error.message)
+          })
+      })
   }, [watchNextShows])
 
   function handleMarkAsWatched(showId, seasonNumber, episodeNumber, index) {
@@ -123,18 +125,29 @@ export default function WatchNext({
       {watchNextSection ? (
         <div className="profile-sections-container">
           <div className="profile-sections">
-            {showsInfo.map((show, index) => (
-              <ProfileEpisodes
-                mobileLayout={mobileLayout}
-                key={index}
-                showInfo={show}
-                seasonInfo={seasonInfo[index]}
-                seasonNumber={watchNextShows[index].season}
-                episodeNumber={watchNextShows[index].episode}
-                handleMarkAsWatched={handleMarkAsWatched}
-                index={index}
-              />
-            ))}
+            {showsInfo.map((show, index) => {
+              if (
+                new Date(show.next_episode_to_air) <=
+                new Date(
+                  seasonInfo[index].episodes[
+                    watchNextShows[index].episode
+                  ]?.air_date
+                )
+              ) {
+                return (
+                  <ProfileEpisodes
+                    mobileLayout={mobileLayout}
+                    key={index}
+                    showInfo={show}
+                    seasonInfo={seasonInfo[index]}
+                    seasonNumber={watchNextShows[index].season}
+                    episodeNumber={watchNextShows[index].episode}
+                    handleMarkAsWatched={handleMarkAsWatched}
+                    index={index}
+                  />
+                )
+              }
+            })}
           </div>
         </div>
       ) : (
