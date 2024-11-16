@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import "./ProfileStatistics.css"
 import { Chip, Divider } from "@mui/material"
 import apiCaller from "../../../Api/ApiCaller_NEW"
+import { LayoutContext } from "../../../components/Layout/Layout"
 
 export default function ProfileStatistics({ allUserShows, triggerRefresh }) {
   const [userWatchingTime, setUserWatching] = useState({
@@ -10,6 +11,8 @@ export default function ProfileStatistics({ allUserShows, triggerRefresh }) {
     hours: 0,
   })
   const [userWatchedEpisodesCount, setUserWatchedEpisodesCount] = useState(0)
+  const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
+    useContext(LayoutContext)
 
   function convertMinutesToMonthsDaysHours(totalMinutes) {
     // Define conversion ratios
@@ -46,7 +49,6 @@ export default function ProfileStatistics({ allUserShows, triggerRefresh }) {
       extras: null,
     })
       .then((response) => {
-        // setLoading(false)
         const time = convertMinutesToMonthsDaysHours(
           response.total_watching_time
         )
@@ -54,7 +56,9 @@ export default function ProfileStatistics({ allUserShows, triggerRefresh }) {
         setUserWatchedEpisodesCount(response.total_episodes)
       })
       .catch((error) => {
-        throw new Error(error.message)
+        setOpenSnackbar(true)
+        setSnackbarSeverity("error")
+        setSnackbarMessage(error.message)
       })
   }, [triggerRefresh])
 
