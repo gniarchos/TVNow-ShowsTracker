@@ -37,7 +37,7 @@ export default function Navbar() {
   } = useContext(LayoutContext)
 
   const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
+  const isMobileApp = window.matchMedia("(display-mode: standalone)").matches
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"))
 
   useEffect(() => {
@@ -187,7 +187,7 @@ export default function Navbar() {
 
         {isUserLoggedIn ? (
           <div className="navbar-logged-in-buttons">
-            {isSmallScreen && !isMobile && (
+            {isSmallScreen && !isMobileApp && (
               <>
                 <IconButton
                   size="small"
@@ -205,7 +205,7 @@ export default function Navbar() {
               </IconButton>
             )}
 
-            {!isMobile && !isSmallScreen && (
+            {!isMobileApp && !isSmallScreen && (
               <Button
                 sx={{ width: "100px" }}
                 variant="outlined"

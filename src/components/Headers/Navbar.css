@@ -44,18 +44,7 @@
   gap: 10px;
 }
 
-@media screen and (max-width: 600px) {
-  .navbar-wrapper {
-    padding-left: 10px;
-    padding-right: 10px;
-    justify-content: space-between;
-    align-self: center;
-  }
-
-  .navbar-search {
-    display: none;
-  }
-
+@media screen and (max-width: 900px) {
   .navbar-search-bar-mobile-container {
     display: flex;
     flex-direction: column;
@@ -69,6 +58,19 @@
     background-color: white;
     border-radius: 5px;
     width: 95vw;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .navbar-wrapper {
+    padding-left: 10px;
+    padding-right: 10px;
+    justify-content: space-between;
+    align-self: center;
+  }
+
+  .navbar-search {
+    display: none;
   }
 
   .navbar-logo-link {
