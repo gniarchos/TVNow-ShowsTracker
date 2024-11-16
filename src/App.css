@@ -1,12 +1,11 @@
 .App {
-  position: relative;
   min-height: 100vh;
 }
 
 .layout {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  min-height: 100vh;
 }
 
 .standalone-layout {
@@ -17,7 +16,8 @@
 }
 
 .layout-outlet {
-  margin-bottom: 100px;
+  flex: 1;
+  margin-bottom: 20px;
 }
 
 .rainbow {

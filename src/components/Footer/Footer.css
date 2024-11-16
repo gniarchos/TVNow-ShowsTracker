@@ -7,9 +7,6 @@
   justify-content: space-between;
   align-items: center;
   z-index: 8;
-  position: absolute;
-  bottom: 0;
-  left: 0;
   width: 100%;
 }
 
