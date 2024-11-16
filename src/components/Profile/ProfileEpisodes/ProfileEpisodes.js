@@ -14,6 +14,25 @@ export default function ProfileEpisodes({
 }) {
   const zeroPad = (num, places) => String(num).padStart(places, "0")
 
+  function defineEpisodesInfo() {
+    if (seasonNumber === 0 && episodeNumber === 0) return false
+
+    if (seasonNumber === parseInt(showInfo.number_of_seasons) - 1) return false
+
+    if (seasonInfo.episodes.length - (episodeNumber + 1) === 0) return false
+
+    return true
+  }
+
+  function definePremiereOrFinale() {
+    if (seasonNumber === 0 && episodeNumber === 0) return "PREMIERE"
+
+    if (seasonNumber === parseInt(showInfo.number_of_seasons) - 1)
+      return "SERIES FINALE"
+
+    return "Season Finale"
+  }
+
   return (
     <div className="profile-episode-wrapper">
       <div className="profile-episode-img-container">
@@ -33,12 +52,25 @@ export default function ProfileEpisodes({
             {showInfo.name}
           </Link>
 
-          <span className="profile-season-episode-number">
-            S{zeroPad(seasonNumber + 1, 2)} | E{zeroPad(episodeNumber + 1, 2)}
-          </span>
+          <div className="profile-episode-numbers-container">
+            <span className="profile-season-episode-number">
+              S{zeroPad(seasonNumber + 1, 2)} | E{zeroPad(episodeNumber + 1, 2)}
+            </span>
+
+            {/* TODO: show episodes left for only aired episodes */}
+            {defineEpisodesInfo() ? (
+              <span className="profile-episodes-left">
+                +{seasonInfo.episodes.length - (episodeNumber + 1)} More
+              </span>
+            ) : (
+              <span className="profile-episodes-left">
+                {definePremiereOrFinale()}
+              </span>
+            )}
+          </div>
 
           <span className="profile-episode-name">
-            {seasonInfo.episodes[episodeNumber + 1]?.name}
+            {seasonInfo.episodes[episodeNumber]?.name}
           </span>
         </div>
 

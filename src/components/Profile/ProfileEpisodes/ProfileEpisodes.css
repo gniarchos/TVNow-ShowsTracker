@@ -48,10 +48,33 @@
   text-decoration: none;
 }
 
+.profile-episode-numbers-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
 .profile-season-episode-number {
   font-size: 1rem;
   font-weight: 500;
   color: rgb(127, 127, 131);
+  /* white-space: nowrap; */
+}
+
+.profile-episodes-left {
+  background: #ededed;
+  border-radius: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgb(127, 127, 131);
+  /* white-space: nowrap; */
+}
+
+.profile-episodes-left.hide {
+  visibility: hidden;
 }
 
 @media all and (max-width: 768px) {
@@ -92,5 +115,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 0.9rem;
+  }
+
+  .profile-episodes-left {
+    font-size: 0.8rem;
   }
 }
