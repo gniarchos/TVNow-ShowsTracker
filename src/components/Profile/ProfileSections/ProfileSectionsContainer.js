@@ -4,6 +4,7 @@ import { LayoutContext } from "../../../components/Layout/Layout"
 import WatchList from "./WatchList"
 import WatchNext from "./WatchNext"
 import "./ProfileSections.css"
+import UpToDate from "./UpToDate"
 
 export default function ProfileSectionsContainer({
   mobileLayout,
@@ -15,11 +16,20 @@ export default function ProfileSectionsContainer({
   const [watchListShows, setWatchListShows] = useState([])
   const [loading, setLoading] = useState(true)
 
+  const [watchNextShowsFetchOK, setWatchNextShowsFetchOK] = useState(false)
+  const [watchListShowsFetchOK, setWatchListShowsFetchOK] = useState(false)
+  const [upToDateShowsFetchOK, setUpToDateShowsFetchOK] = useState(false)
+
   const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
     useContext(LayoutContext)
 
   useEffect(() => {
     setLoading(true)
+
+    setWatchNextShowsFetchOK(false)
+    setWatchListShowsFetchOK(false)
+    setUpToDateShowsFetchOK(false)
+
     Promise.all([
       apiCaller({
         url: `${process.env.REACT_APP_BACKEND_API_URL}/shows/all-shows/watching/${user_id}`,
@@ -54,6 +64,11 @@ export default function ProfileSectionsContainer({
       })
   }, [triggerRefresh])
 
+  useEffect(() => {
+    if (watchNextShowsFetchOK && watchListShowsFetchOK && upToDateShowsFetchOK)
+      setLoading(false)
+  }, [watchNextShowsFetchOK, watchListShowsFetchOK, upToDateShowsFetchOK])
+
   return (
     <>
       <WatchNext
@@ -63,6 +78,15 @@ export default function ProfileSectionsContainer({
         setTriggerRefresh={setTriggerRefresh}
         loading={loading}
         setLoading={setLoading}
+        setWatchNextShowsFetchOK={setWatchNextShowsFetchOK}
+      />
+
+      <UpToDate
+        mobileLayout={mobileLayout}
+        watchNextShows={watchNextShows}
+        loading={loading}
+        setLoading={setLoading}
+        setUpToDateShowsFetchOK={setUpToDateShowsFetchOK}
       />
 
       <WatchList
@@ -72,6 +96,7 @@ export default function ProfileSectionsContainer({
         setTriggerRefresh={setTriggerRefresh}
         loading={loading}
         setLoading={setLoading}
+        setWatchListShowsFetchOK={setWatchListShowsFetchOK}
       />
     </>
   )

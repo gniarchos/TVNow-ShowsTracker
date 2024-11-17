@@ -13,6 +13,7 @@ export default function WatchList({
   setTriggerRefresh,
   loading,
   setLoading,
+  setWatchListShowsFetchOK,
 }) {
   const user_id = localStorage.getItem("user_id")
   const [showsInfo, setShowsInfo] = useState([])
@@ -59,9 +60,10 @@ export default function WatchList({
         }),
       ])
         .then((data) => {
-          setLoading(false)
+          // setLoading(false)
           setShowsInfo((prevData) => [...prevData, data[0]])
           setSeasonInfo((prevData) => [...prevData, data[1]])
+          setWatchListShowsFetchOK(true)
         })
         .catch((error) => {
           setOpenSnackbar(true)

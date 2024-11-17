@@ -12,12 +12,11 @@ export default function WatchNext({
   setTriggerRefresh,
   loading,
   setLoading,
+  setWatchNextShowsFetchOK,
 }) {
   const user_id = localStorage.getItem("user_id")
   const [showsInfo, setShowsInfo] = useState([])
   const [seasonInfo, setSeasonInfo] = useState([])
-  //   const [loading, setLoading] = useState(true)
-
   const [emptySection, setEmptySection] = useState(false)
 
   const [watchNextSection, setWatchNextSection] = useState(
@@ -35,50 +34,65 @@ export default function WatchNext({
   }
 
   useEffect(() => {
-    setLoading(true)
-    setShowsInfo([])
-    setSeasonInfo([])
-    watchNextShows
-      .sort((a, b) => new Date(b.last_updated) - new Date(a.last_updated))
-      .forEach((show) => {
-        Promise.all([
-          apiCaller({
-            url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`,
-            method: "GET",
-            contentType: "application/json",
-            body: null,
-            calledFrom: "showInfo",
-            isResponseJSON: true,
-            extras: null,
-          }),
-          apiCaller({
-            url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${show.show_id}/season/1?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`,
-            method: "GET",
-            contentType: "application/json",
-            body: null,
-            calledFrom: "seasonInfo",
-            isResponseJSON: true,
-            extras: null,
-          }),
-        ])
-          .then((data) => {
-            setLoading(false)
-            setShowsInfo((prevData) => [...prevData, data[0]])
-            setSeasonInfo((prevData) => [...prevData, data[1]])
-          })
-          .catch((error) => {
-            setOpenSnackbar(true)
-            setSnackbarSeverity("error")
-            setSnackbarMessage(error.message)
-          })
-      })
+    const fetchData = async () => {
+      setLoading(true)
+      setShowsInfo([])
+      setSeasonInfo([])
+
+      try {
+        const results = await Promise.all(
+          watchNextShows
+            ?.sort(
+              (a, b) => new Date(b.last_updated) - new Date(a.last_updated)
+            )
+            .map((show) =>
+              Promise.all([
+                apiCaller({
+                  url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`,
+                  method: "GET",
+                  contentType: "application/json",
+                  body: null,
+                  calledFrom: "showInfo",
+                  isResponseJSON: true,
+                  extras: null,
+                }),
+                apiCaller({
+                  url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${
+                    show.show_id
+                  }/season/${show.season + 1}?api_key=${
+                    process.env.REACT_APP_THEMOVIEDB_API
+                  }&language=en-US`,
+                  method: "GET",
+                  contentType: "application/json",
+                  body: null,
+                  calledFrom: "seasonInfo",
+                  isResponseJSON: true,
+                  extras: null,
+                }),
+              ])
+            )
+        )
+
+        const shows = results.map((res) => res[0])
+        const seasons = results.map((res) => res[1])
+
+        setShowsInfo(shows)
+        setSeasonInfo(seasons)
+      } catch (error) {
+        setOpenSnackbar(true)
+        setSnackbarSeverity("error")
+        setSnackbarMessage(error.message)
+      } finally {
+        setWatchNextShowsFetchOK(true)
+      }
+    }
+
+    fetchData()
   }, [watchNextShows])
 
   function handleMarkAsWatched(showId, seasonNumber, episodeNumber, index) {
     const isSeasonLastEpisode =
       seasonInfo[index].episodes.length === episodeNumber + 1
-
-    // console.log(isSeasonLastEpisode)
 
     const data_to_post = {
       episode: isSeasonLastEpisode ? 0 : episodeNumber + 1,
@@ -127,12 +141,12 @@ export default function WatchNext({
           <div className="profile-sections">
             {showsInfo.map((show, index) => {
               if (
-                new Date(show.next_episode_to_air) <=
                 new Date(
                   seasonInfo[index].episodes[
                     watchNextShows[index].episode
-                  ]?.air_date
-                )
+                  ].air_date
+                ) < new Date() &&
+                seasonInfo[index].season_number <= show.number_of_seasons
               ) {
                 return (
                   <ProfileEpisodes
