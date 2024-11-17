@@ -3,6 +3,7 @@ import "./ProfileEpisodes.css"
 import { Link } from "react-router-dom"
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded"
 import { IconButton } from "@mui/material"
+import dayjs from "dayjs"
 
 export default function ProfileEpisodes({
   showInfo,
@@ -11,8 +12,49 @@ export default function ProfileEpisodes({
   episodeNumber,
   handleMarkAsWatched,
   index,
+  sectionType,
 }) {
   const zeroPad = (num, places) => String(num).padStart(places, "0")
+
+  function showDaysUntil() {
+    if (showInfo.next_episode_to_air === null) {
+      return "TBA"
+    }
+
+    if (
+      dayjs(seasonInfo.episodes[episodeNumber].air_date).format(
+        "DD-MM-YYYY"
+      ) === dayjs().format("DD-MM-YYYY")
+    ) {
+      return "TODAY"
+    }
+
+    if (
+      dayjs(seasonInfo.episodes[episodeNumber].air_date).diff(
+        dayjs(),
+        "day"
+      ) === 0
+    ) {
+      return "1 Day"
+    } else {
+      if (
+        dayjs(seasonInfo.episodes[episodeNumber].air_date).diff(
+          dayjs(),
+          "day"
+        ) !== 1
+      ) {
+        return `${dayjs(seasonInfo.episodes[episodeNumber].air_date).diff(
+          dayjs(),
+          "day"
+        )} Days`
+      } else {
+        return `${dayjs(seasonInfo.episodes[episodeNumber].air_date).diff(
+          dayjs(),
+          "day"
+        )} Day`
+      }
+    }
+  }
 
   function defineEpisodesInfo() {
     // PREMIERE
@@ -82,23 +124,41 @@ export default function ProfileEpisodes({
           </div>
 
           <span className="profile-episode-name">
-            {seasonInfo.episodes[episodeNumber]?.name}
+            {seasonInfo.episodes[episodeNumber].name}
           </span>
         </div>
 
         <div className="profile-episode-action">
-          <IconButton
-            onClick={() => {
-              handleMarkAsWatched(
-                showInfo.id,
-                seasonNumber,
-                episodeNumber,
-                index
-              )
-            }}
-          >
-            <CheckCircleRoundedIcon sx={{ fontSize: 30 }} />
-          </IconButton>
+          {sectionType !== "upToDate" ? (
+            <IconButton
+              onClick={() => {
+                handleMarkAsWatched(
+                  showInfo.id,
+                  seasonNumber,
+                  episodeNumber,
+                  index
+                )
+              }}
+            >
+              <CheckCircleRoundedIcon sx={{ fontSize: 30 }} />
+            </IconButton>
+          ) : (
+            <span
+              className={
+                dayjs(seasonInfo.episodes[episodeNumber].air_date).diff(
+                  dayjs(),
+                  "day"
+                ) === 0 ||
+                dayjs(seasonInfo.episodes[episodeNumber].air_date).format(
+                  "DD-MM-YYYY"
+                ) === dayjs().format("DD-MM-YYYY")
+                  ? "profile-episode-days-until rainbow rainbow_text_animated"
+                  : "profile-episode-days-until"
+              }
+            >
+              {showDaysUntil()}
+            </span>
+          )}
         </div>
       </div>
     </div>

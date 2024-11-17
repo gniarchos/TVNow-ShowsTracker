@@ -77,6 +77,15 @@
   visibility: hidden;
 }
 
+.profile-episode-days-until {
+  color: rgb(127, 127, 131);
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+}
+
 @media all and (max-width: 768px) {
   /* mobile */
 
@@ -119,5 +128,9 @@
 
   .profile-episodes-left {
     font-size: 0.8rem;
+  }
+
+  .profile-episode-days-until {
+    font-size: 0.9rem;
   }
 }
