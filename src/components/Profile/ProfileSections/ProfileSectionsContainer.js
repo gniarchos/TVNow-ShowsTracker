@@ -69,6 +69,12 @@ export default function ProfileSectionsContainer({
       setLoading(false)
   }, [watchNextShowsFetchOK, watchListShowsFetchOK, upToDateShowsFetchOK])
 
+  console.log(
+    watchNextShowsFetchOK,
+    watchListShowsFetchOK,
+    upToDateShowsFetchOK
+  )
+
   return (
     <>
       <WatchNext

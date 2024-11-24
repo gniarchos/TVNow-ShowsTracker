@@ -5,6 +5,7 @@ import apiCaller from "../../../Api/ApiCaller_NEW"
 import { LayoutContext } from "../../Layout/Layout"
 import SectionsLoader from "./SectionsLoader"
 import "./ProfileSections.css"
+import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded"
 
 export default function UpToDate({
   mobileLayout,
@@ -38,57 +39,66 @@ export default function UpToDate({
       setSeasonInfo([])
 
       try {
-        const results = await Promise.all(
-          watchNextShows
-            ?.sort(
-              (a, b) => new Date(b.last_updated) - new Date(a.last_updated)
-            )
-            .map((show) =>
-              Promise.all([
-                apiCaller({
-                  url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`,
-                  method: "GET",
-                  contentType: "application/json",
-                  body: null,
-                  calledFrom: "showInfo",
-                  isResponseJSON: true,
-                  extras: null,
-                }),
-                apiCaller({
-                  url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${
-                    show.show_id
-                  }/season/${show.season + 1}?api_key=${
-                    process.env.REACT_APP_THEMOVIEDB_API
-                  }&language=en-US`,
-                  method: "GET",
-                  contentType: "application/json",
-                  body: null,
-                  calledFrom: "seasonInfo",
-                  isResponseJSON: true,
-                  extras: null,
-                }),
-              ])
-            )
-        )
+        if (watchNextShows.length === 0) {
+          setEmptySection(true)
+        } else {
+          const results = await Promise.all(
+            watchNextShows
+              ?.sort(
+                (a, b) => new Date(b.last_updated) - new Date(a.last_updated)
+              )
+              .map((show) =>
+                Promise.all([
+                  apiCaller({
+                    url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`,
+                    method: "GET",
+                    contentType: "application/json",
+                    body: null,
+                    calledFrom: "showInfo",
+                    isResponseJSON: true,
+                    extras: null,
+                  }),
+                  apiCaller({
+                    url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${
+                      show.show_id
+                    }/season/${show.season + 1}?api_key=${
+                      process.env.REACT_APP_THEMOVIEDB_API
+                    }&language=en-US`,
+                    method: "GET",
+                    contentType: "application/json",
+                    body: null,
+                    calledFrom: "seasonInfo",
+                    isResponseJSON: true,
+                    extras: null,
+                  }),
+                ])
+              )
+          )
 
-        const shows = results.map((res) => res[0])
-        // const seasons = results.map((res) => res[1])
-        const seasons = results.map((res) => {
-          if (res[1] !== undefined) {
-            return res[1]
-          } else {
-            return null
-          }
-        })
+          const shows = results.map((res) => res[0])
+          // const seasons = results.map((res) => res[1])
+          const seasons = results.map((res) => {
+            if (res[1] !== undefined) {
+              return res[1]
+            } else {
+              return null
+            }
+          })
 
-        setShowsInfo(shows)
-        setSeasonInfo(seasons)
+          setShowsInfo(shows)
+          setSeasonInfo(seasons)
+        }
       } catch (error) {
         setOpenSnackbar(true)
         setSnackbarSeverity("error")
         setSnackbarMessage(error.message)
       } finally {
         setUpToDateShowsFetchOK(true)
+        if (watchNextShows.length === 0) {
+          setEmptySection(true)
+        } else {
+          setEmptySection(false)
+        }
       }
     }
 
@@ -113,7 +123,6 @@ export default function UpToDate({
         <div className="profile-sections-container">
           <div className="profile-sections">
             {showsInfo.map((show, index) => {
-              // console.log(watchNextShows[index])
               if (seasonInfo[index] === null) {
                 return (
                   <ProfileEpisodes
@@ -160,7 +169,10 @@ export default function UpToDate({
       )}
 
       {emptySection && (
-        <div className="empty-section">No Shows In Up To Date</div>
+        <div className="profile-empty-section">
+          <AutoAwesomeRoundedIcon />
+          Up To Date section is empty
+        </div>
       )}
     </div>
   )

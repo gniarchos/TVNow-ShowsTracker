@@ -4,6 +4,8 @@ import { Button, Divider } from "@mui/material"
 import apiCaller from "../../../Api/ApiCaller_NEW"
 import { LayoutContext } from "../../../components/Layout/Layout"
 import SectionsLoader from "./SectionsLoader"
+import "./ProfileSections.css"
+import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded"
 
 export default function WatchNext({
   mobileLayout,
@@ -36,12 +38,16 @@ export default function WatchNext({
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log("fetching data")
       setSpinnerLoader([])
       setLoading(true)
       setShowsInfo([])
       setSeasonInfo([])
 
       try {
+        if (watchNextShows.length === 0) {
+          setEmptySection(true)
+        }
         const results = await Promise.all(
           watchNextShows
             ?.sort(
@@ -97,6 +103,11 @@ export default function WatchNext({
         setSnackbarMessage(error.message)
       } finally {
         setWatchNextShowsFetchOK(true)
+        if (watchNextShows.length === 0) {
+          setEmptySection(true)
+        } else {
+          setEmptySection(false)
+        }
       }
     }
 
@@ -186,7 +197,9 @@ export default function WatchNext({
       )}
 
       {emptySection && (
-        <div className="empty-section">No Shows In Watchlist</div>
+        <div className="profile-empty-section">
+          <AutoAwesomeRoundedIcon /> Watch next section is empty
+        </div>
       )}
     </div>
   )

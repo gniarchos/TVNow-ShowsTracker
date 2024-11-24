@@ -5,6 +5,7 @@ import apiCaller from "../../../Api/ApiCaller_NEW"
 import { LayoutContext } from "../../../components/Layout/Layout"
 import SectionsLoader from "./SectionsLoader"
 import "./ProfileSections.css"
+import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded"
 
 export default function WatchList({
   mobileLayout,
@@ -40,43 +41,49 @@ export default function WatchList({
     setLoading(true)
     setShowsInfo([])
     setSeasonInfo([])
-    watchListShows.forEach((show) => {
-      Promise.all([
-        apiCaller({
-          url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`,
-          method: "GET",
-          contentType: "application/json",
-          body: null,
-          calledFrom: "showInfo",
-          isResponseJSON: true,
-          extras: null,
-        }),
-        apiCaller({
-          url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${show.show_id}/season/1?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`,
-          method: "GET",
-          contentType: "application/json",
-          body: null,
-          calledFrom: "seasonInfo",
-          isResponseJSON: true,
-          extras: null,
-        }),
-      ])
-        .then((data) => {
-          // setLoading(false)
-          setShowsInfo((prevData) => [...prevData, data[0]])
-          setSeasonInfo((prevData) => [...prevData, data[1]])
-          setWatchListShowsFetchOK(true)
+    if (watchListShows.length === 0) {
+      setEmptySection(true)
+      setWatchListShowsFetchOK(true)
+    } else {
+      watchListShows.forEach((show) => {
+        Promise.all([
+          apiCaller({
+            url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`,
+            method: "GET",
+            contentType: "application/json",
+            body: null,
+            calledFrom: "showInfo",
+            isResponseJSON: true,
+            extras: null,
+          }),
+          apiCaller({
+            url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${show.show_id}/season/1?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`,
+            method: "GET",
+            contentType: "application/json",
+            body: null,
+            calledFrom: "seasonInfo",
+            isResponseJSON: true,
+            extras: null,
+          }),
+        ])
+          .then((data) => {
+            // setLoading(false)
+            setShowsInfo((prevData) => [...prevData, data[0]])
+            setSeasonInfo((prevData) => [...prevData, data[1]])
+            setWatchListShowsFetchOK(true)
+            setEmptySection(false)
 
-          data.map((res) => {
-            setSpinnerLoader((prev) => [...prev, false])
+            data.map((res) => {
+              setSpinnerLoader((prev) => [...prev, false])
+            })
           })
-        })
-        .catch((error) => {
-          setOpenSnackbar(true)
-          setSnackbarSeverity("error")
-          setSnackbarMessage(error.message)
-        })
-    })
+          .catch((error) => {
+            setOpenSnackbar(true)
+            setSnackbarSeverity("error")
+            setSnackbarMessage(error.message)
+          })
+      })
+    }
   }, [watchListShows])
 
   function handleMarkAsWatched(showId, seasonNumber, episodeNumber, index) {
@@ -146,7 +153,9 @@ export default function WatchList({
       )}
 
       {emptySection && (
-        <div className="empty-section">No Shows In Watchlist</div>
+        <div className="profile-empty-section">
+          <AutoAwesomeRoundedIcon /> Your WatchList is empty
+        </div>
       )}
     </div>
   )
