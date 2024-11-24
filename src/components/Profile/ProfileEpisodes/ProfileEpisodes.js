@@ -22,7 +22,7 @@ export default function ProfileEpisodes({
     }
 
     if (
-      dayjs(seasonInfo.episodes[episodeNumber].air_date).format(
+      dayjs(seasonInfo?.episodes[episodeNumber].air_date).format(
         "DD-MM-YYYY"
       ) === dayjs().format("DD-MM-YYYY")
     ) {
@@ -30,7 +30,7 @@ export default function ProfileEpisodes({
     }
 
     if (
-      dayjs(seasonInfo.episodes[episodeNumber].air_date).diff(
+      dayjs(seasonInfo?.episodes[episodeNumber].air_date).diff(
         dayjs(),
         "day"
       ) === 0
@@ -38,17 +38,17 @@ export default function ProfileEpisodes({
       return "1 Day"
     } else {
       if (
-        dayjs(seasonInfo.episodes[episodeNumber].air_date).diff(
+        dayjs(seasonInfo?.episodes[episodeNumber].air_date).diff(
           dayjs(),
           "day"
         ) !== 1
       ) {
-        return `${dayjs(seasonInfo.episodes[episodeNumber].air_date).diff(
+        return `${dayjs(seasonInfo?.episodes[episodeNumber].air_date).diff(
           dayjs(),
           "day"
         )} Days`
       } else {
-        return `${dayjs(seasonInfo.episodes[episodeNumber].air_date).diff(
+        return `${dayjs(seasonInfo?.episodes[episodeNumber].air_date).diff(
           dayjs(),
           "day"
         )} Day`
@@ -57,21 +57,25 @@ export default function ProfileEpisodes({
   }
 
   function defineEpisodesInfo() {
-    // PREMIERE
-    if (seasonNumber === 0 && episodeNumber === 0) return false
+    if (seasonInfo !== null) {
+      // PREMIERE
+      if (seasonNumber === 0 && episodeNumber === 0) return false
 
-    // SERIES FINALE
-    if (
-      seasonNumber === parseInt(showInfo.number_of_seasons) - 1 &&
-      episodeNumber === seasonInfo.episodes.length - 1
-    )
+      // SERIES FINALE
+      if (
+        seasonNumber === parseInt(showInfo.number_of_seasons) - 1 &&
+        episodeNumber === seasonInfo?.episodes.length - 1
+      )
+        return false
+
+      // SEASON FINALE
+      if (seasonInfo?.episodes.length - (episodeNumber + 1) === 0) return false
+
+      // OTHER
+      return true
+    } else {
       return false
-
-    // SEASON FINALE
-    if (seasonInfo.episodes.length - (episodeNumber + 1) === 0) return false
-
-    // OTHER
-    return true
+    }
   }
 
   function definePremiereOrFinale() {
@@ -79,11 +83,11 @@ export default function ProfileEpisodes({
 
     if (
       seasonNumber === parseInt(showInfo.number_of_seasons) - 1 &&
-      episodeNumber === seasonInfo.episodes.length - 1
+      episodeNumber === seasonInfo?.episodes.length - 1
     )
       return "SERIES FINALE"
 
-    if (seasonInfo.episodes.length - (episodeNumber + 1) === 0)
+    if (seasonInfo?.episodes.length - (episodeNumber + 1) === 0)
       return "Season Finale"
   }
 
@@ -114,7 +118,7 @@ export default function ProfileEpisodes({
             {/* TODO: show episodes left for only aired episodes */}
             {defineEpisodesInfo() ? (
               <span className="profile-episodes-left">
-                +{seasonInfo.episodes.length - (episodeNumber + 1)} More
+                +{seasonInfo?.episodes.length - (episodeNumber + 1)} More
               </span>
             ) : (
               <span className="profile-episodes-left">
@@ -124,7 +128,9 @@ export default function ProfileEpisodes({
           </div>
 
           <span className="profile-episode-name">
-            {seasonInfo.episodes[episodeNumber].name}
+            {seasonInfo === null
+              ? "TBA"
+              : seasonInfo?.episodes[episodeNumber].name}
           </span>
         </div>
 
@@ -142,14 +148,14 @@ export default function ProfileEpisodes({
             >
               <CheckCircleRoundedIcon sx={{ fontSize: 30 }} />
             </IconButton>
-          ) : (
+          ) : seasonInfo !== null ? (
             <span
               className={
-                dayjs(seasonInfo.episodes[episodeNumber].air_date).diff(
+                dayjs(seasonInfo?.episodes[episodeNumber].air_date).diff(
                   dayjs(),
                   "day"
                 ) === 0 ||
-                dayjs(seasonInfo.episodes[episodeNumber].air_date).format(
+                dayjs(seasonInfo?.episodes[episodeNumber].air_date).format(
                   "DD-MM-YYYY"
                 ) === dayjs().format("DD-MM-YYYY")
                   ? "profile-episode-days-until rainbow rainbow_text_animated"
@@ -158,6 +164,8 @@ export default function ProfileEpisodes({
             >
               {showDaysUntil()}
             </span>
+          ) : (
+            <span className="profile-episode-days-until">TBA</span>
           )}
         </div>
       </div>

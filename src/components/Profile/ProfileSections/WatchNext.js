@@ -74,7 +74,14 @@ export default function WatchNext({
         )
 
         const shows = results.map((res) => res[0])
-        const seasons = results.map((res) => res[1])
+
+        const seasons = results.map((res) => {
+          if (res[1] !== undefined) {
+            return res[1]
+          } else {
+            return null
+          }
+        })
 
         setShowsInfo(shows)
         setSeasonInfo(seasons)
@@ -89,6 +96,8 @@ export default function WatchNext({
 
     fetchData()
   }, [watchNextShows])
+
+  console.log(seasonInfo)
 
   function handleMarkAsWatched(showId, seasonNumber, episodeNumber, index) {
     const isSeasonLastEpisode =
@@ -142,11 +151,11 @@ export default function WatchNext({
             {showsInfo.map((show, index) => {
               if (
                 new Date(
-                  seasonInfo[index].episodes[
+                  seasonInfo[index]?.episodes[
                     watchNextShows[index].episode
                   ].air_date
                 ) < new Date() &&
-                seasonInfo[index].season_number <= show.number_of_seasons
+                seasonInfo[index]?.season_number <= show.number_of_seasons
               ) {
                 return (
                   <ProfileEpisodes

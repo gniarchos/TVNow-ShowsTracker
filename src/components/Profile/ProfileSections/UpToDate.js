@@ -72,7 +72,14 @@ export default function UpToDate({
         )
 
         const shows = results.map((res) => res[0])
-        const seasons = results.map((res) => res[1])
+        // const seasons = results.map((res) => res[1])
+        const seasons = results.map((res) => {
+          if (res[1] !== undefined) {
+            return res[1]
+          } else {
+            return null
+          }
+        })
 
         setShowsInfo(shows)
         setSeasonInfo(seasons)
@@ -107,14 +114,28 @@ export default function UpToDate({
           <div className="profile-sections">
             {showsInfo.map((show, index) => {
               // console.log(watchNextShows[index])
-
+              if (seasonInfo[index] === null) {
+                return (
+                  <ProfileEpisodes
+                    mobileLayout={mobileLayout}
+                    key={index}
+                    showInfo={show}
+                    seasonInfo={seasonInfo[index]}
+                    seasonNumber={watchNextShows[index].season}
+                    episodeNumber={watchNextShows[index].episode}
+                    handleMarkAsWatched={() => null}
+                    index={index}
+                    sectionType="upToDate"
+                  />
+                )
+              }
               if (
                 new Date(
-                  seasonInfo[index].episodes[
+                  seasonInfo[index]?.episodes[
                     watchNextShows[index].episode
                   ].air_date
                 ) > new Date() &&
-                seasonInfo[index].season_number === show.number_of_seasons
+                seasonInfo[index]?.season_number === show.number_of_seasons
               ) {
                 return (
                   <ProfileEpisodes
