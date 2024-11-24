@@ -66,6 +66,9 @@ export default async function apiCaller(params) {
           default:
             throw new Error("Something went wrong. Please try again later.")
         }
+      } else if (params.calledFrom === "seasonInfo") {
+        // const jsonResponse = await response.json()
+        console.log("Season data is not available for this show yet.")
       } else {
         const jsonResponse = await response.json()
         const status = response.status
