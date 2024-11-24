@@ -18,6 +18,7 @@ export default function WatchNext({
   const [showsInfo, setShowsInfo] = useState([])
   const [seasonInfo, setSeasonInfo] = useState([])
   const [emptySection, setEmptySection] = useState(false)
+  const [spinnerLoader, setSpinnerLoader] = useState([])
 
   const [watchNextSection, setWatchNextSection] = useState(
     localStorage.getItem("watchNextSection")
@@ -35,6 +36,7 @@ export default function WatchNext({
 
   useEffect(() => {
     const fetchData = async () => {
+      setSpinnerLoader([])
       setLoading(true)
       setShowsInfo([])
       setSeasonInfo([])
@@ -83,6 +85,10 @@ export default function WatchNext({
           }
         })
 
+        results.map((res) => {
+          setSpinnerLoader((prev) => [...prev, false])
+        })
+
         setShowsInfo(shows)
         setSeasonInfo(seasons)
       } catch (error) {
@@ -100,6 +106,7 @@ export default function WatchNext({
   console.log(seasonInfo)
 
   function handleMarkAsWatched(showId, seasonNumber, episodeNumber, index) {
+    setSpinnerLoader((prev) => [...prev.slice(0, index), true])
     const isSeasonLastEpisode =
       seasonInfo[index].episodes.length === episodeNumber + 1
 
@@ -167,6 +174,7 @@ export default function WatchNext({
                     episodeNumber={watchNextShows[index].episode}
                     handleMarkAsWatched={handleMarkAsWatched}
                     index={index}
+                    spinnerLoader={spinnerLoader}
                   />
                 )
               }

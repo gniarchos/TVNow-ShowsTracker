@@ -126,6 +126,7 @@ export default function UpToDate({
                     handleMarkAsWatched={() => null}
                     index={index}
                     sectionType="upToDate"
+                    spinnerLoader={[]}
                   />
                 )
               }

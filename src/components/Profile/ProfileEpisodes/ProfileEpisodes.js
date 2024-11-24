@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded"
 import { IconButton } from "@mui/material"
 import dayjs from "dayjs"
+import { ColorRing } from "react-loader-spinner"
 
 export default function ProfileEpisodes({
   showInfo,
@@ -13,6 +14,7 @@ export default function ProfileEpisodes({
   handleMarkAsWatched,
   index,
   sectionType,
+  spinnerLoader,
 }) {
   const zeroPad = (num, places) => String(num).padStart(places, "0")
 
@@ -136,18 +138,30 @@ export default function ProfileEpisodes({
 
         <div className="profile-episode-action">
           {sectionType !== "upToDate" ? (
-            <IconButton
-              onClick={() => {
-                handleMarkAsWatched(
-                  showInfo.id,
-                  seasonNumber,
-                  episodeNumber,
-                  index
-                )
-              }}
-            >
-              <CheckCircleRoundedIcon sx={{ fontSize: 30 }} />
-            </IconButton>
+            spinnerLoader.length !== 0 && !spinnerLoader[index] ? (
+              <IconButton
+                onClick={() => {
+                  handleMarkAsWatched(
+                    showInfo.id,
+                    seasonNumber,
+                    episodeNumber,
+                    index
+                  )
+                }}
+              >
+                <CheckCircleRoundedIcon sx={{ fontSize: 30 }} />
+              </IconButton>
+            ) : (
+              <ColorRing
+                visible={true}
+                height="35"
+                width="35"
+                ariaLabel="color-ring-loading"
+                wrapperStyle={{}}
+                wrapperClass="color-ring-wrapper"
+                colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
+              />
+            )
           ) : seasonInfo !== null ? (
             <span
               className={

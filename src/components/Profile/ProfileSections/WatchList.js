@@ -19,6 +19,7 @@ export default function WatchList({
   const [showsInfo, setShowsInfo] = useState([])
   const [seasonInfo, setSeasonInfo] = useState([])
   const [emptySection, setEmptySection] = useState(false)
+  const [spinnerLoader, setSpinnerLoader] = useState([])
 
   const [watchlistSection, setWatchlistSection] = useState(
     localStorage.getItem("watchlistSection")
@@ -35,6 +36,7 @@ export default function WatchList({
   }
 
   useEffect(() => {
+    setSpinnerLoader([])
     setLoading(true)
     setShowsInfo([])
     setSeasonInfo([])
@@ -64,6 +66,10 @@ export default function WatchList({
           setShowsInfo((prevData) => [...prevData, data[0]])
           setSeasonInfo((prevData) => [...prevData, data[1]])
           setWatchListShowsFetchOK(true)
+
+          data.map((res) => {
+            setSpinnerLoader((prev) => [...prev, false])
+          })
         })
         .catch((error) => {
           setOpenSnackbar(true)
@@ -74,6 +80,7 @@ export default function WatchList({
   }, [watchListShows])
 
   function handleMarkAsWatched(showId, seasonNumber, episodeNumber, index) {
+    setSpinnerLoader((prev) => [...prev.slice(0, index), true])
     const data_to_post = {
       episode: episodeNumber + 1,
       season: seasonNumber,
@@ -129,6 +136,7 @@ export default function WatchList({
                 episodeNumber={0}
                 handleMarkAsWatched={handleMarkAsWatched}
                 index={index}
+                spinnerLoader={spinnerLoader}
               />
             ))}
           </div>
