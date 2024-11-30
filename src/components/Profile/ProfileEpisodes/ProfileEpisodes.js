@@ -23,38 +23,25 @@ export default function ProfileEpisodes({
       return "TBA"
     }
 
-    if (
-      dayjs(seasonInfo?.episodes[episodeNumber].air_date).format(
-        "DD-MM-YYYY"
-      ) === dayjs().format("DD-MM-YYYY")
-    ) {
+    const episodeAirDate = dayjs(seasonInfo?.episodes[episodeNumber].air_date)
+    const today = dayjs()
+
+    // Check if the episode airs today
+    if (episodeAirDate.isSame(today, "day")) {
       return "TODAY"
     }
 
-    if (
-      dayjs(seasonInfo?.episodes[episodeNumber].air_date).diff(
-        dayjs(),
-        "day"
-      ) === 0
-    ) {
+    // Calculate the difference in days
+    const daysUntil = episodeAirDate
+      .startOf("day")
+      .diff(today.startOf("day"), "day")
+
+    if (daysUntil === 1) {
       return "1 Day"
+    } else if (daysUntil > 1) {
+      return `${daysUntil} Days`
     } else {
-      if (
-        dayjs(seasonInfo?.episodes[episodeNumber].air_date).diff(
-          dayjs(),
-          "day"
-        ) !== 1
-      ) {
-        return `${dayjs(seasonInfo?.episodes[episodeNumber].air_date).diff(
-          dayjs(),
-          "day"
-        )} Days`
-      } else {
-        return `${dayjs(seasonInfo?.episodes[episodeNumber].air_date).diff(
-          dayjs(),
-          "day"
-        )} Day`
-      }
+      return "TBA" // For cases where the air date has already passed or is invalid
     }
   }
 

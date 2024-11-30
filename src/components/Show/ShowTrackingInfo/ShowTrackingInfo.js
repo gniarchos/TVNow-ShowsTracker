@@ -21,33 +21,26 @@ export default function ShowTrackingInfo({ showData }) {
   }
 
   function showDaysUntil() {
-    if (
-      dayjs(showData.next_episode_to_air?.air_date).format("DD-MM-YYYY") ===
-      dayjs().format("DD-MM-YYYY")
-    ) {
+    const nextEpisodeDate = dayjs(showData.next_episode_to_air?.air_date)
+    const today = dayjs()
+
+    // Calculate the difference in days
+    const daysUntil = nextEpisodeDate
+      .startOf("day")
+      .diff(today.startOf("day"), "day")
+
+    if (daysUntil === 0) {
       return "TODAY"
     }
 
-    if (
-      dayjs(showData.next_episode_to_air?.air_date).diff(dayjs(), "day") === 0
-    ) {
-      return "1 Day"
+    // Handle singular or plural days
+    if (daysUntil === 1) {
+      return "in 1 Day"
     } else {
-      if (
-        dayjs(showData.next_episode_to_air?.air_date).diff(dayjs(), "day") !== 1
-      ) {
-        return `in ${dayjs(showData.next_episode_to_air?.air_date).diff(
-          dayjs(),
-          "day"
-        )} Days`
-      } else {
-        return `in ${dayjs(showData.next_episode_to_air?.air_date).diff(
-          dayjs(),
-          "day"
-        )} Day`
-      }
+      return `in ${daysUntil} Days`
     }
   }
+
   return (
     <div className="show-info-container">
       {showData.last_air_date !== "-" && (
