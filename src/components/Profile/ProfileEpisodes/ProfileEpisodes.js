@@ -5,6 +5,7 @@ import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded"
 import { IconButton } from "@mui/material"
 import dayjs from "dayjs"
 import { ColorRing } from "react-loader-spinner"
+import TodayRoundedIcon from "@mui/icons-material/TodayRounded"
 
 export default function ProfileEpisodes({
   showInfo,
@@ -86,6 +87,17 @@ export default function ProfileEpisodes({
         {showInfo.last_episode_to_air === null && (
           <span className="profile-episode-new-series">NEW SERIES</span>
         )}
+
+        {showInfo.next_episode_to_air !== null &&
+          sectionType === "upToDate" && (
+            <span className="profile-episode-next-air-date">
+              <TodayRoundedIcon sx={{ fontSize: "1rem" }} />{" "}
+              {dayjs(seasonInfo?.episodes[episodeNumber].air_date).format(
+                "DD-MM-YYYY"
+              )}
+            </span>
+          )}
+
         <img
           className="profile-episode-img"
           src={`https://image.tmdb.org/t/p/w500/${showInfo.backdrop_path}`}
