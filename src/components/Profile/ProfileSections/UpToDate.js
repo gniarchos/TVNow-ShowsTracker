@@ -17,6 +17,7 @@ export default function UpToDate({
   const [showsInfo, setShowsInfo] = useState([])
   const [seasonInfo, setSeasonInfo] = useState([])
   const [emptySection, setEmptySection] = useState(false)
+  let episodesExists = false
 
   const [upToDateSection, setUpToDateSection] = useState(
     localStorage.getItem("upToDateSection")
@@ -124,6 +125,7 @@ export default function UpToDate({
           <div className="profile-sections">
             {showsInfo.map((show, index) => {
               if (seasonInfo[index] === null) {
+                episodesExists = true
                 return (
                   <ProfileEpisodes
                     mobileLayout={mobileLayout}
@@ -147,6 +149,7 @@ export default function UpToDate({
                 ) > new Date() &&
                 seasonInfo[index]?.season_number === show.number_of_seasons
               ) {
+                episodesExists = true
                 return (
                   <ProfileEpisodes
                     mobileLayout={mobileLayout}
@@ -168,12 +171,13 @@ export default function UpToDate({
         <Divider color="white" />
       )}
 
-      {emptySection && (
-        <div className="profile-empty-section">
-          <AutoAwesomeRoundedIcon />
-          Up To Date section is empty
-        </div>
-      )}
+      {emptySection ||
+        (!episodesExists && (
+          <div className="profile-empty-section">
+            <AutoAwesomeRoundedIcon />
+            Up To Date section is empty
+          </div>
+        ))}
     </div>
   )
 }
