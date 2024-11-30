@@ -157,7 +157,7 @@ export default function ProfileEpisodes({
                 height="35"
                 width="35"
                 ariaLabel="color-ring-loading"
-                wrapperStyle={{}}
+                wrapperStyle={{ marginTop: "5px", marginRight: "5px" }}
                 wrapperClass="color-ring-wrapper"
                 colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
               />
