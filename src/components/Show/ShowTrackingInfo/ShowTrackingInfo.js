@@ -43,7 +43,7 @@ export default function ShowTrackingInfo({ showData }) {
 
   return (
     <div className="show-info-container">
-      {showData.last_air_date !== "-" && (
+      {showData.last_air_date !== null && (
         <div className="show-info-details">
           <span className="show-info-titles">Latest Episode</span>
           <span className="show-info-values">
@@ -52,11 +52,13 @@ export default function ShowTrackingInfo({ showData }) {
         </div>
       )}
 
-      <Divider color="white" orientation="vertical" flexItem />
+      {showData.last_air_date !== null && (
+        <Divider color="white" orientation="vertical" flexItem />
+      )}
 
       <div className="show-info-details">
         <span className="show-info-titles">
-          {showData.last_air_date === "-" &&
+          {showData.last_air_date === null &&
           (showData.status !== "Ended" || showData.status !== "Canceled")
             ? "Premiere"
             : "Next Episode"}
@@ -71,7 +73,9 @@ export default function ShowTrackingInfo({ showData }) {
             <Divider color="white" orientation="vertical" flexItem />
 
             <div className="show-info-details">
-              <span className="show-info-titles">New Episode</span>
+              <span className="show-info-titles">
+                {showData.last_air_date === null ? "Countdown" : "New Episode"}
+              </span>
               <span
                 className={
                   dayjs(showData.next_episode_to_air?.air_date).diff(
