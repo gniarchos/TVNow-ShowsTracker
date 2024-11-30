@@ -10,6 +10,25 @@
   height: 281px;
   background-color: #3a3a3c;
   overflow: hidden;
+  position: relative;
+}
+
+.profile-episode-new-series {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  align-items: center;
+  justify-content: center;
+  background: whitesmoke;
+  color: #141522;
+  border-radius: 5px;
 }
 
 .profile-episode-img {
@@ -24,8 +43,6 @@
   align-items: center;
   gap: 10px;
   padding: 10px;
-
-  /* border: 1px solid green; */
 }
 
 .profile-episode-info {
@@ -59,7 +76,6 @@
   font-size: 1rem;
   font-weight: 500;
   color: rgb(127, 127, 131);
-  /* white-space: nowrap; */
 }
 
 .profile-episodes-left {
@@ -70,7 +86,6 @@
   font-size: 0.9rem;
   font-weight: 500;
   color: rgb(127, 127, 131);
-  /* white-space: nowrap; */
 }
 
 .profile-episodes-left.hide {
@@ -132,5 +147,17 @@
 
   .profile-episode-days-until {
     font-size: 0.9rem;
+  }
+
+  .profile-episode-new-series {
+    font-size: 0.8rem;
+    top: auto;
+    bottom: 0px;
+    right: 0px;
+    width: 100%;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    background-color: white;
   }
 }
