@@ -177,9 +177,7 @@
     bottom: 0px;
     right: 0px;
     width: 100%;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
+    border-radius: 0px;
     background-color: white;
   }
 
@@ -189,9 +187,7 @@
     bottom: 0px;
     right: 0px;
     width: 100%;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
+    border-radius: 0px;
     background-color: white;
   }
 }
