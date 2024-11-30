@@ -106,14 +106,16 @@ export default function ProfileStatistics({ allUserShows, triggerRefresh }) {
         <div className="profile-single-statistic-container">
           <h1 className="profile-single-statistic-title">Your TV Time</h1>
           <Divider flexItem />
-          <div className="profile-single-statistic-content">
+          <div
+            style={{ marginTop: "5px" }}
+            className="profile-single-statistic-content"
+          >
             <div>
               <p className="profile-single-statistic-number">
                 {userWatchingTime.months}
               </p>
               <p className="profile-single-statistic-subtitle">
-                {/* {watchingStatistic[0] === 1 ? "MONTH" : "MONTHS"} */}
-                MONTHS
+                {userWatchingTime.months === 1 ? "MONTH" : "MONTHS"}
               </p>
             </div>
             <div>
@@ -121,8 +123,7 @@ export default function ProfileStatistics({ allUserShows, triggerRefresh }) {
                 {userWatchingTime.days}
               </p>
               <p className="profile-single-statistic-subtitle">
-                {/* {watchingStatistic[1] === 1 ? "DAY" : "DAYS"} */}
-                DAYS
+                {userWatchingTime.days === 1 ? "DAY" : "DAYS"}
               </p>
             </div>
             <div>
@@ -130,8 +131,7 @@ export default function ProfileStatistics({ allUserShows, triggerRefresh }) {
                 {userWatchingTime.hours}
               </p>
               <p className="profile-single-statistic-subtitle">
-                {/* {watchingStatistic[2] === 1 ? "HOUR" : "HOURS"} */}
-                HOURS
+                {userWatchingTime.hours === 1 ? "HOUR" : "HOURS"}
               </p>
             </div>
           </div>
@@ -170,7 +170,7 @@ export default function ProfileStatistics({ allUserShows, triggerRefresh }) {
             style={{ position: "absolute", bottom: 0, right: 0 }}
             label="Coming Soon"
           />
-          <h1 className="profile-single-statistic-title">Favorite Genre</h1>
+          <h1 className="profile-single-statistic-title">Best Streak</h1>
           <Divider flexItem />
           <p className="profile-episodes-watched">-</p>
         </div>
