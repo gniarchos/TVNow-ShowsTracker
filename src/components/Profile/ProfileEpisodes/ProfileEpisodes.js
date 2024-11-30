@@ -2,10 +2,12 @@ import React from "react"
 import "./ProfileEpisodes.css"
 import { Link } from "react-router-dom"
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded"
-import { IconButton } from "@mui/material"
+import { IconButton, useMediaQuery } from "@mui/material"
 import dayjs from "dayjs"
 import { ColorRing } from "react-loader-spinner"
 import TodayRoundedIcon from "@mui/icons-material/TodayRounded"
+import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded"
+import { useTheme } from "@emotion/react"
 
 export default function ProfileEpisodes({
   showInfo,
@@ -18,6 +20,8 @@ export default function ProfileEpisodes({
   spinnerLoader,
 }) {
   const zeroPad = (num, places) => String(num).padStart(places, "0")
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
   function showDaysUntil() {
     if (showInfo.next_episode_to_air === null) {
@@ -91,10 +95,23 @@ export default function ProfileEpisodes({
         {showInfo.next_episode_to_air !== null &&
           sectionType === "upToDate" && (
             <span className="profile-episode-next-air-date">
-              <TodayRoundedIcon sx={{ fontSize: "1rem" }} />{" "}
+              <TodayRoundedIcon
+                sx={{ fontSize: isMobile ? "0.9rem" : "1rem" }}
+              />{" "}
               {dayjs(seasonInfo?.episodes[episodeNumber].air_date).format(
                 "DD-MM-YYYY"
               )}
+            </span>
+          )}
+
+        {seasonInfo?.episodes[episodeNumber].runtime !== null &&
+          sectionType !== "upToDate" &&
+          showInfo.last_episode_to_air !== null && (
+            <span className="profile-episode-runtime">
+              <AccessTimeRoundedIcon
+                sx={{ fontSize: isMobile ? "0.9rem" : "1rem" }}
+              />{" "}
+              {seasonInfo?.episodes[episodeNumber].runtime}'
             </span>
           )}
 
