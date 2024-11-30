@@ -185,8 +185,8 @@ export default function ShowBanner({
               {loading ? (
                 <ThreeDots
                   visible={true}
-                  height="25"
-                  width="25"
+                  height="23"
+                  width="23"
                   color="white"
                   radius="9"
                   ariaLabel="three-dots-loading"
@@ -211,8 +211,8 @@ export default function ShowBanner({
               {loading ? (
                 <ThreeDots
                   visible={true}
-                  height="25"
-                  width="25"
+                  height="23"
+                  width="23"
                   color="white"
                   radius="9"
                   ariaLabel="three-dots-loading"
