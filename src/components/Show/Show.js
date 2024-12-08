@@ -33,6 +33,11 @@ export default function Show() {
     useContext(LayoutContext)
 
   useEffect(() => {
+    setLoading(true)
+    window.scrollTo(0, 0)
+  }, [location])
+
+  useEffect(() => {
     const fetchAPIs = async () => {
       try {
         const promises = [

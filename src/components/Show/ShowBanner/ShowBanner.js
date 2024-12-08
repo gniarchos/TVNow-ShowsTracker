@@ -9,6 +9,7 @@ import CancelRoundedIcon from "@mui/icons-material/CancelRounded"
 import apiCaller from "../../../Api/ApiCaller_NEW"
 import { LayoutContext } from "../../../components/Layout/Layout"
 import { ThreeDots } from "react-loader-spinner"
+import { useLocation } from "react-router-dom"
 
 export default function ShowBanner({
   showData,
@@ -24,6 +25,7 @@ export default function ShowBanner({
   const user_id = localStorage.getItem("user_id")
   const [loading, setLoading] = useState(false)
   const [showInUserList, setShowInUserList] = useState(false)
+  const location = useLocation()
 
   const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
     useContext(LayoutContext)
@@ -31,10 +33,13 @@ export default function ShowBanner({
   useEffect(() => {
     allUserShows.forEach((show) => {
       if (show.show_id === showData.id) {
+        console.log(show)
         setShowInUserList(true)
+      } else {
+        setShowInUserList(false)
       }
     })
-  }, [])
+  }, [allUserShows, location])
 
   function addShowToShowsList() {
     if (user_id === null) {
