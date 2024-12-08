@@ -4,7 +4,8 @@ import Footer from "../Footer/Footer"
 import "../../App.css"
 import Navbar from "../Headers/Navbar"
 import AutoScrollToTop from "../Other/AutoScrollToTop/AutoScrollToTop"
-import { Alert, Snackbar } from "@mui/material"
+import { Alert, Snackbar, useMediaQuery } from "@mui/material"
+import { useTheme } from "@emotion/react"
 
 export const LayoutContext = createContext()
 
@@ -14,6 +15,9 @@ export default function Layout() {
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const [snackbarMessage, setSnackbarMessage] = useState("")
   const [snackbarSeverity, setSnackbarSeverity] = useState("")
+
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
   const layoutValues = {
     isUserLoggedIn: isUserLoggedIn,
@@ -41,7 +45,10 @@ export default function Layout() {
           open={openSnackbar}
           autoHideDuration={3000}
           onClose={() => setOpenSnackbar(false)}
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          anchorOrigin={{
+            vertical: isMobile ? "top" : "bottom",
+            horizontal: isMobile ? "center" : "right",
+          }}
         >
           <Alert
             onClose={() => setOpenSnackbar(false)}
