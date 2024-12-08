@@ -128,8 +128,6 @@ export default function Person() {
     }
   }, [in_cast_series, in_crew_series, in_cast_movies, in_crew_movies])
 
-  console.log(personKnownFor)
-
   if (loading) {
     return <Loader />
   }

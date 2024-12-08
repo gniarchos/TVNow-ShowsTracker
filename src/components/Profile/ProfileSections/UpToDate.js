@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from "react"
 import ProfileEpisodes from "../ProfileEpisodes/ProfileEpisodes"
-import { Button, Divider } from "@mui/material"
+import { Button, Divider, useMediaQuery } from "@mui/material"
 import apiCaller from "../../../Api/ApiCaller_NEW"
 import { LayoutContext } from "../../Layout/Layout"
 import SectionsLoader from "./SectionsLoader"
 import "./ProfileSections.css"
 import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded"
+import TuneRoundedIcon from "@mui/icons-material/TuneRounded"
+import { useTheme } from "@emotion/react"
 
 export default function UpToDate({
   mobileLayout,
@@ -18,6 +20,12 @@ export default function UpToDate({
   const [seasonInfo, setSeasonInfo] = useState([])
   const [emptySection, setEmptySection] = useState(false)
   let episodesExists = false
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
+  const [activeTab, setActiveTab] = useState(
+    parseInt(localStorage.getItem("upToDateFilter")) || 0
+  )
+  const [showFilters, setShowFilters] = useState(false)
 
   const [upToDateSection, setUpToDateSection] = useState(
     localStorage.getItem("upToDateSection")
@@ -106,6 +114,25 @@ export default function UpToDate({
     fetchData()
   }, [watchNextShows])
 
+  const filteredShowsAndSeasons = showsInfo
+    .map((show, index) => ({
+      show,
+      season: seasonInfo[index],
+      watchNext: watchNextShows[index],
+    })) // Combine showsInfo and seasonInfo
+    .filter(({ show, season }) => {
+      if (activeTab === 1) {
+        return show.next_episode_to_air !== null
+      }
+      return show
+    }) // Filter based on the `show` property
+
+  const filteredShowsInfo = filteredShowsAndSeasons.map(({ show }) => show)
+  const filteredSeasonInfo = filteredShowsAndSeasons.map(({ season }) => season)
+  const filteredWatchNextShows = filteredShowsAndSeasons.map(
+    ({ watchNext }) => watchNext
+  )
+
   if (loading) {
     return <SectionsLoader sectionType="Up To Date" />
   }
@@ -113,27 +140,62 @@ export default function UpToDate({
   return (
     <div className="profile-sections-wrapper" id="upToDate">
       <div className="profile-section-header">
-        <h1 className="profile-section-title">Up To Date</h1>
+        <h1 className="profile-section-title upToDate">
+          Up To Date{" "}
+          <TuneRoundedIcon
+            onClick={() => setShowFilters(!showFilters)}
+            sx={{ fontSize: isMobile ? "1.5rem" : "2rem", cursor: "pointer" }}
+          />
+        </h1>
 
         <Button onClick={toggleSection} variant="contained" size="small">
           {upToDateSection ? "Hide" : "Show"}
         </Button>
       </div>
 
+      {showFilters && (
+        <div className="profile-upToDate-filters-buttons">
+          <Button
+            variant="contained"
+            onClick={() => {
+              localStorage.setItem("upToDateFilter", 0)
+              setActiveTab(0)
+            }}
+            color={activeTab === 0 ? "primary" : "primaryFaded"}
+            sx={{ fontSize: isMobile ? "0.8rem" : "0.9rem" }}
+            size={isMobile ? "small" : "medium"}
+          >
+            Show All
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => {
+              localStorage.setItem("upToDateFilter", 1)
+              setActiveTab(1)
+            }}
+            color={activeTab === 1 ? "primary" : "primaryFaded"}
+            sx={{ fontSize: isMobile ? "0.8rem" : "0.9rem" }}
+            size={isMobile ? "small" : "medium"}
+          >
+            Coming Soon
+          </Button>
+        </div>
+      )}
+
       {upToDateSection ? (
         <div className="profile-sections-container">
           <div className="profile-sections">
-            {showsInfo.map((show, index) => {
-              if (seasonInfo[index] === null) {
+            {filteredShowsInfo.map((show, index) => {
+              if (filteredSeasonInfo[index] === null) {
                 episodesExists = true
                 return (
                   <ProfileEpisodes
                     mobileLayout={mobileLayout}
                     key={index}
                     showInfo={show}
-                    seasonInfo={seasonInfo[index]}
-                    seasonNumber={watchNextShows[index].season}
-                    episodeNumber={watchNextShows[index].episode}
+                    seasonInfo={filteredSeasonInfo[index]}
+                    seasonNumber={filteredWatchNextShows[index].season}
+                    episodeNumber={filteredWatchNextShows[index].episode}
                     handleMarkAsWatched={() => null}
                     index={index}
                     sectionType="upToDate"
@@ -141,13 +203,15 @@ export default function UpToDate({
                   />
                 )
               }
+
               if (
                 new Date(
-                  seasonInfo[index]?.episodes[
-                    watchNextShows[index].episode
+                  filteredSeasonInfo[index]?.episodes[
+                    filteredWatchNextShows[index].episode
                   ].air_date
                 ) > new Date() &&
-                seasonInfo[index]?.season_number === show.number_of_seasons
+                filteredSeasonInfo[index]?.season_number ===
+                  show.number_of_seasons
               ) {
                 episodesExists = true
                 return (
@@ -155,9 +219,9 @@ export default function UpToDate({
                     mobileLayout={mobileLayout}
                     key={index}
                     showInfo={show}
-                    seasonInfo={seasonInfo[index]}
-                    seasonNumber={watchNextShows[index].season}
-                    episodeNumber={watchNextShows[index].episode}
+                    seasonInfo={filteredSeasonInfo[index]}
+                    seasonNumber={filteredWatchNextShows[index].season}
+                    episodeNumber={filteredWatchNextShows[index].episode}
                     handleMarkAsWatched={() => null}
                     index={index}
                     sectionType="upToDate"

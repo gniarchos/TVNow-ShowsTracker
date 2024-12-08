@@ -38,7 +38,6 @@ export default function WatchNext({
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log("fetching data")
       setSpinnerLoader([])
       setLoading(true)
       setShowsInfo([])
@@ -113,8 +112,6 @@ export default function WatchNext({
 
     fetchData()
   }, [watchNextShows])
-
-  console.log(seasonInfo)
 
   function handleMarkAsWatched(showId, seasonNumber, episodeNumber, index) {
     setSpinnerLoader((prev) => [...prev.slice(0, index), true])

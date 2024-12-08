@@ -33,13 +33,10 @@ export default function ShowBanner({
   useEffect(() => {
     allUserShows.forEach((show) => {
       if (show.show_id === showData.id) {
-        console.log(show)
         setShowInUserList(true)
       }
     })
   }, [location, allUserShows])
-
-  console.log(showInUserList)
 
   function addShowToShowsList() {
     if (user_id === null) {
