@@ -35,11 +35,11 @@ export default function ShowBanner({
       if (show.show_id === showData.id) {
         console.log(show)
         setShowInUserList(true)
-      } else {
-        setShowInUserList(false)
       }
     })
-  }, [allUserShows, location])
+  }, [location, allUserShows])
+
+  console.log(showInUserList)
 
   function addShowToShowsList() {
     if (user_id === null) {
