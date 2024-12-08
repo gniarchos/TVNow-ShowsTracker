@@ -58,7 +58,8 @@ export default function ProfileEpisodes({
       // SERIES FINALE
       if (
         seasonNumber === parseInt(showInfo.number_of_seasons) - 1 &&
-        episodeNumber === seasonInfo?.episodes.length - 1
+        episodeNumber === seasonInfo?.episodes.length - 1 &&
+        showInfo.status === "Ended"
       )
         return false
 
@@ -73,16 +74,23 @@ export default function ProfileEpisodes({
   }
 
   function definePremiereOrFinale() {
-    if (seasonNumber === 0 && episodeNumber === 0) return "PREMIERE"
+    if (seasonNumber === 0 && episodeNumber === 0) return "Premiere"
 
     if (
       seasonNumber === parseInt(showInfo.number_of_seasons) - 1 &&
-      episodeNumber === seasonInfo?.episodes.length - 1
+      episodeNumber === seasonInfo?.episodes.length - 1 &&
+      showInfo.status === "Ended"
     )
-      return "SERIES FINALE"
+      return "Series Finale"
 
-    if (seasonInfo?.episodes.length - (episodeNumber + 1) === 0)
+    if (
+      seasonInfo?.episodes.length - (episodeNumber + 1) === 0 &&
+      seasonInfo?.episodes[episodeNumber].episode_type === "finale"
+    ) {
       return "Season Finale"
+    } else {
+      return "Premiere"
+    }
   }
 
   return (
