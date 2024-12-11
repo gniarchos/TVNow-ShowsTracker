@@ -186,7 +186,10 @@ export default function UpToDate({
         <div className="profile-sections-container">
           <div className="profile-sections">
             {filteredShowsInfo.map((show, index) => {
-              if (filteredSeasonInfo[index] === null) {
+              if (
+                filteredSeasonInfo[index] === null ||
+                show.next_episode_to_air === null
+              ) {
                 episodesExists = true
                 return (
                   <ProfileEpisodes
@@ -208,7 +211,7 @@ export default function UpToDate({
                 new Date(
                   filteredSeasonInfo[index]?.episodes[
                     filteredWatchNextShows[index].episode
-                  ].air_date
+                  ]?.air_date
                 ) > new Date() &&
                 filteredSeasonInfo[index]?.season_number ===
                   show.number_of_seasons
@@ -219,7 +222,11 @@ export default function UpToDate({
                     mobileLayout={mobileLayout}
                     key={index}
                     showInfo={show}
-                    seasonInfo={filteredSeasonInfo[index]}
+                    seasonInfo={
+                      filteredSeasonInfo[index].episodes.length === 0
+                        ? null
+                        : filteredSeasonInfo[index]
+                    }
                     seasonNumber={filteredWatchNextShows[index].season}
                     episodeNumber={filteredWatchNextShows[index].episode}
                     handleMarkAsWatched={() => null}

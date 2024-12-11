@@ -23,6 +23,10 @@ export default function ProfileEpisodes({
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
+  // if (showInfo.name === "FROM") {
+  //   console.log(showInfo)
+  // }
+
   function showDaysUntil() {
     if (showInfo.next_episode_to_air === null) {
       return "TBA"
@@ -112,14 +116,14 @@ export default function ProfileEpisodes({
             </span>
           )}
 
-        {seasonInfo?.episodes[episodeNumber].runtime !== null &&
+        {seasonInfo?.episodes[episodeNumber]?.runtime !== null &&
           sectionType !== "upToDate" &&
           showInfo.last_episode_to_air !== null && (
             <span className="profile-episode-runtime">
               <AccessTimeRoundedIcon
                 sx={{ fontSize: isMobile ? "0.9rem" : "1rem" }}
               />{" "}
-              {seasonInfo?.episodes[episodeNumber].runtime}'
+              {seasonInfo?.episodes[episodeNumber]?.runtime}'
             </span>
           )}
 
@@ -159,7 +163,7 @@ export default function ProfileEpisodes({
           <span className="profile-episode-name">
             {seasonInfo === null
               ? "TBA"
-              : seasonInfo?.episodes[episodeNumber].name}
+              : seasonInfo?.episodes[episodeNumber]?.name}
           </span>
         </div>
 
@@ -199,11 +203,11 @@ export default function ProfileEpisodes({
             ) : seasonInfo !== null ? (
               <span
                 className={
-                  dayjs(seasonInfo?.episodes[episodeNumber].air_date).diff(
+                  dayjs(seasonInfo?.episodes[episodeNumber]?.air_date).diff(
                     dayjs(),
                     "day"
                   ) === 0 ||
-                  dayjs(seasonInfo?.episodes[episodeNumber].air_date).format(
+                  dayjs(seasonInfo?.episodes[episodeNumber]?.air_date).format(
                     "DD-MM-YYYY"
                   ) === dayjs().format("DD-MM-YYYY")
                     ? "profile-episode-days-until rainbow rainbow_text_animated"
@@ -219,11 +223,11 @@ export default function ProfileEpisodes({
         ) : (
           <span
             className={
-              dayjs(seasonInfo?.episodes[episodeNumber].air_date).diff(
+              dayjs(seasonInfo?.episodes[episodeNumber]?.air_date).diff(
                 dayjs(),
                 "day"
               ) === 0 ||
-              dayjs(seasonInfo?.episodes[episodeNumber].air_date).format(
+              dayjs(seasonInfo?.episodes[episodeNumber]?.air_date).format(
                 "DD-MM-YYYY"
               ) === dayjs().format("DD-MM-YYYY")
                 ? "profile-episode-days-until rainbow rainbow_text_animated"

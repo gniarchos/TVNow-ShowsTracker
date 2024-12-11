@@ -168,7 +168,7 @@ export default function WatchNext({
                 new Date(
                   seasonInfo[index]?.episodes[
                     watchNextShows[index].episode
-                  ].air_date
+                  ]?.air_date
                 ) < new Date() &&
                 seasonInfo[index]?.season_number <= show.number_of_seasons
               ) {
