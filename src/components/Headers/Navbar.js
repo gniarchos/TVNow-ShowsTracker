@@ -65,9 +65,7 @@ export default function Navbar() {
   }
 
   function handleLogout() {
-    localStorage.removeItem("username")
-    localStorage.removeItem("userToken")
-    localStorage.removeItem("user_id")
+    localStorage.clear()
 
     setOpenSnackbar(true)
     setSnackbarSeverity("success")
