@@ -114,7 +114,13 @@ export default function WatchNext({
     fetchData()
   }, [watchNextShows])
 
-  function handleMarkAsWatched(showId, seasonNumber, episodeNumber, index) {
+  function handleMarkAsWatched(
+    showInfo,
+    showId,
+    seasonNumber,
+    episodeNumber,
+    index
+  ) {
     setSpinnerLoader((prev) => [...prev.slice(0, index), true])
     const isSeasonLastEpisode =
       seasonInfo[index].episodes.length === episodeNumber + 1
@@ -128,8 +134,17 @@ export default function WatchNext({
           : 0,
     }
 
+    let isFinishedShow = false
+
+    if (
+      seasonNumber === parseInt(showInfo.number_of_seasons) - 1 &&
+      isSeasonLastEpisode
+    ) {
+      isFinishedShow = true
+    }
+
     apiCaller({
-      url: `${process.env.REACT_APP_BACKEND_API_URL}/shows/mark-episode-as-watched?user_id=${user_id}&show_id=${showId}`,
+      url: `${process.env.REACT_APP_BACKEND_API_URL}/shows/mark-episode-as-watched?user_id=${user_id}&show_id=${showId}&final_episode=${isFinishedShow}`,
       method: "POST",
       contentType: "application/json",
       body: JSON.stringify(data_to_post),

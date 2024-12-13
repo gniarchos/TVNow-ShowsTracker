@@ -5,6 +5,7 @@ import WatchList from "./WatchList"
 import WatchNext from "./WatchNext"
 import "./ProfileSections.css"
 import UpToDate from "./UpToDate"
+import Finished from "./Finished"
 
 export default function ProfileSectionsContainer({
   mobileLayout,
@@ -14,11 +15,13 @@ export default function ProfileSectionsContainer({
   const user_id = localStorage.getItem("user_id")
   const [watchNextShows, setWatchNextShows] = useState([])
   const [watchListShows, setWatchListShows] = useState([])
+  const [finishedShows, setFinishedShows] = useState([])
   const [loading, setLoading] = useState(true)
 
   const [watchNextShowsFetchOK, setWatchNextShowsFetchOK] = useState(false)
   const [watchListShowsFetchOK, setWatchListShowsFetchOK] = useState(false)
   const [upToDateShowsFetchOK, setUpToDateShowsFetchOK] = useState(false)
+  const [finishedShowsFetchOK, setFinishedShowsFetchOK] = useState(false)
 
   const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
     useContext(LayoutContext)
@@ -29,6 +32,7 @@ export default function ProfileSectionsContainer({
     setWatchNextShowsFetchOK(false)
     setWatchListShowsFetchOK(false)
     setUpToDateShowsFetchOK(false)
+    setFinishedShowsFetchOK(false)
 
     Promise.all([
       apiCaller({
@@ -49,6 +53,15 @@ export default function ProfileSectionsContainer({
         isResponseJSON: true,
         extras: null,
       }),
+      apiCaller({
+        url: `${process.env.REACT_APP_BACKEND_API_URL}/shows/all-shows/finished/${user_id}`,
+        method: "GET",
+        contentType: "application/json",
+        body: null,
+        calledFrom: `finishedShows`,
+        isResponseJSON: true,
+        extras: null,
+      }),
     ])
       .then((data) => {
         setWatchNextShows(data[0])
@@ -56,6 +69,9 @@ export default function ProfileSectionsContainer({
 
         setWatchListShows(data[1])
         localStorage.setItem("watchListShowsCount", data[1].length)
+
+        setFinishedShows(data[2])
+        localStorage.setItem("finishedShowsCount", data[2].length)
       })
       .catch((error) => {
         setOpenSnackbar(true)
@@ -65,9 +81,19 @@ export default function ProfileSectionsContainer({
   }, [triggerRefresh])
 
   useEffect(() => {
-    if (watchNextShowsFetchOK && watchListShowsFetchOK && upToDateShowsFetchOK)
+    if (
+      watchNextShowsFetchOK &&
+      watchListShowsFetchOK &&
+      upToDateShowsFetchOK &&
+      finishedShowsFetchOK
+    )
       setLoading(false)
-  }, [watchNextShowsFetchOK, watchListShowsFetchOK, upToDateShowsFetchOK])
+  }, [
+    watchNextShowsFetchOK,
+    watchListShowsFetchOK,
+    upToDateShowsFetchOK,
+    finishedShowsFetchOK,
+  ])
 
   return (
     <>
@@ -97,6 +123,14 @@ export default function ProfileSectionsContainer({
         loading={loading}
         setLoading={setLoading}
         setWatchListShowsFetchOK={setWatchListShowsFetchOK}
+      />
+
+      <Finished
+        mobileLayout={mobileLayout}
+        finishedShows={finishedShows}
+        loading={loading}
+        setLoading={setLoading}
+        setFinishedShowsFetchOK={setFinishedShowsFetchOK}
       />
     </>
   )

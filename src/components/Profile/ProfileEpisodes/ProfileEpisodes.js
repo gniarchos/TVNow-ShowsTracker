@@ -8,6 +8,7 @@ import { ColorRing } from "react-loader-spinner"
 import TodayRoundedIcon from "@mui/icons-material/TodayRounded"
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded"
 import { useTheme } from "@emotion/react"
+import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded"
 
 export default function ProfileEpisodes({
   showInfo,
@@ -18,6 +19,7 @@ export default function ProfileEpisodes({
   index,
   sectionType,
   spinnerLoader,
+  finishedInfo,
 }) {
   const zeroPad = (num, places) => String(num).padStart(places, "0")
   const theme = useTheme()
@@ -93,6 +95,43 @@ export default function ProfileEpisodes({
     } else {
       return "Premiere"
     }
+  }
+
+  if (sectionType === "finished") {
+    return (
+      <div className="profile-episode-wrapper">
+        <div className="profile-episode-img-container">
+          <img
+            className="profile-episode-img"
+            src={`https://image.tmdb.org/t/p/w500/${showInfo.backdrop_path}`}
+            alt="show"
+          />
+        </div>
+
+        <div className="profile-episode-container">
+          <div className="profile-episode-info">
+            <Link
+              className="profile-show-name"
+              to={`/show?show_name=${showInfo.name}&show_id=${showInfo.id}`}
+            >
+              {showInfo.name}
+            </Link>
+
+            <span className="profile-season-episode-number">
+              Total Seasons: {seasonNumber + 1}
+            </span>
+            <span className="profile-season-episode-number">
+              Total Episodes: {showInfo.number_of_episodes}
+            </span>
+
+            <span className="profile-season-episode-number finished-info">
+              <RemoveRedEyeRoundedIcon sx={{ fontSize: "1.2rem" }} />{" "}
+              {dayjs(finishedInfo.last_updated).format("DD-MM-YYYY")}
+            </span>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -172,6 +211,7 @@ export default function ProfileEpisodes({
                 <IconButton
                   onClick={() => {
                     handleMarkAsWatched(
+                      showInfo,
                       showInfo.id,
                       seasonNumber,
                       episodeNumber,

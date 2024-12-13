@@ -122,6 +122,13 @@
   color: rgb(127, 127, 131);
 }
 
+.profile-season-episode-number.finished-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
 .profile-episodes-left {
   background: #ededed;
   border-radius: 5px;

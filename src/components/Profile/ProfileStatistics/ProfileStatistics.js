@@ -77,6 +77,13 @@ export default function ProfileStatistics({ allUserShows, triggerRefresh }) {
           <span>|</span>
           <span className="profile-stats-title">Watching Now</span>
         </div>
+
+        <div className="profile-stats-container">
+          <span className="profile-stats-num">0</span>
+          <span>|</span>
+          <span className="profile-stats-title">Up To Date</span>
+        </div>
+
         <div className="profile-stats-container">
           <span className="profile-stats-num">
             {localStorage.getItem("watchListShowsCount")}
@@ -86,15 +93,13 @@ export default function ProfileStatistics({ allUserShows, triggerRefresh }) {
         </div>
 
         <div className="profile-stats-container">
-          <span className="profile-stats-num">0</span>
-          <span>|</span>
-          <span className="profile-stats-title">Up To Date</span>
-        </div>
-        <div className="profile-stats-container">
-          <span className="profile-stats-num">0</span>
+          <span className="profile-stats-num">
+            {localStorage.getItem("finishedShowsCount")}
+          </span>
           <span>|</span>
           <span className="profile-stats-title">Finished Shows</span>
         </div>
+
         <div className="profile-stats-container">
           <span className="profile-stats-num">0</span>
           <span>|</span>
