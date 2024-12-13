@@ -121,9 +121,9 @@ export default function UpToDate({
       watchNext: watchNextShows[index],
     })) // Combine showsInfo and seasonInfo
     .filter(({ show, season }) => {
-      if (activeTab === 1) {
-        return show.next_episode_to_air !== null
-      }
+      // if (activeTab === 1) {
+      //   return show.next_episode_to_air !== null
+      // }
       return show
     }) // Filter based on the `show` property
 
@@ -188,7 +188,7 @@ export default function UpToDate({
             {filteredShowsInfo.map((show, index) => {
               if (
                 filteredSeasonInfo[index] === null ||
-                show.next_episode_to_air === null
+                seasonInfo[index].episodes.length === 0
               ) {
                 episodesExists = true
                 return (
