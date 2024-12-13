@@ -21,6 +21,7 @@ export default function WatchNext({
   const [seasonInfo, setSeasonInfo] = useState([])
   const [emptySection, setEmptySection] = useState(false)
   const [spinnerLoader, setSpinnerLoader] = useState([])
+  let episodesExists = false
 
   const [watchNextSection, setWatchNextSection] = useState(
     localStorage.getItem("watchNextSection")
@@ -172,6 +173,7 @@ export default function WatchNext({
                 ) < new Date() &&
                 seasonInfo[index]?.season_number <= show.number_of_seasons
               ) {
+                episodesExists = true
                 return (
                   <ProfileEpisodes
                     mobileLayout={mobileLayout}
@@ -193,11 +195,12 @@ export default function WatchNext({
         <Divider color="white" />
       )}
 
-      {emptySection && (
-        <div className="profile-empty-section">
-          <AutoAwesomeRoundedIcon /> Watch next section is empty
-        </div>
-      )}
+      {emptySection ||
+        (!episodesExists && (
+          <div className="profile-empty-section">
+            <AutoAwesomeRoundedIcon /> Watch next section is empty
+          </div>
+        ))}
     </div>
   )
 }
