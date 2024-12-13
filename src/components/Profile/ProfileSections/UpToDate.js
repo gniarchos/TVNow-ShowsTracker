@@ -196,7 +196,7 @@ export default function UpToDate({
                     mobileLayout={mobileLayout}
                     key={index}
                     showInfo={show}
-                    seasonInfo={filteredSeasonInfo[index]}
+                    seasonInfo={null}
                     seasonNumber={filteredWatchNextShows[index].season}
                     episodeNumber={filteredWatchNextShows[index].episode}
                     handleMarkAsWatched={() => null}

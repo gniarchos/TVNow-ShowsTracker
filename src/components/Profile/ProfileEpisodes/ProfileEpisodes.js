@@ -23,10 +23,6 @@ export default function ProfileEpisodes({
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
-  // if (showInfo.name === "FROM") {
-  //   console.log(showInfo)
-  // }
-
   function showDaysUntil() {
     if (showInfo.next_episode_to_air === null) {
       return "TBA"
@@ -57,7 +53,7 @@ export default function ProfileEpisodes({
   function defineEpisodesInfo() {
     if (seasonInfo !== null) {
       // PREMIERE
-      if (seasonNumber === 0 && episodeNumber === 0) return false
+      if (episodeNumber === 0) return false
 
       // SERIES FINALE
       if (
@@ -78,7 +74,9 @@ export default function ProfileEpisodes({
   }
 
   function definePremiereOrFinale() {
-    if (seasonNumber === 0 && episodeNumber === 0) return "Premiere"
+    if (seasonInfo === null) return ""
+
+    if (episodeNumber === 0) return "Premiere"
 
     if (
       seasonNumber === parseInt(showInfo.number_of_seasons) - 1 &&
