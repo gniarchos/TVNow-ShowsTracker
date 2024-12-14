@@ -186,6 +186,8 @@ export default function WatchNext({
                     watchNextShows[index].episode
                   ]?.air_date
                 ) < new Date() &&
+                seasonInfo[index]?.episodes[watchNextShows[index].episode]
+                  ?.air_date !== null &&
                 seasonInfo[index]?.season_number <= show.number_of_seasons
               ) {
                 episodesExists = true

@@ -78,6 +78,8 @@ export default function ProfileEpisodes({
   function definePremiereOrFinale() {
     if (seasonInfo === null) return ""
 
+    if (seasonInfo?.episodes[episodeNumber]?.air_date === null) return ""
+
     if (episodeNumber === 0) return "Premiere"
 
     if (

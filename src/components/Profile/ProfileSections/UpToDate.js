@@ -212,9 +212,11 @@ export default function UpToDate({
                   filteredSeasonInfo[index]?.episodes[
                     filteredWatchNextShows[index].episode
                   ]?.air_date
-                ) > new Date() &&
-                filteredSeasonInfo[index]?.season_number ===
-                  show.number_of_seasons
+                ) > new Date() ||
+                (seasonInfo[index]?.episodes[watchNextShows[index].episode]
+                  ?.air_date === null &&
+                  filteredSeasonInfo[index]?.season_number ===
+                    show.number_of_seasons)
               ) {
                 episodesExists = true
                 return (
