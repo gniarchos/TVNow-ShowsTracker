@@ -75,13 +75,7 @@ export default function ProfileStatistics({ allUserShows, triggerRefresh }) {
             {localStorage.getItem("watchNextShowsCount")}
           </span>
           <span>|</span>
-          <span className="profile-stats-title">Watching Now</span>
-        </div>
-
-        <div className="profile-stats-container">
-          <span className="profile-stats-num">0</span>
-          <span>|</span>
-          <span className="profile-stats-title">Up To Date</span>
+          <span className="profile-stats-title">Watching</span>
         </div>
 
         <div className="profile-stats-container">
