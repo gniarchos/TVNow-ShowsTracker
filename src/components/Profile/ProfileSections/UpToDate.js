@@ -120,11 +120,19 @@ export default function UpToDate({
       season: seasonInfo[index],
       watchNext: watchNextShows[index],
     }))
-    .filter(({ show }) => {
+    .filter(({ show, watchNext }) => {
       if (activeTab === 1) {
-        return show.next_episode_to_air !== null
+        if (show.next_episode_to_air !== null) {
+          if (
+            show.next_episode_to_air.episode_number <=
+            watchNext.episode + 1
+          ) {
+            return show
+          }
+        }
+      } else {
+        return true // Include all shows for other tabs
       }
-      return true // Include all shows for other tabs
     })
 
   const filteredShowsInfo = filteredShowsAndSeasons.map(({ show }) => show)
