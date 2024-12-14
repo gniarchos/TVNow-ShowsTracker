@@ -149,31 +149,33 @@ export default function WatchList({
       </div>
 
       {watchlistSection ? (
-        <div className="profile-sections-container">
-          <div className="profile-sections">
-            {showsInfo.map((show, index) => (
-              <ProfileEpisodes
-                mobileLayout={mobileLayout}
-                key={index}
-                showInfo={show}
-                seasonInfo={seasonInfo[index]}
-                seasonNumber={0}
-                episodeNumber={0}
-                handleMarkAsWatched={handleMarkAsWatched}
-                index={index}
-                spinnerLoader={spinnerLoader}
-              />
-            ))}
+        <>
+          <div className="profile-sections-container">
+            <div className="profile-sections">
+              {showsInfo.map((show, index) => (
+                <ProfileEpisodes
+                  mobileLayout={mobileLayout}
+                  key={index}
+                  showInfo={show}
+                  seasonInfo={seasonInfo[index]}
+                  seasonNumber={0}
+                  episodeNumber={0}
+                  handleMarkAsWatched={handleMarkAsWatched}
+                  index={index}
+                  spinnerLoader={spinnerLoader}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+
+          {emptySection && (
+            <div className="profile-empty-section">
+              <AutoAwesomeRoundedIcon /> Your WatchList is empty
+            </div>
+          )}
+        </>
       ) : (
         <Divider color="white" />
-      )}
-
-      {emptySection && (
-        <div className="profile-empty-section">
-          <AutoAwesomeRoundedIcon /> Your WatchList is empty
-        </div>
       )}
     </div>
   )

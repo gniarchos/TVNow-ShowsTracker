@@ -177,47 +177,49 @@ export default function WatchNext({
       </div>
 
       {watchNextSection ? (
-        <div className="profile-sections-container">
-          <div className="profile-sections">
-            {showsInfo.map((show, index) => {
-              if (
-                new Date(
-                  seasonInfo[index]?.episodes[
-                    watchNextShows[index].episode
-                  ]?.air_date
-                ) < new Date() &&
-                seasonInfo[index]?.episodes[watchNextShows[index].episode]
-                  ?.air_date !== null &&
-                seasonInfo[index]?.season_number <= show.number_of_seasons
-              ) {
-                episodesExists = true
-                return (
-                  <ProfileEpisodes
-                    mobileLayout={mobileLayout}
-                    key={index}
-                    showInfo={show}
-                    seasonInfo={seasonInfo[index]}
-                    seasonNumber={watchNextShows[index].season}
-                    episodeNumber={watchNextShows[index].episode}
-                    handleMarkAsWatched={handleMarkAsWatched}
-                    index={index}
-                    spinnerLoader={spinnerLoader}
-                  />
-                )
-              }
-            })}
+        <>
+          <div className="profile-sections-container">
+            <div className="profile-sections">
+              {showsInfo.map((show, index) => {
+                if (
+                  new Date(
+                    seasonInfo[index]?.episodes[
+                      watchNextShows[index].episode
+                    ]?.air_date
+                  ) < new Date() &&
+                  seasonInfo[index]?.episodes[watchNextShows[index].episode]
+                    ?.air_date !== null &&
+                  seasonInfo[index]?.season_number <= show.number_of_seasons
+                ) {
+                  episodesExists = true
+                  return (
+                    <ProfileEpisodes
+                      mobileLayout={mobileLayout}
+                      key={index}
+                      showInfo={show}
+                      seasonInfo={seasonInfo[index]}
+                      seasonNumber={watchNextShows[index].season}
+                      episodeNumber={watchNextShows[index].episode}
+                      handleMarkAsWatched={handleMarkAsWatched}
+                      index={index}
+                      spinnerLoader={spinnerLoader}
+                    />
+                  )
+                }
+              })}
+            </div>
           </div>
-        </div>
+
+          {emptySection ||
+            (!episodesExists && (
+              <div className="profile-empty-section">
+                <AutoAwesomeRoundedIcon /> Watch next section is empty
+              </div>
+            ))}
+        </>
       ) : (
         <Divider color="white" />
       )}
-
-      {emptySection ||
-        (!episodesExists && (
-          <div className="profile-empty-section">
-            <AutoAwesomeRoundedIcon /> Watch next section is empty
-          </div>
-        ))}
     </div>
   )
 }

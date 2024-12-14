@@ -119,33 +119,35 @@ export default function Finished({
       </div>
 
       {finishedSection ? (
-        <div className="profile-sections-container">
-          <div className="profile-sections">
-            {showsInfo.map((show, index) => (
-              <ProfileEpisodes
-                mobileLayout={mobileLayout}
-                key={index}
-                showInfo={show}
-                seasonInfo={null}
-                seasonNumber={0}
-                episodeNumber={0}
-                handleMarkAsWatched={() => null}
-                index={index}
-                sectionType="finished"
-                spinnerLoader={[]}
-                finishedInfo={finishedShows[index]}
-              />
-            ))}
+        <>
+          <div className="profile-sections-container">
+            <div className="profile-sections">
+              {showsInfo.map((show, index) => (
+                <ProfileEpisodes
+                  mobileLayout={mobileLayout}
+                  key={index}
+                  showInfo={show}
+                  seasonInfo={null}
+                  seasonNumber={0}
+                  episodeNumber={0}
+                  handleMarkAsWatched={() => null}
+                  index={index}
+                  sectionType="finished"
+                  spinnerLoader={[]}
+                  finishedInfo={finishedShows[index]}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+
+          {emptySection && (
+            <div className="profile-empty-section">
+              <AutoAwesomeRoundedIcon /> No finished shows yet
+            </div>
+          )}
+        </>
       ) : (
         <Divider color="white" />
-      )}
-
-      {emptySection && (
-        <div className="profile-empty-section">
-          <AutoAwesomeRoundedIcon /> No finished shows yet
-        </div>
       )}
     </div>
   )

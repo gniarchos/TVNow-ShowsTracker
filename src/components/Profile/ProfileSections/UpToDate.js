@@ -150,10 +150,12 @@ export default function UpToDate({
       <div className="profile-section-header">
         <h1 className="profile-section-title upToDate">
           Up To Date{" "}
-          <TuneRoundedIcon
-            onClick={() => setShowFilters(!showFilters)}
-            sx={{ fontSize: isMobile ? "1.5rem" : "2rem", cursor: "pointer" }}
-          />
+          {upToDateSection && (
+            <TuneRoundedIcon
+              onClick={() => setShowFilters(!showFilters)}
+              sx={{ fontSize: isMobile ? "1.5rem" : "2rem", cursor: "pointer" }}
+            />
+          )}
         </h1>
 
         <Button onClick={toggleSection} variant="contained" size="small">
@@ -161,7 +163,7 @@ export default function UpToDate({
         </Button>
       </div>
 
-      {showFilters && (
+      {showFilters && upToDateSection && (
         <div className="profile-upToDate-filters-buttons">
           <Button
             variant="contained"
@@ -191,74 +193,76 @@ export default function UpToDate({
       )}
 
       {upToDateSection ? (
-        <div className="profile-sections-container">
-          <div className="profile-sections">
-            {filteredShowsInfo.map((show, index) => {
-              if (
-                filteredSeasonInfo[index] === null ||
-                seasonInfo[index]?.episodes.length === 0
-              ) {
-                episodesExists = true
-                return (
-                  <ProfileEpisodes
-                    mobileLayout={mobileLayout}
-                    key={index}
-                    showInfo={show}
-                    seasonInfo={null}
-                    seasonNumber={filteredWatchNextShows[index].season}
-                    episodeNumber={filteredWatchNextShows[index].episode}
-                    handleMarkAsWatched={() => null}
-                    index={index}
-                    sectionType="upToDate"
-                    spinnerLoader={[]}
-                  />
-                )
-              }
+        <>
+          <div className="profile-sections-container">
+            <div className="profile-sections">
+              {filteredShowsInfo.map((show, index) => {
+                if (
+                  filteredSeasonInfo[index] === null ||
+                  seasonInfo[index]?.episodes.length === 0
+                ) {
+                  episodesExists = true
+                  return (
+                    <ProfileEpisodes
+                      mobileLayout={mobileLayout}
+                      key={index}
+                      showInfo={show}
+                      seasonInfo={null}
+                      seasonNumber={filteredWatchNextShows[index].season}
+                      episodeNumber={filteredWatchNextShows[index].episode}
+                      handleMarkAsWatched={() => null}
+                      index={index}
+                      sectionType="upToDate"
+                      spinnerLoader={[]}
+                    />
+                  )
+                }
 
-              if (
-                new Date(
-                  filteredSeasonInfo[index]?.episodes[
-                    filteredWatchNextShows[index].episode
-                  ]?.air_date
-                ) > new Date() ||
-                (seasonInfo[index]?.episodes[watchNextShows[index].episode]
-                  ?.air_date === null &&
-                  filteredSeasonInfo[index]?.season_number ===
-                    show.number_of_seasons)
-              ) {
-                episodesExists = true
-                return (
-                  <ProfileEpisodes
-                    mobileLayout={mobileLayout}
-                    key={index}
-                    showInfo={show}
-                    seasonInfo={
-                      filteredSeasonInfo[index].episodes.length === 0
-                        ? null
-                        : filteredSeasonInfo[index]
-                    }
-                    seasonNumber={filteredWatchNextShows[index].season}
-                    episodeNumber={filteredWatchNextShows[index].episode}
-                    handleMarkAsWatched={() => null}
-                    index={index}
-                    sectionType="upToDate"
-                  />
-                )
-              }
-            })}
+                if (
+                  new Date(
+                    filteredSeasonInfo[index]?.episodes[
+                      filteredWatchNextShows[index].episode
+                    ]?.air_date
+                  ) > new Date() ||
+                  (seasonInfo[index]?.episodes[watchNextShows[index].episode]
+                    ?.air_date === null &&
+                    filteredSeasonInfo[index]?.season_number ===
+                      show.number_of_seasons)
+                ) {
+                  episodesExists = true
+                  return (
+                    <ProfileEpisodes
+                      mobileLayout={mobileLayout}
+                      key={index}
+                      showInfo={show}
+                      seasonInfo={
+                        filteredSeasonInfo[index].episodes.length === 0
+                          ? null
+                          : filteredSeasonInfo[index]
+                      }
+                      seasonNumber={filteredWatchNextShows[index].season}
+                      episodeNumber={filteredWatchNextShows[index].episode}
+                      handleMarkAsWatched={() => null}
+                      index={index}
+                      sectionType="upToDate"
+                    />
+                  )
+                }
+              })}
+            </div>
           </div>
-        </div>
+
+          {emptySection ||
+            (!episodesExists && (
+              <div className="profile-empty-section">
+                <AutoAwesomeRoundedIcon />
+                Up To Date section is empty
+              </div>
+            ))}
+        </>
       ) : (
         <Divider color="white" />
       )}
-
-      {emptySection ||
-        (!episodesExists && (
-          <div className="profile-empty-section">
-            <AutoAwesomeRoundedIcon />
-            Up To Date section is empty
-          </div>
-        ))}
     </div>
   )
 }
