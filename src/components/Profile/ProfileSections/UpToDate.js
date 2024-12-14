@@ -85,6 +85,7 @@ export default function UpToDate({
           )
 
           const shows = results.map((res) => res[0])
+          // const seasons = results.map((res) => res[1])
           const seasons = results.map((res) => {
             if (res[1] !== undefined) {
               return res[1]
@@ -118,10 +119,13 @@ export default function UpToDate({
       show,
       season: seasonInfo[index],
       watchNext: watchNextShows[index],
-    })) // Combine showsInfo and seasonInfo
-    .filter(({ show, season }) => {
-      return show
-    }) // Filter based on the `show` property
+    }))
+    .filter(({ show }) => {
+      if (activeTab === 1) {
+        return show.next_episode_to_air !== null
+      }
+      return true // Include all shows for other tabs
+    })
 
   const filteredShowsInfo = filteredShowsAndSeasons.map(({ show }) => show)
   const filteredSeasonInfo = filteredShowsAndSeasons.map(({ season }) => season)
@@ -184,7 +188,7 @@ export default function UpToDate({
             {filteredShowsInfo.map((show, index) => {
               if (
                 filteredSeasonInfo[index] === null ||
-                seasonInfo[index].episodes.length === 0
+                seasonInfo[index]?.episodes.length === 0
               ) {
                 episodesExists = true
                 return (
