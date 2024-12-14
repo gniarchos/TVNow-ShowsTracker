@@ -85,7 +85,6 @@ export default function UpToDate({
           )
 
           const shows = results.map((res) => res[0])
-          // const seasons = results.map((res) => res[1])
           const seasons = results.map((res) => {
             if (res[1] !== undefined) {
               return res[1]
@@ -121,9 +120,6 @@ export default function UpToDate({
       watchNext: watchNextShows[index],
     })) // Combine showsInfo and seasonInfo
     .filter(({ show, season }) => {
-      // if (activeTab === 1) {
-      //   return show.next_episode_to_air !== null
-      // }
       return show
     }) // Filter based on the `show` property
 
