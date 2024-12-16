@@ -111,7 +111,7 @@ export default function ProfileEpisodes({
         </div>
 
         <div className="profile-episode-container">
-          <div className="profile-episode-info">
+          <div className="profile-episode-info finished-shows">
             <Link
               className="profile-show-name"
               to={`/show?show_name=${showInfo.name}&show_id=${showInfo.id}`}

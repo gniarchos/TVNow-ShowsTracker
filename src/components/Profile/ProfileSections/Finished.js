@@ -108,6 +108,8 @@ export default function Finished({
     return <SectionsLoader sectionType="Finished" />
   }
 
+  console.log(showsInfo)
+
   return (
     <div className="profile-sections-wrapper" id="finished">
       <div className="profile-section-header">
@@ -128,8 +130,8 @@ export default function Finished({
                   key={index}
                   showInfo={show}
                   seasonInfo={null}
-                  seasonNumber={0}
-                  episodeNumber={0}
+                  seasonNumber={show.number_of_seasons}
+                  episodeNumber={show.number_of_episodes}
                   handleMarkAsWatched={() => null}
                   index={index}
                   sectionType="finished"
