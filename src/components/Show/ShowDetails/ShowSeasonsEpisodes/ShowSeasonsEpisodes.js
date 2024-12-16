@@ -1,19 +1,30 @@
-import React, { useEffect, useRef } from "react"
+import React, { useContext, useEffect, useRef, useState } from "react"
 import "./ShowSeasonsEpisodes.css"
 import noImg from "../../../../images/no-image.png"
 import TodayRoundedIcon from "@mui/icons-material/TodayRounded"
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded"
 import dayjs from "dayjs"
-import { Alert } from "@mui/material"
+import { Alert, Button } from "@mui/material"
+import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded"
+import apiCaller from "../../../../Api/ApiCaller_NEW"
+import { Grid } from "react-loader-spinner"
+import { LayoutContext } from "../../../Layout/Layout"
 
 export default function ShowSeasonsEpisodes({
   showData,
   seasonNumber,
   setSeasonNumber,
   seasonInfo,
+  userShowInfo,
+  showInUserList,
 }) {
   const divSeasonRef = useRef("")
   const zeroPad = (num, places) => String(num).padStart(places, "0")
+  const user_id = localStorage.getItem("user_id")
+  const [markingEpisodes, setMarkingEpisodes] = useState(false)
+
+  const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
+    useContext(LayoutContext)
 
   useEffect(() => {
     for (let i = 0; i < divSeasonRef.current.childNodes.length; i++) {
@@ -58,14 +69,111 @@ export default function ShowSeasonsEpisodes({
     }
   }
 
+  function defineIfToShowMarkAllSeasonEpisodes() {
+    if (seasonNumber === userShowInfo?.season + 1) {
+      if (userShowInfo.episode === 0) {
+        return true
+      }
+    }
+    return false
+  }
+
+  async function markAllSeasonEpisodesAsWatched() {
+    setMarkingEpisodes(true) // Indicate the marking process has started
+
+    for (const episode of seasonInfo.episodes) {
+      const isSeasonLastEpisode =
+        seasonInfo.episodes.length === episode.episode_number
+
+      const data_to_post = {
+        episode: isSeasonLastEpisode ? 0 : episode.episode_number,
+        season: isSeasonLastEpisode ? seasonNumber : seasonNumber - 1,
+        episode_duration: episode.runtime !== null ? episode.runtime : 0,
+      }
+
+      const isFinishedShow =
+        seasonNumber === parseInt(showData.number_of_seasons) &&
+        isSeasonLastEpisode
+
+      try {
+        // Wait for the API call to complete before proceeding
+        await apiCaller({
+          url: `${process.env.REACT_APP_BACKEND_API_URL}/shows/mark-episode-as-watched?user_id=${user_id}&show_id=${showData.id}&final_episode=${isFinishedShow}`,
+          method: "POST",
+          contentType: "application/json",
+          body: JSON.stringify(data_to_post),
+          calledFrom: "markEpisodeAsWatched",
+          isResponseJSON: true,
+          extras: null,
+        })
+      } catch (error) {
+        console.error("Error marking episode as watched:", error)
+        setOpenSnackbar(true)
+        setSnackbarSeverity("error")
+        setSnackbarMessage(error.message)
+        break
+      }
+    }
+
+    setOpenSnackbar(true)
+    setSnackbarSeverity("success")
+    setSnackbarMessage(
+      `All episodes in season ${seasonNumber} marked as watched!`
+    )
+    setMarkingEpisodes(false)
+    setSeasonNumber(seasonNumber + 1)
+  }
+
+  useEffect(() => {
+    if (markingEpisodes) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = ""
+    }
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [markingEpisodes])
+
   return (
     <div>
+      {markingEpisodes && (
+        <div className="show-seasons-episodes-marking-loader">
+          <Grid
+            visible={true}
+            height="50"
+            width="50"
+            color="#f6900c"
+            radius="12.5"
+            wrapperStyle={{ marginBottom: "10px" }}
+            wrapperClass="grid-wrapper"
+          />
+          <span style={{ fontWeight: "600" }}>
+            Please wait! Marking season as watched...
+          </span>
+          <span>Do not refresh the page!</span>
+        </div>
+      )}
       <h1 className="show-details-titles">Seasons & Episodes</h1>
 
       <div className="show-seasons-episodes-container">
         <div ref={divSeasonRef} className="show-all-seasons">
           {seasons}
         </div>
+
+        {showInUserList && defineIfToShowMarkAllSeasonEpisodes() && (
+          <Button
+            startIcon={<CheckCircleRoundedIcon />}
+            variant="contained"
+            size="small"
+            color="primary"
+            sx={{ width: "fit-content" }}
+            onClick={markAllSeasonEpisodesAsWatched}
+            disabled={markingEpisodes}
+          >
+            Mark Season as Watched
+          </Button>
+        )}
 
         <div className="show-episodes-container">
           {seasonInfo.episodes.length > 0 ? (

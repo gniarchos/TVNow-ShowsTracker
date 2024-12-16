@@ -28,6 +28,9 @@ export default function Show() {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
   const [allUserShows, setAllUserShows] = useState([])
+  const [userShowInfo, setUserShowInfo] = useState(null)
+  const [extrasInfoFetchesDone, setExtrasInfoFetchesDone] = useState(false)
+  const [showInUserList, setShowInUserList] = useState(false)
 
   const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
     useContext(LayoutContext)
@@ -83,6 +86,7 @@ export default function Show() {
         setSeasonInfo(data[1])
         if (user_id) {
           setAllUserShows(data[2])
+          setUserShowInfo(data[3])
         }
       } catch (error) {
         setOpenSnackbar(true)
@@ -95,9 +99,9 @@ export default function Show() {
   }, [seasonNumber, location])
 
   useEffect(() => {
-    if (showData !== null && showData?.external_ids?.imdb_id !== null) {
+    if (showData && showData.external_ids && showData.external_ids.imdb_id) {
       apiCaller({
-        url: `https://mdblist.p.rapidapi.com/?i=${showData?.external_ids?.imdb_id}`,
+        url: `https://mdblist.p.rapidapi.com/?i=${showData.external_ids.imdb_id}`,
         method: "GET",
         contentType: "application/json",
         body: null,
@@ -106,13 +110,13 @@ export default function Show() {
         extras: null,
       })
         .then((data) => {
-          setImdbRating(data.ratings[0]?.value)
-          setRottenTomatoesRating(data.ratings[4]?.value)
-          setTraktRating(data.ratings[3]?.value)
+          setImdbRating(data.ratings?.[0]?.value || 0.0)
+          setRottenTomatoesRating(data.ratings?.[4]?.value || 0)
+          setTraktRating(data.ratings?.[3]?.value || 0)
         })
         .catch((error) => {
           setOpenSnackbar(true)
-          setSnackbarMessage(error.message)
+          setSnackbarMessage(error.message || "An error occurred.")
           setSnackbarSeverity("error")
         })
     } else {
@@ -120,10 +124,36 @@ export default function Show() {
       setRottenTomatoesRating(0)
       setTraktRating(0)
     }
+
+    if (user_id) {
+      allUserShows.forEach((show) => {
+        if (show.show_id === showData.id) {
+          apiCaller({
+            url: `${process.env.REACT_APP_BACKEND_API_URL}/users/${user_id}/show-info/${param_show_id}`,
+            method: "GET",
+            contentType: "application/json",
+            body: null,
+            calledFrom: "userShowInfo",
+            isResponseJSON: true,
+            extras: null,
+          })
+            .then((data) => {
+              setUserShowInfo(data)
+            })
+            .catch((error) => {
+              setOpenSnackbar(true)
+              setSnackbarMessage(error.message || "An error occurred.")
+              setSnackbarSeverity("error")
+            })
+        }
+      })
+    }
+
+    setExtrasInfoFetchesDone(true)
   }, [showData])
 
   useEffect(() => {
-    if (showData !== null && seasonInfo !== null) {
+    if (showData !== null && seasonInfo !== null && extrasInfoFetchesDone) {
       setLoading(false)
     }
   }, [showData, seasonInfo])
@@ -142,6 +172,8 @@ export default function Show() {
         rottenTomatoesRating={rottenTomatoesRating}
         traktRating={traktRating}
         allUserShows={allUserShows}
+        showInUserList={showInUserList}
+        setShowInUserList={setShowInUserList}
       />
 
       <ShowTrackingInfo showData={showData} />
@@ -152,6 +184,8 @@ export default function Show() {
           seasonNumber={seasonNumber}
           setSeasonNumber={setSeasonNumber}
           seasonInfo={seasonInfo}
+          userShowInfo={userShowInfo}
+          showInUserList={showInUserList}
         />
 
         <Divider

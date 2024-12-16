@@ -17,6 +17,8 @@ export default function ShowBanner({
   rottenTomatoesRating,
   traktRating,
   allUserShows,
+  showInUserList,
+  setShowInUserList,
 }) {
   const divImgStyle = {
     backgroundImage: `url('https://image.tmdb.org/t/p/original/${showData.backdrop_path}')`,
@@ -24,7 +26,7 @@ export default function ShowBanner({
 
   const user_id = localStorage.getItem("user_id")
   const [loading, setLoading] = useState(false)
-  const [showInUserList, setShowInUserList] = useState(false)
+
   const location = useLocation()
 
   const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =

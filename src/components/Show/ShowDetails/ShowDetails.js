@@ -12,6 +12,8 @@ export default function ShowDetails({
   seasonNumber,
   setSeasonNumber,
   seasonInfo,
+  userShowInfo,
+  showInUserList,
 }) {
   function findTrailerKey() {
     const key = showData.videos.results
@@ -81,6 +83,8 @@ export default function ShowDetails({
         seasonNumber={seasonNumber}
         setSeasonNumber={setSeasonNumber}
         seasonInfo={seasonInfo}
+        userShowInfo={userShowInfo}
+        showInUserList={showInUserList}
       />
 
       <ShowCastCrew showData={showData} />
