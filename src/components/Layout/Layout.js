@@ -30,7 +30,7 @@ export default function Layout() {
   return (
     <LayoutContext.Provider value={layoutValues}>
       <AutoScrollToTop />
-      <SnowOverlay maxParticles={isMobile ? 80 : 100} />
+      <SnowOverlay maxParticles={isMobile ? 50 : 100} />
       <div
         className={
           !window.matchMedia("(display-mode: standalone)").matches
