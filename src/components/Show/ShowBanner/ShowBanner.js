@@ -5,11 +5,11 @@ import "./ShowBanner.css"
 import { Button, Chip, Divider } from "@mui/material"
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded"
 import RemoveCircleRoundedIcon from "@mui/icons-material/RemoveCircleRounded"
-import CancelRoundedIcon from "@mui/icons-material/CancelRounded"
 import apiCaller from "../../../Api/ApiCaller_NEW"
 import { LayoutContext } from "../../../components/Layout/Layout"
 import { ThreeDots } from "react-loader-spinner"
 import { useLocation } from "react-router-dom"
+import StopCircleRoundedIcon from "@mui/icons-material/StopCircleRounded"
 
 export default function ShowBanner({
   showData,
@@ -19,6 +19,7 @@ export default function ShowBanner({
   allUserShows,
   showInUserList,
   setShowInUserList,
+  userShowInfo,
 }) {
   const divImgStyle = {
     backgroundImage: `url('https://image.tmdb.org/t/p/original/${showData.backdrop_path}')`,
@@ -39,6 +40,15 @@ export default function ShowBanner({
       }
     })
   }, [location, allUserShows])
+
+  function defineIfToShowStopWatchingButton() {
+    if (userShowInfo?.season === 0) {
+      if (userShowInfo?.episode === 0) {
+        return false
+      }
+    }
+    return true
+  }
 
   function addShowToShowsList() {
     if (user_id === null) {
@@ -202,31 +212,59 @@ export default function ShowBanner({
               )}
             </Button>
           ) : (
-            <Button
-              startIcon={!loading ? <RemoveCircleRoundedIcon /> : null}
-              variant="contained"
-              color="third"
-              size="small"
-              disabled={loading}
-              sx={{ width: { xs: "40%", sm: "20%" }, whiteSpace: "nowrap" }}
-              // onClick={addShowToShowsList}
-              onClick={removeShowFromShowsList}
-            >
-              {loading ? (
-                <ThreeDots
-                  visible={true}
-                  height="23"
-                  width="23"
-                  color="white"
-                  radius="9"
-                  ariaLabel="three-dots-loading"
-                  wrapperStyle={{}}
-                  wrapperClass=""
-                />
-              ) : (
-                "Remove Show"
+            <>
+              <Button
+                startIcon={!loading ? <RemoveCircleRoundedIcon /> : null}
+                variant="contained"
+                color="third"
+                size="small"
+                disabled={loading}
+                sx={{ width: { xs: "40%", sm: "20%" }, whiteSpace: "nowrap" }}
+                onClick={removeShowFromShowsList}
+              >
+                {loading ? (
+                  <ThreeDots
+                    visible={true}
+                    height="23"
+                    width="23"
+                    color="white"
+                    radius="9"
+                    ariaLabel="three-dots-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                  />
+                ) : (
+                  "Remove Show"
+                )}
+              </Button>
+
+              {defineIfToShowStopWatchingButton() && (
+                <Button
+                  startIcon={!loading ? <StopCircleRoundedIcon /> : null}
+                  variant="contained"
+                  color="secondary"
+                  size="small"
+                  disabled={loading}
+                  sx={{ width: { xs: "40%", sm: "20%" }, whiteSpace: "nowrap" }}
+                  onClick={() => alert("Coming Soon!")}
+                >
+                  {loading ? (
+                    <ThreeDots
+                      visible={true}
+                      height="23"
+                      width="23"
+                      color="white"
+                      radius="9"
+                      ariaLabel="three-dots-loading"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                    />
+                  ) : (
+                    "Stop Watching"
+                  )}
+                </Button>
               )}
-            </Button>
+            </>
           )}
 
           {/* TODO: Add buttons for logged in user */}
