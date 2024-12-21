@@ -6,6 +6,7 @@ import Navbar from "../Headers/Navbar"
 import AutoScrollToTop from "../Other/AutoScrollToTop/AutoScrollToTop"
 import { Alert, Snackbar, useMediaQuery } from "@mui/material"
 import { useTheme } from "@emotion/react"
+import { SnowOverlay } from "react-snow-overlay"
 
 export const LayoutContext = createContext()
 
@@ -29,6 +30,7 @@ export default function Layout() {
   return (
     <LayoutContext.Provider value={layoutValues}>
       <AutoScrollToTop />
+      <SnowOverlay maxParticles={isMobile ? 80 : 100} />
       <div
         className={
           !window.matchMedia("(display-mode: standalone)").matches
