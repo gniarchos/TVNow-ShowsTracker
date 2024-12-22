@@ -20,6 +20,7 @@ export default function ProfileEpisodes({
   sectionType,
   spinnerLoader,
   finishedInfo,
+  stoppedInfo,
 }) {
   const zeroPad = (num, places) => String(num).padStart(places, "0")
   const theme = useTheme()
@@ -129,6 +130,39 @@ export default function ProfileEpisodes({
             <span className="profile-season-episode-number finished-info">
               <RemoveRedEyeRoundedIcon sx={{ fontSize: "1.2rem" }} />{" "}
               {dayjs(finishedInfo.last_updated).format("DD-MM-YYYY")}
+            </span>
+          </div>
+        </div>
+      </div>
+    )
+  } else if (sectionType === "stopped") {
+    return (
+      <div className="profile-episode-wrapper">
+        <div className="profile-episode-img-container">
+          <img
+            className="profile-episode-img"
+            src={`https://image.tmdb.org/t/p/w500/${showInfo.backdrop_path}`}
+            alt="show"
+          />
+        </div>
+
+        <div className="profile-episode-container">
+          <div className="profile-episode-info finished-shows">
+            <Link
+              className="profile-show-name"
+              to={`/show?show_name=${showInfo.name}&show_id=${showInfo.id}`}
+            >
+              {showInfo.name}
+            </Link>
+
+            <span className="profile-season-episode-number">
+              Stopped watching at: S{zeroPad(seasonNumber + 1, 2)} | E
+              {zeroPad(episodeNumber + 1, 2)}
+            </span>
+
+            <span className="profile-season-episode-number finished-info">
+              <RemoveRedEyeRoundedIcon sx={{ fontSize: "1.2rem" }} />{" "}
+              {dayjs(stoppedInfo.last_updated).format("DD-MM-YYYY")}
             </span>
           </div>
         </div>

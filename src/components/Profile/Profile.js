@@ -14,28 +14,6 @@ export default function Profile() {
   const [loading, setLoading] = useState(true)
   const [triggerRefresh, setTriggerRefresh] = useState(false)
 
-  const [upToDateSection, setUpToDateSection] = useState(
-    localStorage.getItem("upToDateSection")
-      ? JSON.parse(localStorage.getItem("upToDateSection"))
-      : true
-  )
-
-  const [finishedSection, setFinishedSection] = useState(
-    localStorage.getItem("finishedSection")
-      ? JSON.parse(localStorage.getItem("finishedSection"))
-      : true
-  )
-  const [stoppedSection, setStoppedSection] = useState(
-    localStorage.getItem("stoppedSection")
-      ? JSON.parse(localStorage.getItem("stoppedSection"))
-      : true
-  )
-  const [historySection, setHistorySection] = useState(
-    localStorage.getItem("historySection")
-      ? JSON.parse(localStorage.getItem("historySection"))
-      : true
-  )
-
   const [mobileLayout, setMobileLayout] = useState(
     localStorage.getItem("mobileLayoutSelection")
       ? localStorage.getItem("mobileLayoutSelection")
@@ -68,37 +46,6 @@ export default function Profile() {
         })
     }
   }, [])
-
-  // function toggleSections(calledFrom) {
-  //   switch (calledFrom) {
-  //     case "watchNext":
-  //       setWatchNextSection((prev) => !prev)
-  //       localStorage.setItem("watchNextSection", !watchNextSection)
-  //       break
-  //     case "upToDate":
-  //       setUpToDateSection((prev) => !prev)
-  //       localStorage.setItem("upToDateSection", !upToDateSection)
-  //       break
-  //     case "watchlist":
-  //       setWatchlistSection(!watchlistSection)
-  //       localStorage.setItem("watchlistSection", !watchlistSection)
-  //       break
-  //     case "finished":
-  //       setFinishedSection((prev) => !prev)
-  //       localStorage.setItem("finishedSection", !finishedSection)
-  //       break
-  //     case "stopped":
-  //       setStoppedSection((prev) => !prev)
-  //       localStorage.setItem("stoppedSection", !stoppedSection)
-  //       break
-  //     case "history":
-  //       setHistorySection((prev) => !prev)
-  //       localStorage.setItem("historySection", !historySection)
-  //       break
-  //     default:
-  //       break
-  //   }
-  // }
 
   if (!isUserLoggedIn) {
     return <Navigate to="/" replace />

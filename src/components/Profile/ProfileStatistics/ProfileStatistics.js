@@ -95,7 +95,9 @@ export default function ProfileStatistics({ allUserShows, triggerRefresh }) {
         </div>
 
         <div className="profile-stats-container">
-          <span className="profile-stats-num">0</span>
+          <span className="profile-stats-num">
+            {localStorage.getItem("stoppedShowsCount")}
+          </span>
           <span>|</span>
           <span className="profile-stats-title">Stopped Watching</span>
         </div>

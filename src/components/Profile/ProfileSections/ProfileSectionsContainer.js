@@ -6,6 +6,7 @@ import WatchNext from "./WatchNext"
 import "./ProfileSections.css"
 import UpToDate from "./UpToDate"
 import Finished from "./Finished"
+import StoppedShows from "./StoppedShows"
 
 export default function ProfileSectionsContainer({
   mobileLayout,
@@ -16,12 +17,14 @@ export default function ProfileSectionsContainer({
   const [watchNextShows, setWatchNextShows] = useState([])
   const [watchListShows, setWatchListShows] = useState([])
   const [finishedShows, setFinishedShows] = useState([])
+  const [stoppedShows, setStoppedShows] = useState([])
   const [loading, setLoading] = useState(true)
 
   const [watchNextShowsFetchOK, setWatchNextShowsFetchOK] = useState(false)
   const [watchListShowsFetchOK, setWatchListShowsFetchOK] = useState(false)
   const [upToDateShowsFetchOK, setUpToDateShowsFetchOK] = useState(false)
   const [finishedShowsFetchOK, setFinishedShowsFetchOK] = useState(false)
+  const [stoppedShowsFetchOK, setStoppedShowsFetchOK] = useState(false)
 
   const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
     useContext(LayoutContext)
@@ -33,6 +36,7 @@ export default function ProfileSectionsContainer({
     setWatchListShowsFetchOK(false)
     setUpToDateShowsFetchOK(false)
     setFinishedShowsFetchOK(false)
+    setStoppedShowsFetchOK(false)
 
     Promise.all([
       apiCaller({
@@ -62,6 +66,15 @@ export default function ProfileSectionsContainer({
         isResponseJSON: true,
         extras: null,
       }),
+      apiCaller({
+        url: `${process.env.REACT_APP_BACKEND_API_URL}/shows/all-shows/stopped/${user_id}`,
+        method: "GET",
+        contentType: "application/json",
+        body: null,
+        calledFrom: `stoppedShows`,
+        isResponseJSON: true,
+        extras: null,
+      }),
     ])
       .then((data) => {
         setWatchNextShows(data[0])
@@ -72,6 +85,9 @@ export default function ProfileSectionsContainer({
 
         setFinishedShows(data[2])
         localStorage.setItem("finishedShowsCount", data[2].length)
+
+        setStoppedShows(data[3])
+        localStorage.setItem("stoppedShowsCount", data[3].length)
       })
       .catch((error) => {
         setOpenSnackbar(true)
@@ -85,7 +101,8 @@ export default function ProfileSectionsContainer({
       watchNextShowsFetchOK &&
       watchListShowsFetchOK &&
       upToDateShowsFetchOK &&
-      finishedShowsFetchOK
+      finishedShowsFetchOK &&
+      stoppedShowsFetchOK
     )
       setLoading(false)
   }, [
@@ -93,6 +110,7 @@ export default function ProfileSectionsContainer({
     watchListShowsFetchOK,
     upToDateShowsFetchOK,
     finishedShowsFetchOK,
+    stoppedShowsFetchOK,
   ])
 
   return (
@@ -123,6 +141,14 @@ export default function ProfileSectionsContainer({
         loading={loading}
         setLoading={setLoading}
         setWatchListShowsFetchOK={setWatchListShowsFetchOK}
+      />
+
+      <StoppedShows
+        mobileLayout={mobileLayout}
+        stoppedShows={stoppedShows}
+        loading={loading}
+        setLoading={setLoading}
+        setStoppedShowsFetchOK={setStoppedShowsFetchOK}
       />
 
       <Finished
