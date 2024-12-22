@@ -21,7 +21,6 @@ export default function Finished({
   )
   const [emptySection, setEmptySection] = useState(false)
   const [showsInfo, setShowsInfo] = useState([])
-  const [seasonInfo, setSeasonInfo] = useState([])
 
   const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
     useContext(LayoutContext)
@@ -35,7 +34,6 @@ export default function Finished({
     const fetchData = async () => {
       setLoading(true)
       setShowsInfo([])
-      setSeasonInfo([])
 
       try {
         if (finishedShows.length === 0) {
@@ -57,35 +55,12 @@ export default function Finished({
                     isResponseJSON: true,
                     extras: null,
                   }),
-                  apiCaller({
-                    url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${
-                      show.show_id
-                    }/season/${show.season + 1}?api_key=${
-                      process.env.REACT_APP_THEMOVIEDB_API
-                    }&language=en-US`,
-                    method: "GET",
-                    contentType: "application/json",
-                    body: null,
-                    calledFrom: "seasonInfo",
-                    isResponseJSON: true,
-                    extras: null,
-                  }),
                 ])
               )
           )
 
           const shows = results.map((res) => res[0])
-          // const seasons = results.map((res) => res[1])
-          const seasons = results.map((res) => {
-            if (res[1] !== undefined) {
-              return res[1]
-            } else {
-              return null
-            }
-          })
-
           setShowsInfo(shows)
-          setSeasonInfo(seasons)
         }
       } catch (error) {
         setOpenSnackbar(true)
@@ -107,8 +82,6 @@ export default function Finished({
   if (loading) {
     return <SectionsLoader sectionType="Finished" />
   }
-
-  console.log(showsInfo)
 
   return (
     <div className="profile-sections-wrapper" id="finished">
