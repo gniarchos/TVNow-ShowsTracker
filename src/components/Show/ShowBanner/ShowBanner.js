@@ -184,16 +184,17 @@ export default function ShowBanner({
               ? showData.networks[0]?.name
               : "Unknown"}
           </span>
-          <span>&#8226;</span>
+        </div>
 
+        <div className="show-banner-buttons-container">
           {!showInUserList ? (
             <Button
               startIcon={!loading ? <AddCircleRoundedIcon /> : null}
               variant="contained"
               color="primary"
-              size="small"
+              size="medium"
               disabled={loading}
-              sx={{ width: { xs: "40%", sm: "20%" }, whiteSpace: "nowrap" }}
+              sx={{ width: { xs: "100%", sm: "100%" }, whiteSpace: "nowrap" }}
               onClick={addShowToShowsList}
             >
               {loading ? (
@@ -217,9 +218,12 @@ export default function ShowBanner({
                 startIcon={!loading ? <RemoveCircleRoundedIcon /> : null}
                 variant="contained"
                 color="third"
-                size="small"
+                size="medium"
                 disabled={loading}
-                sx={{ width: { xs: "40%", sm: "20%" }, whiteSpace: "nowrap" }}
+                sx={{
+                  width: defineIfToShowStopWatchingButton() ? "50%" : "100%",
+                  whiteSpace: "nowrap",
+                }}
                 onClick={removeShowFromShowsList}
               >
                 {loading ? (
@@ -243,9 +247,9 @@ export default function ShowBanner({
                   startIcon={!loading ? <StopCircleRoundedIcon /> : null}
                   variant="contained"
                   color="secondary"
-                  size="small"
+                  size="medium"
                   disabled={loading}
-                  sx={{ width: { xs: "40%", sm: "20%" }, whiteSpace: "nowrap" }}
+                  sx={{ width: "50%", whiteSpace: "nowrap" }}
                   onClick={() => alert("Coming Soon!")}
                 >
                   {loading ? (
@@ -266,22 +270,6 @@ export default function ShowBanner({
               )}
             </>
           )}
-
-          {/* TODO: Add buttons for logged in user */}
-          {/* <Button
-            startIcon={<RemoveCircleRoundedIcon />}
-            variant="contained"
-            color="third"
-          >
-            Remove Show
-          </Button>
-          <Button
-            startIcon={<CancelRoundedIcon />}
-            variant="contained"
-            color="cancel"
-          >
-            Stop Watching
-          </Button> */}
         </div>
       </div>
     </div>

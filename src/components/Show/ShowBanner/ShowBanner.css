@@ -104,6 +104,13 @@
   font-size: 1rem;
 }
 
+.show-banner-buttons-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
 .show-banner-seasons-network-container span {
   font-weight: 600;
   font-size: 1.1rem;
