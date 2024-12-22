@@ -72,7 +72,7 @@ export default function ProfileStatistics({ allUserShows, triggerRefresh }) {
         </div>
         <div className="profile-stats-container">
           <span className="profile-stats-num">
-            {localStorage.getItem("watchNextShowsCount")}
+            {localStorage.getItem("watchNextShowsCount") || 0}
           </span>
           <span>|</span>
           <span className="profile-stats-title">Watching</span>
@@ -80,7 +80,7 @@ export default function ProfileStatistics({ allUserShows, triggerRefresh }) {
 
         <div className="profile-stats-container">
           <span className="profile-stats-num">
-            {localStorage.getItem("watchListShowsCount")}
+            {localStorage.getItem("watchListShowsCount") || 0}
           </span>
           <span>|</span>
           <span className="profile-stats-title">Not Started</span>
@@ -88,7 +88,7 @@ export default function ProfileStatistics({ allUserShows, triggerRefresh }) {
 
         <div className="profile-stats-container">
           <span className="profile-stats-num">
-            {localStorage.getItem("finishedShowsCount")}
+            {localStorage.getItem("finishedShowsCount") || 0}
           </span>
           <span>|</span>
           <span className="profile-stats-title">Finished Shows</span>
@@ -96,7 +96,7 @@ export default function ProfileStatistics({ allUserShows, triggerRefresh }) {
 
         <div className="profile-stats-container">
           <span className="profile-stats-num">
-            {localStorage.getItem("stoppedShowsCount")}
+            {localStorage.getItem("stoppedShowsCount") || 0}
           </span>
           <span>|</span>
           <span className="profile-stats-title">Stopped Watching</span>
