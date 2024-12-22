@@ -175,6 +175,7 @@ export default function Show() {
         showInUserList={showInUserList}
         setShowInUserList={setShowInUserList}
         userShowInfo={userShowInfo}
+        setUserShowInfo={setUserShowInfo}
       />
 
       <ShowTrackingInfo showData={showData} />
