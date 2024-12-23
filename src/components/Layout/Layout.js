@@ -17,6 +17,9 @@ export default function Layout() {
   const [snackbarMessage, setSnackbarMessage] = useState("")
   const [snackbarSeverity, setSnackbarSeverity] = useState("")
 
+  const queryParams = new URLSearchParams(window.location.search)
+  const isWebView = queryParams.get("isWebView") === "true"
+
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
@@ -25,6 +28,7 @@ export default function Layout() {
     setOpenSnackbar,
     setSnackbarMessage,
     setSnackbarSeverity,
+    isWebView,
   }
 
   return (
@@ -33,7 +37,7 @@ export default function Layout() {
       <SnowOverlay maxParticles={isMobile ? 50 : 100} />
       <div
         className={
-          !window.matchMedia("(display-mode: standalone)").matches
+          !window.matchMedia("(display-mode: standalone)").matches && !isWebView
             ? "layout"
             : "standalone-layout"
         }
@@ -62,7 +66,8 @@ export default function Layout() {
           </Alert>
         </Snackbar>
 
-        {!window.matchMedia("(display-mode: standalone)").matches && <Footer />}
+        {!window.matchMedia("(display-mode: standalone)").matches &&
+          !isWebView && <Footer />}
       </div>
     </LayoutContext.Provider>
   )

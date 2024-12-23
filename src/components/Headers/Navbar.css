@@ -14,7 +14,12 @@
   padding-right: 30px;
 }
 
-.navbar-logo-seatch-icon-container {
+.navbar-wrapper.webview {
+  height: 100px;
+  padding-top: 50px;
+}
+
+.navbar-logo-search-icon-container {
   display: flex;
   flex-direction: row;
   align-items: center;

@@ -34,6 +34,7 @@ export default function Navbar() {
     setSnackbarMessage,
     setSnackbarSeverity,
     isUserLoggedIn,
+    isWebView,
   } = useContext(LayoutContext)
 
   const theme = useTheme()
@@ -107,8 +108,8 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="navbar-wrapper">
-        <div className="navbar-logo-seatch-icon-container">
+      <div className={isWebView ? "navbar-wrapper webview" : "navbar-wrapper"}>
+        <div className="navbar-logo-search-icon-container">
           <Link to="/" className="navbar-logo-link">
             Watchee
           </Link>
@@ -185,7 +186,7 @@ export default function Navbar() {
 
         {isUserLoggedIn ? (
           <div className="navbar-logged-in-buttons">
-            {isSmallScreen && !isMobileApp && (
+            {isSmallScreen && !isMobileApp && !isWebView && (
               <>
                 <IconButton
                   size="small"
@@ -203,7 +204,7 @@ export default function Navbar() {
               </IconButton>
             )}
 
-            {!isMobileApp && !isSmallScreen && (
+            {!isMobileApp && !isSmallScreen && !isWebView && (
               <Button
                 sx={{ width: "100px" }}
                 variant="outlined"
@@ -245,6 +246,8 @@ export default function Navbar() {
       {window.matchMedia("(display-mode: standalone)").matches && (
         <PWABottomBar />
       )}
+
+      {isWebView && <PWABottomBar />}
 
       <SearchBarMobile
         showSearchBarMobile={showSearchBarMobile}

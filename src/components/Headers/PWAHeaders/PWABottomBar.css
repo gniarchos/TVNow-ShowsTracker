@@ -1,88 +1,84 @@
-@media all and (display-mode: standalone) {
-  .navbar-wrapper {
-    align-items: center;
-    height: 40px;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
+/* @media all and (display-mode: standalone) { */
+/* .navbar-wrapper {
+  align-items: center;
+  height: 40px;
+  padding-left: 10px;
+  padding-right: 10px;
+} */
 
-  .logo-link {
-    justify-content: flex-start;
-    padding-left: 20px;
-    align-items: center;
-    margin-left: -20px;
-  }
-
-  .standalone-bottom-nav-wrapper {
-    height: 85px;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100vw;
-    background-attachment: fixed;
-    max-width: 100%;
-    z-index: 999;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    background-color: rgba(12, 13, 13, 0.7);
-    padding-left: 10vw;
-    padding-right: 10vw;
-    padding-bottom: 18px;
-  }
-
-  .icons-nav-btns {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    width: 50px;
-    height: 50px;
-    font-size: 0.8rem;
-    color: rgba(212, 212, 212, 0.3);
-    text-decoration: none;
-    transition: all 0.3s linear;
-    user-select: none;
-  }
-
-  .icons-nav-btns.active {
-    font-weight: 700;
-    color: #fff !important;
-  }
-
-  .icons-nav-btns.sign-out {
-    position: absolute;
-    right: 15px;
-    width: 25px;
-    height: 25px;
-    color: #fff;
-  }
-
-  .login-btn {
-    font-size: 1rem;
-    margin-right: 3vw;
-  }
-
-  .navbar-wrapper.landing {
-    height: 50px;
-  }
-
-  .search-input {
-    height: 32px;
-  }
-
-  .search-img {
-    height: 25px;
-    width: 25px;
-    margin-bottom: 10px !important;
-  }
-
-  .confirmation-container {
-    width: 90vw;
-    padding: 10px;
-  }
+.logo-link {
+  justify-content: flex-start;
+  padding-left: 20px;
+  align-items: center;
+  margin-left: -20px;
 }
+
+.standalone-bottom-nav-wrapper {
+  height: 85px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  background-attachment: fixed;
+  max-width: 100%;
+  z-index: 999;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background-color: rgba(12, 13, 13, 0.7);
+  padding-left: 10vw;
+  padding-right: 10vw;
+  padding-bottom: 18px;
+}
+
+.icons-nav-btns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 50px;
+  height: 50px;
+  font-size: 0.8rem;
+  color: rgba(212, 212, 212, 0.3);
+  text-decoration: none;
+  transition: all 0.3s linear;
+  user-select: none;
+}
+
+.icons-nav-btns.active {
+  font-weight: 700;
+  color: #fff !important;
+}
+
+.icons-nav-btns.sign-out {
+  position: absolute;
+  right: 15px;
+  width: 25px;
+  height: 25px;
+  color: #fff;
+}
+
+.login-btn {
+  font-size: 1rem;
+  margin-right: 3vw;
+}
+
+.search-input {
+  height: 32px;
+}
+
+.search-img {
+  height: 25px;
+  width: 25px;
+  margin-bottom: 10px !important;
+}
+
+.confirmation-container {
+  width: 90vw;
+  padding: 10px;
+}
+/* } */
