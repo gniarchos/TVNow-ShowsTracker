@@ -145,29 +145,6 @@ export default function App() {
 
   return (
     <div className="App">
-      {/* <BrowserRouter>
-        <AuthProvider>
-          <Routes>
-            <Route index path="/index" element={<LandingPage />} />
-            <Route path="/" element={<PrivateRoute />}>
-              <Route element={<Layout />}>
-                <Route path="/" element={<Home />} />
-
-                <Route path="/show" element={<ShowOverview />} />
-
-                <Route path="/people" element={<People />} />
-
-                <Route path="/discover" element={<DetailedSliders />} />
-
-                <Route path="/profile" element={<Profile />} />
-
-                <Route path="/error404" element={<PageNotFound />} />
-                <Route path="*" element={<PageNotFound />} />
-              </Route>
-            </Route>
-          </Routes>
-        </AuthProvider>
-      </BrowserRouter> */}
       <ThemeProvider theme={theme}>
         <RouterProvider router={router} />
       </ThemeProvider>

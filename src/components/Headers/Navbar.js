@@ -72,9 +72,7 @@ export default function Navbar() {
     setSnackbarSeverity("success")
     setSnackbarMessage("Logged out successfully!")
 
-    navigate("/")
-
-    window.location.reload()
+    navigate(`/`)
   }
 
   function navigateOnEnter(e) {
@@ -108,7 +106,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className={isWebView ? "navbar-wrapper webview" : "navbar-wrapper"}>
+      <div className="navbar-wrapper">
         <div className="navbar-logo-search-icon-container">
           <Link to="/" className="navbar-logo-link">
             Watchee

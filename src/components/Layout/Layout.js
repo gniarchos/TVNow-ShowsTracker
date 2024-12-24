@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react"
+import React, { createContext, useEffect, useState } from "react"
 import { Outlet } from "react-router-dom"
 import Footer from "../Footer/Footer"
 import "../../App.css"
@@ -17,8 +17,7 @@ export default function Layout() {
   const [snackbarMessage, setSnackbarMessage] = useState("")
   const [snackbarSeverity, setSnackbarSeverity] = useState("")
 
-  const queryParams = new URLSearchParams(window.location.search)
-  const isWebView = queryParams.get("isWebView") === "true"
+  const [isWebView, setIsWebView] = useState(false)
 
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
@@ -29,6 +28,21 @@ export default function Layout() {
     setSnackbarMessage,
     setSnackbarSeverity,
     isWebView,
+  }
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search)
+    setIsWebView(queryParams.get("isWebView") === "true")
+  }, [])
+
+  function defineSnackbarPosition() {
+    if (window.matchMedia("(display-mode: standalone)").matches) {
+      return "50px"
+    } else if (isWebView) {
+      return "60px"
+    } else {
+      return false
+    }
   }
 
   return (
@@ -60,7 +74,14 @@ export default function Layout() {
             onClose={() => setOpenSnackbar(false)}
             severity={snackbarSeverity}
             variant="filled"
-            sx={{ width: "100%" }}
+            sx={{
+              width: "100%",
+              // marginTop: defineSnackbarPosition() && "100px",
+              marginTop: defineSnackbarPosition(),
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
             {snackbarMessage}
           </Alert>

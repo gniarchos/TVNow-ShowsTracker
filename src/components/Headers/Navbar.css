@@ -14,11 +14,6 @@
   padding-right: 30px;
 }
 
-.navbar-wrapper.webview {
-  height: 100px;
-  padding-top: 50px;
-}
-
 .navbar-logo-search-icon-container {
   display: flex;
   flex-direction: row;
