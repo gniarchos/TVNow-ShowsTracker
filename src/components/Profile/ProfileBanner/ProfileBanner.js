@@ -1,11 +1,17 @@
 import React, { useState } from "react"
 import def_cover from "../../../images/def-cover.jpg"
-import userImg from "../../../images/user_img.png"
 import "./ProfileBanner.css"
+import { Button, useMediaQuery } from "@mui/material"
+import { useTheme } from "@emotion/react"
+import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded"
+import AutoFixHighRoundedIcon from "@mui/icons-material/AutoFixHighRounded"
 
-export default function ProfileBanner() {
+export default function ProfileBanner({ setOpenHistory }) {
   const [selectedCoverImage, setSelectedCoverImage] = useState(def_cover)
   const username = localStorage.getItem("username")
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
+
   return (
     <div className="profile-banner-wrapper">
       <div className="profile-banner-color-overlay"></div>
@@ -21,6 +27,24 @@ export default function ProfileBanner() {
         </div>
 
         <span className="profile-banner-username">{username}</span>
+
+        <div className="profile-banner-btn-container">
+          <Button
+            size={isMobile ? "xsmall" : "medium"}
+            variant="contained"
+            color="primaryFaded"
+            onClick={() => setOpenHistory(true)}
+          >
+            <HistoryRoundedIcon fontSize="small" />
+          </Button>
+          <Button
+            size={isMobile ? "xsmall" : "medium"}
+            variant="contained"
+            color="primaryFaded"
+          >
+            <AutoFixHighRoundedIcon fontSize="small" />
+          </Button>
+        </div>
       </div>
     </div>
   )

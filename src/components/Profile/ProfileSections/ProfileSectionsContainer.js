@@ -7,11 +7,14 @@ import "./ProfileSections.css"
 import UpToDate from "./UpToDate"
 import Finished from "./Finished"
 import StoppedShows from "./StoppedShows"
+import History from "./History"
 
 export default function ProfileSectionsContainer({
   mobileLayout,
   triggerRefresh,
   setTriggerRefresh,
+  openHistory,
+  setOpenHistory,
 }) {
   const user_id = localStorage.getItem("user_id")
   const [watchNextShows, setWatchNextShows] = useState([])
@@ -114,7 +117,7 @@ export default function ProfileSectionsContainer({
   ])
 
   return (
-    <>
+    <div>
       <WatchNext
         mobileLayout={mobileLayout}
         watchNextShows={watchNextShows}
@@ -158,6 +161,6 @@ export default function ProfileSectionsContainer({
         setLoading={setLoading}
         setFinishedShowsFetchOK={setFinishedShowsFetchOK}
       />
-    </>
+    </div>
   )
 }

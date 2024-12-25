@@ -96,6 +96,10 @@
   gap: 10px;
 }
 
+.profile-episode-info.history {
+  width: 100%;
+}
+
 .profile-show-name {
   cursor: pointer;
   font-size: 1.1rem;
@@ -103,10 +107,18 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: block;
+
   width: 100%;
   color: black;
   text-decoration: none;
+}
+
+.profile-show-name-more-actions-history {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
 }
 
 .profile-episode-numbers-container {
@@ -120,6 +132,7 @@
   font-size: 1rem;
   font-weight: 500;
   color: rgb(127, 127, 131);
+  white-space: nowrap;
 }
 
 .profile-season-episode-number.finished-info {
@@ -127,6 +140,14 @@
   flex-direction: row;
   align-items: center;
   gap: 5px;
+}
+
+.profile-season-episode-number.history-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
 }
 
 .profile-episodes-left {
@@ -150,6 +171,38 @@
   text-align: center;
   display: flex;
   flex-direction: row;
+}
+
+.profile-episode-wrapper-history {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 100%;
+  height: 110px;
+  border: 1px solid #3a3a3c82;
+}
+
+.profile-episode-img-container-history {
+  width: 50%;
+  height: 110px;
+  background-color: #3a3a3c;
+  overflow: hidden;
+}
+
+.profile-episode-container-history {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  width: 100%;
+}
+
+.profile-season-episode-number-history-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
 }
 
 @media all and (max-width: 768px) {

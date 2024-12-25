@@ -9,6 +9,7 @@ import TodayRoundedIcon from "@mui/icons-material/TodayRounded"
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded"
 import { useTheme } from "@emotion/react"
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded"
+import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded"
 
 export default function ProfileEpisodes({
   showInfo,
@@ -163,6 +164,55 @@ export default function ProfileEpisodes({
             <span className="profile-season-episode-number finished-info">
               <RemoveRedEyeRoundedIcon sx={{ fontSize: "1.2rem" }} />{" "}
               {dayjs(stoppedInfo.last_updated).format("DD-MM-YYYY")}
+            </span>
+          </div>
+        </div>
+      </div>
+    )
+  } else if (sectionType === "history") {
+    return (
+      <div className="profile-episode-wrapper-history">
+        <div className="profile-episode-img-container-history">
+          <img
+            className="profile-episode-img"
+            src={`https://image.tmdb.org/t/p/w500/${showInfo.backdrop_path}`}
+            alt="show"
+          />
+        </div>
+
+        <div className="profile-episode-container-history">
+          <div className="profile-episode-info history">
+            <div className="profile-show-name-more-actions-history">
+              <Link
+                className="profile-show-name history"
+                to={`/show?show_name=${showInfo.name}&show_id=${showInfo.id}`}
+              >
+                {showInfo.name}{" "}
+              </Link>
+
+              <IconButton
+                aria-label="more"
+                id="long-button"
+                onClick={() => alert("Coming Soon!")}
+              >
+                <DeleteForeverRoundedIcon fontSize="small" color="error" />
+              </IconButton>
+            </div>
+
+            <div className="profile-season-episode-number-history-container">
+              <span className="profile-season-episode-number">
+                S{zeroPad(seasonNumber + 1, 2)} | E
+                {zeroPad(episodeNumber + 1, 2)}
+              </span>
+              &bull;
+              <span className="profile-season-episode-number history-info">
+                <RemoveRedEyeRoundedIcon sx={{ fontSize: "1.2rem" }} />{" "}
+                {dayjs(stoppedInfo.watched_at).format("DD-MM-YYYY")}
+              </span>
+            </div>
+
+            <span className="profile-episode-name">
+              {seasonInfo.episodes[episodeNumber].name}
             </span>
           </div>
         </div>

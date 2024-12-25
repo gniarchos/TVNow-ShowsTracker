@@ -6,6 +6,7 @@ import ProfileStatistics from "./ProfileStatistics/ProfileStatistics"
 import apiCaller from "../../Api/ApiCaller_NEW"
 import Loader from "../Other/Loader/Loader"
 import ProfileSectionsContainer from "./ProfileSections/ProfileSectionsContainer"
+import History from "./ProfileSections/History"
 
 export default function Profile() {
   const { isUserLoggedIn } = useContext(LayoutContext)
@@ -13,6 +14,7 @@ export default function Profile() {
   const [allUserShows, setAllUserShows] = useState([])
   const [loading, setLoading] = useState(true)
   const [triggerRefresh, setTriggerRefresh] = useState(false)
+  const [openHistory, setOpenHistory] = useState(false)
 
   const [mobileLayout, setMobileLayout] = useState(
     localStorage.getItem("mobileLayoutSelection")
@@ -56,8 +58,8 @@ export default function Profile() {
   }
 
   return (
-    <div>
-      <ProfileBanner />
+    <>
+      <ProfileBanner setOpenHistory={setOpenHistory} />
 
       <ProfileStatistics
         allUserShows={allUserShows}
@@ -68,7 +70,13 @@ export default function Profile() {
         mobileLayout={mobileLayout}
         triggerRefresh={triggerRefresh}
         setTriggerRefresh={setTriggerRefresh}
+        openHistory={openHistory}
+        setOpenHistory={setOpenHistory}
       />
-    </div>
+
+      {openHistory && (
+        <History openHistory={openHistory} setOpenHistory={setOpenHistory} />
+      )}
+    </>
   )
 }
