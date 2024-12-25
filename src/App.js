@@ -90,6 +90,21 @@ export default function App() {
     },
     components: {
       MuiButton: {
+        variants: [
+          {
+            props: { size: "xsmall" },
+            style: {
+              paddingLeft: "10px",
+              paddingRight: "10px",
+              paddingTop: "5px",
+              paddingBottom: "5px",
+              fontSize: "0.8rem",
+              minHeight: "24px",
+              minWidth: "32px",
+              lineHeight: 1.2,
+            },
+          },
+        ],
         styleOverrides: {
           root: {
             textTransform: "none",
