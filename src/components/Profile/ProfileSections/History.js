@@ -33,6 +33,7 @@ export default function History({
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
   const [disableActions, setDisableActions] = useState(false)
+  const [validEpisodesForDeletion, setValidEpisodesForDeletion] = useState({})
 
   const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
     useContext(LayoutContext)
@@ -97,47 +98,77 @@ export default function History({
 
     const fetchData = async () => {
       try {
-        if (historyData.length === 0) {
-          setEmptySection(true)
-        } else {
-          const results = await Promise.all(
-            historyData
-              ?.sort((a, b) => new Date(b.watched_at) - new Date(a.watched_at))
-              .map((show) =>
-                Promise.all([
-                  apiCaller({
-                    url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`,
-                    method: "GET",
-                    contentType: "application/json",
-                    body: null,
-                    calledFrom: "showInfo",
-                    isResponseJSON: true,
-                    extras: null,
-                  }),
-                  apiCaller({
-                    url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${
-                      show.show_id
-                    }/season/${show.season_number + 1}?api_key=${
-                      process.env.REACT_APP_THEMOVIEDB_API
-                    }&language=en-US`,
-                    method: "GET",
-                    contentType: "application/json",
-                    body: null,
-                    calledFrom: "seasonInfo",
-                    isResponseJSON: true,
-                    extras: null,
-                  }),
-                ])
-              )
-          )
+        const validEpisodesForDeletion = {}
 
-          const shows = results.map((res) => res[0])
-          const seasons = results.map((res) => res[1] || null)
+        // Track the first episode for each season of each show
+        historyData.forEach((show) => {
+          const showId = show.show_id
+          const currentEpisode = show
 
-          setShowsInfo(shows)
-          setSeasonInfo(seasons)
-          setLoading(false)
-        }
+          // Initialize the entry if not already present
+          if (!validEpisodesForDeletion[showId]) {
+            validEpisodesForDeletion[showId] = {}
+          }
+
+          // If the season is not in the validEpisodesForDeletion object, add it
+          if (!validEpisodesForDeletion[showId][currentEpisode.season_number]) {
+            validEpisodesForDeletion[showId][currentEpisode.season_number] =
+              currentEpisode
+          } else {
+            // Compare episode_number to determine the first episode in the season
+            const storedEpisode =
+              validEpisodesForDeletion[showId][currentEpisode.season_number]
+
+            // Ensure that the episode with the smallest episode_number is kept as the first episode for the season
+            if (currentEpisode.episode_number >= storedEpisode.episode_number) {
+              validEpisodesForDeletion[showId][currentEpisode.season_number] =
+                currentEpisode
+            }
+          }
+        })
+
+        console.log("validEpisodesForDeletion:", validEpisodesForDeletion) // Debugging the state
+
+        // Fetch show and season info from the API
+        const results = await Promise.all(
+          historyData
+            ?.sort((a, b) => new Date(b.watched_at) - new Date(a.watched_at))
+            .map((show) =>
+              Promise.all([
+                apiCaller({
+                  url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`,
+                  method: "GET",
+                  contentType: "application/json",
+                  body: null,
+                  calledFrom: "showInfo",
+                  isResponseJSON: true,
+                  extras: null,
+                }),
+                apiCaller({
+                  url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${
+                    show.show_id
+                  }/season/${show.season_number + 1}?api_key=${
+                    process.env.REACT_APP_THEMOVIEDB_API
+                  }&language=en-US`,
+                  method: "GET",
+                  contentType: "application/json",
+                  body: null,
+                  calledFrom: "seasonInfo",
+                  isResponseJSON: true,
+                  extras: null,
+                }),
+              ])
+            )
+        )
+
+        const shows = results.map((res) => res[0])
+        const seasons = results.map((res) => res[1] || null)
+
+        setShowsInfo(shows)
+        setSeasonInfo(seasons)
+        setLoading(false)
+
+        setValidEpisodesForDeletion(validEpisodesForDeletion) // Save state
       } catch (error) {
         setOpenSnackbar(true)
         setSnackbarSeverity("error")
@@ -199,6 +230,8 @@ export default function History({
       })
   }
 
+  console.log(validEpisodesForDeletion)
+
   return (
     <Dialog
       closeAfterTransition
@@ -231,24 +264,48 @@ export default function History({
           <div className="profile-sections-wrapper-history">
             <div className="profile-sections-container">
               <div className="profile-sections-history">
-                {showsInfo.map((show, index) => (
-                  <ProfileEpisodes
-                    key={index}
-                    showInfo={show}
-                    seasonInfo={seasonInfo[index]}
-                    seasonNumber={historyData[index].season_number}
-                    episodeNumber={historyData[index].episode_number}
-                    handleMarkAsWatched={() => null}
-                    handleMarkEpisodeAsNotWatched={
-                      handleMarkEpisodeAsNotWatched
-                    }
-                    index={index}
-                    sectionType="history"
-                    spinnerLoader={[]}
-                    stoppedInfo={historyData[index]}
-                    disableActions={disableActions}
-                  />
-                ))}
+                {showsInfo.map((show, index) => {
+                  // const showId = show.id
+                  // const isFirstEpisode =
+                  //   validEpisodesForDeletion[showId] &&
+                  //   validEpisodesForDeletion[showId].episode_number ===
+                  //     historyData[index].episode_number - 1 &&
+                  //   validEpisodesForDeletion[showId].season_number ===
+                  //     historyData[index].season_number
+
+                  const showId = show.id
+                  const seasonNumber = historyData[index].season_number
+                  const episodeNumber = historyData[index].episode_number
+
+                  // Check if the current episode is the first one in the season
+                  const isFirstEpisode =
+                    validEpisodesForDeletion[showId] &&
+                    validEpisodesForDeletion[showId][seasonNumber] &&
+                    validEpisodesForDeletion[showId][seasonNumber]
+                      .episode_number === episodeNumber
+
+                  console.log("isFirstEpisode:", isFirstEpisode) // Debugging
+
+                  return (
+                    <ProfileEpisodes
+                      key={index}
+                      showInfo={show}
+                      seasonInfo={seasonInfo[index]}
+                      seasonNumber={historyData[index].season_number}
+                      episodeNumber={historyData[index].episode_number}
+                      handleMarkAsWatched={() => null}
+                      handleMarkEpisodeAsNotWatched={
+                        handleMarkEpisodeAsNotWatched
+                      }
+                      index={index}
+                      sectionType="history"
+                      spinnerLoader={[]}
+                      stoppedInfo={historyData[index]}
+                      disableActions={disableActions}
+                      isDeleteDisabled={!isFirstEpisode}
+                    />
+                  )
+                })}
               </div>
             </div>
             {emptySection && historyData.length === 0 && (

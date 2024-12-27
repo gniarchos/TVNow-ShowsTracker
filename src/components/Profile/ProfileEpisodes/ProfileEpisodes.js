@@ -24,6 +24,7 @@ export default function ProfileEpisodes({
   finishedInfo,
   stoppedInfo,
   disableActions,
+  isDeleteDisabled,
 }) {
   const zeroPad = (num, places) => String(num).padStart(places, "0")
   const theme = useTheme()
@@ -193,7 +194,7 @@ export default function ProfileEpisodes({
               </Link>
 
               <IconButton
-                disabled={disableActions}
+                disabled={disableActions || isDeleteDisabled}
                 onClick={() =>
                   handleMarkEpisodeAsNotWatched(
                     showInfo,
@@ -206,7 +207,11 @@ export default function ProfileEpisodes({
               >
                 <DeleteForeverRoundedIcon
                   fontSize="small"
-                  color={disableActions ? "disabledCustom" : "error"}
+                  color={
+                    disableActions || isDeleteDisabled
+                      ? "disabledCustom"
+                      : "error"
+                  }
                 />
               </IconButton>
             </div>
