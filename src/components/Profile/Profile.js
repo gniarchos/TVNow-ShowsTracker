@@ -74,9 +74,12 @@ export default function Profile() {
         setOpenHistory={setOpenHistory}
       />
 
-      {openHistory && (
-        <History openHistory={openHistory} setOpenHistory={setOpenHistory} />
-      )}
+      <History
+        openHistory={openHistory}
+        setOpenHistory={setOpenHistory}
+        triggerRefresh={triggerRefresh}
+        setTriggerRefresh={setTriggerRefresh}
+      />
     </>
   )
 }

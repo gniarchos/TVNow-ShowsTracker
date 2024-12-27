@@ -126,8 +126,8 @@ export default function WatchNext({
       seasonInfo[index].episodes.length === episodeNumber + 1
 
     const data_to_post = {
-      episode: isSeasonLastEpisode ? 0 : episodeNumber + 1,
-      season: isSeasonLastEpisode ? seasonNumber + 1 : seasonNumber,
+      episode: episodeNumber,
+      season: seasonNumber,
       episode_duration:
         seasonInfo[index].episodes[episodeNumber].runtime !== null
           ? seasonInfo[index].episodes[episodeNumber].runtime
@@ -137,14 +137,14 @@ export default function WatchNext({
     let isFinishedShow = false
 
     if (
-      seasonNumber === parseInt(showInfo.number_of_seasons) - 1 &&
+      seasonNumber === parseInt(showInfo.number_of_seasons) &&
       isSeasonLastEpisode
     ) {
       isFinishedShow = true
     }
 
     apiCaller({
-      url: `${process.env.REACT_APP_BACKEND_API_URL}/shows/mark-episode-as-watched?user_id=${user_id}&show_id=${showId}&final_episode=${isFinishedShow}`,
+      url: `${process.env.REACT_APP_BACKEND_API_URL}/shows/mark-episode-as-watched?user_id=${user_id}&show_id=${showId}&final_episode=${isFinishedShow}&is_season_last_episode=${isSeasonLastEpisode}`,
       method: "POST",
       contentType: "application/json",
       body: JSON.stringify(data_to_post),

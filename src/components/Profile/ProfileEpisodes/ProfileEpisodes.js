@@ -17,11 +17,13 @@ export default function ProfileEpisodes({
   seasonNumber,
   episodeNumber,
   handleMarkAsWatched,
+  handleMarkEpisodeAsNotWatched,
   index,
   sectionType,
   spinnerLoader,
   finishedInfo,
   stoppedInfo,
+  disableActions,
 }) {
   const zeroPad = (num, places) => String(num).padStart(places, "0")
   const theme = useTheme()
@@ -191,11 +193,21 @@ export default function ProfileEpisodes({
               </Link>
 
               <IconButton
-                aria-label="more"
-                id="long-button"
-                onClick={() => alert("Coming Soon!")}
+                disabled={disableActions}
+                onClick={() =>
+                  handleMarkEpisodeAsNotWatched(
+                    showInfo,
+                    showInfo.id,
+                    seasonNumber,
+                    episodeNumber,
+                    index
+                  )
+                }
               >
-                <DeleteForeverRoundedIcon fontSize="small" color="error" />
+                <DeleteForeverRoundedIcon
+                  fontSize="small"
+                  color={disableActions ? "disabledCustom" : "error"}
+                />
               </IconButton>
             </div>
 
