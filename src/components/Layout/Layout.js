@@ -30,9 +30,18 @@ export default function Layout() {
     isWebView,
   }
 
+  const checkIsWebView = () => {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera
+
+    // Check for common WebView identifiers
+    return (
+      /wv|WebView/i.test(userAgent) ||
+      /iPhone|iPad|iPod.*AppleWebKit(?!.*Safari)/i.test(userAgent)
+    )
+  }
+
   useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search)
-    setIsWebView(queryParams.get("isWebView") === "true")
+    checkIsWebView() ? setIsWebView(true) : setIsWebView(false)
   }, [])
 
   function defineSnackbarPosition() {
