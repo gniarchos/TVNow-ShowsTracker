@@ -13,8 +13,7 @@ export default function ProfileSectionsContainer({
   mobileLayout,
   triggerRefresh,
   setTriggerRefresh,
-  openHistory,
-  setOpenHistory,
+  setDisableBannerActions,
 }) {
   const user_id = localStorage.getItem("user_id")
   const [watchNextShows, setWatchNextShows] = useState([])
@@ -108,6 +107,7 @@ export default function ProfileSectionsContainer({
       stoppedShowsFetchOK
     )
       setLoading(false)
+    setDisableBannerActions(false)
   }, [
     watchNextShowsFetchOK,
     watchListShowsFetchOK,

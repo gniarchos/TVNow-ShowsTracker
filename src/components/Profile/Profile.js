@@ -7,6 +7,8 @@ import apiCaller from "../../Api/ApiCaller_NEW"
 import Loader from "../Other/Loader/Loader"
 import ProfileSectionsContainer from "./ProfileSections/ProfileSectionsContainer"
 import History from "./ProfileSections/History"
+import ProfileCoverSelector from "./ProfileCoverSelector/ProfileCoverSelector"
+import def_cover from "../../images/def-cover.jpg"
 
 export default function Profile() {
   const { isUserLoggedIn } = useContext(LayoutContext)
@@ -15,6 +17,13 @@ export default function Profile() {
   const [loading, setLoading] = useState(true)
   const [triggerRefresh, setTriggerRefresh] = useState(false)
   const [openHistory, setOpenHistory] = useState(false)
+  const [openCoverSelection, setOpenCoverSelection] = useState(false)
+  const [disableBannerActions, setDisableBannerActions] = useState(true)
+  const [selectedCoverImage, setSelectedCoverImage] = useState(
+    localStorage.getItem("userProfileCover")
+      ? JSON.parse(localStorage.getItem("userProfileCover"))
+      : def_cover
+  )
 
   const [mobileLayout, setMobileLayout] = useState(
     localStorage.getItem("mobileLayoutSelection")
@@ -59,19 +68,26 @@ export default function Profile() {
 
   return (
     <>
-      <ProfileBanner setOpenHistory={setOpenHistory} />
+      <ProfileBanner
+        setOpenHistory={setOpenHistory}
+        setOpenCoverSelection={setOpenCoverSelection}
+        disableBannerActions={disableBannerActions}
+        openCoverSelection={openCoverSelection}
+        selectedCoverImage={selectedCoverImage}
+        setSelectedCoverImage={setSelectedCoverImage}
+      />
 
       <ProfileStatistics
         allUserShows={allUserShows}
         triggerRefresh={triggerRefresh}
+        setSelectedCoverImage={setSelectedCoverImage}
       />
 
       <ProfileSectionsContainer
         mobileLayout={mobileLayout}
         triggerRefresh={triggerRefresh}
         setTriggerRefresh={setTriggerRefresh}
-        openHistory={openHistory}
-        setOpenHistory={setOpenHistory}
+        setDisableBannerActions={setDisableBannerActions}
       />
 
       <History
@@ -79,6 +95,12 @@ export default function Profile() {
         setOpenHistory={setOpenHistory}
         triggerRefresh={triggerRefresh}
         setTriggerRefresh={setTriggerRefresh}
+      />
+
+      <ProfileCoverSelector
+        allUserShows={allUserShows}
+        openCoverSelection={openCoverSelection}
+        setOpenCoverSelection={setOpenCoverSelection}
       />
     </>
   )

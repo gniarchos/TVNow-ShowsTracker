@@ -1,21 +1,77 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import def_cover from "../../../images/def-cover.jpg"
 import "./ProfileBanner.css"
 import { Button, useMediaQuery } from "@mui/material"
 import { useTheme } from "@emotion/react"
 import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded"
 import AutoFixHighRoundedIcon from "@mui/icons-material/AutoFixHighRounded"
+import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded"
 
-export default function ProfileBanner({ setOpenHistory }) {
-  const [selectedCoverImage, setSelectedCoverImage] = useState(def_cover)
+export default function ProfileBanner({
+  setOpenHistory,
+  setOpenCoverSelection,
+  disableBannerActions,
+  openCoverSelection,
+  selectedCoverImage,
+  setSelectedCoverImage,
+}) {
+  const isDefaultCover =
+    localStorage.getItem("userProfileCover") === null ? true : false
+
   const username = localStorage.getItem("username")
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (!openCoverSelection) {
+      setSelectedCoverImage(
+        localStorage.getItem("userProfileCover")
+          ? JSON.parse(localStorage.getItem("userProfileCover"))
+          : def_cover
+      )
+    }
+  }, [openCoverSelection])
+
+  function handleImageLoad() {
+    setLoading(false)
+  }
+
   return (
     <div className="profile-banner-wrapper">
-      <div className="profile-banner-color-overlay"></div>
-      <img className="profile-banner-img" src={selectedCoverImage} />
+      {/* {isDefaultCover && <div className="profile-banner-color-overlay"></div>} */}
+      {loading && (
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "black",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        ></div>
+      )}
+      {isDefaultCover ? (
+        <img
+          className="profile-banner-img"
+          src={selectedCoverImage}
+          alt="default"
+          onLoad={handleImageLoad}
+        />
+      ) : (
+        <img
+          onLoad={handleImageLoad}
+          className="profile-banner-img custom"
+          src={`https://image.tmdb.org/t/p/original${selectedCoverImage}`}
+          alt="cover"
+          style={{ display: loading ? "none" : "block" }}
+        />
+      )}
 
       <div className="profile-banner-container">
         <div className="profile-banner-user-img-container">
@@ -34,6 +90,7 @@ export default function ProfileBanner({ setOpenHistory }) {
             variant="contained"
             color="primaryFaded"
             onClick={() => setOpenHistory(true)}
+            disabled={disableBannerActions}
           >
             <HistoryRoundedIcon fontSize="small" />
           </Button>
@@ -41,8 +98,18 @@ export default function ProfileBanner({ setOpenHistory }) {
             size={isMobile ? "xsmall" : "medium"}
             variant="contained"
             color="primaryFaded"
+            onClick={() => setOpenCoverSelection(true)}
+            disabled={disableBannerActions}
           >
             <AutoFixHighRoundedIcon fontSize="small" />
+          </Button>
+          <Button
+            size={isMobile ? "xsmall" : "medium"}
+            variant="contained"
+            color="primaryFaded"
+            disabled={disableBannerActions}
+          >
+            <SettingsRoundedIcon fontSize="small" />
           </Button>
         </div>
       </div>

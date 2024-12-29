@@ -4,7 +4,11 @@ import { Chip, Divider } from "@mui/material"
 import apiCaller from "../../../Api/ApiCaller_NEW"
 import { LayoutContext } from "../../../components/Layout/Layout"
 
-export default function ProfileStatistics({ allUserShows, triggerRefresh }) {
+export default function ProfileStatistics({
+  allUserShows,
+  triggerRefresh,
+  setSelectedCoverImage,
+}) {
   const [userWatchingTime, setUserWatching] = useState({
     months: 0,
     days: 0,
@@ -54,6 +58,13 @@ export default function ProfileStatistics({ allUserShows, triggerRefresh }) {
         )
         setUserWatching(time)
         setUserWatchedEpisodesCount(response.total_episodes)
+        if (response.profile_cover_image !== null) {
+          localStorage.setItem(
+            "userProfileCover",
+            JSON.stringify(response.profile_cover_image)
+          )
+          setSelectedCoverImage(response.profile_cover_image)
+        }
       })
       .catch((error) => {
         setOpenSnackbar(true)
