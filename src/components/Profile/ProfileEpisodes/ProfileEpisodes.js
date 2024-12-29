@@ -110,7 +110,7 @@ export default function ProfileEpisodes({
         <div className="profile-episode-img-container">
           <img
             className="profile-episode-img"
-            src={`https://image.tmdb.org/t/p/w500/${showInfo.backdrop_path}`}
+            src={`https://image.tmdb.org/t/p/original/${showInfo.backdrop_path}`}
             alt="show"
           />
         </div>
@@ -145,7 +145,7 @@ export default function ProfileEpisodes({
         <div className="profile-episode-img-container">
           <img
             className="profile-episode-img"
-            src={`https://image.tmdb.org/t/p/w500/${showInfo.backdrop_path}`}
+            src={`https://image.tmdb.org/t/p/original/${showInfo.backdrop_path}`}
             alt="show"
           />
         </div>
@@ -178,7 +178,7 @@ export default function ProfileEpisodes({
         <div className="profile-episode-img-container-history">
           <img
             className="profile-episode-img"
-            src={`https://image.tmdb.org/t/p/w500/${showInfo.backdrop_path}`}
+            src={`https://image.tmdb.org/t/p/original/${showInfo.backdrop_path}`}
             alt="show"
           />
         </div>
@@ -269,7 +269,7 @@ export default function ProfileEpisodes({
 
         <img
           className="profile-episode-img"
-          src={`https://image.tmdb.org/t/p/w500/${showInfo.backdrop_path}`}
+          src={`https://image.tmdb.org/t/p/original/${showInfo.backdrop_path}`}
           alt="show"
         />
       </div>
