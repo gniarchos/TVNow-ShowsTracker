@@ -29,7 +29,7 @@ export default function Home() {
 
     Promise.all([
       apiCaller({
-        url: `${process.env.REACT_APP_THEMOVIEDB_URL}/trending/tv/week?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&page=1`,
+        url: `${process.env.REACT_APP_THEMOVIEDB_URL}/trending/tv/day?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&page=1`,
         method: "GET",
         contentType: "application/json",
         body: null,
