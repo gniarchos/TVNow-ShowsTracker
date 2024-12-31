@@ -101,11 +101,11 @@ export default function Show() {
   useEffect(() => {
     if (showData && showData.external_ids && showData.external_ids.imdb_id) {
       apiCaller({
-        url: `https://mdblist.p.rapidapi.com/?i=${showData.external_ids.imdb_id}`,
+        url: `${process.env.REACT_APP_BACKEND_API_URL}/proxy/mdblist?imdb_id=${showData.external_ids.imdb_id}`,
         method: "GET",
         contentType: "application/json",
         body: null,
-        calledFrom: "mdblist",
+        calledFrom: "mdblistProxy",
         isResponseJSON: true,
         extras: null,
       })
