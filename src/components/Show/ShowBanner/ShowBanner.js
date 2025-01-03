@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react"
 import { Icon } from "@iconify/react"
 import trakt_logo from "../../../images/trakt-icon-red-white.png"
 import "./ShowBanner.css"
-import { Button, Chip, Divider } from "@mui/material"
+import { Button, Chip, Divider, Skeleton } from "@mui/material"
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded"
 import RemoveCircleRoundedIcon from "@mui/icons-material/RemoveCircleRounded"
 import apiCaller from "../../../Api/ApiCaller"
@@ -29,6 +29,8 @@ export default function ShowBanner({
 
   const user_id = localStorage.getItem("user_id")
   const [loading, setLoading] = useState(false)
+  const [showStopped, setShowStopped] = useState(false)
+  const [waitingForData, setWaitingForData] = useState(true)
 
   const location = useLocation()
 
@@ -36,21 +38,24 @@ export default function ShowBanner({
     useContext(LayoutContext)
 
   useEffect(() => {
-    allUserShows.forEach((show) => {
-      if (show.show_id === showData.id) {
-        setShowInUserList(true)
-      }
-    })
-  }, [location, allUserShows])
-
-  function defineIfToShowStopWatchingButton() {
-    if (userShowInfo?.season === 0) {
-      if (userShowInfo?.episode === 0) {
-        return false
-      }
+    setWaitingForData(true)
+    if (userShowInfo) {
+      allUserShows.forEach((show) => {
+        if (show.show_id === showData.id) {
+          setShowInUserList(true)
+          console.log(userShowInfo)
+          if (userShowInfo?.season === 0) {
+            if (userShowInfo?.episode === 0) {
+              setShowStopped(false)
+            }
+          } else {
+            setShowStopped(true)
+          }
+        }
+      })
+      setWaitingForData(false)
     }
-    return true
-  }
+  }, [location, allUserShows, userShowInfo])
 
   function addShowToShowsList() {
     if (user_id === null) {
@@ -240,45 +245,17 @@ export default function ShowBanner({
           </span>
         </div>
 
-        <div className="show-banner-buttons-container">
-          {!showInUserList ? (
-            <Button
-              startIcon={!loading ? <AddCircleRoundedIcon /> : null}
-              variant="contained"
-              color="primary"
-              size="medium"
-              disabled={loading}
-              sx={{ width: { xs: "100%", sm: "100%" }, whiteSpace: "nowrap" }}
-              onClick={addShowToShowsList}
-            >
-              {loading ? (
-                <ThreeDots
-                  visible={true}
-                  height="23"
-                  width="23"
-                  color="white"
-                  radius="9"
-                  ariaLabel="three-dots-loading"
-                  wrapperStyle={{}}
-                  wrapperClass=""
-                />
-              ) : (
-                "Add Show"
-              )}
-            </Button>
-          ) : (
-            <>
+        {!waitingForData ? (
+          <div className="show-banner-buttons-container">
+            {!showInUserList ? (
               <Button
-                startIcon={!loading ? <RemoveCircleRoundedIcon /> : null}
+                startIcon={!loading ? <AddCircleRoundedIcon /> : null}
                 variant="contained"
-                color="third"
+                color="primary"
                 size="medium"
                 disabled={loading}
-                sx={{
-                  width: defineIfToShowStopWatchingButton() ? "50%" : "100%",
-                  whiteSpace: "nowrap",
-                }}
-                onClick={removeShowFromShowsList}
+                sx={{ width: { xs: "100%", sm: "100%" }, whiteSpace: "nowrap" }}
+                onClick={addShowToShowsList}
               >
                 {loading ? (
                   <ThreeDots
@@ -292,65 +269,102 @@ export default function ShowBanner({
                     wrapperClass=""
                   />
                 ) : (
-                  "Remove Show"
+                  "Add Show"
                 )}
               </Button>
+            ) : (
+              <>
+                <Button
+                  startIcon={!loading ? <RemoveCircleRoundedIcon /> : null}
+                  variant="contained"
+                  color="third"
+                  size="medium"
+                  disabled={loading}
+                  sx={{
+                    width: showStopped ? "50%" : "100%",
+                    whiteSpace: "nowrap",
+                  }}
+                  onClick={removeShowFromShowsList}
+                >
+                  {loading ? (
+                    <ThreeDots
+                      visible={true}
+                      height="23"
+                      width="23"
+                      color="white"
+                      radius="9"
+                      ariaLabel="three-dots-loading"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                    />
+                  ) : (
+                    "Remove Show"
+                  )}
+                </Button>
 
-              {defineIfToShowStopWatchingButton() &&
-                (userShowInfo?.show_status !== "stopped" ? (
-                  <Button
-                    startIcon={!loading ? <StopCircleRoundedIcon /> : null}
-                    variant="contained"
-                    color="secondary"
-                    size="medium"
-                    disabled={loading}
-                    sx={{ width: "50%", whiteSpace: "nowrap" }}
-                    onClick={() => markShowAsStoppedOrNot("stopped")}
-                  >
-                    {loading ? (
-                      <ThreeDots
-                        visible={true}
-                        height="23"
-                        width="23"
-                        color="white"
-                        radius="9"
-                        ariaLabel="three-dots-loading"
-                        wrapperStyle={{}}
-                        wrapperClass=""
-                      />
-                    ) : (
-                      "Stop Watching"
-                    )}
-                  </Button>
-                ) : (
-                  <Button
-                    startIcon={!loading ? <RestartAltRoundedIcon /> : null}
-                    variant="contained"
-                    color="success"
-                    size="medium"
-                    disabled={loading}
-                    sx={{ width: "50%", whiteSpace: "nowrap" }}
-                    onClick={() => markShowAsStoppedOrNot("continue")}
-                  >
-                    {loading ? (
-                      <ThreeDots
-                        visible={true}
-                        height="23"
-                        width="23"
-                        color="white"
-                        radius="9"
-                        ariaLabel="three-dots-loading"
-                        wrapperStyle={{}}
-                        wrapperClass=""
-                      />
-                    ) : (
-                      "Continue Watching"
-                    )}
-                  </Button>
-                ))}
-            </>
-          )}
-        </div>
+                {showStopped &&
+                  (userShowInfo?.show_status !== "stopped" ? (
+                    <Button
+                      startIcon={!loading ? <StopCircleRoundedIcon /> : null}
+                      variant="contained"
+                      color="secondary"
+                      size="medium"
+                      disabled={loading}
+                      sx={{ width: "50%", whiteSpace: "nowrap" }}
+                      onClick={() => markShowAsStoppedOrNot("stopped")}
+                    >
+                      {loading ? (
+                        <ThreeDots
+                          visible={true}
+                          height="23"
+                          width="23"
+                          color="white"
+                          radius="9"
+                          ariaLabel="three-dots-loading"
+                          wrapperStyle={{}}
+                          wrapperClass=""
+                        />
+                      ) : (
+                        "Stop Watching"
+                      )}
+                    </Button>
+                  ) : (
+                    <Button
+                      startIcon={!loading ? <RestartAltRoundedIcon /> : null}
+                      variant="contained"
+                      color="success"
+                      size="medium"
+                      disabled={loading}
+                      sx={{ width: "50%", whiteSpace: "nowrap" }}
+                      onClick={() => markShowAsStoppedOrNot("continue")}
+                    >
+                      {loading ? (
+                        <ThreeDots
+                          visible={true}
+                          height="23"
+                          width="23"
+                          color="white"
+                          radius="9"
+                          ariaLabel="three-dots-loading"
+                          wrapperStyle={{}}
+                          wrapperClass=""
+                        />
+                      ) : (
+                        "Continue Watching"
+                      )}
+                    </Button>
+                  ))}
+              </>
+            )}
+          </div>
+        ) : (
+          <div className="show-banner-buttons-container">
+            <Skeleton
+              sx={{ bgcolor: "grey.800", width: "100%", height: 35 }}
+              variant="rounded"
+            />
+          </div>
+        )}
       </div>
     </div>
   )

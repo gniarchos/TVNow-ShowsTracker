@@ -41,6 +41,7 @@ export default function Show() {
   }, [location])
 
   useEffect(() => {
+    setShowInUserList(false)
     const fetchAPIs = async () => {
       try {
         const promises = [
@@ -96,7 +97,7 @@ export default function Show() {
     }
 
     fetchAPIs()
-  }, [seasonNumber, location])
+  }, [seasonNumber, location, searchParams])
 
   useEffect(() => {
     if (showData && showData.external_ids && showData.external_ids.imdb_id) {
