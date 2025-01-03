@@ -28,6 +28,7 @@ export default function WatchNext({
       ? JSON.parse(localStorage.getItem("watchNextSection"))
       : true
   )
+  const [seasonEpisodesRatingsIMDB, setSeasonEpisodesRatingsIMDB] = useState([])
 
   const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
     useContext(LayoutContext)
@@ -56,7 +57,7 @@ export default function WatchNext({
             .map((show) =>
               Promise.all([
                 apiCaller({
-                  url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`,
+                  url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${show.show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&append_to_response=external_ids`,
                   method: "GET",
                   contentType: "application/json",
                   body: null,
@@ -101,18 +102,67 @@ export default function WatchNext({
         setOpenSnackbar(true)
         setSnackbarSeverity("error")
         setSnackbarMessage(error.message)
-      } finally {
-        setWatchNextShowsFetchOK(true)
-        if (watchNextShows.length === 0) {
-          setEmptySection(true)
-        } else {
-          setEmptySection(false)
-        }
+        // } finally {
+        //   setWatchNextShowsFetchOK(true)
+        //   if (watchNextShows.length === 0) {
+        //     setEmptySection(true)
+        //   } else {
+        //     setEmptySection(false)
+        //   }
+        // }
       }
     }
 
     fetchData()
   }, [watchNextShows])
+
+  useEffect(() => {
+    if (showsInfo.length > 0 && seasonInfo.length > 0) {
+      let pendingRequests = 0 // Track pending API requests
+      let ratingsFetched = [...seasonEpisodesRatingsIMDB] // Clone current state
+
+      showsInfo.forEach((show, index) => {
+        if (
+          new Date(
+            seasonInfo[index]?.episodes[
+              watchNextShows[index]?.episode
+            ]?.air_date
+          ) < new Date() &&
+          seasonInfo[index]?.episodes[watchNextShows[index]?.episode]
+            ?.air_date !== null &&
+          seasonInfo[index]?.season_number <= show.number_of_seasons
+        ) {
+          pendingRequests++
+          apiCaller({
+            url: `${process.env.REACT_APP_BACKEND_API_URL}/proxy/omdb/ratings?imdb_id=${show.external_ids.imdb_id}&season_number=${seasonInfo[index]?.season_number}`,
+            method: "GET",
+            contentType: "application/json",
+            body: null,
+            calledFrom: "seasonRatings",
+            isResponseJSON: true,
+            extras: null,
+          })
+            .then((response) => {
+              ratingsFetched[index] = response.Episodes
+              setSeasonEpisodesRatingsIMDB([...ratingsFetched]) // Update state for each response
+            })
+            .catch((error) => {
+              setOpenSnackbar(true)
+              setSnackbarSeverity("error")
+              setSnackbarMessage(error.message)
+            })
+            .finally(() => {
+              pendingRequests--
+              if (pendingRequests === 0) {
+                // Only run when all requests are completed
+                setWatchNextShowsFetchOK(true)
+                setEmptySection(watchNextShows.length === 0)
+              }
+            })
+        }
+      })
+    }
+  }, [showsInfo, seasonInfo])
 
   function handleMarkAsWatched(
     showInfo,
@@ -203,6 +253,10 @@ export default function WatchNext({
                       handleMarkAsWatched={handleMarkAsWatched}
                       index={index}
                       spinnerLoader={spinnerLoader}
+                      seasonEpisodesRatingsIMDB={
+                        seasonEpisodesRatingsIMDB[index]
+                      }
+                      sectionType="watchNext"
                     />
                   )
                 }

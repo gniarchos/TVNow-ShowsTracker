@@ -44,13 +44,43 @@
   padding-bottom: 2px;
   align-items: center;
   justify-content: center;
-  background: whitesmoke;
-  color: #141522;
+  /* background: whitesmoke; */
+  /* color: #141522; */
+  background-color: rgba(198, 198, 198, 0.2);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  color: rgba(255, 255, 255, 0.7);
   border-radius: 5px;
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 5px;
+}
+
+.profile-episode-imdb-rating {
+  position: absolute;
+  left: 5px;
+  top: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(198, 198, 198, 0.2);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  color: rgba(255, 255, 255, 0.7);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  user-select: none;
 }
 
 .profile-episode-runtime {
@@ -66,8 +96,12 @@
   padding-bottom: 2px;
   align-items: center;
   justify-content: center;
-  background: whitesmoke;
-  color: #141522;
+  /* background: whitesmoke; */
+  /* color: #141522; */
+  background-color: rgba(198, 198, 198, 0.2);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  color: rgba(255, 255, 255, 0.7);
   border-radius: 5px;
   display: flex;
   flex-direction: row;
@@ -264,24 +298,30 @@
   }
 
   .profile-episode-next-air-date {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     left: auto;
     bottom: 0px;
     right: 0px;
     width: 100%;
     border-radius: 0px;
-    background-color: white;
+  }
+
+  .profile-episode-imdb-rating {
+    font-size: 0.75rem;
+    top: auto;
+    bottom: 5px;
+    right: 5px;
+    left: auto;
+    gap: 3px;
   }
 
   .profile-episode-runtime {
     font-size: 0.75rem;
-    bottom: auto;
-    top: 5px;
+    bottom: 5px;
+    top: auto;
     right: auto;
     left: 5px;
     gap: 3px;
-    background-color: rgba(198, 198, 198, 0.7);
-    color: rgba(0, 0, 0, 0.8);
   }
 
   .profile-episode-info.finished-shows {

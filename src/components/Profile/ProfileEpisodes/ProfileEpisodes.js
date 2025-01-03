@@ -10,6 +10,7 @@ import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded"
 import { useTheme } from "@emotion/react"
 import RemoveRedEyeRoundedIcon from "@mui/icons-material/RemoveRedEyeRounded"
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded"
+import { FcRating } from "react-icons/fc"
 
 export default function ProfileEpisodes({
   showInfo,
@@ -25,6 +26,7 @@ export default function ProfileEpisodes({
   stoppedInfo,
   disableActions,
   isDeleteDisabled,
+  seasonEpisodesRatingsIMDB,
 }) {
   const zeroPad = (num, places) => String(num).padStart(places, "0")
   const theme = useTheme()
@@ -261,11 +263,18 @@ export default function ProfileEpisodes({
           showInfo.last_episode_to_air !== null && (
             <span className="profile-episode-runtime">
               <AccessTimeRoundedIcon
-                sx={{ fontSize: isMobile ? "0.9rem" : "1rem" }}
+                sx={{ fontSize: isMobile ? "0.8rem" : "1rem" }}
               />{" "}
               {seasonInfo?.episodes[episodeNumber]?.runtime}'
             </span>
           )}
+
+        {sectionType === "watchNext" && (
+          <span className="profile-episode-imdb-rating">
+            <FcRating fontSize={isMobile ? "0.8rem" : "1rem"} />{" "}
+            {seasonEpisodesRatingsIMDB[episodeNumber].imdbRating}
+          </span>
+        )}
 
         <img
           className="profile-episode-img"
