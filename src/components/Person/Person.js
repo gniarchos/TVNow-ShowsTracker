@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
-import apiCaller from "../../Api/ApiCaller_NEW"
+import apiCaller from "../../Api/ApiCaller"
 import { LayoutContext } from "../Layout/Layout"
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import "./Person.css"

@@ -12,7 +12,7 @@ import {
 } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded"
-import apiCaller from "../../../Api/ApiCaller_NEW"
+import apiCaller from "../../../Api/ApiCaller"
 import "./ProfileCoverSelector.css"
 import { ThreeDots } from "react-loader-spinner"
 import KeyboardBackspaceRoundedIcon from "@mui/icons-material/KeyboardBackspaceRounded"

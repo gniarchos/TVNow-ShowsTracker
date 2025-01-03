@@ -1,7 +1,7 @@
 import { Button, Divider } from "@mui/material"
 import React, { useContext, useEffect, useState } from "react"
 import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded"
-import apiCaller from "../../../Api/ApiCaller_NEW"
+import apiCaller from "../../../Api/ApiCaller"
 import { LayoutContext } from "../../../components/Layout/Layout"
 import SectionsLoader from "./SectionsLoader"
 import "./ProfileSections.css"

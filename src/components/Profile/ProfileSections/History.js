@@ -11,7 +11,7 @@ import {
 } from "@mui/material"
 import React, { useContext, useEffect, useState } from "react"
 import { LayoutContext } from "../../../components/Layout/Layout"
-import apiCaller from "../../../Api/ApiCaller_NEW"
+import apiCaller from "../../../Api/ApiCaller"
 import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded"
 import ProfileEpisodes from "../ProfileEpisodes/ProfileEpisodes"
 import { useTheme } from "@emotion/react"

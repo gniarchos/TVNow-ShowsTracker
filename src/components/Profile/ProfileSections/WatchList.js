@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react"
 import ProfileEpisodes from "../ProfileEpisodes/ProfileEpisodes"
 import { Button, Divider } from "@mui/material"
-import apiCaller from "../../../Api/ApiCaller_NEW"
+import apiCaller from "../../../Api/ApiCaller"
 import { LayoutContext } from "../../../components/Layout/Layout"
 import SectionsLoader from "./SectionsLoader"
 import "./ProfileSections.css"

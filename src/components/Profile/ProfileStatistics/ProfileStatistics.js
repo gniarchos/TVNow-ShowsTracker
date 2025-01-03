@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react"
 import "./ProfileStatistics.css"
 import { Chip, Divider } from "@mui/material"
-import apiCaller from "../../../Api/ApiCaller_NEW"
+import apiCaller from "../../../Api/ApiCaller"
 import { LayoutContext } from "../../../components/Layout/Layout"
 
 export default function ProfileStatistics({

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
-import apiCaller from "../../../Api/ApiCaller_NEW"
+import apiCaller from "../../../Api/ApiCaller"
 import { LayoutContext } from "../../../components/Layout/Layout"
 import WatchList from "./WatchList"
 import WatchNext from "./WatchNext"

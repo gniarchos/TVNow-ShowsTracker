@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react"
 import "./Home.css"
 import MySuggestions from "./MySuggestions/MySuggestions"
 import Loader from "../Other/Loader/Loader"
-import apiCaller from "../../Api/ApiCaller_NEW"
+import apiCaller from "../../Api/ApiCaller"
 import { LayoutContext } from "../Layout/Layout"
 import HomeShowsLists from "./HomeShowsLists/HomeShowsLists"
 

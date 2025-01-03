@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react"
 import "./Show.css"
 import { useSearchParams } from "react-router-dom"
 import { LayoutContext } from "../Layout/Layout"
-import apiCaller from "../../Api/ApiCaller_NEW"
+import apiCaller from "../../Api/ApiCaller"
 import ScrollToTop from "../Other/ScrollToTop"
 
 export default function Show() {

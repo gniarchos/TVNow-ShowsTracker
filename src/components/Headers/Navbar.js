@@ -11,7 +11,7 @@ import {
   useMediaQuery,
 } from "@mui/material"
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded"
-import apiCaller from "../../Api/ApiCaller_NEW"
+import apiCaller from "../../Api/ApiCaller"
 import LiveTvRoundedIcon from "@mui/icons-material/LiveTvRounded"
 import TheaterComedyRoundedIcon from "@mui/icons-material/TheaterComedyRounded"
 import PWABottomBar from "./PWAHeaders/PWABottomBar"

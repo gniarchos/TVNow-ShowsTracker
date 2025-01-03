@@ -6,7 +6,7 @@ import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded"
 import dayjs from "dayjs"
 import { Alert, Button } from "@mui/material"
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded"
-import apiCaller from "../../../../Api/ApiCaller_NEW"
+import apiCaller from "../../../../Api/ApiCaller"
 import { Grid } from "react-loader-spinner"
 import { LayoutContext } from "../../../Layout/Layout"
 

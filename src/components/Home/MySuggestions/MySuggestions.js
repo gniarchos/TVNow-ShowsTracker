@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react"
 import "./MySuggestions.css"
 import { Link } from "react-router-dom"
-import apiCaller from "../../../Api/ApiCaller_NEW"
+import apiCaller from "../../../Api/ApiCaller"
 import Slider from "react-slick"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
