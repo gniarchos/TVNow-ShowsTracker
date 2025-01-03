@@ -39,20 +39,22 @@ export default function ShowBanner({
 
   useEffect(() => {
     setWaitingForData(true)
-    if (userShowInfo) {
-      allUserShows.forEach((show) => {
-        if (show.show_id === showData.id) {
-          setShowInUserList(true)
-          console.log(userShowInfo)
-          if (userShowInfo?.season === 0) {
-            if (userShowInfo?.episode === 0) {
-              setShowStopped(false)
-            }
-          } else {
-            setShowStopped(true)
-          }
+    allUserShows.forEach((show) => {
+      if (show.show_id === showData.id) {
+        setShowInUserList(true)
+      }
+    })
+
+    if (userShowInfo !== null && userShowInfo.length !== 0) {
+      if (userShowInfo.season === 0) {
+        if (userShowInfo.episode === 0) {
+          setShowStopped(false)
         }
-      })
+      } else {
+        setShowStopped(true)
+      }
+      setWaitingForData(false)
+    } else {
       setWaitingForData(false)
     }
   }, [location, allUserShows, userShowInfo])

@@ -153,6 +153,8 @@ export default function Show() {
           }
         })
       }
+    } else {
+      setUserShowInfo([])
     }
 
     setExtrasInfoFetchesDone(true)
