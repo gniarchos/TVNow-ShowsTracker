@@ -31,6 +31,7 @@ export default function Show() {
   const [userShowInfo, setUserShowInfo] = useState(null)
   const [extrasInfoFetchesDone, setExtrasInfoFetchesDone] = useState(false)
   const [showInUserList, setShowInUserList] = useState(false)
+  const [loadingEpisodes, setLoadingEpisodes] = useState(true)
 
   const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
     useContext(LayoutContext)
@@ -42,6 +43,8 @@ export default function Show() {
 
   useEffect(() => {
     setShowInUserList(false)
+    setUserShowInfo(null)
+    setLoadingEpisodes(true)
     const fetchAPIs = async () => {
       try {
         const promises = [
@@ -87,7 +90,7 @@ export default function Show() {
         setSeasonInfo(data[1])
         if (user_id) {
           setAllUserShows(data[2])
-          setUserShowInfo(data[3])
+          // setUserShowInfo(data[3])
         }
       } catch (error) {
         setOpenSnackbar(true)
@@ -126,38 +129,46 @@ export default function Show() {
       setTraktRating(0)
     }
 
-    if (user_id) {
-      allUserShows.forEach((show) => {
-        if (show.show_id === showData.id) {
-          apiCaller({
-            url: `${process.env.REACT_APP_BACKEND_API_URL}/users/${user_id}/show-info/${param_show_id}`,
-            method: "GET",
-            contentType: "application/json",
-            body: null,
-            calledFrom: "userShowInfo",
-            isResponseJSON: true,
-            extras: null,
-          })
-            .then((data) => {
-              setUserShowInfo(data)
+    if (user_id && allUserShows.length > 0) {
+      if (userShowInfo === null) {
+        allUserShows.forEach((show) => {
+          if (show.show_id === showData.id) {
+            apiCaller({
+              url: `${process.env.REACT_APP_BACKEND_API_URL}/users/${user_id}/show-info/${param_show_id}`,
+              method: "GET",
+              contentType: "application/json",
+              body: null,
+              calledFrom: "userShowInfo",
+              isResponseJSON: true,
+              extras: null,
             })
-            .catch((error) => {
-              setOpenSnackbar(true)
-              setSnackbarMessage(error.message || "An error occurred.")
-              setSnackbarSeverity("error")
-            })
-        }
-      })
+              .then((data) => {
+                setUserShowInfo(data)
+              })
+              .catch((error) => {
+                setOpenSnackbar(true)
+                setSnackbarMessage(error.message || "An error occurred.")
+                setSnackbarSeverity("error")
+              })
+          }
+        })
+      }
     }
 
     setExtrasInfoFetchesDone(true)
-  }, [showData])
+  }, [showData, allUserShows])
 
   useEffect(() => {
-    if (showData !== null && seasonInfo !== null && extrasInfoFetchesDone) {
+    if (
+      showData !== null &&
+      seasonInfo !== null &&
+      extrasInfoFetchesDone &&
+      userShowInfo !== null
+    ) {
       setLoading(false)
+      setLoadingEpisodes(false)
     }
-  }, [showData, seasonInfo])
+  }, [showData, seasonInfo, extrasInfoFetchesDone, userShowInfo])
 
   if (loading) {
     return <Loader />
@@ -189,6 +200,7 @@ export default function Show() {
           seasonInfo={seasonInfo}
           userShowInfo={userShowInfo}
           showInUserList={showInUserList}
+          loadingEpisodes={loadingEpisodes}
         />
 
         <Divider

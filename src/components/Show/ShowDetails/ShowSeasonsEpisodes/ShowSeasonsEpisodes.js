@@ -4,11 +4,12 @@ import noImg from "../../../../images/no-image.png"
 import TodayRoundedIcon from "@mui/icons-material/TodayRounded"
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded"
 import dayjs from "dayjs"
-import { Alert, Button } from "@mui/material"
+import { Alert, Button, Chip, Skeleton, useMediaQuery } from "@mui/material"
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded"
 import apiCaller from "../../../../Api/ApiCaller"
 import { Grid } from "react-loader-spinner"
 import { LayoutContext } from "../../../Layout/Layout"
+import { useTheme } from "@emotion/react"
 
 export default function ShowSeasonsEpisodes({
   showData,
@@ -17,11 +18,14 @@ export default function ShowSeasonsEpisodes({
   seasonInfo,
   userShowInfo,
   showInUserList,
+  loadingEpisodes,
 }) {
   const divSeasonRef = useRef("")
   const zeroPad = (num, places) => String(num).padStart(places, "0")
   const user_id = localStorage.getItem("user_id")
   const [markingEpisodes, setMarkingEpisodes] = useState(false)
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
   const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
     useContext(LayoutContext)
@@ -135,6 +139,27 @@ export default function ShowSeasonsEpisodes({
     }
   }, [markingEpisodes])
 
+  if (loadingEpisodes) {
+    return (
+      <div>
+        <Skeleton
+          sx={{ bgcolor: "grey.800", width: "100%", height: 150 }}
+          variant="rounded"
+        />
+
+        <Skeleton
+          sx={{ bgcolor: "grey.800", width: "100%", height: 150 }}
+          variant="rounded"
+        />
+
+        <Skeleton
+          sx={{ bgcolor: "grey.800", width: "100%", height: 150 }}
+          variant="rounded"
+        />
+      </div>
+    )
+  }
+
   return (
     <div>
       {markingEpisodes && (
@@ -201,6 +226,29 @@ export default function ShowSeasonsEpisodes({
 
                 <div className="show-episode-info-wrapper">
                   <div className="show-episode-info-container">
+                    {parseInt(episode.season_number) <=
+                      parseInt(userShowInfo.season + 1) &&
+                      parseInt(episode.episode_number) <=
+                        parseInt(userShowInfo.episode) && (
+                        <Chip
+                          size={isMobile ? "small" : "medium"}
+                          sx={{
+                            width: "fit-content",
+                            fontSize: isMobile ? "0.6rem" : "0.7rem",
+                            fontWeight: "500",
+                            height: "fit-content",
+                            padding: "2px",
+                          }}
+                          icon={
+                            <CheckCircleRoundedIcon
+                              sx={{
+                                fontSize: isMobile ? "0.9rem" : "1.2rem",
+                              }}
+                            />
+                          }
+                          label="WATCHED"
+                        />
+                      )}
                     <span className="show-episode-num ">
                       S{zeroPad(episode.season_number, 2)} | E
                       {zeroPad(episode.episode_number, 2)}
@@ -229,8 +277,6 @@ export default function ShowSeasonsEpisodes({
                     </div>
 
                     <h3 className="show-episode-name">{episode.name}</h3>
-
-                    {/* <p>{episode.overview}</p> */}
                   </div>
                   <div className="show-episode-marker">
                     {/* TODO: if user is logged in and is watching this show, show a marker */}
