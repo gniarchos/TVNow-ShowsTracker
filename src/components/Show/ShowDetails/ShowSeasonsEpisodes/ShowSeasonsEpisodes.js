@@ -142,20 +142,26 @@ export default function ShowSeasonsEpisodes({
   if (loadingEpisodes) {
     return (
       <div>
-        <Skeleton
-          sx={{ bgcolor: "grey.800", width: "100%", height: 150 }}
-          variant="rounded"
-        />
+        <h1 className="show-details-titles">Seasons & Episodes</h1>
 
-        <Skeleton
-          sx={{ bgcolor: "grey.800", width: "100%", height: 150 }}
-          variant="rounded"
-        />
+        <div className="show-seasons-episodes-container">
+          <div className="show-episodes-container">
+            <Skeleton
+              sx={{ bgcolor: "grey.800", width: "100%", height: 150 }}
+              variant="rounded"
+            />
 
-        <Skeleton
-          sx={{ bgcolor: "grey.800", width: "100%", height: 150 }}
-          variant="rounded"
-        />
+            <Skeleton
+              sx={{ bgcolor: "grey.800", width: "100%", height: 150 }}
+              variant="rounded"
+            />
+
+            <Skeleton
+              sx={{ bgcolor: "grey.800", width: "100%", height: 150 }}
+              variant="rounded"
+            />
+          </div>
+        </div>
       </div>
     )
   }
@@ -226,29 +232,31 @@ export default function ShowSeasonsEpisodes({
 
                 <div className="show-episode-info-wrapper">
                   <div className="show-episode-info-container">
-                    {parseInt(episode.season_number) <=
-                      parseInt(userShowInfo.season + 1) &&
-                      parseInt(episode.episode_number) <=
-                        parseInt(userShowInfo.episode) && (
-                        <Chip
-                          size={isMobile ? "small" : "medium"}
-                          sx={{
-                            width: "fit-content",
-                            fontSize: isMobile ? "0.6rem" : "0.7rem",
-                            fontWeight: "500",
-                            height: "fit-content",
-                            padding: "2px",
-                          }}
-                          icon={
-                            <CheckCircleRoundedIcon
-                              sx={{
-                                fontSize: isMobile ? "0.9rem" : "1.2rem",
-                              }}
-                            />
-                          }
-                          label="WATCHED"
-                        />
-                      )}
+                    {(parseInt(episode.season_number) <
+                      parseInt(userShowInfo.season + 1) ||
+                      (parseInt(episode.season_number) ===
+                        parseInt(userShowInfo.season + 1) &&
+                        parseInt(episode.episode_number) <=
+                          parseInt(userShowInfo.episode))) && (
+                      <Chip
+                        size={isMobile ? "small" : "medium"}
+                        sx={{
+                          width: "fit-content",
+                          fontSize: isMobile ? "0.6rem" : "0.7rem",
+                          fontWeight: "500",
+                          height: "fit-content",
+                          padding: "2px",
+                        }}
+                        icon={
+                          <CheckCircleRoundedIcon
+                            sx={{
+                              fontSize: isMobile ? "0.9rem" : "1.2rem",
+                            }}
+                          />
+                        }
+                        label="WATCHED"
+                      />
+                    )}
                     <span className="show-episode-num ">
                       S{zeroPad(episode.season_number, 2)} | E
                       {zeroPad(episode.episode_number, 2)}
