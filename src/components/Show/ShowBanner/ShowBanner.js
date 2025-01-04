@@ -49,6 +49,8 @@ export default function ShowBanner({
       if (userShowInfo.season === 0) {
         if (userShowInfo.episode === 0) {
           setShowStopped(false)
+        } else {
+          setShowStopped(true)
         }
       } else {
         setShowStopped(true)
