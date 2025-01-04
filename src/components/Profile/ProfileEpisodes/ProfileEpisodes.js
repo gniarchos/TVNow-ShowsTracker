@@ -272,7 +272,9 @@ export default function ProfileEpisodes({
         {sectionType === "watchNext" && (
           <span className="profile-episode-imdb-rating">
             <FcRating fontSize={isMobile ? "0.8rem" : "1rem"} />{" "}
-            {seasonEpisodesRatingsIMDB[episodeNumber].imdbRating}
+            {seasonEpisodesRatingsIMDB[episodeNumber]
+              ? seasonEpisodesRatingsIMDB[episodeNumber].imdbRating
+              : "N/A"}
           </span>
         )}
 
