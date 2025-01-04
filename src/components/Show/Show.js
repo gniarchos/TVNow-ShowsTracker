@@ -89,7 +89,6 @@ export default function Show() {
         setSeasonInfo(data[1])
         if (user_id) {
           setAllUserShows(data[2])
-          // setUserShowInfo(data[3])
         }
       } catch (error) {
         setOpenSnackbar(true)
@@ -152,8 +151,6 @@ export default function Show() {
           }
         })
       }
-    } else {
-      setUserShowInfo([])
     }
 
     setExtrasInfoFetchesDone(true)
