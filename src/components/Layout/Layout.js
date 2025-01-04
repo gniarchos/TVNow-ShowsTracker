@@ -35,8 +35,10 @@ export default function Layout() {
 
     // Check for common WebView identifiers
     return (
-      /wv|WebView/i.test(userAgent) ||
-      /iPhone|iPad|iPod.*AppleWebKit(?!.*Safari)/i.test(userAgent)
+      !!window.webkit?.messageHandlers || // iOS WebView
+      !!window.Android || // Android WebView
+      /wv/.test(navigator.userAgent) || // Generic WebView User-Agent
+      /WebView/.test(navigator.userAgent)
     )
   }
 
