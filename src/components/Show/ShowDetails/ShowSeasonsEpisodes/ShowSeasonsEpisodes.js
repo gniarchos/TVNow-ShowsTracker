@@ -239,7 +239,6 @@ export default function ShowSeasonsEpisodes({
                         parseInt(episode.episode_number) <=
                           parseInt(userShowInfo.episode))) && (
                       <Chip
-                        size={isMobile ? "small" : "medium"}
                         sx={{
                           width: "fit-content",
                           fontSize: isMobile ? "0.6rem" : "0.7rem",
