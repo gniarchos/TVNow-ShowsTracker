@@ -43,7 +43,6 @@ export default function Show() {
 
   useEffect(() => {
     setShowInUserList(false)
-    setUserShowInfo(null)
     setLoadingEpisodes(true)
     const fetchAPIs = async () => {
       try {
