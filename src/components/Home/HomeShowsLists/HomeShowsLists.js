@@ -3,7 +3,12 @@ import "./HomeShowsLists.css"
 import { Link, useNavigate } from "react-router-dom"
 import { Button } from "@mui/material"
 
-export default function HomeShowsLists({ listOfShows, section, type }) {
+export default function HomeShowsLists({
+  listOfShows,
+  section,
+  type,
+  urlTitle,
+}) {
   const navigate = useNavigate()
   const list = listOfShows.slice(0, 12).map((list, index) => {
     return (
@@ -36,7 +41,7 @@ export default function HomeShowsLists({ listOfShows, section, type }) {
         <h1 className="home-shows-list-section-title">{section}</h1>
         <Button
           onClick={() =>
-            navigate(`/discover?title=${section}&type=${type}&page=1`)
+            navigate(`/discover?title=${urlTitle}&type=${type}&page=1`)
           }
           variant="contained"
           sx={{

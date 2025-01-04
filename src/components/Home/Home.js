@@ -13,7 +13,7 @@ export default function Home() {
   const [allTrendingHBO, setAllTrendingHBO] = useState([])
   const [allTrendingAmazonPrime, setAllTrendingAmazonPrime] = useState([])
   const [allTrendingDisney, setAllTrendingDisney] = useState([])
-  const [allTrendingHulu, setAllTrendingHulu] = useState([])
+  const [allTrendingAppleTV, setAllTrendingAppleTV] = useState([])
   const [loading, setLoading] = useState(true)
 
   const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
@@ -61,7 +61,7 @@ export default function Home() {
         extras: null,
       }),
       apiCaller({
-        url: `https://api.themoviedb.org/3/discover/tv?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&sort_by=popularity.desc&with_networks=49&with_status=0|1`,
+        url: `https://api.themoviedb.org/3/discover/tv?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&sort_by=popularity.desc&with_networks=49|3186|3308|7869&with_status=0|1`,
         method: "GET",
         contentType: "application/json",
         body: null,
@@ -88,11 +88,11 @@ export default function Home() {
         extras: null,
       }),
       apiCaller({
-        url: `https://api.themoviedb.org/3/discover/tv?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&sort_by=popularity.desc&with_networks=15&with_status=0|1&watch_region=US`,
+        url: `https://api.themoviedb.org/3/discover/tv?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&sort_by=popularity.desc&with_networks=2552&with_status=0|1&watch_region=US`,
         method: "GET",
         contentType: "application/json",
         body: null,
-        calledFrom: "trendingHulu",
+        calledFrom: "trendingAppleTV",
         isResponseJSON: true,
         extras: null,
       }),
@@ -104,6 +104,7 @@ export default function Home() {
         setAllTrendingHBO(data[3].results)
         setAllTrendingAmazonPrime(data[4].results)
         setAllTrendingDisney(data[5].results)
+        setAllTrendingAppleTV(data[6].results)
         setLoading(false)
       })
       .catch((error) => {
@@ -125,6 +126,7 @@ export default function Home() {
         <HomeShowsLists
           listOfShows={allTrending}
           section="Trending Now"
+          urlTitle="Trending Now"
           type="trending"
         />
 
@@ -135,20 +137,30 @@ export default function Home() {
         />
 
         <HomeShowsLists
+          listOfShows={allTrendingAppleTV}
+          section="Hot on Apple TV+"
+          urlTitle="Hot on Apple TV%2B"
+          type="trendingAppleTVPlus"
+        />
+
+        <HomeShowsLists
           listOfShows={allTrendingHBO}
           section="Hot on HBO"
+          urlTitle="Hot on HBO"
           type="trendingHBO"
         />
 
         <HomeShowsLists
           listOfShows={allTrendingAmazonPrime}
-          section="Hot on Amazon Prime"
+          section="Hot on Prime Video"
+          urlTitle="Hot on Prime Video"
           type="trendingAmazonPrime"
         />
 
         <HomeShowsLists
           listOfShows={allTrendingDisney}
           section="Hot on Disney+"
+          urlTitle="Hot on Disney%2B"
           type="trendingDisneyPlus"
         />
 

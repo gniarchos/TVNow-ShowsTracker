@@ -107,7 +107,7 @@ export default function DetailedShowsList() {
         })
     } else if (param_section_type === "trendingHBO") {
       apiCaller({
-        url: `https://api.themoviedb.org/3/discover/tv?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&sort_by=popularity.desc&with_networks=49&with_status=0|1&page=${param_section_page}`,
+        url: `https://api.themoviedb.org/3/discover/tv?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&sort_by=popularity.desc&with_networks=49|3186|3308|7869&with_status=0|1&page=${param_section_page}`,
         method: "GET",
         contentType: "application/json",
         body: null,
@@ -153,7 +153,28 @@ export default function DetailedShowsList() {
         method: "GET",
         contentType: "application/json",
         body: null,
-        calledFrom: "trendingListAmazonPrime",
+        calledFrom: "trendingListDisneyPlus",
+        isResponseJSON: true,
+        extras: null,
+      })
+        .then((data) => {
+          setAllShows(data.results)
+          setTotalPages(data.total_pages)
+          setTotalResults(data.total_results)
+          setLoading(false)
+        })
+        .catch((error) => {
+          setSnackbarSeverity("error")
+          setSnackbarMessage(error.message)
+          setOpenSnackbar(true)
+        })
+    } else if (param_section_type === "trendingAppleTVPlus") {
+      apiCaller({
+        url: `https://api.themoviedb.org/3/discover/tv?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&sort_by=popularity.desc&with_networks=2552&with_status=0|1&page=${param_section_page}`,
+        method: "GET",
+        contentType: "application/json",
+        body: null,
+        calledFrom: "trendingAppleTVPlus",
         isResponseJSON: true,
         extras: null,
       })
