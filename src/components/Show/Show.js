@@ -28,7 +28,7 @@ export default function Show() {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
   const [allUserShows, setAllUserShows] = useState([])
-  const [userShowInfo, setUserShowInfo] = useState(null)
+  const [userShowInfo, setUserShowInfo] = useState([])
   const [extrasInfoFetchesDone, setExtrasInfoFetchesDone] = useState(false)
   const [showInUserList, setShowInUserList] = useState(false)
   const [loadingEpisodes, setLoadingEpisodes] = useState(true)
@@ -128,7 +128,7 @@ export default function Show() {
     }
 
     if (user_id && allUserShows.length > 0) {
-      if (userShowInfo === null) {
+      if (userShowInfo.length === 0 && showInUserList) {
         allUserShows.forEach((show) => {
           if (show.show_id === showData.id) {
             apiCaller({
@@ -157,14 +157,11 @@ export default function Show() {
   }, [showData, allUserShows])
 
   useEffect(() => {
-    if (
-      showData !== null &&
-      seasonInfo !== null &&
-      extrasInfoFetchesDone &&
-      userShowInfo !== null
-    ) {
-      setLoading(false)
-      setLoadingEpisodes(false)
+    if (showData !== null && seasonInfo !== null && extrasInfoFetchesDone) {
+      if (userShowInfo.length === 0 && !showInUserList) {
+        setLoading(false)
+        setLoadingEpisodes(false)
+      }
     }
   }, [showData, seasonInfo, extrasInfoFetchesDone, userShowInfo])
 
