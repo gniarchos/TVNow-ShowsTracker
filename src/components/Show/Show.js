@@ -42,128 +42,113 @@ export default function Show() {
   }, [location])
 
   useEffect(() => {
-    setShowInUserList(false)
-    setLoadingEpisodes(true)
-    const fetchAPIs = async () => {
+    const fetchData = async () => {
+      setLoadingEpisodes(true)
+
       try {
         const promises = [
           apiCaller({
             url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${param_show_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&append_to_response=external_ids,videos,aggregate_credits,content_ratings,recommendations,similar,watch/providers,images`,
             method: "GET",
             contentType: "application/json",
-            body: null,
             calledFrom: "showInfo",
-            isResponseJSON: true,
-            extras: null,
           }),
           apiCaller({
             url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${param_show_id}/season/${seasonNumber}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`,
             method: "GET",
             contentType: "application/json",
-            body: null,
             calledFrom: "seasonInfo",
-            isResponseJSON: true,
-            extras: null,
           }),
         ]
 
-        // Add the user-specific API call only if the user is logged in
         if (user_id) {
           promises.push(
             apiCaller({
               url: `${process.env.REACT_APP_BACKEND_API_URL}/users/${user_id}/all-shows`,
               method: "GET",
               contentType: "application/json",
-              body: null,
               calledFrom: "allUserShows",
-              isResponseJSON: true,
-              extras: null,
             })
           )
         }
 
-        // Wait for all resolved promises
-        const data = await Promise.all(promises)
+        const [showDataResult, seasonInfoResult, userShowsResult] =
+          await Promise.all(promises)
 
-        setShowData(data[0])
-        setSeasonInfo(data[1])
-        if (user_id) {
-          setAllUserShows(data[2])
-        }
+        setShowData(showDataResult)
+        setSeasonInfo(seasonInfoResult)
+
+        if (user_id) setAllUserShows(userShowsResult)
       } catch (error) {
         setOpenSnackbar(true)
-        setSnackbarMessage(error.message)
+        setSnackbarMessage(error.message || "Error fetching data.")
         setSnackbarSeverity("error")
-      }
-    }
-
-    fetchAPIs()
-  }, [seasonNumber, location, searchParams])
-
-  useEffect(() => {
-    if (showData && showData.external_ids && showData.external_ids.imdb_id) {
-      apiCaller({
-        url: `${process.env.REACT_APP_BACKEND_API_URL}/proxy/mdblist?imdb_id=${showData.external_ids.imdb_id}`,
-        method: "GET",
-        contentType: "application/json",
-        body: null,
-        calledFrom: "mdblistProxy",
-        isResponseJSON: true,
-        extras: null,
-      })
-        .then((data) => {
-          setImdbRating(data.ratings?.[0]?.value || 0.0)
-          setRottenTomatoesRating(data.ratings?.[4]?.value || 0)
-          setTraktRating(data.ratings?.[3]?.value || 0)
-        })
-        .catch((error) => {
-          setOpenSnackbar(true)
-          setSnackbarMessage(error.message || "An error occurred.")
-          setSnackbarSeverity("error")
-        })
-    } else {
-      setImdbRating(0.0)
-      setRottenTomatoesRating(0)
-      setTraktRating(0)
-    }
-
-    if (user_id && allUserShows.length > 0) {
-      if (userShowInfo.length === 0 && showInUserList) {
-        allUserShows.forEach((show) => {
-          if (show.show_id === showData.id) {
-            apiCaller({
-              url: `${process.env.REACT_APP_BACKEND_API_URL}/users/${user_id}/show-info/${param_show_id}`,
-              method: "GET",
-              contentType: "application/json",
-              body: null,
-              calledFrom: "userShowInfo",
-              isResponseJSON: true,
-              extras: null,
-            })
-              .then((data) => {
-                setUserShowInfo(data)
-              })
-              .catch((error) => {
-                setOpenSnackbar(true)
-                setSnackbarMessage(error.message || "An error occurred.")
-                setSnackbarSeverity("error")
-              })
-          }
-        })
-      }
-    }
-
-    setExtrasInfoFetchesDone(true)
-  }, [showData, allUserShows])
-
-  useEffect(() => {
-    if (showData !== null && seasonInfo !== null && extrasInfoFetchesDone) {
-      if (userShowInfo.length === 0 && !showInUserList) {
+      } finally {
         setLoading(false)
         setLoadingEpisodes(false)
       }
     }
-  }, [showData, seasonInfo, extrasInfoFetchesDone, userShowInfo])
+
+    fetchData()
+  }, [param_show_id, seasonNumber])
+
+  useEffect(() => {
+    const fetchRatings = async () => {
+      if (showData?.external_ids?.imdb_id) {
+        try {
+          const data = await apiCaller({
+            url: `${process.env.REACT_APP_BACKEND_API_URL}/proxy/mdblist?imdb_id=${showData.external_ids.imdb_id}`,
+            method: "GET",
+            contentType: "application/json",
+            calledFrom: "mdblistProxy",
+          })
+
+          setImdbRating(data.ratings?.[0]?.value || 0.0)
+          setRottenTomatoesRating(data.ratings?.[4]?.value || 0)
+          setTraktRating(data.ratings?.[3]?.value || 0)
+        } catch (error) {
+          setOpenSnackbar(true)
+          setSnackbarMessage(error.message || "Error fetching ratings.")
+          setSnackbarSeverity("error")
+        }
+      } else {
+        setImdbRating(0.0)
+        setRottenTomatoesRating(0)
+        setTraktRating(0)
+      }
+    }
+
+    fetchRatings()
+  }, [showData])
+
+  useEffect(() => {
+    const fetchUserShowInfo = async () => {
+      if (!user_id || !allUserShows?.length || !showData) return
+
+      try {
+        const matchedShow = allUserShows.find(
+          (show) => show.show_id === showData.id
+        )
+
+        if (matchedShow && showInUserList && !userShowInfo.length) {
+          const userShowInfoResponse = await apiCaller({
+            url: `${process.env.REACT_APP_BACKEND_API_URL}/users/${user_id}/show-info/${param_show_id}`,
+            method: "GET",
+            contentType: "application/json",
+            calledFrom: "userShowInfo",
+          })
+
+          setUserShowInfo(userShowInfoResponse)
+        }
+      } catch (error) {
+        setOpenSnackbar(true)
+        setSnackbarMessage(error.message || "Error fetching user show info.")
+        setSnackbarSeverity("error")
+      }
+    }
+
+    fetchUserShowInfo()
+  }, [allUserShows, showData, showInUserList])
 
   if (loading) {
     return <Loader />
