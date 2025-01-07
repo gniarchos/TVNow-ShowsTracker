@@ -46,9 +46,6 @@ export default function WatchNext({
       setSeasonInfo([])
 
       try {
-        if (watchNextShows.length === 0) {
-          setEmptySection(true)
-        }
         const results = await Promise.all(
           watchNextShows
             ?.sort(
@@ -83,33 +80,24 @@ export default function WatchNext({
         )
 
         const shows = results.map((res) => res[0])
+        const seasons = results.map((res) =>
+          res[1] !== undefined ? res[1] : null
+        )
 
-        const seasons = results.map((res) => {
-          if (res[1] !== undefined) {
-            return res[1]
-          } else {
-            return null
-          }
-        })
-
-        results.map((res) => {
-          setSpinnerLoader((prev) => [...prev, false])
-        })
-
+        setSpinnerLoader((prev) => [...prev, false])
         setShowsInfo(shows)
         setSeasonInfo(seasons)
       } catch (error) {
         setOpenSnackbar(true)
         setSnackbarSeverity("error")
         setSnackbarMessage(error.message)
-        // } finally {
-        //   setWatchNextShowsFetchOK(true)
-        //   if (watchNextShows.length === 0) {
-        //     setEmptySection(true)
-        //   } else {
-        //     setEmptySection(false)
-        //   }
-        // }
+      } finally {
+        // Check if watchNextShows are empty or data was fetched correctly
+        if (watchNextShows.length === 0) {
+          setEmptySection(true) // Set it to true if no watchNext episodes
+        } else {
+          setEmptySection(false) // Set it to false if there are episodes
+        }
       }
     }
 
@@ -117,50 +105,68 @@ export default function WatchNext({
   }, [watchNextShows])
 
   useEffect(() => {
-    if (showsInfo.length > 0 && seasonInfo.length > 0) {
-      let pendingRequests = 0 // Track pending API requests
-      let ratingsFetched = [...seasonEpisodesRatingsIMDB] // Clone current state
+    if (watchNextShows.length > 0) {
+      if (showsInfo.length > 0 && seasonInfo.length > 0) {
+        let pendingRequests = 0 // Track pending API requests
+        let ratingsFetched = [...seasonEpisodesRatingsIMDB] // Clone current state
+        let foundValidEpisode = false // Flag to track if there's a valid episode
 
-      showsInfo.forEach((show, index) => {
-        if (
-          new Date(
-            seasonInfo[index]?.episodes[
-              watchNextShows[index]?.episode
-            ]?.air_date
-          ) < new Date() &&
-          seasonInfo[index]?.episodes[watchNextShows[index]?.episode]
-            ?.air_date !== null &&
-          seasonInfo[index]?.season_number <= show.number_of_seasons
-        ) {
-          pendingRequests++
-          apiCaller({
-            url: `${process.env.REACT_APP_BACKEND_API_URL}/proxy/omdb/ratings?imdb_id=${show.external_ids.imdb_id}&season_number=${seasonInfo[index]?.season_number}`,
-            method: "GET",
-            contentType: "application/json",
-            body: null,
-            calledFrom: "seasonRatings",
-            isResponseJSON: true,
-            extras: null,
-          })
-            .then((response) => {
-              ratingsFetched[index] = response.Episodes
-              setSeasonEpisodesRatingsIMDB([...ratingsFetched]) // Update state for each response
-            })
-            .catch((error) => {
-              setOpenSnackbar(true)
-              setSnackbarSeverity("error")
-              setSnackbarMessage(error.message)
-            })
-            .finally(() => {
-              pendingRequests--
-              if (pendingRequests === 0) {
-                // Only run when all requests are completed
-                setWatchNextShowsFetchOK(true)
-                setEmptySection(watchNextShows.length === 0)
+        const fetchRatings = async () => {
+          for (let index = 0; index < showsInfo.length; index++) {
+            const show = showsInfo[index]
+            const episode =
+              seasonInfo[index]?.episodes[watchNextShows[index]?.episode]
+
+            // Check if the episode is valid
+            const isValidEpisode =
+              episode &&
+              new Date(episode.air_date) < new Date() && // Episode air date is in the past
+              episode.air_date !== null && // Ensure air date is not null
+              seasonInfo[index]?.season_number <= show.number_of_seasons // Season is valid
+
+            if (isValidEpisode) {
+              foundValidEpisode = true // Mark that we found a valid episode
+              pendingRequests++
+
+              try {
+                const response = await apiCaller({
+                  url: `${process.env.REACT_APP_BACKEND_API_URL}/proxy/omdb/ratings?imdb_id=${show.external_ids.imdb_id}&season_number=${seasonInfo[index]?.season_number}`,
+                  method: "GET",
+                  contentType: "application/json",
+                  body: null,
+                  calledFrom: "seasonRatings",
+                  isResponseJSON: true,
+                  extras: null,
+                })
+
+                ratingsFetched[index] = response.Episodes
+              } catch (error) {
+                setOpenSnackbar(true)
+                setSnackbarSeverity("error")
+                setSnackbarMessage(error.message)
+              } finally {
+                pendingRequests--
+                if (pendingRequests === 0) {
+                  // When all requests are resolved
+                  setSeasonEpisodesRatingsIMDB([...ratingsFetched]) // Update state once all ratings are fetched
+                  setWatchNextShowsFetchOK(true) // Mark fetching as complete
+                  if (!foundValidEpisode) {
+                    setEmptySection(true) // Set empty section if no valid episodes found
+                  }
+                }
               }
-            })
+            }
+          }
+
+          // If no valid episodes are found, mark empty section
+          if (!foundValidEpisode) {
+            setEmptySection(true)
+            setWatchNextShowsFetchOK(true) // Mark as complete even if no valid episodes
+          }
         }
-      })
+
+        fetchRatings()
+      }
     }
   }, [showsInfo, seasonInfo])
 
@@ -254,7 +260,7 @@ export default function WatchNext({
                       index={index}
                       spinnerLoader={spinnerLoader}
                       seasonEpisodesRatingsIMDB={
-                        seasonEpisodesRatingsIMDB[index]
+                        seasonEpisodesRatingsIMDB[0][index]
                       }
                       sectionType="watchNext"
                     />
@@ -264,12 +270,11 @@ export default function WatchNext({
             </div>
           </div>
 
-          {emptySection ||
-            (!episodesExists && (
-              <div className="profile-empty-section">
-                <AutoAwesomeRoundedIcon /> Watch next section is empty
-              </div>
-            ))}
+          {emptySection && !episodesExists && (
+            <div className="profile-empty-section">
+              <AutoAwesomeRoundedIcon /> Watch next section is empty
+            </div>
+          )}
         </>
       ) : (
         <Divider color="white" />

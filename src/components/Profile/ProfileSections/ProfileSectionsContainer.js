@@ -105,9 +105,10 @@ export default function ProfileSectionsContainer({
       upToDateShowsFetchOK &&
       finishedShowsFetchOK &&
       stoppedShowsFetchOK
-    )
+    ) {
       setLoading(false)
-    setDisableBannerActions(false)
+      setDisableBannerActions(false)
+    }
   }, [
     watchNextShowsFetchOK,
     watchListShowsFetchOK,
