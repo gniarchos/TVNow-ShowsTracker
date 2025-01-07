@@ -198,27 +198,6 @@ export default function UpToDate({
             <div className="profile-sections">
               {filteredShowsInfo.map((show, index) => {
                 if (
-                  filteredSeasonInfo[index] === null ||
-                  seasonInfo[index]?.episodes.length === 0
-                ) {
-                  episodesExists = true
-                  return (
-                    <ProfileEpisodes
-                      mobileLayout={mobileLayout}
-                      key={index}
-                      showInfo={show}
-                      seasonInfo={null}
-                      seasonNumber={filteredWatchNextShows[index].season}
-                      episodeNumber={filteredWatchNextShows[index].episode}
-                      handleMarkAsWatched={() => null}
-                      index={index}
-                      sectionType="upToDate"
-                      spinnerLoader={[]}
-                    />
-                  )
-                }
-
-                if (
                   new Date(
                     filteredSeasonInfo[index]?.episodes[
                       filteredWatchNextShows[index].episode
@@ -245,6 +224,22 @@ export default function UpToDate({
                       handleMarkAsWatched={() => null}
                       index={index}
                       sectionType="upToDate"
+                    />
+                  )
+                } else {
+                  episodesExists = true
+                  return (
+                    <ProfileEpisodes
+                      mobileLayout={mobileLayout}
+                      key={index}
+                      showInfo={show}
+                      seasonInfo={null}
+                      seasonNumber={filteredWatchNextShows[index].season}
+                      episodeNumber={filteredWatchNextShows[index].episode}
+                      handleMarkAsWatched={() => null}
+                      index={index}
+                      sectionType="upToDate"
+                      spinnerLoader={[]}
                     />
                   )
                 }
