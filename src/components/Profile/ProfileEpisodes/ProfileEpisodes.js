@@ -250,7 +250,10 @@ export default function ProfileEpisodes({
           sectionType === "upToDate" && (
             <span className="profile-episode-next-air-date">
               <TodayRoundedIcon
-                sx={{ fontSize: isMobile ? "0.9rem" : "1rem" }}
+                sx={{
+                  fontSize: isMobile ? "0.9rem" : "1rem",
+                  filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.9))",
+                }}
               />{" "}
               {dayjs(seasonInfo?.episodes[episodeNumber].air_date).format(
                 "DD-MM-YYYY"
@@ -263,7 +266,10 @@ export default function ProfileEpisodes({
           showInfo.last_episode_to_air !== null && (
             <span className="profile-episode-runtime">
               <AccessTimeRoundedIcon
-                sx={{ fontSize: isMobile ? "0.8rem" : "1rem" }}
+                sx={{
+                  fontSize: isMobile ? "0.8rem" : "1rem",
+                  filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.9))",
+                }}
               />{" "}
               {seasonInfo?.episodes[episodeNumber]?.runtime}'
             </span>
