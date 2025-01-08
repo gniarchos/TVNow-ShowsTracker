@@ -127,7 +127,7 @@ export default function ProfileEpisodes({
             </Link>
 
             <span className="profile-season-episode-number">
-              Total Seasons: {seasonNumber + 1}
+              Total Seasons: {showInfo.number_of_seasons}
             </span>
             <span className="profile-season-episode-number">
               Total Episodes: {showInfo.number_of_episodes}
@@ -275,14 +275,14 @@ export default function ProfileEpisodes({
             </span>
           )}
 
-        {sectionType === "watchNext" && (
+        {/* {sectionType === "watchNext" && (
           <span className="profile-episode-imdb-rating">
             <FcRating fontSize={isMobile ? "0.8rem" : "1rem"} />{" "}
             {seasonEpisodesRatingsIMDB
               ? seasonEpisodesRatingsIMDB.imdbRating
               : "N/A"}
           </span>
-        )}
+        )} */}
 
         <img
           className="profile-episode-img"
