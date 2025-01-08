@@ -97,7 +97,7 @@ export default function WatchList({
       seasonInfo[index].episodes.length === episodeNumber + 1
 
     const data_to_post = {
-      episode: episodeNumber,
+      episode: episodeNumber + 1,
       season: seasonNumber,
       episode_duration:
         seasonInfo[index].episodes[episodeNumber].runtime !== null
