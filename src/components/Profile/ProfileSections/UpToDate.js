@@ -49,6 +49,8 @@ export default function UpToDate({
       try {
         if (watchNextShows.length === 0) {
           setEmptySection(true)
+          setUpToDateShowsFetchOK(true)
+          episodesExists = false
         } else {
           const results = await Promise.all(
             watchNextShows
@@ -84,14 +86,7 @@ export default function UpToDate({
           )
 
           const shows = results.map((res) => res[0])
-          // const seasons = results.map((res) => res[1])
-          const seasons = results.map((res) => {
-            if (res[1] !== undefined) {
-              return res[1]
-            } else {
-              return null
-            }
-          })
+          const seasons = results.map((res) => (res[1] ? res[1] : null))
 
           setShowsInfo(shows)
           setSeasonInfo(seasons)
@@ -196,43 +191,49 @@ export default function UpToDate({
           <div className="profile-sections-container">
             <div className="profile-sections">
               {filteredShowsInfo.map((show, index) => {
-                if (
-                  new Date(
-                    filteredSeasonInfo[index]?.episodes[
-                      filteredWatchNextShows[index].episode
-                    ]?.air_date
-                  ) > new Date() ||
-                  (seasonInfo[index]?.episodes[watchNextShows[index].episode]
-                    ?.air_date === null &&
-                    filteredSeasonInfo[index]?.season_number ===
-                      show.number_of_seasons)
-                ) {
+                const episode =
+                  filteredSeasonInfo[index]?.episodes[
+                    filteredWatchNextShows[index]?.episode
+                  ]
+
+                // Determine if the episode is upcoming (null air date)
+                const isUpcoming = episode && episode.air_date === null
+
+                // Check if the episode's air date is in the past and show has only one season
+                const hasPastEpisode = episode && episode.air_date !== null
+                const episodeAirDate = hasPastEpisode
+                  ? new Date(episode.air_date)
+                  : null
+
+                // Exclude aired episodes for single-season shows
+                if (hasPastEpisode && episodeAirDate < new Date()) {
+                  return null // Skip this episode if it has already aired and the show has only one season
+                }
+
+                // Render the episode based on whether it's upcoming or not
+                if (!isUpcoming) {
                   episodesExists = true
                   return (
                     <ProfileEpisodes
                       key={index}
                       showInfo={show}
-                      seasonInfo={
-                        filteredSeasonInfo[index].episodes.length === 0
-                          ? null
-                          : filteredSeasonInfo[index]
-                      }
-                      seasonNumber={filteredWatchNextShows[index].season}
-                      episodeNumber={filteredWatchNextShows[index].episode}
+                      seasonInfo={filteredSeasonInfo[index]}
+                      seasonNumber={filteredWatchNextShows[index]?.season}
+                      episodeNumber={filteredWatchNextShows[index]?.episode}
                       handleMarkAsWatched={() => null}
                       index={index}
                       sectionType="upToDate"
                     />
                   )
                 } else {
-                  episodesExists = true
+                  episodesExists = false
                   return (
                     <ProfileEpisodes
                       key={index}
                       showInfo={show}
                       seasonInfo={null}
-                      seasonNumber={filteredWatchNextShows[index].season}
-                      episodeNumber={filteredWatchNextShows[index].episode}
+                      seasonNumber={filteredWatchNextShows[index]?.season}
+                      episodeNumber={filteredWatchNextShows[index]?.episode}
                       handleMarkAsWatched={() => null}
                       index={index}
                       sectionType="upToDate"
@@ -244,13 +245,12 @@ export default function UpToDate({
             </div>
           </div>
 
-          {emptySection ||
-            (!episodesExists && (
-              <div className="profile-empty-section">
-                <AutoAwesomeRoundedIcon />
-                Up To Date section is empty
-              </div>
-            ))}
+          {emptySection && !episodesExists && (
+            <div className="profile-empty-section">
+              <AutoAwesomeRoundedIcon />
+              Up To Date section is empty
+            </div>
+          )}
         </>
       ) : (
         <Divider color="white" />
