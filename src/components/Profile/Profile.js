@@ -25,12 +25,6 @@ export default function Profile() {
       : def_cover
   )
 
-  const [mobileLayout, setMobileLayout] = useState(
-    localStorage.getItem("mobileLayoutSelection")
-      ? localStorage.getItem("mobileLayoutSelection")
-      : "cards"
-  )
-
   const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
     useContext(LayoutContext)
 
@@ -84,7 +78,6 @@ export default function Profile() {
       />
 
       <ProfileSectionsContainer
-        mobileLayout={mobileLayout}
         triggerRefresh={triggerRefresh}
         setTriggerRefresh={setTriggerRefresh}
         setDisableBannerActions={setDisableBannerActions}
