@@ -8,7 +8,6 @@ import "./ProfileSections.css"
 import ProfileEpisodes from "../ProfileEpisodes/ProfileEpisodes"
 
 export default function StoppedShows({
-  mobileLayout,
   stoppedShows,
   loading,
   setLoading,
@@ -99,7 +98,6 @@ export default function StoppedShows({
             <div className="profile-sections">
               {showsInfo.map((show, index) => (
                 <ProfileEpisodes
-                  mobileLayout={mobileLayout}
                   key={index}
                   showInfo={show}
                   seasonInfo={null}

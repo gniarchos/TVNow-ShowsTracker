@@ -8,7 +8,6 @@ import "./ProfileSections.css"
 import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded"
 
 export default function WatchList({
-  mobileLayout,
   watchListShows,
   triggerRefresh,
   setTriggerRefresh,
@@ -154,7 +153,6 @@ export default function WatchList({
             <div className="profile-sections">
               {showsInfo.map((show, index) => (
                 <ProfileEpisodes
-                  mobileLayout={mobileLayout}
                   key={index}
                   showInfo={show}
                   seasonInfo={seasonInfo[index]}

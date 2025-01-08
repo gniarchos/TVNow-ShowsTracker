@@ -8,7 +8,6 @@ import "./ProfileSections.css"
 import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded"
 
 export default function WatchNext({
-  mobileLayout,
   watchNextShows,
   triggerRefresh,
   setTriggerRefresh,
@@ -250,7 +249,6 @@ export default function WatchNext({
                   episodesExists = true
                   return (
                     <ProfileEpisodes
-                      mobileLayout={mobileLayout}
                       key={index}
                       showInfo={show}
                       seasonInfo={seasonInfo[index]}

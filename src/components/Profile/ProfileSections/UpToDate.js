@@ -10,7 +10,6 @@ import TuneRoundedIcon from "@mui/icons-material/TuneRounded"
 import { useTheme } from "@emotion/react"
 
 export default function UpToDate({
-  mobileLayout,
   watchNextShows,
   loading,
   setLoading,
@@ -211,7 +210,6 @@ export default function UpToDate({
                   episodesExists = true
                   return (
                     <ProfileEpisodes
-                      mobileLayout={mobileLayout}
                       key={index}
                       showInfo={show}
                       seasonInfo={
@@ -230,7 +228,6 @@ export default function UpToDate({
                   episodesExists = true
                   return (
                     <ProfileEpisodes
-                      mobileLayout={mobileLayout}
                       key={index}
                       showInfo={show}
                       seasonInfo={null}

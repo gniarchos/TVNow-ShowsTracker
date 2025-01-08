@@ -7,10 +7,8 @@ import "./ProfileSections.css"
 import UpToDate from "./UpToDate"
 import Finished from "./Finished"
 import StoppedShows from "./StoppedShows"
-import History from "./History"
 
 export default function ProfileSectionsContainer({
-  mobileLayout,
   triggerRefresh,
   setTriggerRefresh,
   setDisableBannerActions,
@@ -120,7 +118,6 @@ export default function ProfileSectionsContainer({
   return (
     <div>
       <WatchNext
-        mobileLayout={mobileLayout}
         watchNextShows={watchNextShows}
         triggerRefresh={triggerRefresh}
         setTriggerRefresh={setTriggerRefresh}
@@ -130,7 +127,6 @@ export default function ProfileSectionsContainer({
       />
 
       <UpToDate
-        mobileLayout={mobileLayout}
         watchNextShows={watchNextShows}
         loading={loading}
         setLoading={setLoading}
@@ -138,7 +134,6 @@ export default function ProfileSectionsContainer({
       />
 
       <WatchList
-        mobileLayout={mobileLayout}
         watchListShows={watchListShows}
         triggerRefresh={triggerRefresh}
         setTriggerRefresh={setTriggerRefresh}
@@ -148,7 +143,6 @@ export default function ProfileSectionsContainer({
       />
 
       <StoppedShows
-        mobileLayout={mobileLayout}
         stoppedShows={stoppedShows}
         loading={loading}
         setLoading={setLoading}
@@ -156,7 +150,6 @@ export default function ProfileSectionsContainer({
       />
 
       <Finished
-        mobileLayout={mobileLayout}
         finishedShows={finishedShows}
         loading={loading}
         setLoading={setLoading}
