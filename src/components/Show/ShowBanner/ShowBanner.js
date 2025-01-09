@@ -39,6 +39,8 @@ export default function ShowBanner({
 
   useEffect(() => {
     setWaitingForData(true)
+    setShowInUserList(false)
+
     allUserShows.forEach((show) => {
       if (show.show_id === showData.id) {
         setShowInUserList(true)

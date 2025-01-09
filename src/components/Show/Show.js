@@ -29,7 +29,6 @@ export default function Show() {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
   const [allUserShows, setAllUserShows] = useState([])
   const [userShowInfo, setUserShowInfo] = useState([])
-  const [extrasInfoFetchesDone, setExtrasInfoFetchesDone] = useState(false)
   const [showInUserList, setShowInUserList] = useState(false)
   const [loadingEpisodes, setLoadingEpisodes] = useState(true)
 
