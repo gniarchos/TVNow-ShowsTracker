@@ -150,7 +150,21 @@ export default function ProfileStatistics({
         </div>
 
         <div className="profile-single-statistic-container">
-          <h1 className="profile-single-statistic-title">Episodes Watched</h1>
+          <h1
+            style={{ marginTop: "5px" }}
+            className="profile-single-statistic-title"
+          >
+            Episodes Watched
+          </h1>
+          <span
+            style={{
+              fontSize: "0.9rem",
+              fontWeight: "500",
+              marginTop: "-10px",
+            }}
+          >
+            - Total -
+          </span>
           <Divider flexItem />
           <p className="profile-episodes-watched">{userWatchedEpisodesCount}</p>
         </div>
@@ -166,12 +180,26 @@ export default function ProfileStatistics({
             style={{ position: "absolute", bottom: 0, right: 0 }}
             label="Coming Soon"
           />
-          <h1 className="profile-single-statistic-title">Current Streak</h1>
+          <h1
+            style={{ marginTop: "5px" }}
+            className="profile-single-statistic-title"
+          >
+            Episodes Watched
+          </h1>
+          <span
+            style={{
+              fontSize: "0.9rem",
+              fontWeight: "500",
+              marginTop: "-10px",
+            }}
+          >
+            - Per Month -
+          </span>
           <Divider flexItem />
           <p className="profile-episodes-watched">-</p>
         </div>
 
-        <div
+        {/* <div
           style={{ position: "relative" }}
           className="profile-single-statistic-container"
         >
@@ -185,7 +213,7 @@ export default function ProfileStatistics({
           <h1 className="profile-single-statistic-title">Best Streak</h1>
           <Divider flexItem />
           <p className="profile-episodes-watched">-</p>
-        </div>
+        </div> */}
       </div>
     </div>
   )
