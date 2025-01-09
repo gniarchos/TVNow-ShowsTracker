@@ -199,7 +199,7 @@ export default function WatchNext({
     let isFinishedShow = false
 
     if (
-      seasonNumber === parseInt(showInfo.number_of_seasons) &&
+      seasonNumber === parseInt(showInfo.number_of_seasons) - 1 &&
       isSeasonLastEpisode
     ) {
       isFinishedShow = true

@@ -108,7 +108,7 @@ export default function WatchList({
     let isFinishedShow = false
 
     if (
-      seasonNumber === parseInt(showInfo.number_of_seasons) &&
+      seasonNumber === parseInt(showInfo.number_of_seasons) - 1 &&
       isSeasonLastEpisode
     ) {
       isFinishedShow = true
