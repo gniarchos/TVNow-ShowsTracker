@@ -75,7 +75,6 @@ export default function ShowSeasonsEpisodes({
   }
 
   function defineIfToShowMarkAllSeasonEpisodes() {
-    console.log(userShowInfo)
     if (seasonNumber === userShowInfo?.season + 1) {
       if (userShowInfo.episode === 0) {
         return true
@@ -173,8 +172,6 @@ export default function ShowSeasonsEpisodes({
       </div>
     )
   }
-
-  console.log(showInUserList, defineIfToShowMarkAllSeasonEpisodes())
 
   return (
     <div>

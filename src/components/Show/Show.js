@@ -90,7 +90,7 @@ export default function Show() {
     }
 
     fetchData()
-  }, [param_show_id, , reloadData])
+  }, [param_show_id, seasonNumber, reloadData])
 
   useEffect(() => {
     const fetchRatings = async () => {
