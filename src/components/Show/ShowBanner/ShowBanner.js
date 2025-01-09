@@ -22,6 +22,8 @@ export default function ShowBanner({
   setShowInUserList,
   userShowInfo,
   setUserShowInfo,
+  setReloadData,
+  reloadData,
 }) {
   const divImgStyle = {
     backgroundImage: `url('https://image.tmdb.org/t/p/original/${showData.backdrop_path}')`,
@@ -94,6 +96,7 @@ export default function ShowBanner({
         setSnackbarSeverity("success")
         setSnackbarMessage(`Show added to watchlist!`)
         setShowInUserList(true)
+        setReloadData(!reloadData)
       })
       .catch((error) => {
         setLoading(false)
@@ -119,7 +122,8 @@ export default function ShowBanner({
         setOpenSnackbar(true)
         setSnackbarSeverity("success")
         setSnackbarMessage(`Show removed from watchlist!`)
-        setShowInUserList(false)
+        // setShowInUserList(false)
+        setReloadData(!reloadData)
       })
       .catch((error) => {
         setLoading(false)

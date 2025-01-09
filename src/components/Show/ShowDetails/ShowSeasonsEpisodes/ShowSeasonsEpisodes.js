@@ -19,6 +19,7 @@ export default function ShowSeasonsEpisodes({
   userShowInfo,
   showInUserList,
   loadingEpisodes,
+  setUserShowInfo,
 }) {
   const divSeasonRef = useRef("")
   const zeroPad = (num, places) => String(num).padStart(places, "0")
@@ -74,6 +75,7 @@ export default function ShowSeasonsEpisodes({
   }
 
   function defineIfToShowMarkAllSeasonEpisodes() {
+    console.log(userShowInfo)
     if (seasonNumber === userShowInfo?.season + 1) {
       if (userShowInfo.episode === 0) {
         return true
@@ -84,9 +86,11 @@ export default function ShowSeasonsEpisodes({
 
   async function markAllSeasonEpisodesAsWatched() {
     setMarkingEpisodes(true) // Indicate the marking process has started
+    let isSeasonLastEpisode = false
+    let isFinishedShow = false
 
     for (const episode of seasonInfo.episodes) {
-      const isSeasonLastEpisode =
+      isSeasonLastEpisode =
         seasonInfo.episodes.length === episode.episode_number
 
       const data_to_post = {
@@ -95,14 +99,14 @@ export default function ShowSeasonsEpisodes({
         episode_duration: episode.runtime !== null ? episode.runtime : 0,
       }
 
-      const isFinishedShow =
+      isFinishedShow =
         seasonNumber === parseInt(showData.number_of_seasons) &&
         isSeasonLastEpisode
 
       try {
         // Wait for the API call to complete before proceeding
         await apiCaller({
-          url: `${process.env.REACT_APP_BACKEND_API_URL}/shows/mark-episode-as-watched?user_id=${user_id}&show_id=${showData.id}&final_episode=${isFinishedShow}`,
+          url: `${process.env.REACT_APP_BACKEND_API_URL}/shows/mark-episode-as-watched?user_id=${user_id}&show_id=${showData.id}&final_episode=${isFinishedShow}&is_season_last_episode=${isSeasonLastEpisode}`,
           method: "POST",
           contentType: "application/json",
           body: JSON.stringify(data_to_post),
@@ -125,7 +129,11 @@ export default function ShowSeasonsEpisodes({
       `All episodes in season ${seasonNumber} marked as watched!`
     )
     setMarkingEpisodes(false)
-    setSeasonNumber(seasonNumber + 1)
+    if (!isFinishedShow) {
+      setSeasonNumber(seasonNumber + 1)
+    } else {
+      setUserShowInfo([])
+    }
   }
 
   useEffect(() => {
@@ -139,7 +147,7 @@ export default function ShowSeasonsEpisodes({
     }
   }, [markingEpisodes])
 
-  if (loadingEpisodes) {
+  if (loadingEpisodes && !markingEpisodes) {
     return (
       <div>
         <h1 className="show-details-titles">Seasons & Episodes</h1>
@@ -165,6 +173,8 @@ export default function ShowSeasonsEpisodes({
       </div>
     )
   }
+
+  console.log(showInUserList, defineIfToShowMarkAllSeasonEpisodes())
 
   return (
     <div>

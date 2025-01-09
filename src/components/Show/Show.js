@@ -31,6 +31,7 @@ export default function Show() {
   const [userShowInfo, setUserShowInfo] = useState([])
   const [showInUserList, setShowInUserList] = useState(false)
   const [loadingEpisodes, setLoadingEpisodes] = useState(true)
+  const [reloadData, setReloadData] = useState(false)
 
   const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
     useContext(LayoutContext)
@@ -89,7 +90,7 @@ export default function Show() {
     }
 
     fetchData()
-  }, [param_show_id, seasonNumber])
+  }, [param_show_id, , reloadData])
 
   useEffect(() => {
     const fetchRatings = async () => {
@@ -167,6 +168,8 @@ export default function Show() {
         setShowInUserList={setShowInUserList}
         userShowInfo={userShowInfo}
         setUserShowInfo={setUserShowInfo}
+        setReloadData={setReloadData}
+        reloadData={reloadData}
       />
 
       <ShowTrackingInfo showData={showData} />
@@ -180,6 +183,7 @@ export default function Show() {
           userShowInfo={userShowInfo}
           showInUserList={showInUserList}
           loadingEpisodes={loadingEpisodes}
+          setUserShowInfo={setUserShowInfo}
         />
 
         <Divider
