@@ -16,6 +16,9 @@ export default function Layout() {
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const [snackbarMessage, setSnackbarMessage] = useState("")
   const [snackbarSeverity, setSnackbarSeverity] = useState("")
+  const [showsORmovies, setShowsORmovies] = useState(
+    localStorage.getItem("showsORmovies") || "shows"
+  )
 
   const [isWebView, setIsWebView] = useState(false)
 
@@ -23,11 +26,13 @@ export default function Layout() {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
   const layoutValues = {
-    isUserLoggedIn: isUserLoggedIn,
+    isUserLoggedIn,
     setOpenSnackbar,
     setSnackbarMessage,
     setSnackbarSeverity,
     isWebView,
+    showsORmovies,
+    setShowsORmovies,
   }
 
   const checkIsWebView = () => {

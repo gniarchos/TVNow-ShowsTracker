@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import def_cover from "../../../images/def-cover.jpg"
 import "./ProfileBanner.css"
 import { Button, useMediaQuery } from "@mui/material"
@@ -6,6 +6,9 @@ import { useTheme } from "@emotion/react"
 import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded"
 import AutoFixHighRoundedIcon from "@mui/icons-material/AutoFixHighRounded"
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded"
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded"
+import { useNavigate } from "react-router-dom"
+import { LayoutContext } from "../../Layout/Layout"
 
 export default function ProfileBanner({
   setOpenHistory,
@@ -24,6 +27,10 @@ export default function ProfileBanner({
 
   const [loading, setLoading] = useState(true)
 
+  const navigate = useNavigate()
+  const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
+    useContext(LayoutContext)
+
   useEffect(() => {
     if (!openCoverSelection) {
       setSelectedCoverImage(
@@ -36,6 +43,16 @@ export default function ProfileBanner({
 
   function handleImageLoad() {
     setLoading(false)
+  }
+
+  function handleLogout() {
+    localStorage.clear()
+
+    setOpenSnackbar(true)
+    setSnackbarSeverity("success")
+    setSnackbarMessage("Logged out successfully!")
+
+    navigate(`/`)
   }
 
   return (
@@ -108,8 +125,9 @@ export default function ProfileBanner({
             variant="contained"
             color="primaryFaded"
             disabled={disableBannerActions}
+            onClick={handleLogout}
           >
-            <SettingsRoundedIcon fontSize="small" />
+            <LogoutRoundedIcon fontSize="small" />
           </Button>
         </div>
       </div>

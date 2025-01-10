@@ -1,7 +1,8 @@
-import React from "react"
+import React, { useContext } from "react"
 import "./HomeShowsLists.css"
 import { Link, useNavigate } from "react-router-dom"
 import { Button } from "@mui/material"
+import { LayoutContext } from "../../Layout/Layout"
 
 export default function HomeShowsLists({
   listOfShows,
@@ -10,14 +11,44 @@ export default function HomeShowsLists({
   urlTitle,
 }) {
   const navigate = useNavigate()
+  const { showsORmovies } = useContext(LayoutContext)
+
+  function defineShowTrendingNumbers(type) {
+    switch (type) {
+      case "trending":
+        return true
+      case "trendingNetflix":
+        return true
+      case "trendingAppleTVPlus":
+        return true
+      case "trendingHBO":
+        return true
+      case "trendingAmazonPrime":
+        return true
+      case "trendingDisneyPlus":
+        return true
+      case "nowPlaying":
+        return true
+    }
+  }
+
+  function defineURLPath(list) {
+    switch (showsORmovies) {
+      case "shows":
+        return `/show?show_name=${list.name}&show_id=${list.id}`
+      case "movies":
+        return `/movie?movie_title=${list.title}&movie_id=${list.id}`
+    }
+  }
+
   const list = listOfShows.slice(0, 12).map((list, index) => {
     return (
       <Link
-        to={`/show?show_name=${list.name}&show_id=${list.id}`}
+        to={defineURLPath(list)}
         key={list.id}
         className="home-shows-list-card-content"
       >
-        {section !== "Discover" && (
+        {defineShowTrendingNumbers(type) && (
           <p className="home-shows-list-card-num">{index + 1}</p>
         )}
         <div className="home-shows-list-card-content">
@@ -29,7 +60,9 @@ export default function HomeShowsLists({
             />
           </div>
 
-          <p className="home-shows-list-card-title">{list.name}</p>
+          <p className="home-shows-list-card-title">
+            {showsORmovies === "shows" ? list.name : list.title}
+          </p>
         </div>
       </Link>
     )
@@ -45,8 +78,9 @@ export default function HomeShowsLists({
           }
           variant="contained"
           sx={{
-            fontSize: { xs: "0.75rem", sm: "1rem" }, // Smaller font size on mobile
-            padding: { xs: "6px 12px", sm: "4px, " }, // Adjust padding for mobile
+            fontSize: { xs: "0.75rem", sm: "1rem" },
+            padding: { xs: "6px 12px", sm: "4px, " },
+            display: type === "comingSoon" ? "none" : "inline-block",
           }}
         >
           View More

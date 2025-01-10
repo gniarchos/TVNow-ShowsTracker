@@ -8,6 +8,8 @@ import {
   IconButton,
   InputAdornment,
   TextField,
+  ToggleButton,
+  ToggleButtonGroup,
   useMediaQuery,
 } from "@mui/material"
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded"
@@ -20,6 +22,9 @@ import Authentication from "../../Authentication/Authentication"
 import { useTheme } from "@emotion/react"
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded"
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded"
+import { BiSolidTv } from "react-icons/bi"
+import { BiSolidCameraMovie } from "react-icons/bi"
+import { BiCameraMovie } from "react-icons/bi"
 
 export default function Navbar() {
   const [searchSuggestionsList, setSearchSuggestionsList] = useState([])
@@ -27,7 +32,6 @@ export default function Navbar() {
   const navigate = useNavigate()
   const [showSearchBarMobile, setShowSearchBarMobile] = useState(false)
   const [openAuth, setOpenAuth] = useState(false)
-  const location = useLocation()
 
   const {
     setOpenSnackbar,
@@ -35,6 +39,8 @@ export default function Navbar() {
     setSnackbarSeverity,
     isUserLoggedIn,
     isWebView,
+    showsORmovies,
+    setShowsORmovies,
   } = useContext(LayoutContext)
 
   const theme = useTheme()
@@ -96,12 +102,54 @@ export default function Navbar() {
   function navigateToSelectedOption(e, option) {
     if (option?.media_type === "tv") {
       navigate(`/show?show_name=${option.name}&show_id=${option.id}`)
+    } else if (option?.media_type === "movie") {
+      navigate(`/movie?movie_name=${option.name}&movie_id=${option.id}`)
     } else if (option?.media_type === "person") {
       navigate(`/person?person_id=${option.id}`)
     }
 
     setSearchValue("")
     setShowSearchBarMobile(false)
+  }
+
+  const showORMoviesMenu = () => {
+    return (
+      <ToggleButtonGroup
+        value={showsORmovies}
+        exclusive
+        onChange={(e, value) => {
+          if (value !== null) {
+            setShowsORmovies(value)
+            localStorage.setItem("showsORmovies", value)
+            navigate("/")
+          }
+        }}
+        size="small"
+        sx={{
+          ml: 1,
+          backgroundColor: "rgba(255, 255, 255, 0.1)",
+          color: "white",
+        }}
+      >
+        <ToggleButton value="shows" size="small">
+          <BiSolidTv fontSize={25} />
+        </ToggleButton>
+        <ToggleButton value="movies">
+          <BiSolidCameraMovie fontSize={25} />
+        </ToggleButton>
+      </ToggleButtonGroup>
+    )
+  }
+
+  function defineSearchIcon(type) {
+    switch (type) {
+      case "tv":
+        return <LiveTvRoundedIcon style={{ marginRight: 8 }} />
+      case "movie":
+        return <BiCameraMovie style={{ marginRight: 8, fontSize: 25 }} />
+      case "person":
+        return <TheaterComedyRoundedIcon style={{ marginRight: 8 }} />
+    }
   }
 
   return (
@@ -111,7 +159,8 @@ export default function Navbar() {
           <Link to="/" className="navbar-logo-link">
             Watchee
           </Link>
-          {isSmallScreen && (
+
+          {isSmallScreen ? (
             <IconButton
               size="small"
               color="warning"
@@ -122,6 +171,8 @@ export default function Navbar() {
             >
               <SearchRoundedIcon />
             </IconButton>
+          ) : (
+            showORMoviesMenu()
           )}
         </div>
 
@@ -134,21 +185,22 @@ export default function Navbar() {
             className="navbar-search"
             noOptionsText="No results"
             disableClearable={true}
-            options={searchSuggestionsList.filter(
-              (option) =>
-                option?.media_type === "tv" || option?.media_type === "person"
-            )}
-            getOptionLabel={(option) => option?.name || ""}
+            options={searchSuggestionsList}
+            getOptionLabel={(option) => {
+              if (option?.media_type === "tv") {
+                return option?.name
+              } else if (option?.media_type === "person") {
+                return option?.name
+              } else if (option?.media_type === "movie") {
+                return option?.title
+              }
+            }}
             renderOption={(props, option) => {
               const { key, ...otherProps } = props
               return (
                 <li key={option.id} {...otherProps}>
-                  {option?.media_type === "tv" ? (
-                    <LiveTvRoundedIcon style={{ marginRight: 8 }} />
-                  ) : (
-                    <TheaterComedyRoundedIcon style={{ marginRight: 8 }} />
-                  )}{" "}
-                  {option?.name}
+                  {defineSearchIcon(option?.media_type)}
+                  {option?.name || option?.title}
                 </li>
               )
             }}
@@ -158,7 +210,7 @@ export default function Navbar() {
             renderInput={(params) => (
               <TextField
                 {...params}
-                placeholder="Search..."
+                placeholder="Search a show, movie or person..."
                 onChange={(e) => setSearchValue(e.target.value)}
                 onKeyDown={(e) => navigateOnEnter(e)}
                 InputProps={{
@@ -196,11 +248,7 @@ export default function Navbar() {
               </>
             )}
 
-            {isSmallScreen && (
-              <IconButton size="small" color="white" onClick={handleLogout}>
-                <LogoutRoundedIcon />
-              </IconButton>
-            )}
+            {isSmallScreen && <>{showORMoviesMenu()}</>}
 
             {!isMobileApp && !isSmallScreen && !isWebView && (
               <Button
@@ -256,6 +304,7 @@ export default function Navbar() {
         navigateToSelectedOption={navigateToSelectedOption}
         navigateOnEnter={navigateOnEnter}
         searchValue={searchValue}
+        defineSearchIcon={defineSearchIcon}
       />
 
       <Authentication openAuth={openAuth} handleCloseAuth={handleCloseAuth} />

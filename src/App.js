@@ -18,6 +18,7 @@ import DetailedShowsList from "./components/DetailedShowsList/DetailedShowsList"
 import Show from "./components/Show/Show"
 import Person from "./components/Person/Person"
 import Profile from "./components/Profile/Profile"
+import Movie from "./components/Movie/Movie"
 
 export default function App() {
   const theme = createTheme({
@@ -140,6 +141,16 @@ export default function App() {
           },
         },
       },
+      MuiToggleButton: {
+        styleOverrides: {
+          root: {
+            color: "rgba(255, 255, 255, 0.5)", // Default color for unselected
+            "&.Mui-selected": {
+              color: "#dd840c", // Color for selected
+            },
+          },
+        },
+      },
     },
   })
 
@@ -151,6 +162,7 @@ export default function App() {
           <Route path="*" element={<ComingSoon />} />
           <Route path="/discover" element={<DetailedShowsList />} />
           <Route path="/show" element={<Show />} />
+          <Route path="/movie" element={<Movie />} />
           <Route path="/person" element={<Person />} />
           <Route path="/profile" element={<Profile />} />
         </Route>

@@ -11,8 +11,12 @@ import { LayoutContext } from "../../Layout/Layout"
 export default function MySuggestions() {
   const [allSuggestions, setAllSuggestions] = useState([])
 
-  const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
-    useContext(LayoutContext)
+  const {
+    setOpenSnackbar,
+    setSnackbarMessage,
+    setSnackbarSeverity,
+    showsORmovies,
+  } = useContext(LayoutContext)
 
   const settings = {
     dots: true,
@@ -27,7 +31,7 @@ export default function MySuggestions() {
     prevArrow: <SamplePrevArrow />,
   }
 
-  let myChoicesArray = [
+  let myChoicesShows = [
     "66732",
     "124364",
     "1399",
@@ -41,12 +45,19 @@ export default function MySuggestions() {
     "85552",
     "61056",
   ]
-  myChoicesArray = myChoicesArray.sort(() => Math.random() - 0.5)
+
+  let myChoicesMovies = ["157336", "792307", "238713", "381288", "19995", "671"]
+  let type = showsORmovies === "shows" ? "tv" : "movie"
+
+  let myChoices =
+    showsORmovies === "shows"
+      ? myChoicesShows.sort(() => Math.random() - 0.5)
+      : myChoicesMovies.sort(() => Math.random() - 0.5)
 
   useEffect(() => {
-    myChoicesArray.forEach((id) => {
+    myChoices.forEach((id) => {
       apiCaller({
-        url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&append_to_response=external_ids,videos,aggregate_credits,content_ratings,recommendations,similar,watch/providers`,
+        url: `${process.env.REACT_APP_THEMOVIEDB_URL}/${type}/${id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&append_to_response=external_ids,videos,aggregate_credits,content_ratings,recommendations,similar,watch/providers`,
         method: "GET",
         contentType: "application/json",
         body: null,
@@ -99,6 +110,15 @@ export default function MySuggestions() {
     )
   }
 
+  function defineURLPath(suggest) {
+    switch (showsORmovies) {
+      case "shows":
+        return `/show?show_name=${suggest.name}&show_id=${suggest.id}`
+      case "movies":
+        return `/movie?movie_title=${suggest.title}&movie_id=${suggest.id}`
+    }
+  }
+
   const suggestions = allSuggestions.map((suggest) => {
     return (
       <div key={suggest.id} className="suggestion-wrapper">
@@ -109,11 +129,8 @@ export default function MySuggestions() {
           alt=""
         />
         <div className="suggestion-container-info">
-          <Link
-            to={`/show?show_name=${suggest.name}&show_id=${suggest.id}`}
-            className="suggestion-title"
-          >
-            {suggest.name}
+          <Link to={defineURLPath(suggest)} className="suggestion-title">
+            {showsORmovies === "shows" ? suggest.name : suggest.title}
           </Link>
           <div className="suggestion-genres-container">
             {suggest.genres.map((gen, index) => (

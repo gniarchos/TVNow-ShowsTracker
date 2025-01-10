@@ -19,6 +19,7 @@ export default function SearchBarMobile({
   navigateToSelectedOption,
   navigateOnEnter,
   searchValue,
+  defineSearchIcon,
 }) {
   return (
     <Backdrop
@@ -47,21 +48,22 @@ export default function SearchBarMobile({
           className="navbar-search-mobile"
           noOptionsText="No results"
           disableClearable={true}
-          options={searchSuggestionsList.filter(
-            (option) =>
-              option?.media_type === "tv" || option?.media_type === "person"
-          )}
-          getOptionLabel={(option) => option?.name || ""}
+          options={searchSuggestionsList}
+          getOptionLabel={(option) => {
+            if (option?.media_type === "tv") {
+              return option?.name
+            } else if (option?.media_type === "person") {
+              return option?.name
+            } else if (option?.media_type === "movie") {
+              return option?.title
+            }
+          }}
           renderOption={(props, option) => {
             const { key, ...otherProps } = props
             return (
               <li key={option.id} {...otherProps}>
-                {option?.media_type === "tv" ? (
-                  <LiveTvRoundedIcon style={{ marginRight: 8 }} />
-                ) : (
-                  <TheaterComedyRoundedIcon style={{ marginRight: 8 }} />
-                )}{" "}
-                {option?.name}
+                {defineSearchIcon(option?.media_type)}
+                {option?.name || option?.title}
               </li>
             )
           }}
@@ -71,7 +73,7 @@ export default function SearchBarMobile({
           renderInput={(params) => (
             <TextField
               {...params}
-              placeholder="Search..."
+              placeholder="Search a show, movie or person..."
               onChange={(e) => setSearchValue(e.target.value)}
               onKeyDown={(e) => navigateOnEnter(e)}
               InputProps={{

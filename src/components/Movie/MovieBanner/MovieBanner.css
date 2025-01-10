@@ -1,0 +1,173 @@
+.movie-banner-wrapper {
+  height: 700px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  box-shadow: inset 0px -250px 58px -29px rgba(0, 0, 0, 0.5);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.movie-banner-container {
+  position: absolute;
+  bottom: 7px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: calc(100% - 20px);
+  overflow: hidden;
+}
+
+.movie-banner-status {
+  background-color: #eeeeee;
+  border-radius: 5px;
+  padding-right: 5px;
+  padding-left: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  color: black;
+  font-weight: 600;
+  font-size: 0.8rem;
+  width: fit-content;
+}
+
+.movie-banner-title {
+  font-size: 4rem;
+  margin: 0px;
+  margin-top: -10px;
+  margin-bottom: -10px;
+  text-shadow: 2px 1px 4px rgb(109, 109, 109);
+}
+
+.movie-banner-genres {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding-bottom: 0px;
+  overflow-x: auto;
+}
+
+.movie-banner-ratings {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.movie-banner-single-rating {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  background-color: #eeeeee;
+  border-radius: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  height: 30px;
+}
+
+.webRating-img-imdb {
+  width: 30px;
+}
+
+.webRating-img-trakt {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  width: 25px;
+}
+
+.webRating-img {
+  width: 20px;
+}
+
+.movie-banner-rating-num {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  color: black;
+}
+
+.movie-banner-seasons-network-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 1rem;
+}
+
+.movie-banner-buttons-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.movie-banner-seasons-network-container span {
+  font-weight: 600;
+  font-size: 1.1rem;
+  white-space: nowrap;
+}
+
+.movie-banner-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  width: 20%;
+}
+
+@media all and (max-width: 768px) {
+  /* mobile */
+  .movie-banner-wrapper {
+    height: 350px;
+    box-shadow: inset 0px -200px 58px -29px rgba(0, 0, 0, 0.5);
+  }
+
+  .movie-banner-container {
+    left: 10px;
+  }
+
+  .movie-banner-status {
+    font-size: 0.7rem;
+  }
+
+  .movie-banner-title {
+    font-size: 1.8rem;
+  }
+
+  .movie-banner-single-rating {
+    font-size: 0.8rem;
+    padding-left: 3px;
+    padding-right: 3px;
+    gap: 5px;
+  }
+
+  .webRating-img-imdb {
+    width: 28px;
+  }
+
+  .webRating-img-trakt {
+    width: 23px;
+  }
+
+  .webRating-img {
+    width: 18px;
+  }
+
+  .movie-banner-seasons-network-container span {
+    /* font-weight: 600; */
+    font-size: 0.9rem;
+    /* white-space: nowrap; */
+  }
+}
