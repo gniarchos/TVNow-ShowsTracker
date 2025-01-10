@@ -83,11 +83,6 @@ export default function MovieCastCrew({ movieData }) {
                   <Typography variant="body4" sx={{ color: "text.secondary" }}>
                     {person.character}
                   </Typography>
-                  {/* <Typography variant="body2" sx={{ color: "text.secondary" }}> */}
-                  {/* {person.roles[0].episode_count > 1
-                      ? `${person.roles[0].episode_count} Episodes`
-                      : `${person.roles[0].episode_count} Episode`} */}
-                  {/* </Typography> */}
                 </CardContent>
               </Card>
             )
@@ -115,12 +110,7 @@ export default function MovieCastCrew({ movieData }) {
                 <CardContent>
                   <h3 className="show-cast-crew-name">{person.name}</h3>
                   <Typography variant="body4" sx={{ color: "text.secondary" }}>
-                    {person.jobs[0].job}
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                    {person.jobs[0].episode_count > 1
-                      ? `${person.jobs[0].episode_count} Episodes`
-                      : `${person.jobs[0].episode_count} Episode`}
+                    {person.job}
                   </Typography>
                 </CardContent>
               </Card>
