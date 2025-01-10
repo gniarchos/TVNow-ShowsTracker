@@ -74,7 +74,7 @@ export default function ShowCastCrew({ showData }) {
                   }}
                   image={
                     person.profile_path !== null
-                      ? `https://image.tmdb.org/t/p/w500/${person.profile_path}`
+                      ? `https://image.tmdb.org/t/p/original/${person.profile_path}`
                       : noFace
                   }
                 />
@@ -108,7 +108,7 @@ export default function ShowCastCrew({ showData }) {
                   }}
                   image={
                     person.profile_path !== null
-                      ? `https://image.tmdb.org/t/p/w500/${person.profile_path}`
+                      ? `https://image.tmdb.org/t/p/original/${person.profile_path}`
                       : noFace
                   }
                 />

@@ -55,7 +55,7 @@ export default function HomeShowsLists({
           <div className="home-shows-list-card-img-wrapper">
             <img
               className="home-shows-list-card-img"
-              src={`https://image.tmdb.org/t/p/w500/${list.poster_path}`}
+              src={`https://image.tmdb.org/t/p/original/${list.poster_path}`}
               alt="show"
             />
           </div>

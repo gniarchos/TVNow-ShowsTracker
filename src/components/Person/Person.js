@@ -139,7 +139,7 @@ export default function Person() {
           {personInfo.profile_path !== null ? (
             <img
               className="person-img"
-              src={`https://image.tmdb.org/t/p/w500/${personInfo.profile_path}`}
+              src={`https://image.tmdb.org/t/p/original/${personInfo.profile_path}`}
             />
           ) : (
             <img className="person-img" src={noFace} alt="not-found" />

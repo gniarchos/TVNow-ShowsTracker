@@ -225,7 +225,7 @@ export default function ShowSeasonsEpisodes({
                   {episode.still_path !== null ? (
                     <img
                       className="show-episode-img"
-                      src={`https://image.tmdb.org/t/p/w500/${episode.still_path}`}
+                      src={`https://image.tmdb.org/t/p/original/${episode.still_path}`}
                       alt="episode-img"
                     />
                   ) : (

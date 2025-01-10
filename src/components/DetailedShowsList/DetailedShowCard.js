@@ -45,7 +45,7 @@ export default function ShowCard({ allShows }) {
                     style={{
                       display: imageLoaded && !imageError ? "block" : "none",
                     }}
-                    src={`https://image.tmdb.org/t/p/w500/${list.poster_path}`}
+                    src={`https://image.tmdb.org/t/p/original/${list.poster_path}`}
                     alt="showPoster"
                     onLoad={() => setImageLoaded(true)}
                     onError={() => setImageError(true)}

@@ -42,7 +42,7 @@ export default function ShowDetails({
             {recommend.backdrop_path !== null ? (
               <img
                 className="show-details-recommending-img"
-                src={`https://image.tmdb.org/t/p/w500/${recommend.backdrop_path}`}
+                src={`https://image.tmdb.org/t/p/original/${recommend.backdrop_path}`}
                 alt="show-recommendation"
               />
             ) : (

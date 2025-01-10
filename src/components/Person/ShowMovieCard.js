@@ -18,7 +18,7 @@ export default function ShowMovieCard({ info, crew, series }) {
           {info.poster_path !== null ? (
             <img
               className="person-shows-list-card-img"
-              src={`https://image.tmdb.org/t/p/w500/${info.poster_path}`}
+              src={`https://image.tmdb.org/t/p/original/${info.poster_path}`}
             />
           ) : (
             <img className="people-no-media-img" src={noImg} alt="not-found" />
