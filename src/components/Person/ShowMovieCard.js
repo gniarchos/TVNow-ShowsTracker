@@ -8,9 +8,8 @@ export default function ShowMovieCard({ info, crew, series }) {
       to={
         series
           ? `/show?show_name=${info.name}&show_id=${info.id}`
-          : `https://www.google.com/search?q=${info.title}%20movie&oq=${info.title}%20movie`
+          : `/movie?show_title=${info.name}&movie_id=${info.id}`
       }
-      target={!series ? "_blank" : "_self"}
       key={info.id}
       className="person-shows-list-card-content"
     >
