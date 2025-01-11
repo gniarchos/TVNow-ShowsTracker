@@ -27,6 +27,7 @@ export default function Movie() {
   const [allUserMovies, setAllUserMovies] = useState([])
   const [userMovieInfo, setUserMovieInfo] = useState([])
   const [movieInUserList, setMovieInUserList] = useState(false)
+  const [reloadData, setReloadData] = useState(false)
 
   const { setOpenSnackbar, setSnackbarMessage, setSnackbarSeverity } =
     useContext(LayoutContext)
@@ -48,31 +49,24 @@ export default function Movie() {
             contentType: "application/json",
             calledFrom: "movieInfo",
           }),
-          //   apiCaller({
-          //     url: `${process.env.REACT_APP_THEMOVIEDB_URL}/tv/${param_movie_id}/season/${seasonNumber}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US`,
-          //     method: "GET",
-          //     contentType: "application/json",
-          //     calledFrom: "seasonInfo",
-          //   }),
         ]
 
         if (user_id) {
-          //   promises.push(
-          //     apiCaller({
-          //       url: `${process.env.REACT_APP_BACKEND_API_URL}/users/${user_id}/all-shows`,
-          //       method: "GET",
-          //       contentType: "application/json",
-          //       calledFrom: "allUserShows",
-          //     })
-          //   )
+          promises.push(
+            apiCaller({
+              url: `${process.env.REACT_APP_BACKEND_API_URL}/users/${user_id}/all-movies`,
+              method: "GET",
+              contentType: "application/json",
+              calledFrom: "allUserMovies",
+            })
+          )
         }
 
         const [movieDataResult, userMoviesResult] = await Promise.all(promises)
 
         setMovieData(movieDataResult)
-        // setSeasonInfo(seasonInfoResult)
 
-        // if (user_id) setAllUserShows(userShowsResult)
+        if (user_id) setAllUserMovies(userMoviesResult)
       } catch (error) {
         setOpenSnackbar(true)
         setSnackbarMessage(error.message || "Error fetching data.")
@@ -84,7 +78,7 @@ export default function Movie() {
     }
 
     fetchData()
-  }, [param_movie_id])
+  }, [param_movie_id, reloadData])
 
   useEffect(() => {
     const fetchRatings = async () => {
@@ -133,8 +127,8 @@ export default function Movie() {
         setMovieInUserList={setMovieInUserList}
         userMovieInfo={userMovieInfo}
         setUserMovieInfo={setUserMovieInfo}
-        // setReloadData={setReloadData}
-        // reloadData={reloadData}
+        setReloadData={setReloadData}
+        reloadData={reloadData}
       />
 
       <MovieTrackingInfo movieData={movieData} />

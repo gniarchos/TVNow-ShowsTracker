@@ -2,15 +2,13 @@ import React, { useContext, useEffect, useState } from "react"
 import { Icon } from "@iconify/react"
 import trakt_logo from "../../../images/trakt-icon-red-white.png"
 import "./MovieBanner.css"
-import { Button, Chip, Divider, Skeleton } from "@mui/material"
+import { Button, Chip, Skeleton } from "@mui/material"
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded"
 import RemoveCircleRoundedIcon from "@mui/icons-material/RemoveCircleRounded"
 import apiCaller from "../../../Api/ApiCaller"
 import { LayoutContext } from "../../../components/Layout/Layout"
 import { ThreeDots } from "react-loader-spinner"
 import { useLocation } from "react-router-dom"
-import StopCircleRoundedIcon from "@mui/icons-material/StopCircleRounded"
-import RestartAltRoundedIcon from "@mui/icons-material/RestartAltRounded"
 import dayjs from "dayjs"
 
 export default function MovieBanner({
@@ -53,72 +51,70 @@ export default function MovieBanner({
   }, [location, allUserMovies, userMovieInfo])
 
   function addMovieToMoviesList() {
-    alert("Coming soon!")
-    // if (user_id === null) {
-    //   setOpenSnackbar(true)
-    //   setSnackbarSeverity("error")
-    //   setSnackbarMessage(
-    //     "You need to be logged in to add shows to your watchlist"
-    //   )
-    //   return
-    // }
-    // const data_to_post = {
-    //   show_id: movieData.id,
-    //   title: movieData.name,
-    //   genres: movieData.genres.map((gen) => gen.id).join(","),
-    // }
-    // setLoading(true)
-    // apiCaller({
-    //   url: `${process.env.REACT_APP_BACKEND_API_URL}/shows/add-show/${user_id}`,
-    //   method: "POST",
-    //   contentType: "application/json",
-    //   body: JSON.stringify(data_to_post),
-    //   calledFrom: "addShow",
-    //   isResponseJSON: true,
-    //   extras: null,
-    // })
-    //   .then((data) => {
-    //     setLoading(false)
-    //     setOpenSnackbar(true)
-    //     setSnackbarSeverity("success")
-    //     setSnackbarMessage(`Show added to watchlist!`)
-    //     setMovieInUserList(true)
-    //     setReloadData(!reloadData)
-    //   })
-    //   .catch((error) => {
-    //     setLoading(false)
-    //     setOpenSnackbar(true)
-    //     setSnackbarSeverity("error")
-    //     setSnackbarMessage(error.message)
-    //   })
+    if (user_id === null) {
+      setOpenSnackbar(true)
+      setSnackbarSeverity("error")
+      setSnackbarMessage(
+        "You need to be logged in to add movies to your watchlist"
+      )
+      return
+    }
+    const data_to_post = {
+      movie_id: movieData.id,
+      title: movieData.title,
+      genres: movieData.genres.map((gen) => gen.id).join(","),
+    }
+    setLoading(true)
+    apiCaller({
+      url: `${process.env.REACT_APP_BACKEND_API_URL}/movies/add-movie/${user_id}`,
+      method: "POST",
+      contentType: "application/json",
+      body: JSON.stringify(data_to_post),
+      calledFrom: "addMovie",
+      isResponseJSON: true,
+      extras: null,
+    })
+      .then((data) => {
+        setLoading(false)
+        setOpenSnackbar(true)
+        setSnackbarSeverity("success")
+        setSnackbarMessage(`Movie added to watchlist!`)
+        setMovieInUserList(true)
+        setReloadData(!reloadData)
+      })
+      .catch((error) => {
+        setLoading(false)
+        setOpenSnackbar(true)
+        setSnackbarSeverity("error")
+        setSnackbarMessage(error.message)
+      })
   }
 
   function removeMovieFromMoviesList() {
-    alert("Coming soon!")
-    // setLoading(true)
-    // apiCaller({
-    //   url: `${process.env.REACT_APP_BACKEND_API_URL}/shows/remove-show/${user_id}/${movieData.id}`,
-    //   method: "DELETE",
-    //   contentType: "application/json",
-    //   body: null,
-    //   calledFrom: "removeShow",
-    //   isResponseJSON: true,
-    //   extras: null,
-    // })
-    //   .then((data) => {
-    //     setLoading(false)
-    //     setOpenSnackbar(true)
-    //     setSnackbarSeverity("success")
-    //     setSnackbarMessage(`Show removed from watchlist!`)
-    //     // setMovieInUserList(false)
-    //     setReloadData(!reloadData)
-    //   })
-    //   .catch((error) => {
-    //     setLoading(false)
-    //     setOpenSnackbar(true)
-    //     setSnackbarSeverity("error")
-    //     setSnackbarMessage(error.message)
-    //   })
+    setLoading(true)
+    apiCaller({
+      url: `${process.env.REACT_APP_BACKEND_API_URL}/movies/remove-movie/${user_id}/${movieData.id}`,
+      method: "DELETE",
+      contentType: "application/json",
+      body: null,
+      calledFrom: "removeMovie",
+      isResponseJSON: true,
+      extras: null,
+    })
+      .then((data) => {
+        setLoading(false)
+        setOpenSnackbar(true)
+        setSnackbarSeverity("success")
+        setSnackbarMessage(`Movie removed from watchlist!`)
+        setMovieInUserList(false)
+        setReloadData(!reloadData)
+      })
+      .catch((error) => {
+        setLoading(false)
+        setOpenSnackbar(true)
+        setSnackbarSeverity("error")
+        setSnackbarMessage(error.message)
+      })
   }
 
   function convertMinutes(totalMinutes) {
