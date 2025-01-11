@@ -103,7 +103,7 @@ export default function Navbar() {
     if (option?.media_type === "tv") {
       navigate(`/show?show_name=${option.name}&show_id=${option.id}`)
     } else if (option?.media_type === "movie") {
-      navigate(`/movie?movie_name=${option.name}&movie_id=${option.id}`)
+      navigate(`/movie?movie_name=${option.title}&movie_id=${option.id}`)
     } else if (option?.media_type === "person") {
       navigate(`/person?person_id=${option.id}`)
     }
