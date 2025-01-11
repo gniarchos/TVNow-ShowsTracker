@@ -1,17 +1,17 @@
-.show-details-wrapper {
+.movie-details-wrapper {
   width: 80%;
   display: flex;
   flex-direction: column;
   gap: 30px;
 }
 
-.show-details-synopsis {
+.movie-details-synopsis {
   display: flex;
   flex-direction: column;
   gap: 0px;
 }
 
-.show-details-titles {
+.movie-details-titles {
   font-size: 2rem;
   font-weight: 800;
   margin: 0px;
@@ -22,14 +22,14 @@
   padding-left: 10px;
 }
 
-.show-details-synopsis-text {
+.movie-details-synopsis-text {
   font-size: 1.2rem;
   text-align: justify;
   line-height: 1.5;
   margin: 8px;
 }
 
-.show-details-trailers {
+.movie-details-trailers {
   height: 600px;
 }
 
@@ -38,13 +38,13 @@
   height: 600px;
 }
 
-.show-details-recommendations-wrapper {
+.movie-details-recommendations-wrapper {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.show-details-recommendations-container {
+.movie-details-recommendations-container {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -53,7 +53,7 @@
   padding-bottom: 10px;
 }
 
-.show-details-recommending-show {
+.movie-details-recommending-movie {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -63,13 +63,13 @@
   border-radius: 10px;
 }
 
-.show-details-recommending-img-wrapper {
+.movie-details-recommending-img-wrapper {
   width: 450px;
   height: 250px;
   overflow: hidden;
 }
 
-.show-details-recommending-img {
+.movie-details-recommending-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -79,11 +79,11 @@
   transform: scale(1);
 }
 
-.show-details-recommending-img-wrapper:hover .show-details-recommending-img {
+.movie-details-recommending-img-wrapper:hover .movie-details-recommending-img {
   transform: scale(1.1);
 }
 
-.show-details-recommending-name {
+.movie-details-recommending-name {
   font-size: 1.2rem;
   font-weight: 600;
   text-align: center;
@@ -91,32 +91,33 @@
 
 @media all and (max-width: 768px) {
   /* mobile */
-  .show-details-wrapper {
+  .movie-details-wrapper {
     width: 100%;
   }
 
-  .show-details-titles {
+  .movie-details-titles {
     font-size: 1.5rem;
   }
 
-  .show-details-synopsis-text {
+  .movie-details-synopsis-text {
     font-size: 1rem;
   }
 
-  .show-details-trailers {
+  .movie-details-trailers {
     height: 200px;
   }
 
-  .show-details-recommending-img-wrapper {
+  .movie-details-recommending-img-wrapper {
     width: 300px;
     height: 150px;
   }
 
-  .show-details-recommending-name {
+  .movie-details-recommending-name {
     font-size: 1rem;
   }
 
-  .show-details-recommending-img-wrapper:hover .show-details-recommending-img {
+  .movie-details-recommending-img-wrapper:hover
+    .movie-details-recommending-img {
     transform: scale(1);
   }
 }

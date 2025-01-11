@@ -8,7 +8,6 @@ import noImg from "../../../images/no-image.png"
 
 export default function MovieDetails({
   movieData,
-  seasonNumber,
   // setSeasonNumber,
   // seasonInfo,
   userMovieInfo,
@@ -34,43 +33,42 @@ export default function MovieDetails({
         <Link
           onClick={() => window.scrollTo(0, 0)}
           key={recommend.id}
-          to={`/movie?movie_title=${recommend.title}&show_id=${recommend.id}`}
-          className="show-details-recommending-show"
+          to={`/movie?movie_title=${recommend.title}&movie_id=${recommend.id}`}
+          className="movie-details-recommending-movie"
         >
-          <div className="show-details-recommending-img-wrapper">
+          <div className="movie-details-recommending-img-wrapper">
             {recommend.backdrop_path !== null ? (
               <img
-                className="show-details-recommending-img"
+                className="movie-details-recommending-img"
                 src={`https://image.tmdb.org/t/p/original/${recommend.backdrop_path}`}
-                alt="show-recommendation"
+                alt="movie-recommendation"
               />
             ) : (
               <img
-                className="show-details-recommending-img"
+                className="movie-details-recommending-img"
                 src={noImg}
                 alt="not-found"
               />
             )}
           </div>
-          <h3 className="show-details-recommending-name">{recommend.title}</h3>
+          <h3 className="movie-details-recommending-name">{recommend.title}</h3>
         </Link>
       )
     })
 
   return (
-    <div className="show-details-wrapper">
-      <div className="show-details-synopsis">
+    <div className="movie-details-wrapper">
+      <div className="movie-details-synopsis">
         {movieData.overview !== "" && (
-          <h1 className="show-details-titles">Storyline</h1>
+          <h1 className="movie-details-titles">Storyline</h1>
         )}
         {movieData.overview !== "" && (
-          <p className="show-details-synopsis-text">{movieData.overview}</p>
+          <p className="movie-details-synopsis-text">{movieData.overview}</p>
         )}
       </div>
 
-      {/* TODO: if user has started watching the show show trailer based on latest season */}
       {movieData.videos?.results?.length > 0 && findTrailerKey() !== null && (
-        <div className="show-details-trailers">
+        <div className="movie-details-trailers">
           <ReactPlayer
             width={"100%"}
             height={"100%"}
@@ -79,23 +77,12 @@ export default function MovieDetails({
         </div>
       )}
 
-      {/* <ShowSeasonsEpisodes
-        movieData={movieData}
-        seasonNumber={seasonNumber}
-        setSeasonNumber={setSeasonNumber}
-        seasonInfo={seasonInfo}
-        userShowInfo={userShowInfo}
-        showInUserList={showInUserList}
-        loadingEpisodes={loadingEpisodes}
-        setUserShowInfo={setUserShowInfo}
-      /> */}
-
       <MovieCastCrew movieData={movieData} />
 
       {recommending.length > 0 && (
-        <div className="show-details-recommendations-wrapper">
-          <h1 className="show-details-titles">More like this</h1>
-          <div className="show-details-recommendations-container">
+        <div className="movie-details-recommendations-wrapper">
+          <h1 className="movie-details-titles">More like this</h1>
+          <div className="movie-details-recommendations-container">
             {recommending}
           </div>
         </div>

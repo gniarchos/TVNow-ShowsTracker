@@ -9,9 +9,9 @@ export default function MovieCastCrew({ movieData }) {
   const [categoryToShow, setCategoryToShow] = useState("cast")
   const navigate = useNavigate()
   return (
-    <div className="show-cast-crew-wrapper">
-      <div className="show-cast-crew-header">
-        <h1 className="show-details-titles">Cast & Crew</h1>
+    <div className="movie-cast-crew-wrapper">
+      <div className="movie-cast-crew-header">
+        <h1 className="movie-details-titles">Cast & Crew</h1>
         <Button
           startIcon={<VisibilityRoundedIcon />}
           variant="contained"
@@ -25,7 +25,7 @@ export default function MovieCastCrew({ movieData }) {
         </Button>
       </div>
 
-      <div className="show-cast-crew-buttons">
+      <div className="movie-cast-crew-buttons">
         <Button
           variant="contained"
           size="small"
@@ -50,7 +50,7 @@ export default function MovieCastCrew({ movieData }) {
       </div>
 
       {categoryToShow === "cast" ? (
-        <div className="show-cast-crew-card-container">
+        <div className="movie-cast-crew-card-container">
           {movieData.credits?.cast?.slice(0, 10).map((person) => {
             return (
               <Card
@@ -79,7 +79,7 @@ export default function MovieCastCrew({ movieData }) {
                   }
                 />
                 <CardContent>
-                  <h3 className="show-cast-crew-name">{person.name}</h3>
+                  <h3 className="movie-cast-crew-name">{person.name}</h3>
                   <Typography variant="body4" sx={{ color: "text.secondary" }}>
                     {person.character}
                   </Typography>
@@ -89,7 +89,7 @@ export default function MovieCastCrew({ movieData }) {
           })}
         </div>
       ) : (
-        <div className="show-cast-crew-card-container">
+        <div className="movie-cast-crew-card-container">
           {movieData.credits?.crew?.slice(0, 10).map((person) => {
             return (
               <Card sx={{ maxWidth: { sm: 400, xs: 200 }, flexShrink: 0 }}>
@@ -108,7 +108,7 @@ export default function MovieCastCrew({ movieData }) {
                   }
                 />
                 <CardContent>
-                  <h3 className="show-cast-crew-name">{person.name}</h3>
+                  <h3 className="movie-cast-crew-name">{person.name}</h3>
                   <Typography variant="body4" sx={{ color: "text.secondary" }}>
                     {person.job}
                   </Typography>

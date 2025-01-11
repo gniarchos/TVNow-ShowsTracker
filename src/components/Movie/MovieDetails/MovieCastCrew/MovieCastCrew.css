@@ -1,10 +1,10 @@
-.show-cast-crew-wrapper {
+.movie-cast-crew-wrapper {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.show-cast-crew-header {
+.movie-cast-crew-header {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -12,7 +12,7 @@
   gap: 20px;
 }
 
-.show-cast-crew-card-container {
+.movie-cast-crew-card-container {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -22,7 +22,7 @@
   padding: 10px;
 }
 
-.show-cast-crew-buttons {
+.movie-cast-crew-buttons {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -30,7 +30,7 @@
   gap: 10px;
 }
 
-.show-cast-crew-name {
+.movie-cast-crew-name {
   font-size: 1.2rem;
   font-weight: 600;
   margin: 0;
@@ -41,7 +41,7 @@
 @media all and (max-width: 768px) {
   /* mobile */
 
-  .show-cast-crew-name {
+  .movie-cast-crew-name {
     font-size: 1rem;
     /* font-weight: 600;
   margin: 0;

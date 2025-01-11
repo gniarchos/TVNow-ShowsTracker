@@ -1,22 +1,22 @@
-.show-general-info-wrapper {
+.movie-general-info-wrapper {
   width: 20%;
   display: flex;
   flex-direction: column;
   gap: 30px;
 }
 
-.show-general-info-titles {
+.movie-general-info-titles {
   font-size: 1.3rem;
   font-weight: 800;
   margin: 0;
   padding: 0;
 }
 
-.show-general-info-details {
+.movie-general-info-details {
   font-size: 1.1rem;
 }
 
-.show-general-info-socials-links {
+.movie-general-info-socials-links {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -24,7 +24,7 @@
   gap: 30px;
 }
 
-.show-general-info-social-img {
+.movie-general-info-social-img {
   cursor: pointer;
   width: 30px;
   height: 30px;
@@ -32,23 +32,23 @@
   color: white;
 }
 
-.show-general-info-social-img.fb:hover {
+.movie-general-info-social-img.fb:hover {
   color: rgb(72, 126, 235);
 }
 
-.show-general-info-social-img.instagram:hover {
+.movie-general-info-social-img.instagram:hover {
   color: #eb43b6;
 }
 
-.show-general-info-social-img.xTwitter:hover {
+.movie-general-info-social-img.xTwitter:hover {
   color: rgb(0, 0, 0);
 }
 
-.show-general-info-social-img.imdb:hover {
+.movie-general-info-social-img.imdb:hover {
   color: rgb(243, 206, 19);
 }
 
-.show-general-info-networks-container {
+.movie-general-info-networks-container {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -57,7 +57,7 @@
   padding-bottom: 10px;
 }
 
-.show-general-info-networks-wrapper {
+.movie-general-info-networks-wrapper {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -67,34 +67,34 @@
   padding-bottom: 10px;
 }
 
-.show-general-info-logos-img {
+.movie-general-info-logos-img {
   width: 90px;
 }
 
-.show-general-info-container {
+.movie-general-info-container {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 10px;
 }
 
-.show-general-info-language {
+.movie-general-info-language {
   font-size: 1.1rem;
   text-transform: uppercase;
 }
 
 @media all and (max-width: 768px) {
   /* mobile */
-  .show-general-info-wrapper {
+  .movie-general-info-wrapper {
     width: 100%;
     gap: 20px;
   }
 
-  .show-general-info-titles {
+  .movie-general-info-titles {
     font-size: 1.1rem;
   }
 
-  .show-general-info-details {
+  .movie-general-info-details {
     font-size: 0.9rem;
   }
 }

@@ -4,7 +4,7 @@
 
 .suggestion-cover-img {
   object-fit: cover;
-  object-position: top;
+  object-position: middle;
   width: 100%;
   height: auto;
   aspect-ratio: 16 / 9;

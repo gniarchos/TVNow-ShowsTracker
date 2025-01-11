@@ -12,7 +12,7 @@ export default function MovieGeneralInfo({ movieData }) {
       return (
         <img
           key={logo.id}
-          className="show-general-info-logos-img"
+          className="movie-general-info-logos-img"
           src={`https://image.tmdb.org/t/p/w500/${logo.logo_path}`}
           alt=""
         />
@@ -21,57 +21,57 @@ export default function MovieGeneralInfo({ movieData }) {
 
   const spokenLanguages = movieData.spoken_languages?.map((language, index) => {
     return (
-      <p key={index} className="show-general-info-language">
+      <p key={index} className="movie-general-info-language">
         {language.iso_639_1}
       </p>
     )
   })
 
   return (
-    <div className="show-general-info-wrapper">
-      <div className="show-general-info-socials-links">
+    <div className="movie-general-info-wrapper">
+      <div className="movie-general-info-socials-links">
         {movieData.external_ids?.facebook_id !== null && (
           <a
-            className="show-general-info-socials-links"
+            className="movie-general-info-socials-links"
             href={`https://www.facebook.com/watch/${movieData.external_ids?.facebook_id}`}
           >
-            <FaFacebook className="show-general-info-social-img fb" />
+            <FaFacebook className="movie-general-info-social-img fb" />
           </a>
         )}
         {movieData.external_ids?.instagram_id !== null && (
           <a
-            className="show-general-info-socials-links"
+            className="movie-general-info-socials-links"
             href={`https://www.instagram.com/${movieData.external_ids?.instagram_id}`}
           >
-            <FaInstagram className="show-general-info-social-img instagram" />
+            <FaInstagram className="movie-general-info-social-img instagram" />
           </a>
         )}
         {movieData.external_ids?.twitter_id !== null && (
           <a
-            className="show-general-info-socials-links"
+            className="movie-general-info-socials-links"
             href={`https://twitter.com/${movieData.external_ids?.twitter_id}`}
           >
-            <FaXTwitter className="show-general-info-social-img xTwitter" />
+            <FaXTwitter className="movie-general-info-social-img xTwitter" />
           </a>
         )}
         {movieData.external_ids?.imdb_id !== null && (
           <a
-            className="show-general-info-socials-links"
+            className="movie-general-info-socials-links"
             href={`https://www.imdb.com/title/${movieData.external_ids?.imdb_id}`}
           >
-            <FaImdb className="show-general-info-social-img imdb" />
+            <FaImdb className="movie-general-info-social-img imdb" />
           </a>
         )}
       </div>
 
       {movieData.production_companies?.length > 0 && (
-        <div className="show-general-info-networks-container">
-          <h3 className="show-general-info-titles">
+        <div className="movie-general-info-networks-container">
+          <h3 className="movie-general-info-titles">
             {movieData.production_companies?.length > 1
               ? "Production Companies"
               : "Production Company"}
           </h3>
-          <div className="show-general-info-networks-wrapper">
+          <div className="movie-general-info-networks-wrapper">
             {productionCompaniesLogos}
           </div>
         </div>
@@ -79,9 +79,9 @@ export default function MovieGeneralInfo({ movieData }) {
 
       {movieData.original_language && (
         <div>
-          <h3 className="show-general-info-titles">Language</h3>
-          <div className="show-general-info-container">
-            <p className="show-general-info-language">
+          <h3 className="movie-general-info-titles">Language</h3>
+          <div className="movie-general-info-container">
+            <p className="movie-general-info-language">
               {movieData.original_language}
             </p>
           </div>
@@ -90,12 +90,12 @@ export default function MovieGeneralInfo({ movieData }) {
 
       {movieData.spoken_languages.length > 0 && (
         <div>
-          <h3 className="show-general-info-titles">
+          <h3 className="movie-general-info-titles">
             {movieData.spoken_languages.length > 1
               ? "Spoken Languages"
               : "Spoken Language"}
           </h3>
-          <div className="show-general-info-container">{spokenLanguages}</div>
+          <div className="movie-general-info-container">{spokenLanguages}</div>
         </div>
       )}
     </div>
