@@ -100,6 +100,16 @@
   font-weight: 600;
 }
 
+.profile-favorite-genres-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
 @media screen and (max-width: 1360px) {
   .profile-single-statistics {
     padding-left: 10px;
@@ -151,6 +161,16 @@
 
   .profile-episodes-watched {
     font-size: 1.5rem;
+  }
+
+  .profile-favorite-genres-container {
+    /* display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  gap: 5px; */
+    font-size: 1rem;
+    /* font-weight: 600; */
   }
 
   .profile-single-statistic-content {

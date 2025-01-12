@@ -27,6 +27,7 @@ export default function Profile() {
       ? JSON.parse(localStorage.getItem("userProfileCover"))
       : def_cover
   )
+  const [allGenres, setAllGenres] = useState([])
 
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
@@ -37,17 +38,29 @@ export default function Profile() {
   useEffect(() => {
     if (isUserLoggedIn) {
       setLoading(true)
-      apiCaller({
-        url: `${process.env.REACT_APP_BACKEND_API_URL}/users/${user_id}/all-shows`,
-        method: "GET",
-        contentType: "application/json",
-        body: null,
-        calledFrom: "allUserShows",
-        isResponseJSON: true,
-        extras: null,
-      })
+      Promise.all([
+        apiCaller({
+          url: `${process.env.REACT_APP_BACKEND_API_URL}/users/${user_id}/all-shows`,
+          method: "GET",
+          contentType: "application/json",
+          body: null,
+          calledFrom: "allUserShows",
+          isResponseJSON: true,
+          extras: null,
+        }),
+        apiCaller({
+          url: `${process.env.REACT_APP_THEMOVIEDB_URL}/genre/tv/list?api_key=${process.env.REACT_APP_THEMOVIEDB_API}`,
+          method: "GET",
+          contentType: "application/json",
+          body: null,
+          calledFrom: "allGenres",
+          isResponseJSON: true,
+          extras: null,
+        }),
+      ])
         .then((data) => {
-          setAllUserShows(data)
+          setAllUserShows(data[0])
+          setAllGenres(data[1].genres)
           setLoading(false)
         })
         .catch((error) => {
@@ -78,6 +91,7 @@ export default function Profile() {
           allUserShows={allUserShows}
           triggerRefresh={triggerRefresh}
           setSelectedCoverImage={setSelectedCoverImage}
+          allGenres={allGenres}
         />
 
         <div className="profile-no-shows-alert">
@@ -128,6 +142,7 @@ export default function Profile() {
         allUserShows={allUserShows}
         triggerRefresh={triggerRefresh}
         setSelectedCoverImage={setSelectedCoverImage}
+        allGenres={allGenres}
       />
 
       <ProfileSectionsContainer
