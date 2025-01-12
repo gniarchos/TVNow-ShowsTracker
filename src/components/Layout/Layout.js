@@ -47,6 +47,15 @@ export default function Layout() {
     )
   }
 
+  const value = localStorage.getItem("userCountry")
+  if (value === null) {
+    fetch("https://ipapi.co/json/")
+      .then((res) => res.json())
+      .then((data) => {
+        localStorage.setItem("userCountry", data.country)
+      })
+  }
+
   useEffect(() => {
     checkIsWebView() ? setIsWebView(true) : setIsWebView(false)
   }, [])

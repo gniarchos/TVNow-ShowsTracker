@@ -26,16 +26,6 @@ export default function Home() {
     showsORmovies,
   } = useContext(LayoutContext)
 
-  // TODO: refactor later
-  const value = localStorage.getItem("userCountry")
-  if (value === null) {
-    fetch("https://ipapi.co/json/")
-      .then((res) => res.json())
-      .then((data) => {
-        localStorage.setItem("userCountry", data.country.toLowerCase())
-      })
-  }
-
   useEffect(() => {
     setLoading(true)
 
