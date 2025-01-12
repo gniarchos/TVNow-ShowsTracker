@@ -39,8 +39,6 @@ export default function Movie() {
 
   useEffect(() => {
     const fetchData = async () => {
-      //   setLoadingEpisodes(true)
-
       try {
         const promises = [
           apiCaller({
@@ -73,7 +71,6 @@ export default function Movie() {
         setSnackbarSeverity("error")
       } finally {
         setLoading(false)
-        // setLoadingEpisodes(false)
       }
     }
 
@@ -134,16 +131,7 @@ export default function Movie() {
       <MovieTrackingInfo movieData={movieData} />
 
       <div className="show-container">
-        <MovieDetails
-          movieData={movieData}
-          // seasonNumber={seasonNumber}
-          // setSeasonNumber={setSeasonNumber}
-          // seasonInfo={seasonInfo}
-          userMovieInfo={userMovieInfo}
-          // showInUserList={showInUserList}
-          // loadingEpisodes={loadingEpisodes}
-          // setUserShowInfo={setUserShowInfo}
-        />
+        <MovieDetails movieData={movieData} userMovieInfo={userMovieInfo} />
 
         <Divider
           color="white"
