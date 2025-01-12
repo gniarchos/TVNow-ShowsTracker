@@ -44,7 +44,7 @@ export default function Movie() {
       try {
         const promises = [
           apiCaller({
-            url: `${process.env.REACT_APP_THEMOVIEDB_URL}/movie/${param_movie_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&append_to_response=external_ids,videos,credits,content_ratings,recommendations,similar,watch/providers,images`,
+            url: `${process.env.REACT_APP_THEMOVIEDB_URL}/movie/${param_movie_id}?api_key=${process.env.REACT_APP_THEMOVIEDB_API}&language=en-US&append_to_response=external_ids,videos,credits,content_ratings,recommendations,similar,watch/providers,release_dates,reviews`,
             method: "GET",
             contentType: "application/json",
             calledFrom: "movieInfo",
