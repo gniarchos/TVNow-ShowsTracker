@@ -25,6 +25,7 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded"
 import { BiSolidTv } from "react-icons/bi"
 import { BiSolidCameraMovie } from "react-icons/bi"
 import { BiCameraMovie } from "react-icons/bi"
+import LockOpenIcon from "@mui/icons-material/LockOpen"
 
 export default function Navbar() {
   const [searchSuggestionsList, setSearchSuggestionsList] = useState([])
@@ -275,17 +276,18 @@ export default function Navbar() {
             )}
           </div>
         ) : (
-          <>
+          <div style={{ display: "flex", alignItems: "center" }}>
             <Button
-              sx={{ width: "100px" }}
               variant="contained"
               color="primary"
+              size={isSmallScreen ? "xsmall" : "medium"}
               onClick={() => setOpenAuth(true)}
-              className="navbar-login-btn"
             >
-              Login
+              {isSmallScreen ? <LockOpenIcon /> : "Login"}
             </Button>
-          </>
+
+            {isSmallScreen && <>{showORMoviesMenu()}</>}
+          </div>
         )}
       </div>
 
