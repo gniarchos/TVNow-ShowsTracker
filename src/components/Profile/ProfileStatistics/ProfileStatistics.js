@@ -71,9 +71,11 @@ export default function ProfileStatistics({
           setSelectedCoverImage(response.profile_cover_image)
         }
 
-        setFavoriteGenre(
-          response.favorite_genre_shows.replace(/"/g, "").split(",")
-        )
+        if (response.favorite_genre_shows !== null) {
+          setFavoriteGenre(
+            response.favorite_genre_shows.replace(/"/g, "").split(",")
+          )
+        }
       })
       .catch((error) => {
         setOpenSnackbar(true)
@@ -199,24 +201,32 @@ export default function ProfileStatistics({
           </span>
           <Divider flexItem />
           <p className="profile-favorite-genres-container">
-            {favoriteGenre.map((genre, index) => {
-              return (
-                <span className="profile-favorite-genres">
-                  {/* {index + 1}.{" "} */}
-                  {/* {allGenres.find((g) => g.id === parseInt(genre)).name} */}
-                  <Chip
-                    color="primaryFaded"
-                    sx={{
-                      borderRadius: "5px",
-                      fontSize: isMobile ? "0.8rem" : "1rem",
-                    }}
-                    size="small"
-                    // style={{ position: "absolute", bottom: 0, right: 0 }}
-                    label={allGenres.find((g) => g.id === parseInt(genre)).name}
-                  />
-                </span>
-              )
-            })}
+            {favoriteGenre.length > 0 ? (
+              favoriteGenre.map((genre, index) => {
+                return (
+                  <span className="profile-favorite-genres">
+                    <Chip
+                      color="primaryFaded"
+                      sx={{
+                        borderRadius: "5px",
+                        fontSize: isMobile ? "0.8rem" : "1rem",
+                      }}
+                      size="small"
+                      label={
+                        allGenres.find((g) => g.id === parseInt(genre)).name
+                      }
+                    />
+                  </span>
+                )
+              })
+            ) : (
+              <span
+                style={{ marginTop: "10px" }}
+                className="profile-episodes-watched"
+              >
+                -
+              </span>
+            )}
           </p>
         </div>
 
